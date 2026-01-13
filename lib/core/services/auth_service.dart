@@ -109,4 +109,25 @@ class AuthService {
       );
     }
   }
+
+  // Get all users for dropdown selection
+  Future<List<User>> getAllUsers() async {
+    try {
+      final response = await http.get(
+        Uri.parse('${ApiConstants.baseUrl}${ApiConstants.usersEndpoint}'),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        String responseBody = utf8.decode(response.bodyBytes);
+        final List<User> users = userFromJson(responseBody);
+        return users;
+      } else {
+        throw Exception('Failed to load users data.');
+      }
+    } catch (e) {
+      print('Error getting all users: $e');
+      throw Exception('An error occurred while fetching users: $e');
+    }
+  }
 }

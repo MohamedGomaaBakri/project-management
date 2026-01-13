@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -24,7 +23,6 @@ import 'package:shehabapp/features/resume_work/models/my_resume_work_request_mod
 import 'package:shehabapp/features/resume_work/models/resume_work_request_model.dart';
 import 'package:shehabapp/features/resume_work/models/resume_work_auth_model.dart';
 
-
 // ---== imports نقل موظف (جديدة) ==---
 import 'package:shehabapp/features/employee_transfer/models/my_employee_transfer_request_model.dart';
 import 'package:shehabapp/features/employee_transfer/models/employee_transfer_request_model.dart';
@@ -34,12 +32,10 @@ import 'package:shehabapp/features/employee_transfer/models/employee_transfer_au
 import 'package:shehabapp/features/employee_transfer/models/company_model.dart';
 import 'package:shehabapp/features/employee_transfer/models/department_model.dart';
 
-
 // ---== imports تحريك سيارة (جديدة) ==---
 import 'package:shehabapp/features/car_movement/models/my_car_movement_request_model.dart';
 import 'package:shehabapp/features/car_movement/models/car_movement_request_model.dart';
 import 'package:shehabapp/features/car_movement/models/car_movement_auth_model.dart';
-
 
 // ---== imports تثبيت راتب (جديدة) ==---
 import 'package:shehabapp/features/salary_confirmation/models/my_salary_confirmation_request_model.dart';
@@ -50,7 +46,6 @@ import 'package:shehabapp/features/salary_confirmation/models/salary_confirmatio
 import 'package:shehabapp/features/cancel_salary_confirmation/models/my_cancel_salary_confirmation_request_model.dart';
 import 'package:shehabapp/features/cancel_salary_confirmation/models/cancel_salary_confirmation_request_model.dart';
 import 'package:shehabapp/features/cancel_salary_confirmation/models/cancel_salary_confirmation_auth_model.dart';
-
 
 import '../models/worker_model.dart';
 
@@ -77,7 +72,6 @@ class HrProvider with ChangeNotifier {
   bool get isSubmittingAction => _isSubmittingAction;
   String? get actionError => _actionError;
 
-
   // ---===< 1. حالة الموافقات >===---
   List<VacationRequestItem> _vacationRequests = [];
   VacationRequestItem? _selectedVacationRequest;
@@ -99,15 +93,18 @@ class HrProvider with ChangeNotifier {
   ResignationRequestItem? _selectedResignationRequest;
   ResignationAuthResponse? _resignationAuthDetails;
   List<ResignationRequestItem> get resignationRequests => _resignationRequests;
-  ResignationRequestItem? get selectedResignationRequest => _selectedResignationRequest;
-  ResignationAuthResponse? get resignationAuthDetails => _resignationAuthDetails;
+  ResignationRequestItem? get selectedResignationRequest =>
+      _selectedResignationRequest;
+  ResignationAuthResponse? get resignationAuthDetails =>
+      _resignationAuthDetails;
 
   // ---===< 2. حالة "طلباتي" >===---
   List<MyVacationRequestItem> _myVacationRequests = [];
   MyVacationRequestItem? _selectedMyVacationRequest;
   VacationAuthResponse? _myVacationAuthDetails;
   List<MyVacationRequestItem> get myVacationRequests => _myVacationRequests;
-  MyVacationRequestItem? get selectedMyVacationRequest => _selectedMyVacationRequest;
+  MyVacationRequestItem? get selectedMyVacationRequest =>
+      _selectedMyVacationRequest;
   VacationAuthResponse? get myVacationAuthDetails => _myVacationAuthDetails;
 
   List<MyLoanRequestItem> _myLoanRequests = [];
@@ -120,9 +117,12 @@ class HrProvider with ChangeNotifier {
   List<MyResignationRequestItem> _myResignationRequests = [];
   MyResignationRequestItem? _selectedMyResignationRequest;
   ResignationAuthResponse? _myResignationAuthDetails;
-  List<MyResignationRequestItem> get myResignationRequests => _myResignationRequests;
-  MyResignationRequestItem? get selectedMyResignationRequest => _selectedMyResignationRequest;
-  ResignationAuthResponse? get myResignationAuthDetails => _myResignationAuthDetails;
+  List<MyResignationRequestItem> get myResignationRequests =>
+      _myResignationRequests;
+  MyResignationRequestItem? get selectedMyResignationRequest =>
+      _selectedMyResignationRequest;
+  ResignationAuthResponse? get myResignationAuthDetails =>
+      _myResignationAuthDetails;
 
   // ---== متغيرات مباشرة العمل (جديدة) ==---
   List<ResumeWorkRequestItem> _resumeWorkRequests = [];
@@ -140,7 +140,6 @@ class HrProvider with ChangeNotifier {
   MyEmployeeTransferRequestItem? _selectedMyEmployeeTransferRequest;
   EmployeeTransferAuthResponse? _myEmployeeTransferAuthDetails;
 
-
   // ---== متغيرات تثبيت راتب (جديدة) ==---
   List<SalaryConfirmationRequestItem> _salaryConfirmationRequests = [];
   SalaryConfirmationRequestItem? _selectedSalaryConfirmationRequest;
@@ -150,32 +149,41 @@ class HrProvider with ChangeNotifier {
   SalaryConfirmationAuthResponse? _mySalaryConfirmationAuthDetails;
 
   // ---== متغيرات إلغاء تثبيت راتب (جديدة) ==---
-  List<CancelSalaryConfirmationRequestItem> _cancelSalaryConfirmationRequests = [];
+  List<CancelSalaryConfirmationRequestItem> _cancelSalaryConfirmationRequests =
+      [];
   CancelSalaryConfirmationRequestItem? _selectedCancelSalaryConfirmationRequest;
   CancelSalaryConfirmationAuthResponse? _cancelSalaryConfirmationAuthDetails;
-  List<MyCancelSalaryConfirmationRequestItem> _myCancelSalaryConfirmationRequests = [];
-  MyCancelSalaryConfirmationRequestItem? _selectedMyCancelSalaryConfirmationRequest;
+  List<MyCancelSalaryConfirmationRequestItem>
+  _myCancelSalaryConfirmationRequests = [];
+  MyCancelSalaryConfirmationRequestItem?
+  _selectedMyCancelSalaryConfirmationRequest;
   CancelSalaryConfirmationAuthResponse? _myCancelSalaryConfirmationAuthDetails;
-
 
   // ---== Getters مباشرة العمل (جديدة) ==---
   List<ResumeWorkRequestItem> get resumeWorkRequests => _resumeWorkRequests;
-  ResumeWorkRequestItem? get selectedResumeWorkRequest => _selectedResumeWorkRequest;
+  ResumeWorkRequestItem? get selectedResumeWorkRequest =>
+      _selectedResumeWorkRequest;
   ResumeWorkAuthResponse? get resumeWorkAuthDetails => _resumeWorkAuthDetails;
-  List<MyResumeWorkRequestItem> get myResumeWorkRequests => _myResumeWorkRequests;
-  MyResumeWorkRequestItem? get selectedMyResumeWorkRequest => _selectedMyResumeWorkRequest;
-  ResumeWorkAuthResponse? get myResumeWorkAuthDetails => _myResumeWorkAuthDetails;
-
-
-
+  List<MyResumeWorkRequestItem> get myResumeWorkRequests =>
+      _myResumeWorkRequests;
+  MyResumeWorkRequestItem? get selectedMyResumeWorkRequest =>
+      _selectedMyResumeWorkRequest;
+  ResumeWorkAuthResponse? get myResumeWorkAuthDetails =>
+      _myResumeWorkAuthDetails;
 
   // ---== Getters نقل موظف (جديدة) ==---
-  List<EmployeeTransferRequestItem> get employeeTransferRequests => _employeeTransferRequests;
-  EmployeeTransferRequestItem? get selectedEmployeeTransferRequest => _selectedEmployeeTransferRequest;
-  EmployeeTransferAuthResponse? get employeeTransferAuthDetails => _employeeTransferAuthDetails;
-  List<MyEmployeeTransferRequestItem> get myEmployeeTransferRequests => _myEmployeeTransferRequests;
-  MyEmployeeTransferRequestItem? get selectedMyEmployeeTransferRequest => _selectedMyEmployeeTransferRequest;
-  EmployeeTransferAuthResponse? get myEmployeeTransferAuthDetails => _myEmployeeTransferAuthDetails;
+  List<EmployeeTransferRequestItem> get employeeTransferRequests =>
+      _employeeTransferRequests;
+  EmployeeTransferRequestItem? get selectedEmployeeTransferRequest =>
+      _selectedEmployeeTransferRequest;
+  EmployeeTransferAuthResponse? get employeeTransferAuthDetails =>
+      _employeeTransferAuthDetails;
+  List<MyEmployeeTransferRequestItem> get myEmployeeTransferRequests =>
+      _myEmployeeTransferRequests;
+  MyEmployeeTransferRequestItem? get selectedMyEmployeeTransferRequest =>
+      _selectedMyEmployeeTransferRequest;
+  EmployeeTransferAuthResponse? get myEmployeeTransferAuthDetails =>
+      _myEmployeeTransferAuthDetails;
 
   // ---== متغيرات تحريك سيارة (جديدة) ==---
   List<CarMovementRequestItem> _carMovementRequests = [];
@@ -185,8 +193,7 @@ class HrProvider with ChangeNotifier {
   MyCarMovementRequestItem? _selectedMyCarMovementRequest;
   CarMovementAuthResponse? _myCarMovementAuthDetails;
 
-
-//---== متغيرات جديدة للـ Dropdowns ==---
+  //---== متغيرات جديدة للـ Dropdowns ==---
   List<CompanyItem> _companies = [];
   List<DepartmentItem> _departments = [];
 
@@ -200,7 +207,7 @@ class HrProvider with ChangeNotifier {
     notifyListeners();
   }
 
-// ---== دوال تحديد نقل موظف (جديدة) ==---
+  // ---== دوال تحديد نقل موظف (جديدة) ==---
   void selectEmployeeTransferRequest(EmployeeTransferRequestItem request) {
     _selectedEmployeeTransferRequest = request;
     _employeeTransferAuthDetails = null;
@@ -215,34 +222,52 @@ class HrProvider with ChangeNotifier {
 
   // ---== Getters تحريك سيارة (جديدة) ==---
   List<CarMovementRequestItem> get carMovementRequests => _carMovementRequests;
-  CarMovementRequestItem? get selectedCarMovementRequest => _selectedCarMovementRequest;
-  CarMovementAuthResponse? get carMovementAuthDetails => _carMovementAuthDetails;
-  List<MyCarMovementRequestItem> get myCarMovementRequests => _myCarMovementRequests;
-  MyCarMovementRequestItem? get selectedMyCarMovementRequest => _selectedMyCarMovementRequest;
-  CarMovementAuthResponse? get myCarMovementAuthDetails => _myCarMovementAuthDetails;
+  CarMovementRequestItem? get selectedCarMovementRequest =>
+      _selectedCarMovementRequest;
+  CarMovementAuthResponse? get carMovementAuthDetails =>
+      _carMovementAuthDetails;
+  List<MyCarMovementRequestItem> get myCarMovementRequests =>
+      _myCarMovementRequests;
+  MyCarMovementRequestItem? get selectedMyCarMovementRequest =>
+      _selectedMyCarMovementRequest;
+  CarMovementAuthResponse? get myCarMovementAuthDetails =>
+      _myCarMovementAuthDetails;
 
   // ---== Getters تثبيت راتب (جديدة) ==---
-  List<SalaryConfirmationRequestItem> get salaryConfirmationRequests => _salaryConfirmationRequests;
-  SalaryConfirmationRequestItem? get selectedSalaryConfirmationRequest => _selectedSalaryConfirmationRequest;
-  SalaryConfirmationAuthResponse? get salaryConfirmationAuthDetails => _salaryConfirmationAuthDetails;
-  List<MySalaryConfirmationRequestItem> get mySalaryConfirmationRequests => _mySalaryConfirmationRequests;
-  MySalaryConfirmationRequestItem? get selectedMySalaryConfirmationRequest => _selectedMySalaryConfirmationRequest;
-  SalaryConfirmationAuthResponse? get mySalaryConfirmationAuthDetails => _mySalaryConfirmationAuthDetails;
-
+  List<SalaryConfirmationRequestItem> get salaryConfirmationRequests =>
+      _salaryConfirmationRequests;
+  SalaryConfirmationRequestItem? get selectedSalaryConfirmationRequest =>
+      _selectedSalaryConfirmationRequest;
+  SalaryConfirmationAuthResponse? get salaryConfirmationAuthDetails =>
+      _salaryConfirmationAuthDetails;
+  List<MySalaryConfirmationRequestItem> get mySalaryConfirmationRequests =>
+      _mySalaryConfirmationRequests;
+  MySalaryConfirmationRequestItem? get selectedMySalaryConfirmationRequest =>
+      _selectedMySalaryConfirmationRequest;
+  SalaryConfirmationAuthResponse? get mySalaryConfirmationAuthDetails =>
+      _mySalaryConfirmationAuthDetails;
 
   // ---== Getters إلغاء تثبيت راتب (جديدة) ==---
-  List<CancelSalaryConfirmationRequestItem> get cancelSalaryConfirmationRequests => _cancelSalaryConfirmationRequests;
-  CancelSalaryConfirmationRequestItem? get selectedCancelSalaryConfirmationRequest => _selectedCancelSalaryConfirmationRequest;
-  CancelSalaryConfirmationAuthResponse? get cancelSalaryConfirmationAuthDetails => _cancelSalaryConfirmationAuthDetails;
-  List<MyCancelSalaryConfirmationRequestItem> get myCancelSalaryConfirmationRequests => _myCancelSalaryConfirmationRequests;
-  MyCancelSalaryConfirmationRequestItem? get selectedMyCancelSalaryConfirmationRequest => _selectedMyCancelSalaryConfirmationRequest;
-  CancelSalaryConfirmationAuthResponse? get myCancelSalaryConfirmationAuthDetails => _myCancelSalaryConfirmationAuthDetails;
-
+  List<CancelSalaryConfirmationRequestItem>
+  get cancelSalaryConfirmationRequests => _cancelSalaryConfirmationRequests;
+  CancelSalaryConfirmationRequestItem?
+  get selectedCancelSalaryConfirmationRequest =>
+      _selectedCancelSalaryConfirmationRequest;
+  CancelSalaryConfirmationAuthResponse?
+  get cancelSalaryConfirmationAuthDetails =>
+      _cancelSalaryConfirmationAuthDetails;
+  List<MyCancelSalaryConfirmationRequestItem>
+  get myCancelSalaryConfirmationRequests => _myCancelSalaryConfirmationRequests;
+  MyCancelSalaryConfirmationRequestItem?
+  get selectedMyCancelSalaryConfirmationRequest =>
+      _selectedMyCancelSalaryConfirmationRequest;
+  CancelSalaryConfirmationAuthResponse?
+  get myCancelSalaryConfirmationAuthDetails =>
+      _myCancelSalaryConfirmationAuthDetails;
 
   // --== حالة إنشاء طلب جديد ==--
   bool _isCreatingRequest = false;
   bool get isCreatingRequest => _isCreatingRequest;
-
 
   // ---== دوال تحديد تحريك سيارة (جديدة) ==---
   void selectCarMovementRequest(CarMovementRequestItem request) {
@@ -264,26 +289,32 @@ class HrProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  void selectMySalaryConfirmationRequest(MySalaryConfirmationRequestItem request) {
+  void selectMySalaryConfirmationRequest(
+    MySalaryConfirmationRequestItem request,
+  ) {
     _selectedMySalaryConfirmationRequest = request;
     _mySalaryConfirmationAuthDetails = null;
     notifyListeners();
   }
 
   // ---== دوال تحديد إلغاء تثبيت راتب (جديدة) ==---
-  void selectCancelSalaryConfirmationRequest(CancelSalaryConfirmationRequestItem request) {
+  void selectCancelSalaryConfirmationRequest(
+    CancelSalaryConfirmationRequestItem request,
+  ) {
     _selectedCancelSalaryConfirmationRequest = request;
     _cancelSalaryConfirmationAuthDetails = null;
     notifyListeners();
   }
 
-  void selectMyCancelSalaryConfirmationRequest(MyCancelSalaryConfirmationRequestItem request) {
+  void selectMyCancelSalaryConfirmationRequest(
+    MyCancelSalaryConfirmationRequestItem request,
+  ) {
     _selectedMyCancelSalaryConfirmationRequest = request;
     _myCancelSalaryConfirmationAuthDetails = null;
     notifyListeners();
   }
 
-// ---===< دوال إنشاء الطلبات الجديدة (POST) >===---
+  // ---===< دوال إنشاء الطلبات الجديدة (POST) >===---
 
   Future<bool> createNewVacationRequest({
     required int empCode,
@@ -300,12 +331,18 @@ class HrProvider with ChangeNotifier {
       empCode: empCode,
       usersCode: userCode,
       bodyBuilder: (nextSerial) => {
-        "CompEmpCode": compEmpCode, "EmpCode": empCode, "TrnsType": vacationType,
+        "CompEmpCode": compEmpCode,
+        "EmpCode": empCode,
+        "TrnsType": vacationType,
         "StartDt": DateFormat('yyyy-MM-dd').format(startDate),
         "EndDt": DateFormat('yyyy-MM-dd').format(endDate),
-        "Period": period, "TrnsDate": DateFormat('yyyy-MM-dd').format(DateTime.now()),
-        "Notes": notes, "AgreeFlag": 0, "SerialPyv": nextSerial,
-        "AltKey": "$empCode-$nextSerial","InsertUser":userCode
+        "Period": period,
+        "TrnsDate": DateFormat('yyyy-MM-dd').format(DateTime.now()),
+        "Notes": notes,
+        "AgreeFlag": 0,
+        "SerialPyv": nextSerial,
+        "AltKey": "$empCode-$nextSerial",
+        "InsertUser": userCode,
       },
       endpoint: ApiConstants.createVacationRequestEndpoint,
     );
@@ -327,12 +364,19 @@ class HrProvider with ChangeNotifier {
       usersCode: userCode,
       empCode: empCode,
       bodyBuilder: (nextSerial) => {
-        "EmpCode": empCode, "CompEmpCode": compEmpCode, "LoanType": loanType,
+        "EmpCode": empCode,
+        "CompEmpCode": compEmpCode,
+        "LoanType": loanType,
         "LoanStartDate": DateFormat('yyyy-MM-dd').format(startDate),
-        "LoanNos": installmentsCount, "LoanValuePys": totalValue, "LoanInstlPys": installmentValue,
+        "LoanNos": installmentsCount,
+        "LoanValuePys": totalValue,
+        "LoanInstlPys": installmentValue,
         "ReqLoanDate": DateTime.now().toIso8601String(),
-        "DescA": notes, "AuthFlag": null, "ReqSerial": nextSerial,
-        "AltKey": "$empCode-$nextSerial","InsertUser":userCode
+        "DescA": notes,
+        "AuthFlag": null,
+        "ReqSerial": nextSerial,
+        "AltKey": "$empCode-$nextSerial",
+        "InsertUser": userCode,
       },
       endpoint: ApiConstants.createLoanRequestEndpoint,
     );
@@ -351,12 +395,16 @@ class HrProvider with ChangeNotifier {
       empCode: empCode,
       usersCode: usersCode,
       bodyBuilder: (nextSerial) => {
-        "EmpCode": empCode, "CompEmpCode": compEmpCode,
+        "EmpCode": empCode,
+        "CompEmpCode": compEmpCode,
         "LastWorkDt": DateFormat('yyyy-MM-dd').format(lastWorkDate),
         "EndDate": DateFormat('yyyy-MM-dd').format(endDate),
         "TrnsDate": DateTime.now().toIso8601String(),
-        "EndReasons": reasons, "AproveFlag": 0, "Serial": nextSerial,
-        "AltKey": "$empCode-$nextSerial","InsertUser":usersCode
+        "EndReasons": reasons,
+        "AproveFlag": 0,
+        "Serial": nextSerial,
+        "AltKey": "$empCode-$nextSerial",
+        "InsertUser": usersCode,
       },
       endpoint: ApiConstants.createResignationRequestEndpoint,
     );
@@ -386,11 +434,15 @@ class HrProvider with ChangeNotifier {
 
       final response = await http.post(
         Uri.parse("${ApiConstants.baseUrl}$endpoint"),
-        headers: {"Content-Type": "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8"},
+        headers: {
+          "Content-Type":
+              "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
+        },
         body: json.encode(requestBody),
       );
 
-      if (response.statusCode == 201) { // 201 Created
+      if (response.statusCode == 201) {
+        // 201 Created
         return true;
       } else {
         throw _handleApiError('createRequest ($requestType)', response);
@@ -406,41 +458,69 @@ class HrProvider with ChangeNotifier {
   }
 
   Future<int> _fetchNextSerial(int userCode, String type) async {
-
-    final url = "${ApiConstants.baseUrl}${ApiConstants.userTransactionsInfoEndpoint}?q=UsersCode=$userCode";
+    final url =
+        "${ApiConstants.baseUrl}${ApiConstants.userTransactionsInfoEndpoint}?q=UsersCode=$userCode";
     print('URL is $url');
     final data = await _dataFetchService.fetchDataFromUrl(url);
-    if (data == null || data['items'] == null || (data['items'] as List).isEmpty) {
+    if (data == null ||
+        data['items'] == null ||
+        (data['items'] as List).isEmpty) {
       throw Exception("لم يتم العثور على معلومات الأرقام التسلسلية للمستخدم.");
     }
 
     final info = UserTransactionInfoItem.fromJson(data['items'][0]);
     int? lastSerial;
     switch (type) {
-      case 'vacation': lastSerial = info.lastVcncSeq; break;
-      case 'loan': lastSerial = info.lastLoanSeq; break;
-      case 'resignation': lastSerial = info.lastEndsrvSeq; break;
-      case 'permission': lastSerial = info.lastPrmSeq; break;
-      case 'resumeWork': lastSerial = info.lastVcncRetSeq; break;
-      case 'employeeTransfer':lastSerial=info.lASTMOVESSEQ; break;
-      case 'carMovement':lastSerial=info.lastCarSeq;break;
-      case 'salaryConfirmation':lastSerial=info.lastFixSeq;break;
-      case 'salaryUnConfirmation':lastSerial=info.lastUnFixSeq;break;
-      default: throw Exception("نوع طلب غير معروف لجلب الرقم التسلسلي.");
+      case 'vacation':
+        lastSerial = info.lastVcncSeq;
+        break;
+      case 'loan':
+        lastSerial = info.lastLoanSeq;
+        break;
+      case 'resignation':
+        lastSerial = info.lastEndsrvSeq;
+        break;
+      case 'permission':
+        lastSerial = info.lastPrmSeq;
+        break;
+      case 'resumeWork':
+        lastSerial = info.lastVcncRetSeq;
+        break;
+      case 'employeeTransfer':
+        lastSerial = info.lASTMOVESSEQ;
+        break;
+      case 'carMovement':
+        lastSerial = info.lastCarSeq;
+        break;
+      case 'salaryConfirmation':
+        lastSerial = info.lastFixSeq;
+        break;
+      case 'salaryUnConfirmation':
+        lastSerial = info.lastUnFixSeq;
+        break;
+      default:
+        throw Exception("نوع طلب غير معروف لجلب الرقم التسلسلي.");
     }
-    if (lastSerial == null) throw Exception("الرقم التسلسلي الأخير ($type) غير موجود.");
+    if (lastSerial == null)
+      throw Exception("الرقم التسلسلي الأخير ($type) غير موجود.");
     return lastSerial;
   }
 
   Exception _handleApiError(String functionName, http.Response response) {
     String responseBody = utf8.decode(response.bodyBytes);
-    debugPrint("--- API Error in $functionName [${response.statusCode}] ---\n$responseBody");
+    debugPrint(
+      "--- API Error in $functionName [${response.statusCode}] ---\n$responseBody",
+    );
     String serverErrorMsg = "فشل الإجراء.";
     try {
       final errorData = json.decode(responseBody);
-      serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? errorData["o:errorDetails"]?[0]?["detail"] ?? serverErrorMsg;
+      serverErrorMsg =
+          errorData["title"] ??
+          errorData["detail"] ??
+          errorData["o:errorDetails"]?[0]?["detail"] ??
+          serverErrorMsg;
     } catch (e) {
-      if(responseBody.isNotEmpty) serverErrorMsg = responseBody;
+      if (responseBody.isNotEmpty) serverErrorMsg = responseBody;
     }
     return Exception("خطأ ${response.statusCode}: $serverErrorMsg");
   }
@@ -448,69 +528,83 @@ class HrProvider with ChangeNotifier {
   // دوال تحميل القوائم والاعتمادات ودوال المساعدة الأخرى تبقى كما هي من الردود السابقة
   // ...
 
-
   // ---===< 3. دوال تحميل البيانات >===---
 
   // -- دوال تحميل قوائم الموافقات --
   Future<void> loadVacationRequests(int usersCode) async {
-    _isLoading = true; _error = null;
+    _isLoading = true;
+    _error = null;
     notifyListeners();
     try {
-      final url = "${ApiConstants.baseUrl}${ApiConstants.vacationRequestsEndpoint}?q=UsersCode=$usersCode";
+      final url =
+          "${ApiConstants.baseUrl}${ApiConstants.vacationRequestsEndpoint}?q=UsersCode=$usersCode";
       final data = await _dataFetchService.fetchDataFromUrl(url);
       _vacationRequests = VacationRequestList.fromJson(data!).items;
     } catch (e) {
       _error = "خطأ تحميل طلبات الإجازة: ${e.toString()}";
     } finally {
-      _isLoading = false; notifyListeners();
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
   Future<void> loadLoanRequests(int usersCode) async {
-    _isLoading = true; _error = null;
+    _isLoading = true;
+    _error = null;
     notifyListeners();
     try {
-      if (_loanTypes.isEmpty) { await _fetchLoanTypes(); }
-      final url = "${ApiConstants.baseUrl}${ApiConstants.loanRequestsEndpoint}?q=UsersCode=$usersCode";
+      if (_loanTypes.isEmpty) {
+        await _fetchLoanTypes();
+      }
+      final url =
+          "${ApiConstants.baseUrl}${ApiConstants.loanRequestsEndpoint}?q=UsersCode=$usersCode";
       final data = await _dataFetchService.fetchDataFromUrl(url);
       _loanRequests = LoanRequestList.fromJson(data!).items;
     } catch (e) {
       _error = "خطأ تحميل طلبات السلف: ${e.toString()}";
     } finally {
-      _isLoading = false; notifyListeners();
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
   Future<void> loadResignationRequests(int usersCode) async {
-    _isLoading = true; _error = null;
+    _isLoading = true;
+    _error = null;
     notifyListeners();
     try {
-      final url = "${ApiConstants.baseUrl}${ApiConstants.resignationRequestsEndpoint}?q=UsersCode=$usersCode";
+      final url =
+          "${ApiConstants.baseUrl}${ApiConstants.resignationRequestsEndpoint}?q=UsersCode=$usersCode";
       final data = await _dataFetchService.fetchDataFromUrl(url);
       _resignationRequests = ResignationRequestList.fromJson(data!).items;
     } catch (e) {
       _error = "خطأ تحميل طلبات الاستقالة: ${e.toString()}";
     } finally {
-      _isLoading = false; notifyListeners();
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
   // -- دوال تحميل قوائم "طلباتي" --
   Future<void> loadMyVacationRequests(int empCode) async {
     await _loadData<MyVacationRequestList>(
-      url: "${ApiConstants.baseUrl}${ApiConstants.myVacationRequestsEndpoint}?q=EmpCode=$empCode",
+      url:
+          "${ApiConstants.baseUrl}${ApiConstants.myVacationRequestsEndpoint}?q=EmpCode=$empCode",
       onSuccess: (data) => _myVacationRequests = data.items,
       onError: (e) => _error = "خطأ تحميل طلبات الإجازة: $e",
     );
     print('Length Data is ${_myVacationRequests.length}');
     print('Value Data is ${_myVacationRequests.length}');
-    print('Url is ${ApiConstants.baseUrl+ApiConstants.myVacationRequestsEndpoint}?q=EmpCode=$empCode}');
+    print(
+      'Url is ${ApiConstants.baseUrl + ApiConstants.myVacationRequestsEndpoint}?q=EmpCode=$empCode}',
+    );
   }
 
   Future<void> loadMyLoanRequests(int empCode) async {
     if (_loanTypes.isEmpty) await _fetchLoanTypes();
     await _loadData<MyLoanRequestList>(
-      url: "${ApiConstants.baseUrl}${ApiConstants.myLoanRequestsEndpoint}?q=EmpCode=$empCode",
+      url:
+          "${ApiConstants.baseUrl}${ApiConstants.myLoanRequestsEndpoint}?q=EmpCode=$empCode",
       onSuccess: (data) => _myLoanRequests = data.items,
       onError: (e) => _error = "خطأ تحميل طلبات السلف: $e",
     );
@@ -518,31 +612,41 @@ class HrProvider with ChangeNotifier {
 
   Future<void> loadMyResignationRequests(int empCode) async {
     await _loadData<MyResignationRequestList>(
-      url: "${ApiConstants.baseUrl}${ApiConstants.myResignationRequestsEndpoint}?q=EmpCode=$empCode",
+      url:
+          "${ApiConstants.baseUrl}${ApiConstants.myResignationRequestsEndpoint}?q=EmpCode=$empCode",
       onSuccess: (data) => _myResignationRequests = data.items,
       onError: (e) => _error = "خطأ تحميل طلبات الاستقالة: $e",
     );
   }
 
   // دالة عامة لتحميل القوائم
-  Future<void> _loadData<T>(
-      {required String url, required Function(T) onSuccess, required Function(dynamic) onError}) async {
+  Future<void> _loadData<T>({
+    required String url,
+    required Function(T) onSuccess,
+    required Function(dynamic) onError,
+  }) async {
     _isLoading = true;
     _error = null;
     notifyListeners();
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
-      if(data == null) throw Exception("No data received from the server.");
+      if (data == null) throw Exception("No data received from the server.");
 
       // التحويل من json بناءً على النوع T
-      if (T == VacationRequestList) onSuccess(VacationRequestList.fromJson(data) as T);
-      else if (T == LoanRequestList) onSuccess(LoanRequestList.fromJson(data) as T);
-      else if (T == ResignationRequestList) onSuccess(ResignationRequestList.fromJson(data) as T);
-      else if (T == MyVacationRequestList) onSuccess(MyVacationRequestList.fromJson(data) as T);
-      else if (T == MyLoanRequestList) onSuccess(MyLoanRequestList.fromJson(data) as T);
-      else if (T == MyResignationRequestList) onSuccess(MyResignationRequestList.fromJson(data) as T);
-      else throw Exception("Unknown data type for parsing: $T");
-
+      if (T == VacationRequestList)
+        onSuccess(VacationRequestList.fromJson(data) as T);
+      else if (T == LoanRequestList)
+        onSuccess(LoanRequestList.fromJson(data) as T);
+      else if (T == ResignationRequestList)
+        onSuccess(ResignationRequestList.fromJson(data) as T);
+      else if (T == MyVacationRequestList)
+        onSuccess(MyVacationRequestList.fromJson(data) as T);
+      else if (T == MyLoanRequestList)
+        onSuccess(MyLoanRequestList.fromJson(data) as T);
+      else if (T == MyResignationRequestList)
+        onSuccess(MyResignationRequestList.fromJson(data) as T);
+      else
+        throw Exception("Unknown data type for parsing: $T");
     } catch (e) {
       onError(e);
     } finally {
@@ -553,60 +657,119 @@ class HrProvider with ChangeNotifier {
 
   // ---===< 4. دوال تحميل تفاصيل الاعتمادات >===---
 
-  void selectVacationRequest(VacationRequestItem request) { _selectedVacationRequest = request; _vacationAuthDetails = null; notifyListeners(); }
-  void selectLoanRequest(LoanRequestItem request) { _selectedLoanRequest = request; _loanAuthDetails = null; notifyListeners(); }
-  void selectResignationRequest(ResignationRequestItem request) { _selectedResignationRequest = request; _resignationAuthDetails = null; notifyListeners(); }
+  void selectVacationRequest(VacationRequestItem request) {
+    _selectedVacationRequest = request;
+    _vacationAuthDetails = null;
+    notifyListeners();
+  }
 
-  void selectMyVacationRequest(MyVacationRequestItem request) { _selectedMyVacationRequest = request; _myVacationAuthDetails = null; notifyListeners(); }
-  void selectMyLoanRequest(MyLoanRequestItem request) { _selectedMyLoanRequest = request; _myLoanAuthDetails = null; notifyListeners(); }
-  void selectMyResignationRequest(MyResignationRequestItem request) { _selectedMyResignationRequest = request; _myResignationAuthDetails = null; notifyListeners(); }
+  void selectLoanRequest(LoanRequestItem request) {
+    _selectedLoanRequest = request;
+    _loanAuthDetails = null;
+    notifyListeners();
+  }
+
+  void selectResignationRequest(ResignationRequestItem request) {
+    _selectedResignationRequest = request;
+    _resignationAuthDetails = null;
+    notifyListeners();
+  }
+
+  void selectMyVacationRequest(MyVacationRequestItem request) {
+    _selectedMyVacationRequest = request;
+    _myVacationAuthDetails = null;
+    notifyListeners();
+  }
+
+  void selectMyLoanRequest(MyLoanRequestItem request) {
+    _selectedMyLoanRequest = request;
+    _myLoanAuthDetails = null;
+    notifyListeners();
+  }
+
+  void selectMyResignationRequest(MyResignationRequestItem request) {
+    _selectedMyResignationRequest = request;
+    _myResignationAuthDetails = null;
+    notifyListeners();
+  }
 
   Future<void> loadVacationAuthDetails() async {
     final url = _selectedVacationRequest?.getLink('PyOrderVcncHAuthVO');
     if (url == null) return;
-    await _loadAuthDetails<VacationAuthResponse>(url: url, onSuccess: (data) => _vacationAuthDetails = data, fromJson: (json) => VacationAuthResponse.fromJson(json));
+    await _loadAuthDetails<VacationAuthResponse>(
+      url: url,
+      onSuccess: (data) => _vacationAuthDetails = data,
+      fromJson: (json) => VacationAuthResponse.fromJson(json),
+    );
   }
 
   Future<void> loadLoanAuthDetails() async {
     final url = _selectedLoanRequest?.getLink('PyPrsnlLoanReqAuthVO');
     if (url == null) return;
-    await _loadAuthDetails<LoanAuthResponse>(url: url, onSuccess: (data) => _loanAuthDetails = data, fromJson: (json) => LoanAuthResponse.fromJson(json));
+    await _loadAuthDetails<LoanAuthResponse>(
+      url: url,
+      onSuccess: (data) => _loanAuthDetails = data,
+      fromJson: (json) => LoanAuthResponse.fromJson(json),
+    );
   }
 
   Future<void> loadResignationAuthDetails() async {
     final url = _selectedResignationRequest?.getLink('PyEndsrvOrderHAuthVO');
     if (url == null) return;
-    await _loadAuthDetails<ResignationAuthResponse>(url: url, onSuccess: (data) => _resignationAuthDetails = data, fromJson: (json) => ResignationAuthResponse.fromJson(json));
+    await _loadAuthDetails<ResignationAuthResponse>(
+      url: url,
+      onSuccess: (data) => _resignationAuthDetails = data,
+      fromJson: (json) => ResignationAuthResponse.fromJson(json),
+    );
   }
 
   Future<void> loadMyVacationAuthDetails() async {
     final url = _selectedMyVacationRequest?.getLink('PyOrderVcncHAuthVO');
     if (url == null) return;
-    await _loadAuthDetails<VacationAuthResponse>(url: url, onSuccess: (data) => _myVacationAuthDetails = data, fromJson: (json) => VacationAuthResponse.fromJson(json));
+    await _loadAuthDetails<VacationAuthResponse>(
+      url: url,
+      onSuccess: (data) => _myVacationAuthDetails = data,
+      fromJson: (json) => VacationAuthResponse.fromJson(json),
+    );
   }
 
   Future<void> loadMyLoanAuthDetails() async {
     final url = _selectedMyLoanRequest?.getLink('PyPrsnlLoanReqAuthVO');
     if (url == null) return;
-    await _loadAuthDetails<LoanAuthResponse>(url: url, onSuccess: (data) => _myLoanAuthDetails = data, fromJson: (json) => LoanAuthResponse.fromJson(json));
+    await _loadAuthDetails<LoanAuthResponse>(
+      url: url,
+      onSuccess: (data) => _myLoanAuthDetails = data,
+      fromJson: (json) => LoanAuthResponse.fromJson(json),
+    );
   }
 
   Future<void> loadMyResignationAuthDetails() async {
     final url = _selectedMyResignationRequest?.getLink('PyEndsrvOrderHAuthVO');
     if (url == null) return;
-    await _loadAuthDetails<ResignationAuthResponse>(url: url, onSuccess: (data) => _myResignationAuthDetails = data, fromJson: (json) => ResignationAuthResponse.fromJson(json));
+    await _loadAuthDetails<ResignationAuthResponse>(
+      url: url,
+      onSuccess: (data) => _myResignationAuthDetails = data,
+      fromJson: (json) => ResignationAuthResponse.fromJson(json),
+    );
   }
 
-  Future<void> _loadAuthDetails<T>({required String url, required Function(T) onSuccess, required T Function(Map<String, dynamic>) fromJson}) async {
-    _isLoading = true; _error = null; notifyListeners();
+  Future<void> _loadAuthDetails<T>({
+    required String url,
+    required Function(T) onSuccess,
+    required T Function(Map<String, dynamic>) fromJson,
+  }) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
-      if(data == null) throw Exception("No auth details received.");
+      if (data == null) throw Exception("No auth details received.");
       onSuccess(fromJson(data));
     } catch (e) {
       _error = "خطأ تحميل الاعتمادات: $e";
     } finally {
-      _isLoading = false; notifyListeners();
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
@@ -614,20 +777,28 @@ class HrProvider with ChangeNotifier {
 
   Future<void> _fetchLoanTypes() async {
     try {
-      final data = await _dataFetchService.fetchDataFromUrl("${ApiConstants.baseUrl}${ApiConstants.loanTypesEndpoint}");
-      if(data != null) _loanTypes = LoanTypeList.fromJson(data).items;
+      final data = await _dataFetchService.fetchDataFromUrl(
+        "${ApiConstants.baseUrl}${ApiConstants.loanTypesEndpoint}",
+      );
+      if (data != null) _loanTypes = LoanTypeList.fromJson(data).items;
     } catch (e) {
       debugPrint("Failed to load loan types: $e");
     }
   }
 
-  String getLoanTypeName(int? typeCode,bool langType) {
+  String getLoanTypeName(int? typeCode, bool langType) {
     if (typeCode == null) return 'غير محدد';
     try {
-      if(langType)
-      return _loanTypes.firstWhere((type) => type.loanTypeCode == typeCode).nameA ?? 'غير معروف';
+      if (langType)
+        return _loanTypes
+                .firstWhere((type) => type.loanTypeCode == typeCode)
+                .nameA ??
+            'غير معروف';
       else
-        return _loanTypes.firstWhere((type) => type.loanTypeCode == typeCode).nameE ?? 'غير معروف';
+        return _loanTypes
+                .firstWhere((type) => type.loanTypeCode == typeCode)
+                .nameE ??
+            'غير معروف';
     } catch (e) {
       return 'غير معروف ($typeCode)';
     }
@@ -639,27 +810,36 @@ class HrProvider with ChangeNotifier {
 
   String getVacationTypeName(int? typeCode) {
     switch (typeCode) {
-      case 12: return 'سنوية';
-      case 1: return 'عادية';
-      case 2: return 'بدون مرتب';
-      case 4: return 'مرضية';
-      default: return 'غير معروف';
+      case 12:
+        return 'سنوية';
+      case 1:
+        return 'عادية';
+      case 2:
+        return 'بدون مرتب';
+      case 4:
+        return 'مرضية';
+      default:
+        return 'غير معروف';
     }
   }
 
   String getRequestStatusName(int? flag) {
     switch (flag) {
-      case 1: return 'معتمدة';
-      case -1: return 'مرفوضة';
-      case 0: return 'تحت الإجراء';
-      default: return 'جديدة';
+      case 1:
+        return 'معتمدة';
+      case -1:
+        return 'مرفوضة';
+      case 0:
+        return 'تحت الإجراء';
+      default:
+        return 'جديدة';
     }
   }
 
-// ═══════════════════════════════════════════════════════════
-// 🔧 Helper Function للـ Logging الاحترافي
-// ضعها في أول الملف بعد الـ imports
-// ═══════════════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════
+  // 🔧 Helper Function للـ Logging الاحترافي
+  // ضعها في أول الملف بعد الـ imports
+  // ═══════════════════════════════════════════════════════════
   void _logApiCall({
     required String operation,
     required String url,
@@ -668,41 +848,53 @@ class HrProvider with ChangeNotifier {
     String? responseBody,
     String? error,
   }) {
-    debugPrint("\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+    debugPrint(
+      "\n┏━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+    );
     debugPrint("┃ 📡 API CALL: $operation");
     debugPrint("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
     debugPrint("┃ 🌐 URL: $url");
 
     if (requestBody != null) {
-      debugPrint("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      debugPrint(
+        "┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      );
       debugPrint("┃ 📤 REQUEST BODY:");
       debugPrint("┃ ${json.encode(requestBody)}");
     }
 
     if (statusCode != null) {
       final statusEmoji = (statusCode >= 200 && statusCode < 300) ? "✅" : "❌";
-      debugPrint("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      debugPrint(
+        "┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      );
       debugPrint("┃ $statusEmoji STATUS CODE: $statusCode");
     }
 
     if (responseBody != null) {
-      debugPrint("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      debugPrint(
+        "┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      );
       debugPrint("┃ 📥 RESPONSE BODY:");
       debugPrint("┃ $responseBody");
     }
 
     if (error != null) {
-      debugPrint("┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+      debugPrint(
+        "┣━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━",
+      );
       debugPrint("┃ ❌ ERROR:");
       debugPrint("┃ $error");
     }
 
-    debugPrint("┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+    debugPrint(
+      "┗━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n",
+    );
   }
 
-// ═══════════════════════════════════════════════════════════
-// 📦 الكود المعدل - استبدل به الكود القديم فقط
-// ═══════════════════════════════════════════════════════════
+  // ═══════════════════════════════════════════════════════════
+  // 📦 الكود المعدل - استبدل به الكود القديم فقط
+  // ═══════════════════════════════════════════════════════════
 
   // ---== متغيرات جديدة للأذونات ==---
   List<PermissionRequestItem> _permissionRequests = [];
@@ -717,13 +909,16 @@ class HrProvider with ChangeNotifier {
 
   // ---== Getters جديدة للأذونات ==---
   List<PermissionRequestItem> get permissionRequests => _permissionRequests;
-  PermissionRequestItem? get selectedPermissionRequest => _selectedPermissionRequest;
+  PermissionRequestItem? get selectedPermissionRequest =>
+      _selectedPermissionRequest;
   PermissionAuthResponse? get permissionAuthDetails => _permissionAuthDetails;
 
-  List<MyPermissionRequestItem> get myPermissionRequests => _myPermissionRequests;
-  MyPermissionRequestItem? get selectedMyPermissionRequest => _selectedMyPermissionRequest;
-  PermissionAuthResponse? get myPermissionAuthDetails => _myPermissionAuthDetails;
-
+  List<MyPermissionRequestItem> get myPermissionRequests =>
+      _myPermissionRequests;
+  MyPermissionRequestItem? get selectedMyPermissionRequest =>
+      _selectedMyPermissionRequest;
+  PermissionAuthResponse? get myPermissionAuthDetails =>
+      _myPermissionAuthDetails;
 
   // ---== دالة لتحديد الطلب (مثل الإجازات) ==---
 
@@ -749,12 +944,10 @@ class HrProvider with ChangeNotifier {
 
   // ---== جلب طلبات الأذونات (للموافقة) ==---
   Future<void> fetchPermissionRequests(int usersCode) async {
-    final String url = '${ApiConstants.baseUrl}${ApiConstants.permissionRequestsEndpoint}?q=UsersCode=$usersCode';
+    final String url =
+        '${ApiConstants.baseUrl}${ApiConstants.permissionRequestsEndpoint}?q=UsersCode=$usersCode';
 
-    _logApiCall(
-      operation: "FETCH PERMISSION REQUESTS",
-      url: url,
-    );
+    _logApiCall(operation: "FETCH PERMISSION REQUESTS", url: url);
 
     _isLoading = true;
     notifyListeners();
@@ -770,7 +963,8 @@ class HrProvider with ChangeNotifier {
           operation: "FETCH PERMISSION REQUESTS",
           url: url,
           statusCode: 200,
-          responseBody: "✅ Successfully loaded ${_permissionRequests.length} permission requests",
+          responseBody:
+              "✅ Successfully loaded ${_permissionRequests.length} permission requests",
         );
       } else {
         _permissionRequests = [];
@@ -800,12 +994,10 @@ class HrProvider with ChangeNotifier {
 
   // ---== جلب طلبات الأذونات (طلباتي) ==---
   Future<void> fetchMyPermissionRequests(int empCode) async {
-    final String url = '${ApiConstants.baseUrl}${ApiConstants.myPermissionRequestsEndpoint}?q=EmpCode=$empCode&orderBy=Serial:desc';
+    final String url =
+        '${ApiConstants.baseUrl}${ApiConstants.myPermissionRequestsEndpoint}?q=EmpCode=$empCode&orderBy=Serial:desc';
 
-    _logApiCall(
-      operation: "FETCH MY PERMISSION REQUESTS",
-      url: url,
-    );
+    _logApiCall(operation: "FETCH MY PERMISSION REQUESTS", url: url);
 
     _isLoading = true;
     notifyListeners();
@@ -821,7 +1013,8 @@ class HrProvider with ChangeNotifier {
           operation: "FETCH MY PERMISSION REQUESTS",
           url: url,
           statusCode: 200,
-          responseBody: "✅ Successfully loaded ${_myPermissionRequests.length} my permission requests",
+          responseBody:
+              "✅ Successfully loaded ${_myPermissionRequests.length} my permission requests",
         );
       } else {
         _myPermissionRequests = [];
@@ -856,12 +1049,14 @@ class HrProvider with ChangeNotifier {
   // ---== جلب اعتمادات طلب إذن (للموافقة) ==---
   Future<void> loadPermissionAuthDetails() async {
     if (_selectedPermissionRequest == null) {
-      debugPrint("⚠️ loadPermissionAuthDetails: No permission request selected!");
+      debugPrint(
+        "⚠️ loadPermissionAuthDetails: No permission request selected!",
+      );
       return;
     }
 
     final authLink = _selectedPermissionRequest!.links.firstWhere(
-          (link) => link.rel == 'child' && link.name == 'PyOrderPrmHAuthVO',
+      (link) => link.rel == 'child' && link.name == 'PyOrderPrmHAuthVO',
       orElse: () => Link(rel: '', href: '', name: '', kind: ''),
     );
 
@@ -874,10 +1069,7 @@ class HrProvider with ChangeNotifier {
 
     final String url = authLink.href;
 
-    _logApiCall(
-      operation: "LOAD PERMISSION AUTH DETAILS",
-      url: url,
-    );
+    _logApiCall(operation: "LOAD PERMISSION AUTH DETAILS", url: url);
 
     _isLoading = true;
     notifyListeners();
@@ -913,12 +1105,14 @@ class HrProvider with ChangeNotifier {
   // ---== جلب اعتمادات طلب إذن (طلباتي) ==---
   Future<void> loadMyPermissionAuthDetails() async {
     if (_selectedMyPermissionRequest == null) {
-      debugPrint("⚠️ loadMyPermissionAuthDetails: No my permission request selected!");
+      debugPrint(
+        "⚠️ loadMyPermissionAuthDetails: No my permission request selected!",
+      );
       return;
     }
 
     final authLink = _selectedMyPermissionRequest!.links.firstWhere(
-          (link) => link.rel == 'child' && link.name == 'PyOrderPrmHAuthVO',
+      (link) => link.rel == 'child' && link.name == 'PyOrderPrmHAuthVO',
       orElse: () => Link(rel: '', href: '', name: '', kind: ''),
     );
 
@@ -931,10 +1125,7 @@ class HrProvider with ChangeNotifier {
 
     final String url = authLink.href;
 
-    _logApiCall(
-      operation: "LOAD MY PERMISSION AUTH DETAILS",
-      url: url,
-    );
+    _logApiCall(operation: "LOAD MY PERMISSION AUTH DETAILS", url: url);
 
     _isLoading = true;
     notifyListeners();
@@ -967,7 +1158,6 @@ class HrProvider with ChangeNotifier {
     }
   }
 
-
   // ---== دوال إنشاء الطلبات (POST) ==---
 
   // ... (createVacationRequest, createLoanRequest, etc.)
@@ -997,6 +1187,7 @@ class HrProvider with ChangeNotifier {
       String formatDateTime(DateTime dt) {
         return DateFormat("yyyy-MM-dd'T'HH:mm:ssZ").format(dt);
       }
+
       String formatDate(DateTime dt) {
         return DateFormat("yyyy-MM-dd'T'00:00:00Z").format(dt);
       }
@@ -1036,12 +1227,12 @@ class HrProvider with ChangeNotifier {
         "AltKey": "$empCode-$nextSerial",
         "InsertUser": insertUser,
         // ---== الإضافة الجديدة ==---
-        if (prmToDate != null)
-          "PrmToDate": formatDateWithTimezone(prmToDate),
+        if (prmToDate != null) "PrmToDate": formatDateWithTimezone(prmToDate),
         // ------------------------
       };
 
-      final String url = ApiConstants.baseUrl + ApiConstants.createPermissionRequestEndpoint;
+      final String url =
+          ApiConstants.baseUrl + ApiConstants.createPermissionRequestEndpoint;
 
       _logApiCall(
         operation: "CREATE PERMISSION REQUEST",
@@ -1075,7 +1266,8 @@ class HrProvider with ChangeNotifier {
         String serverErrorMsg = "فشل إنشاء الطلب.";
         try {
           final errorData = json.decode(responseBody);
-          serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
+          serverErrorMsg =
+              errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
         } catch (_) {
           debugPrint("⚠️ Could not parse error response as JSON");
         }
@@ -1100,7 +1292,8 @@ class HrProvider with ChangeNotifier {
 
       _logApiCall(
         operation: "CREATE PERMISSION REQUEST",
-        url: ApiConstants.baseUrl + ApiConstants.createPermissionRequestEndpoint,
+        url:
+            ApiConstants.baseUrl + ApiConstants.createPermissionRequestEndpoint,
         error: "Exception: $e\n\n📍 Stack Trace:\n$stackTrace",
       );
 
@@ -1109,7 +1302,6 @@ class HrProvider with ChangeNotifier {
       return false;
     }
   }
-
 
   // دالة الإرسال تبقى كما هي...
   Future<bool> submitAction({
@@ -1133,7 +1325,9 @@ class HrProvider with ChangeNotifier {
         lastPrevSer = authChain.last.prevSer ?? 0;
       }
 
-      int calculatedPrevSer = (lastPrevSer == 0) ? 1 : int.parse("${lastPrevSer}1");
+      int calculatedPrevSer = (lastPrevSer == 0)
+          ? 1
+          : int.parse("${lastPrevSer}1");
       final String authDate = DateTime.now().toIso8601String();
 
       final Map<String, dynamic> requestBody = {
@@ -1150,7 +1344,9 @@ class HrProvider with ChangeNotifier {
         "PrevSer": calculatedPrevSer,
         "SystemNumber": systemNumber,
         "UsersCode": usersCode,
-        "UsersDesc": usersDesc.isEmpty ? (authFlag == 1 ? "تم الاعتماد" : "تم الرفض") : usersDesc,
+        "UsersDesc": usersDesc.isEmpty
+            ? (authFlag == 1 ? "تم الاعتماد" : "تم الرفض")
+            : usersDesc,
         "MobileAuth": 1,
       };
 
@@ -1184,7 +1380,8 @@ class HrProvider with ChangeNotifier {
         String serverErrorMsg = "فشل الإجراء.";
         try {
           final errorData = json.decode(responseBody);
-          serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
+          serverErrorMsg =
+              errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
         } catch (_) {
           debugPrint("⚠️ Could not parse error response as JSON");
         }
@@ -1229,24 +1426,40 @@ class HrProvider with ChangeNotifier {
     notifyListeners();
   }
 
-
   // ---== دوال جلب مباشرة العمل (جديدة) ==---
   Future<void> fetchResumeWorkRequests(int usersCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.resumeWorkRequestsEndpoint}?q=UsersCode=$usersCode&orderBy=SerialPyv:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.resumeWorkRequestsEndpoint}?q=UsersCode=$usersCode&orderBy=SerialPyv:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final requestList = ResumeWorkRequestList.fromJson(data);
-        _resumeWorkRequests = requestList.items.where((req) => req.aproveFlag == 0).toList();
-        _logApiCall(operation: "Fetch Resume Work (Appr.)", url: url, statusCode: 200, responseBody: "Success: ${requestList.items.length} items");
+        _resumeWorkRequests = requestList.items
+            .where((req) => req.aproveFlag == 0)
+            .toList();
+        _logApiCall(
+          operation: "Fetch Resume Work (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${requestList.items.length} items",
+        );
       } else {
         _resumeWorkRequests = [];
-        _logApiCall(operation: "Fetch Resume Work (Appr.)", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch Resume Work (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch Resume Work (Appr.)", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch Resume Work (Appr.)",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load resume work requests: $e');
       _resumeWorkRequests = [];
     } finally {
@@ -1257,19 +1470,34 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchMyResumeWorkRequests(int empCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.myResumeWorkRequestsEndpoint}?q=EmpCode=$empCode&orderBy=SerialPyv:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.myResumeWorkRequestsEndpoint}?q=EmpCode=$empCode&orderBy=SerialPyv:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final myList = MyResumeWorkRequestList.fromJson(data);
         _myResumeWorkRequests = myList.items;
-        _logApiCall(operation: "Fetch My Resume Work", url: url, statusCode: 200, responseBody: "Success: ${myList.items.length} items");
+        _logApiCall(
+          operation: "Fetch My Resume Work",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${myList.items.length} items",
+        );
       } else {
         _myResumeWorkRequests = [];
-        _logApiCall(operation: "Fetch My Resume Work", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch My Resume Work",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch My Resume Work", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch My Resume Work",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load my resume work requests: $e');
       _myResumeWorkRequests = [];
     } finally {
@@ -1281,8 +1509,9 @@ class HrProvider with ChangeNotifier {
     if (_selectedResumeWorkRequest == null) return;
 
     final authLink = _selectedResumeWorkRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'PyVcncRetHAuthVO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'PyVcncRetHAuthVO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
@@ -1295,14 +1524,29 @@ class HrProvider with ChangeNotifier {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
         _resumeWorkAuthDetails = ResumeWorkAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load Resume Work Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_resumeWorkAuthDetails?.items.length} items");
+        _logApiCall(
+          operation: "Load Resume Work Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_resumeWorkAuthDetails?.items.length} items",
+        );
       } else {
         _resumeWorkAuthDetails = ResumeWorkAuthResponse(items: []);
-        _logApiCall(operation: "Load Resume Work Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Load Resume Work Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load Resume Work Auth", url: authLink.href, error: e.toString());
+      _logApiCall(
+        operation: "Load Resume Work Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
       _handleError('Failed to load resume work auth details: $e');
       _resumeWorkAuthDetails = ResumeWorkAuthResponse(items: []);
     } finally {
@@ -1314,8 +1558,9 @@ class HrProvider with ChangeNotifier {
     if (_selectedMyResumeWorkRequest == null) return;
 
     final authLink = _selectedMyResumeWorkRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'PyVcncRetHAuthVO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'PyVcncRetHAuthVO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
@@ -1328,14 +1573,29 @@ class HrProvider with ChangeNotifier {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
         _myResumeWorkAuthDetails = ResumeWorkAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load My Resume Work Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_myResumeWorkAuthDetails?.items.length} items");
+        _logApiCall(
+          operation: "Load My Resume Work Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_myResumeWorkAuthDetails?.items.length} items",
+        );
       } else {
         _myResumeWorkAuthDetails = ResumeWorkAuthResponse(items: []);
-        _logApiCall(operation: "Load My Resume Work Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Load My Resume Work Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load My Resume Work Auth", url: authLink.href, error: e.toString());
+      _logApiCall(
+        operation: "Load My Resume Work Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
       _handleError('Failed to load my resume work auth details: $e');
       _myResumeWorkAuthDetails = ResumeWorkAuthResponse(items: []);
     } finally {
@@ -1343,7 +1603,7 @@ class HrProvider with ChangeNotifier {
     }
   }
 
-// ---== إنشاء طلب مباشرة عمل (جديد) ==---
+  // ---== إنشاء طلب مباشرة عمل (جديد) ==---
   Future<bool> createResumeWorkRequest({
     required int empCode,
     required int userCode,
@@ -1355,10 +1615,11 @@ class HrProvider with ChangeNotifier {
     required String? lateReason,
     required String notes,
     required int companyCode,
-    required int dCode
+    required int dCode,
   }) async {
     _setLoadingState(true);
-    final String url = '${ApiConstants.baseUrl}${ApiConstants.createResumeWorkRequestEndpoint}';
+    final String url =
+        '${ApiConstants.baseUrl}${ApiConstants.createResumeWorkRequestEndpoint}';
 
     String formatDateWithTimezone(DateTime dt) {
       String twoDigits(int n) => n.toString().padLeft(2, '0');
@@ -1367,6 +1628,7 @@ class HrProvider with ChangeNotifier {
       String d = twoDigits(dt.day);
       return "$y-$m-${d}T00:00:00+03:00"; // As per API sample
     }
+
     // Fetch next serial
     final nextSerial = await _fetchNextSerial(userCode, 'resumeWork');
 
@@ -1374,7 +1636,7 @@ class HrProvider with ChangeNotifier {
     final int actPeriod = actTDate.difference(fDate).inDays + 1;
     final body = {
       "EmpCode": empCode,
-      "SerialPyv":nextSerial,
+      "SerialPyv": nextSerial,
       "CompEmpCode": compEmpCode,
       "FDate": formatDateWithTimezone(fDate),
       "TDate": formatDateWithTimezone(tDate),
@@ -1399,7 +1661,13 @@ class HrProvider with ChangeNotifier {
       final String responseBody = utf8.decode(response.bodyBytes);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        _logApiCall(operation: "Create Resume Work", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody);
+        _logApiCall(
+          operation: "Create Resume Work",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+        );
         await fetchMyResumeWorkRequests(empCode); // تحديث القائمة
         _setLoadingState(false);
         return true;
@@ -1407,15 +1675,28 @@ class HrProvider with ChangeNotifier {
         String serverErrorMsg = "فشل إنشاء الطلب.";
         try {
           final errorData = json.decode(responseBody);
-          serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
+          serverErrorMsg =
+              errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
         } catch (_) {}
-        _logApiCall(operation: "Create Resume Work", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody, error: serverErrorMsg);
+        _logApiCall(
+          operation: "Create Resume Work",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+          error: serverErrorMsg,
+        );
         _handleError(serverErrorMsg);
         _setLoadingState(false);
         return false;
       }
     } catch (e) {
-      _logApiCall(operation: "Create Resume Work", url: url, requestBody: body, error: e.toString());
+      _logApiCall(
+        operation: "Create Resume Work",
+        url: url,
+        requestBody: body,
+        error: e.toString(),
+      );
       _handleError('Error creating resume work request: $e');
       _setLoadingState(false);
       return false;
@@ -1426,19 +1707,36 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchEmployeeTransferRequests(int usersCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.employeeTransferRequestsEndpoint}?q=UsersCode=$usersCode&orderBy=SerialPym:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.employeeTransferRequestsEndpoint}?q=UsersCode=$usersCode&orderBy=SerialPym:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final requestList = EmployeeTransferRequestList.fromJson(data);
-        _employeeTransferRequests = requestList.items.where((req) => req.agreeFlag == 0).toList();
-        _logApiCall(operation: "Fetch Employee Transfer (Appr.)", url: url, statusCode: 200, responseBody: "Success: ${requestList.items.length} items");
+        _employeeTransferRequests = requestList.items
+            .where((req) => req.agreeFlag == 0)
+            .toList();
+        _logApiCall(
+          operation: "Fetch Employee Transfer (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${requestList.items.length} items",
+        );
       } else {
         _employeeTransferRequests = [];
-        _logApiCall(operation: "Fetch Employee Transfer (Appr.)", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch Employee Transfer (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch Employee Transfer (Appr.)", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch Employee Transfer (Appr.)",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load employee transfer requests: $e');
       _employeeTransferRequests = [];
     } finally {
@@ -1449,19 +1747,34 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchMyEmployeeTransferRequests(int empCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.myEmployeeTransferRequestsEndpoint}?q=EmpCode=$empCode&orderBy=SerialPym:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.myEmployeeTransferRequestsEndpoint}?q=EmpCode=$empCode&orderBy=SerialPym:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final myList = MyEmployeeTransferRequestList.fromJson(data);
         _myEmployeeTransferRequests = myList.items;
-        _logApiCall(operation: "Fetch My Employee Transfer", url: url, statusCode: 200, responseBody: "Success: ${myList.items.length} items");
+        _logApiCall(
+          operation: "Fetch My Employee Transfer",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${myList.items.length} items",
+        );
       } else {
         _myEmployeeTransferRequests = [];
-        _logApiCall(operation: "Fetch My Employee Transfer", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch My Employee Transfer",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch My Employee Transfer", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch My Employee Transfer",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load my employee transfer requests: $e');
       _myEmployeeTransferRequests = [];
     } finally {
@@ -1473,8 +1786,9 @@ class HrProvider with ChangeNotifier {
     if (_selectedEmployeeTransferRequest == null) return;
 
     final authLink = _selectedEmployeeTransferRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'PyOrderMovesHAuthVO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'PyOrderMovesHAuthVO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
@@ -1486,15 +1800,32 @@ class HrProvider with ChangeNotifier {
     try {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
-        _employeeTransferAuthDetails = EmployeeTransferAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load Employee Transfer Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_employeeTransferAuthDetails?.items.length} items");
+        _employeeTransferAuthDetails = EmployeeTransferAuthResponse.fromJson(
+          data,
+        );
+        _logApiCall(
+          operation: "Load Employee Transfer Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_employeeTransferAuthDetails?.items.length} items",
+        );
       } else {
         _employeeTransferAuthDetails = EmployeeTransferAuthResponse(items: []);
-        _logApiCall(operation: "Load Employee Transfer Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Load Employee Transfer Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load Employee Transfer Auth", url: authLink.href, error: e.toString());
+      _logApiCall(
+        operation: "Load Employee Transfer Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
       _handleError('Failed to load employee transfer auth details: $e');
       _employeeTransferAuthDetails = EmployeeTransferAuthResponse(items: []);
     } finally {
@@ -1506,8 +1837,9 @@ class HrProvider with ChangeNotifier {
     if (_selectedMyEmployeeTransferRequest == null) return;
 
     final authLink = _selectedMyEmployeeTransferRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'PyOrderMovesHAuthVO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'PyOrderMovesHAuthVO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
@@ -1519,15 +1851,34 @@ class HrProvider with ChangeNotifier {
     try {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
-        _myEmployeeTransferAuthDetails = EmployeeTransferAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load My Employee Transfer Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_myEmployeeTransferAuthDetails?.items.length} items");
+        _myEmployeeTransferAuthDetails = EmployeeTransferAuthResponse.fromJson(
+          data,
+        );
+        _logApiCall(
+          operation: "Load My Employee Transfer Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_myEmployeeTransferAuthDetails?.items.length} items",
+        );
       } else {
-        _myEmployeeTransferAuthDetails = EmployeeTransferAuthResponse(items: []);
-        _logApiCall(operation: "Load My Employee Transfer Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _myEmployeeTransferAuthDetails = EmployeeTransferAuthResponse(
+          items: [],
+        );
+        _logApiCall(
+          operation: "Load My Employee Transfer Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load My Employee Transfer Auth", url: authLink.href, error: e.toString());
+      _logApiCall(
+        operation: "Load My Employee Transfer Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
       _handleError('Failed to load my employee transfer auth details: $e');
       _myEmployeeTransferAuthDetails = EmployeeTransferAuthResponse(items: []);
     } finally {
@@ -1545,10 +1896,20 @@ class HrProvider with ChangeNotifier {
       if (data != null) {
         final list = CompanyList.fromJson(data);
         _companies = list.items;
-        _logApiCall(operation: "Fetch Companies", url: url, statusCode: 200, responseBody: "Success: ${list.items.length} items");
+        _logApiCall(
+          operation: "Fetch Companies",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${list.items.length} items",
+        );
       } else {
         _companies = [];
-        _logApiCall(operation: "Fetch Companies", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch Companies",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
       _logApiCall(operation: "Fetch Companies", url: url, error: e.toString());
@@ -1562,19 +1923,34 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchDepartments(int companyCode) async {
     _setLoadingState(true); // Maybe use a specific loader later
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.departmentsEndpoint}?q=CompanyCode=$companyCode';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.departmentsEndpoint}?q=CompanyCode=$companyCode';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final list = DepartmentList.fromJson(data);
         _departments = list.items;
-        _logApiCall(operation: "Fetch Departments", url: url, statusCode: 200, responseBody: "Success: ${list.items.length} items");
+        _logApiCall(
+          operation: "Fetch Departments",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${list.items.length} items",
+        );
       } else {
         _departments = [];
-        _logApiCall(operation: "Fetch Departments", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch Departments",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch Departments", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch Departments",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load departments: $e');
       _departments = [];
     } finally {
@@ -1586,7 +1962,6 @@ class HrProvider with ChangeNotifier {
     _departments = [];
     notifyListeners();
   }
-
 
   // ---== إنشاء طلب نقل موظف (جديد) ==---
   Future<bool> createEmployeeTransferRequest({
@@ -1601,7 +1976,8 @@ class HrProvider with ChangeNotifier {
     required String? movingNoteE,
   }) async {
     _setLoadingState(true);
-    final String url = '${ApiConstants.baseUrl}${ApiConstants.createEmployeeTransferRequestEndpoint}';
+    final String url =
+        '${ApiConstants.baseUrl}${ApiConstants.createEmployeeTransferRequestEndpoint}';
 
     // (أنا أضفت `userCode` هنا عشان `_fetchNextSerial` يشتغل زي ما حضرتك عامل)
     final nextSerial = await _fetchNextSerial(userCode, 'employeeTransfer');
@@ -1615,7 +1991,7 @@ class HrProvider with ChangeNotifier {
 
     final body = {
       "EmpCode": empCode,
-      "SerialPym":nextSerial,
+      "SerialPym": nextSerial,
       "CompanyCodeNew": companyCodeNew,
       "DCodeNew": dCodeNew,
       "CompEmpCodeNew": compEmpCodeNew,
@@ -1637,7 +2013,13 @@ class HrProvider with ChangeNotifier {
       final String responseBody = utf8.decode(response.bodyBytes);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        _logApiCall(operation: "Create Employee Transfer", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody);
+        _logApiCall(
+          operation: "Create Employee Transfer",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+        );
         await fetchMyEmployeeTransferRequests(empCode); // تحديث القائمة
         _setLoadingState(false);
         return true;
@@ -1645,15 +2027,28 @@ class HrProvider with ChangeNotifier {
         String serverErrorMsg = "فشل إنشاء الطلب.";
         try {
           final errorData = json.decode(responseBody);
-          serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
+          serverErrorMsg =
+              errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
         } catch (_) {}
-        _logApiCall(operation: "Create Employee Transfer", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody, error: serverErrorMsg);
+        _logApiCall(
+          operation: "Create Employee Transfer",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+          error: serverErrorMsg,
+        );
         _handleError(serverErrorMsg);
         _setLoadingState(false);
         return false;
       }
     } catch (e) {
-      _logApiCall(operation: "Create Employee Transfer", url: url, requestBody: body, error: e.toString());
+      _logApiCall(
+        operation: "Create Employee Transfer",
+        url: url,
+        requestBody: body,
+        error: e.toString(),
+      );
       _handleError('Error creating employee transfer request: $e');
       _setLoadingState(false);
       return false;
@@ -1664,19 +2059,36 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchCarMovementRequests(int usersCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.carMovementRequestsEndpoint}?q=UsersCode=$usersCode&orderBy=Serial:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.carMovementRequestsEndpoint}?q=UsersCode=$usersCode&orderBy=Serial:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final requestList = CarMovementRequestList.fromJson(data);
-        _carMovementRequests = requestList.items.where((req) => req.aproveFlag == 0).toList();
-        _logApiCall(operation: "Fetch Car Movement (Appr.)", url: url, statusCode: 200, responseBody: "Success: ${requestList.items.length} items");
+        _carMovementRequests = requestList.items
+            .where((req) => req.aproveFlag == 0)
+            .toList();
+        _logApiCall(
+          operation: "Fetch Car Movement (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${requestList.items.length} items",
+        );
       } else {
         _carMovementRequests = [];
-        _logApiCall(operation: "Fetch Car Movement (Appr.)", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch Car Movement (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch Car Movement (Appr.)", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch Car Movement (Appr.)",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load car movement requests: $e');
       _carMovementRequests = [];
     } finally {
@@ -1687,19 +2099,34 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchMyCarMovementRequests(int empCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.myCarMovementRequestsEndpoint}?q=EmpCode=$empCode&orderBy=Serial:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.myCarMovementRequestsEndpoint}?q=EmpCode=$empCode&orderBy=Serial:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final myList = MyCarMovementRequestList.fromJson(data);
         _myCarMovementRequests = myList.items;
-        _logApiCall(operation: "Fetch My Car Movement", url: url, statusCode: 200, responseBody: "Success: ${myList.items.length} items");
+        _logApiCall(
+          operation: "Fetch My Car Movement",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${myList.items.length} items",
+        );
       } else {
         _myCarMovementRequests = [];
-        _logApiCall(operation: "Fetch My Car Movement", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch My Car Movement",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch My Car Movement", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch My Car Movement",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load my car movement requests: $e');
       _myCarMovementRequests = [];
     } finally {
@@ -1711,8 +2138,9 @@ class HrProvider with ChangeNotifier {
     if (_selectedCarMovementRequest == null) return;
 
     final authLink = _selectedCarMovementRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'PyOrderCarHAuthVRO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'PyOrderCarHAuthVRO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
@@ -1725,14 +2153,29 @@ class HrProvider with ChangeNotifier {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
         _carMovementAuthDetails = CarMovementAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load Car Movement Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_carMovementAuthDetails?.items.length} items");
+        _logApiCall(
+          operation: "Load Car Movement Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_carMovementAuthDetails?.items.length} items",
+        );
       } else {
         _carMovementAuthDetails = CarMovementAuthResponse(items: []);
-        _logApiCall(operation: "Load Car Movement Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Load Car Movement Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load Car Movement Auth", url: authLink.href, error: e.toString());
+      _logApiCall(
+        operation: "Load Car Movement Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
       _handleError('Failed to load car movement auth details: $e');
       _carMovementAuthDetails = CarMovementAuthResponse(items: []);
     } finally {
@@ -1744,8 +2187,9 @@ class HrProvider with ChangeNotifier {
     if (_selectedMyCarMovementRequest == null) return;
 
     final authLink = _selectedMyCarMovementRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'PyOrderCarHAuthVRO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'PyOrderCarHAuthVRO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
@@ -1758,14 +2202,29 @@ class HrProvider with ChangeNotifier {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
         _myCarMovementAuthDetails = CarMovementAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load My Car Movement Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_myCarMovementAuthDetails?.items.length} items");
+        _logApiCall(
+          operation: "Load My Car Movement Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_myCarMovementAuthDetails?.items.length} items",
+        );
       } else {
         _myCarMovementAuthDetails = CarMovementAuthResponse(items: []);
-        _logApiCall(operation: "Load My Car Movement Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Load My Car Movement Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load My Car Movement Auth", url: authLink.href, error: e.toString());
+      _logApiCall(
+        operation: "Load My Car Movement Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
       _myCarMovementAuthDetails = CarMovementAuthResponse(items: []);
     } finally {
       _setLoadingState(false);
@@ -1788,7 +2247,8 @@ class HrProvider with ChangeNotifier {
     required String notes,
   }) async {
     _setLoadingState(true);
-    final String url = '${ApiConstants.baseUrl}${ApiConstants.createCarMovementRequestEndpoint}';
+    final String url =
+        '${ApiConstants.baseUrl}${ApiConstants.createCarMovementRequestEndpoint}';
 
     final nextSerial = await _fetchNextSerial(userCode, 'carMovement');
 
@@ -1840,7 +2300,13 @@ class HrProvider with ChangeNotifier {
       final String responseBody = utf8.decode(response.bodyBytes);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        _logApiCall(operation: "Create Car Movement", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody);
+        _logApiCall(
+          operation: "Create Car Movement",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+        );
         await fetchMyCarMovementRequests(empCode); // تحديث القائمة
         _setLoadingState(false);
         return true;
@@ -1848,15 +2314,28 @@ class HrProvider with ChangeNotifier {
         String serverErrorMsg = "فشل إنشاء الطلب.";
         try {
           final errorData = json.decode(responseBody);
-          serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
+          serverErrorMsg =
+              errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
         } catch (_) {}
-        _logApiCall(operation: "Create Car Movement", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody, error: serverErrorMsg);
+        _logApiCall(
+          operation: "Create Car Movement",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+          error: serverErrorMsg,
+        );
         _handleError(serverErrorMsg);
         _setLoadingState(false);
         return false;
       }
     } catch (e) {
-      _logApiCall(operation: "Create Car Movement", url: url, requestBody: body, error: e.toString());
+      _logApiCall(
+        operation: "Create Car Movement",
+        url: url,
+        requestBody: body,
+        error: e.toString(),
+      );
       _handleError('Error creating car movement request: $e');
       _setLoadingState(false);
       return false;
@@ -1867,19 +2346,36 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchSalaryConfirmationRequests(int usersCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.salaryConfirmationRequestsEndpoint}?q=TypeFlag=0;UsersCode=$usersCode&orderBy=Serial:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.salaryConfirmationRequestsEndpoint}?q=TypeFlag=0;UsersCode=$usersCode&orderBy=Serial:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final requestList = SalaryConfirmationRequestList.fromJson(data);
-        _salaryConfirmationRequests = requestList.items.where((req) => req.aproveFlag == 0).toList();
-        _logApiCall(operation: "Fetch Salary Confirmation (Appr.)", url: url, statusCode: 200, responseBody: "Success: ${requestList.items.length} items");
+        _salaryConfirmationRequests = requestList.items
+            .where((req) => req.aproveFlag == 0)
+            .toList();
+        _logApiCall(
+          operation: "Fetch Salary Confirmation (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${requestList.items.length} items",
+        );
       } else {
         _salaryConfirmationRequests = [];
-        _logApiCall(operation: "Fetch Salary Confirmation (Appr.)", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch Salary Confirmation (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch Salary Confirmation (Appr.)", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch Salary Confirmation (Appr.)",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load salary confirmation requests: $e');
       _salaryConfirmationRequests = [];
     } finally {
@@ -1890,19 +2386,34 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchMySalaryConfirmationRequests(int empCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.mySalaryConfirmationRequestsEndpoint}?q=TypeFlag=0;EmpCode=$empCode&orderBy=Serial:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.mySalaryConfirmationRequestsEndpoint}?q=TypeFlag=0;EmpCode=$empCode&orderBy=Serial:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final myList = MySalaryConfirmationRequestList.fromJson(data);
         _mySalaryConfirmationRequests = myList.items;
-        _logApiCall(operation: "Fetch My Salary Confirmation", url: url, statusCode: 200, responseBody: "Success: ${myList.items.length} items");
+        _logApiCall(
+          operation: "Fetch My Salary Confirmation",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${myList.items.length} items",
+        );
       } else {
         _mySalaryConfirmationRequests = [];
-        _logApiCall(operation: "Fetch My Salary Confirmation", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch My Salary Confirmation",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch My Salary Confirmation", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch My Salary Confirmation",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load my salary confirmation requests: $e');
       _mySalaryConfirmationRequests = [];
     } finally {
@@ -1914,12 +2425,15 @@ class HrProvider with ChangeNotifier {
     if (_selectedSalaryConfirmationRequest == null) return;
 
     final authLink = _selectedSalaryConfirmationRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'SsFixedSalAuthVRO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'SsFixedSalAuthVRO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
-      _salaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(items: []);
+      _salaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(
+        items: [],
+      );
       return;
     }
 
@@ -1927,17 +2441,37 @@ class HrProvider with ChangeNotifier {
     try {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
-        _salaryConfirmationAuthDetails = SalaryConfirmationAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load Salary Confirmation Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_salaryConfirmationAuthDetails?.items.length} items");
+        _salaryConfirmationAuthDetails =
+            SalaryConfirmationAuthResponse.fromJson(data);
+        _logApiCall(
+          operation: "Load Salary Confirmation Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_salaryConfirmationAuthDetails?.items.length} items",
+        );
       } else {
-        _salaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(items: []);
-        _logApiCall(operation: "Load Salary Confirmation Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _salaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(
+          items: [],
+        );
+        _logApiCall(
+          operation: "Load Salary Confirmation Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load Salary Confirmation Auth", url: authLink.href, error: e.toString());
+      _logApiCall(
+        operation: "Load Salary Confirmation Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
       _handleError('Failed to load salary confirmation auth details: $e');
-      _salaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(items: []);
+      _salaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(
+        items: [],
+      );
     } finally {
       _setLoadingState(false);
     }
@@ -1947,12 +2481,15 @@ class HrProvider with ChangeNotifier {
     if (_selectedMySalaryConfirmationRequest == null) return;
 
     final authLink = _selectedMySalaryConfirmationRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'SsFixedSalAuthVRO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'SsFixedSalAuthVRO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
-      _mySalaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(items: []);
+      _mySalaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(
+        items: [],
+      );
       return;
     }
 
@@ -1960,16 +2497,36 @@ class HrProvider with ChangeNotifier {
     try {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
-        _mySalaryConfirmationAuthDetails = SalaryConfirmationAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load My Salary Confirmation Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_mySalaryConfirmationAuthDetails?.items.length} items");
+        _mySalaryConfirmationAuthDetails =
+            SalaryConfirmationAuthResponse.fromJson(data);
+        _logApiCall(
+          operation: "Load My Salary Confirmation Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_mySalaryConfirmationAuthDetails?.items.length} items",
+        );
       } else {
-        _mySalaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(items: []);
-        _logApiCall(operation: "Load My Salary Confirmation Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _mySalaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(
+          items: [],
+        );
+        _logApiCall(
+          operation: "Load My Salary Confirmation Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load My Salary Confirmation Auth", url: authLink.href, error: e.toString());
-      _mySalaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(items: []);
+      _logApiCall(
+        operation: "Load My Salary Confirmation Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
+      _mySalaryConfirmationAuthDetails = SalaryConfirmationAuthResponse(
+        items: [],
+      );
     } finally {
       _setLoadingState(false);
     }
@@ -1985,7 +2542,8 @@ class HrProvider with ChangeNotifier {
     required String? notes,
   }) async {
     _setLoadingState(true);
-    final String url = '${ApiConstants.baseUrl}${ApiConstants.createSalaryConfirmationRequestEndpoint}';
+    final String url =
+        '${ApiConstants.baseUrl}${ApiConstants.createSalaryConfirmationRequestEndpoint}';
 
     final nextSerial = await _fetchNextSerial(userCode, 'salaryConfirmation');
 
@@ -2021,7 +2579,13 @@ class HrProvider with ChangeNotifier {
       final String responseBody = utf8.decode(response.bodyBytes);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        _logApiCall(operation: "Create Salary Confirmation", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody);
+        _logApiCall(
+          operation: "Create Salary Confirmation",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+        );
         await fetchMySalaryConfirmationRequests(empCode); // تحديث القائمة
         _setLoadingState(false);
         return true;
@@ -2029,15 +2593,28 @@ class HrProvider with ChangeNotifier {
         String serverErrorMsg = "فشل إنشاء الطلب.";
         try {
           final errorData = json.decode(responseBody);
-          serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
+          serverErrorMsg =
+              errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
         } catch (_) {}
-        _logApiCall(operation: "Create Salary Confirmation", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody, error: serverErrorMsg);
+        _logApiCall(
+          operation: "Create Salary Confirmation",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+          error: serverErrorMsg,
+        );
         _handleError(serverErrorMsg);
         _setLoadingState(false);
         return false;
       }
     } catch (e) {
-      _logApiCall(operation: "Create Salary Confirmation", url: url, requestBody: body, error: e.toString());
+      _logApiCall(
+        operation: "Create Salary Confirmation",
+        url: url,
+        requestBody: body,
+        error: e.toString(),
+      );
       _handleError('Error creating salary confirmation request: $e');
       _setLoadingState(false);
       return false;
@@ -2048,19 +2625,36 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchCancelSalaryConfirmationRequests(int usersCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.salaryConfirmationRequestsEndpoint}?q=TypeFlag=1;UsersCode=$usersCode&orderBy=Serial:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.salaryConfirmationRequestsEndpoint}?q=TypeFlag=1;UsersCode=$usersCode&orderBy=Serial:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final requestList = CancelSalaryConfirmationRequestList.fromJson(data);
-        _cancelSalaryConfirmationRequests = requestList.items.where((req) => req.aproveFlag == 0).toList();
-        _logApiCall(operation: "Fetch Cancel Salary (Appr.)", url: url, statusCode: 200, responseBody: "Success: ${requestList.items.length} items");
+        _cancelSalaryConfirmationRequests = requestList.items
+            .where((req) => req.aproveFlag == 0)
+            .toList();
+        _logApiCall(
+          operation: "Fetch Cancel Salary (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${requestList.items.length} items",
+        );
       } else {
         _cancelSalaryConfirmationRequests = [];
-        _logApiCall(operation: "Fetch Cancel Salary (Appr.)", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch Cancel Salary (Appr.)",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch Cancel Salary (Appr.)", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch Cancel Salary (Appr.)",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load cancel salary confirmation requests: $e');
       _cancelSalaryConfirmationRequests = [];
     } finally {
@@ -2071,19 +2665,34 @@ class HrProvider with ChangeNotifier {
   Future<void> fetchMyCancelSalaryConfirmationRequests(int empCode) async {
     _setLoadingState(true);
     _handleError(null);
-    final url = '${ApiConstants.baseUrl}${ApiConstants.mySalaryConfirmationRequestsEndpoint}?q=TypeFlag=1;EmpCode=$empCode&orderBy=Serial:desc';
+    final url =
+        '${ApiConstants.baseUrl}${ApiConstants.mySalaryConfirmationRequestsEndpoint}?q=TypeFlag=1;EmpCode=$empCode&orderBy=Serial:desc';
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final myList = MyCancelSalaryConfirmationRequestList.fromJson(data);
         _myCancelSalaryConfirmationRequests = myList.items;
-        _logApiCall(operation: "Fetch My Cancel Salary", url: url, statusCode: 200, responseBody: "Success: ${myList.items.length} items");
+        _logApiCall(
+          operation: "Fetch My Cancel Salary",
+          url: url,
+          statusCode: 200,
+          responseBody: "Success: ${myList.items.length} items",
+        );
       } else {
         _myCancelSalaryConfirmationRequests = [];
-        _logApiCall(operation: "Fetch My Cancel Salary", url: url, statusCode: 200, responseBody: "No data");
+        _logApiCall(
+          operation: "Fetch My Cancel Salary",
+          url: url,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
     } catch (e) {
-      _logApiCall(operation: "Fetch My Cancel Salary", url: url, error: e.toString());
+      _logApiCall(
+        operation: "Fetch My Cancel Salary",
+        url: url,
+        error: e.toString(),
+      );
       _handleError('Failed to load my cancel salary confirmation requests: $e');
       _myCancelSalaryConfirmationRequests = [];
     } finally {
@@ -2095,12 +2704,14 @@ class HrProvider with ChangeNotifier {
     if (_selectedCancelSalaryConfirmationRequest == null) return;
 
     final authLink = _selectedCancelSalaryConfirmationRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'SsFixedSalAuthVRO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+      (link) => link.rel == 'child' && link.name == 'SsFixedSalAuthVRO',
+      orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+    );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
-      _cancelSalaryConfirmationAuthDetails = CancelSalaryConfirmationAuthResponse(items: []);
+      _cancelSalaryConfirmationAuthDetails =
+          CancelSalaryConfirmationAuthResponse(items: []);
       return;
     }
 
@@ -2108,17 +2719,37 @@ class HrProvider with ChangeNotifier {
     try {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
-        _cancelSalaryConfirmationAuthDetails = CancelSalaryConfirmationAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load Cancel Salary Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_cancelSalaryConfirmationAuthDetails?.items.length} items");
+        _cancelSalaryConfirmationAuthDetails =
+            CancelSalaryConfirmationAuthResponse.fromJson(data);
+        _logApiCall(
+          operation: "Load Cancel Salary Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_cancelSalaryConfirmationAuthDetails?.items.length} items",
+        );
       } else {
-        _cancelSalaryConfirmationAuthDetails = CancelSalaryConfirmationAuthResponse(items: []);
-        _logApiCall(operation: "Load Cancel Salary Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _cancelSalaryConfirmationAuthDetails =
+            CancelSalaryConfirmationAuthResponse(items: []);
+        _logApiCall(
+          operation: "Load Cancel Salary Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load Cancel Salary Auth", url: authLink.href, error: e.toString());
-      _handleError('Failed to load cancel salary confirmation auth details: $e');
-      _cancelSalaryConfirmationAuthDetails = CancelSalaryConfirmationAuthResponse(items: []);
+      _logApiCall(
+        operation: "Load Cancel Salary Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
+      _handleError(
+        'Failed to load cancel salary confirmation auth details: $e',
+      );
+      _cancelSalaryConfirmationAuthDetails =
+          CancelSalaryConfirmationAuthResponse(items: []);
     } finally {
       _setLoadingState(false);
     }
@@ -2127,13 +2758,16 @@ class HrProvider with ChangeNotifier {
   Future<void> loadMyCancelSalaryConfirmationAuthDetails() async {
     if (_selectedMyCancelSalaryConfirmationRequest == null) return;
 
-    final authLink = _selectedMyCancelSalaryConfirmationRequest!.links.firstWhere(
-            (link) => link.rel == 'child' && link.name == 'SsFixedSalAuthVRO',
-        orElse: () => Link(rel: '', href: '', name: '', kind: ''));
+    final authLink = _selectedMyCancelSalaryConfirmationRequest!.links
+        .firstWhere(
+          (link) => link.rel == 'child' && link.name == 'SsFixedSalAuthVRO',
+          orElse: () => Link(rel: '', href: '', name: '', kind: ''),
+        );
 
     if (authLink.href.isEmpty) {
       _handleError("Auth link not found");
-      _myCancelSalaryConfirmationAuthDetails = CancelSalaryConfirmationAuthResponse(items: []);
+      _myCancelSalaryConfirmationAuthDetails =
+          CancelSalaryConfirmationAuthResponse(items: []);
       return;
     }
 
@@ -2141,16 +2775,34 @@ class HrProvider with ChangeNotifier {
     try {
       final data = await _dataFetchService.fetchDataFromUrl(authLink.href);
       if (data != null) {
-        _myCancelSalaryConfirmationAuthDetails = CancelSalaryConfirmationAuthResponse.fromJson(data);
-        _logApiCall(operation: "Load My Cancel Salary Auth", url: authLink.href, statusCode: 200, responseBody: "Success: ${_myCancelSalaryConfirmationAuthDetails?.items.length} items");
+        _myCancelSalaryConfirmationAuthDetails =
+            CancelSalaryConfirmationAuthResponse.fromJson(data);
+        _logApiCall(
+          operation: "Load My Cancel Salary Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody:
+              "Success: ${_myCancelSalaryConfirmationAuthDetails?.items.length} items",
+        );
       } else {
-        _myCancelSalaryConfirmationAuthDetails = CancelSalaryConfirmationAuthResponse(items: []);
-        _logApiCall(operation: "Load My Cancel Salary Auth", url: authLink.href, statusCode: 200, responseBody: "No data");
+        _myCancelSalaryConfirmationAuthDetails =
+            CancelSalaryConfirmationAuthResponse(items: []);
+        _logApiCall(
+          operation: "Load My Cancel Salary Auth",
+          url: authLink.href,
+          statusCode: 200,
+          responseBody: "No data",
+        );
       }
       _handleError(null);
     } catch (e) {
-      _logApiCall(operation: "Load My Cancel Salary Auth", url: authLink.href, error: e.toString());
-      _myCancelSalaryConfirmationAuthDetails = CancelSalaryConfirmationAuthResponse(items: []);
+      _logApiCall(
+        operation: "Load My Cancel Salary Auth",
+        url: authLink.href,
+        error: e.toString(),
+      );
+      _myCancelSalaryConfirmationAuthDetails =
+          CancelSalaryConfirmationAuthResponse(items: []);
     } finally {
       _setLoadingState(false);
     }
@@ -2166,7 +2818,8 @@ class HrProvider with ChangeNotifier {
     required String? notes,
   }) async {
     _setLoadingState(true);
-    final String url = '${ApiConstants.baseUrl}${ApiConstants.createSalaryConfirmationRequestEndpoint}'; // Same endpoint
+    final String url =
+        '${ApiConstants.baseUrl}${ApiConstants.createSalaryConfirmationRequestEndpoint}'; // Same endpoint
     final nextSerial = await _fetchNextSerial(userCode, 'salaryUnConfirmation');
 
     String formatDateWithTimezone(DateTime dt) {
@@ -2201,7 +2854,13 @@ class HrProvider with ChangeNotifier {
       final String responseBody = utf8.decode(response.bodyBytes);
 
       if (response.statusCode >= 200 && response.statusCode < 300) {
-        _logApiCall(operation: "Create Cancel Salary", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody);
+        _logApiCall(
+          operation: "Create Cancel Salary",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+        );
         await fetchMyCancelSalaryConfirmationRequests(empCode); // تحديث القائمة
         _setLoadingState(false);
         return true;
@@ -2209,15 +2868,28 @@ class HrProvider with ChangeNotifier {
         String serverErrorMsg = "فشل إنشاء الطلب.";
         try {
           final errorData = json.decode(responseBody);
-          serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
+          serverErrorMsg =
+              errorData["title"] ?? errorData["detail"] ?? serverErrorMsg;
         } catch (_) {}
-        _logApiCall(operation: "Create Cancel Salary", url: url, requestBody: body, statusCode: response.statusCode, responseBody: responseBody, error: serverErrorMsg);
+        _logApiCall(
+          operation: "Create Cancel Salary",
+          url: url,
+          requestBody: body,
+          statusCode: response.statusCode,
+          responseBody: responseBody,
+          error: serverErrorMsg,
+        );
         _handleError(serverErrorMsg);
         _setLoadingState(false);
         return false;
       }
     } catch (e) {
-      _logApiCall(operation: "Create Cancel Salary", url: url, requestBody: body, error: e.toString());
+      _logApiCall(
+        operation: "Create Cancel Salary",
+        url: url,
+        requestBody: body,
+        error: e.toString(),
+      );
       _handleError('Error creating cancel salary confirmation request: $e');
       _setLoadingState(false);
       return false;
@@ -2232,7 +2904,8 @@ class HrProvider with ChangeNotifier {
     // _setLoadingState(true); // ممكن تخليها تحميل خفي لو مش عايز توقف الشاشة
     try {
       // لاحظ هنا استخدمنا api_constants لو ضفت فيها الرابط، أو نكتبه مباشرة كما طلبت
-      final String url = '${ApiConstants.baseUrl}/PyPrsnlHSecVRO1?q=UsersCode=$usersCode';
+      final String url =
+          '${ApiConstants.baseUrl}/PyPrsnlHSecVRO1?q=UsersCode=$usersCode';
 
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null && data['items'] != null) {
@@ -2248,6 +2921,4 @@ class HrProvider with ChangeNotifier {
       // _setLoadingState(false);
     }
   }
-
-
 }

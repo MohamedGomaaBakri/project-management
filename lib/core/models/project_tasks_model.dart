@@ -76,6 +76,10 @@ class Items {
   String? projectsManagerCode;
   String? projectManagerCode;
   String? projectEngCode;
+  String? NextUsersCode;
+  String? NextUsersCodeAct;
+  String? NameA;
+  String? NameE;
   int? projectId;
   String? altKey;
   String? contractNo;
@@ -112,6 +116,10 @@ class Items {
     this.projectEngCode,
     this.projectId,
     this.altKey,
+    this.NextUsersCode,
+    this.NextUsersCodeAct,
+    this.NameA,
+    this.NameE,
     this.contractNo,
     this.secNo,
     this.procNameA,
@@ -146,6 +154,10 @@ class Items {
     projectManagerCode = json['ProjectManagerCode'];
     projectEngCode = json['ProjectEngCode'];
     projectId = json['ProjectId'];
+    NextUsersCode = json['NextUsersCode'];
+    NextUsersCodeAct = json['NextUsersCodeAct'];
+    NameA = json['NameA'];
+    NameE = json['NameE'];
     altKey = json['AltKey'];
     contractNo = json['ContractNo'];
     secNo = json['SecNo'];
@@ -188,6 +200,10 @@ class Items {
     data['ProjectEngCode'] = this.projectEngCode;
     data['ProjectId'] = this.projectId;
     data['AltKey'] = this.altKey;
+    data['NextUsersCode'] = this.NextUsersCode;
+    data['NextUsersCodeAct'] = this.NextUsersCodeAct;
+    data['NameA'] = this.NameA;
+    data['NameE'] = this.NameE;
     data['ContractNo'] = this.contractNo;
     data['SecNo'] = this.secNo;
     data['ProcNameA'] = this.procNameA;

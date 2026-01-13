@@ -124,4 +124,5 @@ class ApiConstants {
 
   static const String projectsEndpoint = 'EXProjectsVRO1';
   static const String projectsDetailsEndpoint = 'EXProjectsTaskVRO1?q=';
+  static const String checkExecuteStatus = 'EXProjectsCheckVRO1?q=AltKey=';
 }

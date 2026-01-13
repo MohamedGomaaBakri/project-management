@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shehabapp/features/task_details/task_details_view.dart';
 import '../../../../l10n/app_localizations.dart';
 
 class TaskData {
@@ -36,50 +37,55 @@ class DataTableWidget extends StatelessWidget {
       return _buildEmptyState(l10n);
     }
 
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: const Color(0xFF4F46E5).withOpacity(0.08),
-            spreadRadius: 0,
-            blurRadius: 20,
-            offset: const Offset(0, 4),
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(16),
-        child: SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: ConstrainedBox(
-            constraints: BoxConstraints(minWidth: size.width - 48),
-            child: DataTable(
-              headingRowHeight: 56,
-              dataRowHeight: 64,
-              columnSpacing: 24,
-              horizontalMargin: 20,
-              headingRowColor: MaterialStateProperty.all(
-                const Color(0xFF4F46E5).withOpacity(0.05),
-              ),
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(color: Colors.grey[200]!, width: 1),
+    return GestureDetector(
+      onTap: () {
+        Navigator.pushNamed(context, TaskDetailsView.routeName);
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [
+            BoxShadow(
+              color: const Color(0xFF4F46E5).withValues(alpha: .08),
+              spreadRadius: 0,
+              blurRadius: 20,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(16),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minWidth: size.width - 48),
+              child: DataTable(
+                headingRowHeight: 56,
+                dataRowMaxHeight: 64,
+                columnSpacing: 24,
+                horizontalMargin: 20,
+                headingRowColor: WidgetStateProperty.all(
+                  const Color(0xFF4F46E5).withValues(alpha: .05),
                 ),
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(color: Colors.grey[200]!, width: 1),
+                  ),
+                ),
+                columns: [
+                  _buildDataColumn(l10n.stage, Icons.layers),
+                  _buildDataColumn(l10n.operation, Icons.settings),
+                  _buildDataColumn(l10n.explanation, Icons.description),
+                  _buildDataColumn(l10n.done, Icons.check_circle),
+                  _buildDataColumn(l10n.date, Icons.calendar_today),
+                ],
+                rows: tasks.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final task = entry.value;
+                  return _buildDataRow(task, index);
+                }).toList(),
               ),
-              columns: [
-                _buildDataColumn(l10n.stage, Icons.layers),
-                _buildDataColumn(l10n.operation, Icons.settings),
-                _buildDataColumn(l10n.explanation, Icons.description),
-                _buildDataColumn(l10n.done, Icons.check_circle),
-                _buildDataColumn(l10n.date, Icons.calendar_today),
-              ],
-              rows: tasks.asMap().entries.map((entry) {
-                final index = entry.key;
-                final task = entry.value;
-                return _buildDataRow(task, index);
-              }).toList(),
             ),
           ),
         ),
@@ -108,9 +114,7 @@ class DataTableWidget extends StatelessWidget {
 
   DataRow _buildDataRow(TaskData task, int index) {
     return DataRow(
-      color: MaterialStateProperty.resolveWith<Color?>((
-        Set<MaterialState> states,
-      ) {
+      color: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
         if (index.isEven) {
           return Colors.grey[50];
         }

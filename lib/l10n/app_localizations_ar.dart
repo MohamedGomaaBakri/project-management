@@ -1207,4 +1207,76 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get dailyTasksTitle => 'المهام اليومية';
+
+  @override
+  String get taskDetails => 'تفاصيل المهمة';
+
+  @override
+  String get taskDetailsTitle => 'تفاصيل المهمة';
+
+  @override
+  String get projectName => 'اسم المشروع';
+
+  @override
+  String get processName => 'اسم العملية';
+
+  @override
+  String get assignedEmployee => 'الموظف المسند';
+
+  @override
+  String get selectEmployee => 'اختر الموظف';
+
+  @override
+  String get notesField => 'الملاحظات';
+
+  @override
+  String get notesHint => 'أدخل الملاحظات هنا...';
+
+  @override
+  String get notificationReply => 'الرد على الإشعار';
+
+  @override
+  String get notificationReplyHint => 'أدخل ردك هنا...';
+
+  @override
+  String get executeButton => 'تنفيذ';
+
+  @override
+  String get taskCompleted => 'تمت';
+
+  @override
+  String get taskNotCompleted => 'لم تتم';
+
+  @override
+  String get completionDate => 'تاريخ الإكمال';
+
+  @override
+  String get projectButton => 'المشروع';
+
+  @override
+  String get attachmentsButton => 'المرفقات';
+
+  @override
+  String get permissionsButton => 'التصاريح';
+
+  @override
+  String get createNotificationButton => 'عمل إشعار';
+
+  @override
+  String get taskInformation => 'معلومات المهمة';
+
+  @override
+  String get taskActions => 'إجراءات المهمة';
+
+  @override
+  String get errorAttachmentsRequired => 'يجب إضافة المرفقات';
+
+  @override
+  String get errorPermissionsRequired => 'يجب إضافة التصاريح';
+
+  @override
+  String get errorNotificationReplyRequired => 'يجب الرد على الإشعار';
+
+  @override
+  String get validationError => 'خطأ في التحقق';
 }

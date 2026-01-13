@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:shehabapp/core/models/project_tasks_model.dart';
 import 'package:shehabapp/core/models/projects_model.dart';
+import 'package:shehabapp/core/models/task_details_model.dart';
 import 'package:shehabapp/core/services/daily_tasks_service.dart';
 
 class DailyTasksProvider with ChangeNotifier {
   final DailyTasksService _dailyTasksService = DailyTasksService();
   ProjectsModel? projectsModel;
   ProjectTasksModel? projectTasksModel;
+  TaskDetailsModel? taskDetailsModel;
   bool isLoading = false;
   String? errorMessage;
 
@@ -40,6 +42,22 @@ class DailyTasksProvider with ChangeNotifier {
         contractNo: contractNo,
         secNo: secNo,
         doneFlag: doneFlag,
+      );
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      errorMessage = e.toString();
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> checkExecuteStatus({required String altKey}) async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      taskDetailsModel = await _dailyTasksService.checkExecuteStatus(
+        altKey: altKey,
       );
       isLoading = false;
       notifyListeners();

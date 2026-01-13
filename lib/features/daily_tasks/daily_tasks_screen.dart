@@ -258,7 +258,7 @@ class _DailyTasksScreenState extends State<DailyTasksScreen>
 
                               // Data Table
                               SizedBox(
-                                height: 400, // Fixed height for table
+                                height: 400,
                                 child: _isLoading
                                     ? Center(
                                         child: Column(

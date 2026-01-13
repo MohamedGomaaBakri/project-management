@@ -10,6 +10,7 @@ class AuthProvider with ChangeNotifier {
   ProjectCategoriesCount? _projectCategoriesCount;
   bool _isLoading = false;
   String? _errorMessage;
+  List<User> _allUsers = [];
   // متغير جديد لتتبع حالة التحقق الأولي
   bool _isAuthChecked = false;
 
@@ -18,6 +19,7 @@ class AuthProvider with ChangeNotifier {
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get isAuthChecked => _isAuthChecked;
+  List<User> get allUsers => _allUsers;
 
   // لتخزين بيانات المستخدم بعد تسجيل الدخول بنجاح
   void _setCurrentUser(User? user) async {
@@ -125,6 +127,18 @@ class AuthProvider with ChangeNotifier {
       print('Error getting project categories count in provider: $e');
       _isLoading = false;
       _projectCategoriesCount = null;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getAllUsers() async {
+    try {
+      final users = await _authService.getAllUsers();
+      _allUsers = users;
+      notifyListeners();
+    } catch (e) {
+      print('Error getting all users in provider: $e');
+      _allUsers = [];
       notifyListeners();
     }
   }

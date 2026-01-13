@@ -1,0 +1,254 @@
+import 'package:flutter/material.dart';
+import '../../../l10n/app_localizations.dart';
+import 'error_dialog.dart';
+
+class TaskStatusWidget extends StatefulWidget {
+  final int? doneFlag;
+  final String? doneDate;
+  final VoidCallback onExecute;
+  final int? attFlagCheck;
+  final int? attPermitCheck;
+  final int? attNotifCheck;
+  final Function(int doneFlag, String doneDate)? onStatusUpdated;
+
+  const TaskStatusWidget({
+    super.key,
+    this.doneFlag,
+    this.doneDate,
+    required this.onExecute,
+    this.attFlagCheck,
+    this.attPermitCheck,
+    this.attNotifCheck,
+    this.onStatusUpdated,
+  });
+
+  @override
+  State<TaskStatusWidget> createState() => _TaskStatusWidgetState();
+}
+
+class _TaskStatusWidgetState extends State<TaskStatusWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _scaleAnimation;
+  late int _currentDoneFlag;
+  late String _currentDoneDate;
+
+  @override
+  void initState() {
+    super.initState();
+    _currentDoneFlag = widget.doneFlag ?? 0;
+    _currentDoneDate = widget.doneDate ?? '';
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      vsync: this,
+    );
+    _scaleAnimation = Tween<double>(
+      begin: 1.0,
+      end: 0.95,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  Future<void> _handleExecuteValidation() async {
+    final l10n = AppLocalizations.of(context)!;
+
+    // Check attFlagCheck (attachments)
+    if (widget.attFlagCheck == 0) {
+      await ErrorDialog.show(context, l10n.errorAttachmentsRequired);
+      return;
+    }
+
+    // Check attPermitCheck (permissions)
+    if (widget.attPermitCheck == 0) {
+      await ErrorDialog.show(context, l10n.errorPermissionsRequired);
+      return;
+    }
+
+    // Check attNotifCheck (notification reply)
+    if (widget.attNotifCheck == 0) {
+      await ErrorDialog.show(context, l10n.errorNotificationReplyRequired);
+      return;
+    }
+
+    // All validations passed - update status
+    final now = DateTime.now();
+    final formattedDate =
+        '${now.year}-${now.month.toString().padLeft(2, '0')}-${now.day.toString().padLeft(2, '0')}';
+
+    setState(() {
+      _currentDoneFlag = 1;
+      _currentDoneDate = formattedDate;
+    });
+
+    // Notify parent widget about status update
+    if (widget.onStatusUpdated != null) {
+      widget.onStatusUpdated!(1, formattedDate);
+    }
+
+    // Call original onExecute
+    widget.onExecute();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context)!;
+    final isCompleted = _currentDoneFlag == 1;
+
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: const Color(0xFF4F46E5).withOpacity(0.1),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Row(
+          children: [
+            // Execute Button
+            Expanded(
+              child: GestureDetector(
+                onTapDown: (_) {
+                  _controller.forward();
+                },
+                onTapUp: (_) {
+                  _controller.reverse();
+                  _handleExecuteValidation();
+                },
+                onTapCancel: () {
+                  _controller.reverse();
+                },
+                child: ScaleTransition(
+                  scale: _scaleAnimation,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    decoration: BoxDecoration(
+                      gradient: const LinearGradient(
+                        colors: [Color(0xFF4F46E5), Color(0xFF7C3AED)],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(12),
+                      boxShadow: [
+                        BoxShadow(
+                          color: const Color(0xFF4F46E5).withOpacity(0.4),
+                          blurRadius: 12,
+                          offset: const Offset(0, 4),
+                        ),
+                      ],
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Icon(
+                          Icons.play_circle_outline_rounded,
+                          color: Colors.white,
+                          size: 24,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          l10n.executeButton,
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 16),
+
+            // Status Checkbox
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: isCompleted
+                    ? const Color(0xFF10B981).withOpacity(0.1)
+                    : Colors.grey[100],
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: isCompleted
+                      ? const Color(0xFF10B981)
+                      : Colors.grey[300]!,
+                  width: 2,
+                ),
+              ),
+              child: Column(
+                children: [
+                  Icon(
+                    isCompleted
+                        ? Icons.check_circle
+                        : Icons.radio_button_unchecked,
+                    color: isCompleted
+                        ? const Color(0xFF10B981)
+                        : Colors.grey[400],
+                    size: 28,
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    isCompleted ? l10n.taskCompleted : l10n.taskNotCompleted,
+                    style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w600,
+                      color: isCompleted
+                          ? const Color(0xFF10B981)
+                          : Colors.grey[600],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 16),
+
+            // Date Display
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: const Color(0xFF3B82F6).withOpacity(0.1),
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color(0xFF3B82F6).withOpacity(0.3),
+                  width: 1.5,
+                ),
+              ),
+              child: Column(
+                children: [
+                  const Icon(
+                    Icons.calendar_today_rounded,
+                    color: Color(0xFF3B82F6),
+                    size: 24,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _currentDoneDate.isNotEmpty
+                        ? _currentDoneDate
+                        : '--/--/----',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF3B82F6),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

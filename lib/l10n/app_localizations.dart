@@ -2482,6 +2482,150 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Daily Tasks'**
   String get dailyTasksTitle;
+
+  /// No description provided for @taskDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Details'**
+  String get taskDetails;
+
+  /// No description provided for @taskDetailsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Details'**
+  String get taskDetailsTitle;
+
+  /// No description provided for @projectName.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Name'**
+  String get projectName;
+
+  /// No description provided for @processName.
+  ///
+  /// In en, this message translates to:
+  /// **'Process Name'**
+  String get processName;
+
+  /// No description provided for @assignedEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Assigned Employee'**
+  String get assignedEmployee;
+
+  /// No description provided for @selectEmployee.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Employee'**
+  String get selectEmployee;
+
+  /// No description provided for @notesField.
+  ///
+  /// In en, this message translates to:
+  /// **'Notes'**
+  String get notesField;
+
+  /// No description provided for @notesHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your notes here...'**
+  String get notesHint;
+
+  /// No description provided for @notificationReply.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Reply'**
+  String get notificationReply;
+
+  /// No description provided for @notificationReplyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your reply here...'**
+  String get notificationReplyHint;
+
+  /// No description provided for @executeButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Execute'**
+  String get executeButton;
+
+  /// No description provided for @taskCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed'**
+  String get taskCompleted;
+
+  /// No description provided for @taskNotCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Completed'**
+  String get taskNotCompleted;
+
+  /// No description provided for @completionDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Completion Date'**
+  String get completionDate;
+
+  /// No description provided for @projectButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Project'**
+  String get projectButton;
+
+  /// No description provided for @attachmentsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get attachmentsButton;
+
+  /// No description provided for @permissionsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions'**
+  String get permissionsButton;
+
+  /// No description provided for @createNotificationButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Notification'**
+  String get createNotificationButton;
+
+  /// No description provided for @taskInformation.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Information'**
+  String get taskInformation;
+
+  /// No description provided for @taskActions.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Actions'**
+  String get taskActions;
+
+  /// No description provided for @errorAttachmentsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments must be added'**
+  String get errorAttachmentsRequired;
+
+  /// No description provided for @errorPermissionsRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions must be added'**
+  String get errorPermissionsRequired;
+
+  /// No description provided for @errorNotificationReplyRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification reply is required'**
+  String get errorNotificationReplyRequired;
+
+  /// No description provided for @validationError.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation Error'**
+  String get validationError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

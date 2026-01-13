@@ -1,10 +1,9 @@
-import 'dart:convert'; // للتأكد من وجود utf8
+import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:shehabapp/core/models/project_categories_count.dart';
 import 'package:shehabapp/core/models/project_tasks_model.dart';
 import 'package:shehabapp/core/models/projects_model.dart';
+import 'package:shehabapp/core/models/task_details_model.dart';
 import '../api/api_constants.dart';
-import '../models/user_model.dart';
 
 class DailyTasksService {
   Future<ProjectsModel> getProjects() async {
@@ -72,6 +71,29 @@ class DailyTasksService {
     } catch (e) {
       print('Error in getProjectsDetails: $e');
       throw Exception('An error occurred while fetching projects details: $e');
+    }
+  }
+
+  Future<TaskDetailsModel> checkExecuteStatus({required String altKey}) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          '${ApiConstants.baseUrl}${ApiConstants.checkExecuteStatus}$altKey',
+        ),
+        headers: {'Content-Type': 'application/json'},
+      );
+      if (response.statusCode == 200) {
+        String responseBody = utf8.decode(response.bodyBytes);
+        final TaskDetailsModel taskDetails = TaskDetailsModel.fromJson(
+          json.decode(responseBody),
+        );
+        return taskDetails;
+      } else {
+        throw Exception('Failed to load task details data.');
+      }
+    } catch (e) {
+      print('Error in getTaskDetails: $e');
+      throw Exception('An error occurred while fetching task details: $e');
     }
   }
 }

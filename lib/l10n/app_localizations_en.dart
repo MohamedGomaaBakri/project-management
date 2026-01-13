@@ -1207,4 +1207,76 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get dailyTasksTitle => 'Daily Tasks';
+
+  @override
+  String get taskDetails => 'Task Details';
+
+  @override
+  String get taskDetailsTitle => 'Task Details';
+
+  @override
+  String get projectName => 'Project Name';
+
+  @override
+  String get processName => 'Process Name';
+
+  @override
+  String get assignedEmployee => 'Assigned Employee';
+
+  @override
+  String get selectEmployee => 'Select Employee';
+
+  @override
+  String get notesField => 'Notes';
+
+  @override
+  String get notesHint => 'Enter your notes here...';
+
+  @override
+  String get notificationReply => 'Notification Reply';
+
+  @override
+  String get notificationReplyHint => 'Enter your reply here...';
+
+  @override
+  String get executeButton => 'Execute';
+
+  @override
+  String get taskCompleted => 'Completed';
+
+  @override
+  String get taskNotCompleted => 'Not Completed';
+
+  @override
+  String get completionDate => 'Completion Date';
+
+  @override
+  String get projectButton => 'Project';
+
+  @override
+  String get attachmentsButton => 'Attachments';
+
+  @override
+  String get permissionsButton => 'Permissions';
+
+  @override
+  String get createNotificationButton => 'Create Notification';
+
+  @override
+  String get taskInformation => 'Task Information';
+
+  @override
+  String get taskActions => 'Task Actions';
+
+  @override
+  String get errorAttachmentsRequired => 'Attachments must be added';
+
+  @override
+  String get errorPermissionsRequired => 'Permissions must be added';
+
+  @override
+  String get errorNotificationReplyRequired => 'Notification reply is required';
+
+  @override
+  String get validationError => 'Validation Error';
 }
