@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:shehabapp/core/models/vacation_request_model.dart';
 import 'package:shehabapp/core/providers/daily_tasks_provider.dart';
 import 'package:shehabapp/core/providers/hr_provider.dart';
 import 'package:shehabapp/features/attendance/providers/attendance_provider.dart';
-import 'package:shehabapp/features/attendance/screens/attendance_daily_log_screen.dart';
 import 'package:shehabapp/features/attendance/screens/attendance_main_screen.dart';
 import 'package:shehabapp/features/attendance/screens/attendance_months_list_screen.dart';
 import 'package:shehabapp/features/attendance/screens/checked_attendance_months_list_screen.dart';

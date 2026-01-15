@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-
 // --- موديل أمر العمل (يستخدم للقائمة وللتفاصيل) ---
 class WorkOrderModel {
-  final String altKey;      // رقم أمر العمل
-  final String reqCode;     // رقم الطلب
-  final String trnsDate;    // التاريخ
-  final String statusDesc;  // الحالة عربي
+  final String altKey; // رقم أمر العمل
+  final String reqCode; // رقم الطلب
+  final String trnsDate; // التاريخ
+  final String statusDesc; // الحالة عربي
   final String statusDescE; // الحالة إنجليزي
 
   // حقول التفاصيل الإضافية
@@ -52,7 +50,9 @@ class WorkOrderModel {
     return WorkOrderModel(
       altKey: json['AltKey']?.toString() ?? '',
       reqCode: json['ReqCode']?.toString() ?? '',
-      trnsDate: json['TrnsDate']?.toString().split('T')[0] ?? '', // نأخذ التاريخ فقط بدون وقت
+      trnsDate:
+          json['TrnsDate']?.toString().split('T')[0] ??
+          '', // نأخذ التاريخ فقط بدون وقت
       statusDesc: json['StatusDesc'] ?? '',
       statusDescE: json['StatusDescE'] ?? '',
       storeName: json['StoreName'],
@@ -74,13 +74,22 @@ class WorkOrderModel {
   }
 
   // دوال مساعدة لجلب النص حسب اللغة
-  String getStatus(bool isArabic) => isArabic ? (statusDesc.isEmpty ? statusDescE : statusDesc) : (statusDescE.isEmpty ? statusDesc : statusDescE);
-  String getStore(bool isArabic) => isArabic ? (storeName ?? '') : (storeNameE ?? storeName ?? '');
-  String getTech(bool isArabic) => isArabic ? (techName ?? '') : (techNameE ?? techName ?? '');
-  String getAuth(bool isArabic) => isArabic ? (authDesc ?? '') : (authDescE ?? authDesc ?? '');
-  String getType(bool isArabic) => isArabic ? (mneTypeName ?? '') : (mneTypeNameE ?? mneTypeName ?? '');
-  String getContact(bool isArabic) => isArabic ? (contactName ?? '') : (contactNameE ?? contactName ?? '');
-  String getUser(bool isArabic) => isArabic ? (insertUserName ?? '') : (insertUserNameE ?? insertUserName ?? '');
+  String getStatus(bool isArabic) => isArabic
+      ? (statusDesc.isEmpty ? statusDescE : statusDesc)
+      : (statusDescE.isEmpty ? statusDesc : statusDescE);
+  String getStore(bool isArabic) =>
+      isArabic ? (storeName ?? '') : (storeNameE ?? storeName ?? '');
+  String getTech(bool isArabic) =>
+      isArabic ? (techName ?? '') : (techNameE ?? techName ?? '');
+  String getAuth(bool isArabic) =>
+      isArabic ? (authDesc ?? '') : (authDescE ?? authDesc ?? '');
+  String getType(bool isArabic) =>
+      isArabic ? (mneTypeName ?? '') : (mneTypeNameE ?? mneTypeName ?? '');
+  String getContact(bool isArabic) =>
+      isArabic ? (contactName ?? '') : (contactNameE ?? contactName ?? '');
+  String getUser(bool isArabic) => isArabic
+      ? (insertUserName ?? '')
+      : (insertUserNameE ?? insertUserName ?? '');
 }
 
 // --- موديل المعدات ---
@@ -115,5 +124,7 @@ class EquipmentModel {
     );
   }
 
-  String getName(bool isArabic) => isArabic ? (equipDesc.isEmpty ? equipDescE : equipDesc) : (equipDescE.isEmpty ? equipDesc : equipDescE);
+  String getName(bool isArabic) => isArabic
+      ? (equipDesc.isEmpty ? equipDescE : equipDesc)
+      : (equipDescE.isEmpty ? equipDesc : equipDescE);
 }

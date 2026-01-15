@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +21,8 @@ class WorkOrderEquipmentsScreen extends StatefulWidget {
   });
 
   @override
-  State<WorkOrderEquipmentsScreen> createState() => _WorkOrderEquipmentsScreenState();
+  State<WorkOrderEquipmentsScreen> createState() =>
+      _WorkOrderEquipmentsScreenState();
 }
 
 class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
@@ -59,8 +59,9 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
     try {
       final response = await http.get(Uri.parse(apiUrl));
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data =
-        json.decode(utf8.decode(response.bodyBytes));
+        final Map<String, dynamic> data = json.decode(
+          utf8.decode(response.bodyBytes),
+        );
         final List<dynamic> items = data['items'] ?? [];
         setState(() {
           _equipments = items.map((e) => EquipmentModel.fromJson(e)).toList();
@@ -96,7 +97,7 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         title: Text(
-          l10n.equipments ?? "المعدات",
+          l10n.equipments,
           style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 20,
@@ -126,15 +127,14 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
                 borderRadius: BorderRadius.circular(12),
                 onTap: () => _toggleLanguage(context),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.language,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                      Icon(Icons.language, color: Colors.white, size: 20),
                       const SizedBox(width: 6),
                       Text(
                         isArabic ? 'EN' : 'عربي',
@@ -154,103 +154,101 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
       ),
       body: _isLoading
           ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: primaryColor,
-              strokeWidth: 3,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.loading ?? "جاري التحميل...",
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 16,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: primaryColor,
+                    strokeWidth: 3,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.loading,
+                    style: TextStyle(color: Colors.grey[600], fontSize: 16),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      )
+            )
           : _errorMessage != null
           ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline,
-                size: 64, color: Colors.red[300]),
-            const SizedBox(height: 16),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 32),
-              child: Text(
-                "${l10n.error ?? 'خطأ'}: $_errorMessage",
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.red[700], fontSize: 16),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
+                  const SizedBox(height: 16),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: Text(
+                      "${l10n.error}: $_errorMessage",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.red[700], fontSize: 16),
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      )
+            )
           : _equipments.isEmpty
           ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.precision_manufacturing_outlined,
-                size: 80, color: Colors.grey[300]),
-            const SizedBox(height: 16),
-            Text(
-              l10n.noData ?? "لا توجد معدات",
-              style: TextStyle(
-                color: Colors.grey[500],
-                fontSize: 18,
-                fontWeight: FontWeight.w500,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.precision_manufacturing_outlined,
+                    size: 80,
+                    color: Colors.grey[300],
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.noData,
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      )
+            )
           : FadeTransition(
-        opacity: _fadeAnimation,
-        child: Column(
-          children: [
-            // Header Card with Work Order Info
-            _buildHeaderCard(
-                context, primaryColor, accentColor, l10n),
+              opacity: _fadeAnimation,
+              child: Column(
+                children: [
+                  // Header Card with Work Order Info
+                  _buildHeaderCard(context, primaryColor, accentColor, l10n),
 
-            // Equipments List
-            Expanded(
-              child: ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemCount: _equipments.length,
-                separatorBuilder: (context, index) =>
-                const SizedBox(height: 16),
-                itemBuilder: (context, index) {
-                  final item = _equipments[index];
-                  return _buildEquipmentCard(
-                    context,
-                    item,
-                    index,
-                    isArabic,
-                    primaryColor,
-                    accentColor,
-                    l10n,
-                  );
-                },
+                  // Equipments List
+                  Expanded(
+                    child: ListView.separated(
+                      padding: const EdgeInsets.all(16),
+                      itemCount: _equipments.length,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 16),
+                      itemBuilder: (context, index) {
+                        final item = _equipments[index];
+                        return _buildEquipmentCard(
+                          context,
+                          item,
+                          index,
+                          isArabic,
+                          primaryColor,
+                          accentColor,
+                          l10n,
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
-      ),
     );
   }
 
   Widget _buildHeaderCard(
-      BuildContext context,
-      Color primaryColor,
-      Color accentColor,
-      AppLocalizations l10n,
-      ) {
+    BuildContext context,
+    Color primaryColor,
+    Color accentColor,
+    AppLocalizations l10n,
+  ) {
     return Container(
       margin: const EdgeInsets.all(16),
       padding: const EdgeInsets.all(20),
@@ -264,10 +262,7 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
           ],
         ),
         borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: primaryColor.withOpacity(0.2),
-          width: 1,
-        ),
+        border: Border.all(color: primaryColor.withOpacity(0.2), width: 1),
         boxShadow: [
           BoxShadow(
             color: primaryColor.withOpacity(0.1),
@@ -295,11 +290,7 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
                 ),
               ],
             ),
-            child: const Icon(
-              Icons.handyman,
-              size: 32,
-              color: Colors.white,
-            ),
+            child: const Icon(Icons.handyman, size: 32, color: Colors.white),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -307,7 +298,7 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  l10n.equipments ?? "المعدات",
+                  l10n.equipments,
                   style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.bold,
@@ -319,11 +310,8 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
                 Row(
                   children: [
                     Text(
-                      "${l10n.workOrderNo ?? 'أمر العمل'}: ",
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: Colors.grey[600],
-                      ),
+                      "${l10n.workOrderNo}: ",
+                      style: TextStyle(fontSize: 13, color: Colors.grey[600]),
                     ),
                     Text(
                       widget.workOrderAltKey,
@@ -337,7 +325,7 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
                 ),
                 const SizedBox(height: 2),
                 Text(
-                  "${_equipments.length} ${l10n.equipments ?? 'معدة'}",
+                  "${_equipments.length} ${l10n.equipments}",
                   style: TextStyle(
                     fontSize: 13,
                     color: Colors.grey[600],
@@ -353,14 +341,14 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
   }
 
   Widget _buildEquipmentCard(
-      BuildContext context,
-      EquipmentModel item,
-      int index,
-      bool isArabic,
-      Color primaryColor,
-      Color accentColor,
-      AppLocalizations l10n,
-      ) {
+    BuildContext context,
+    EquipmentModel item,
+    int index,
+    bool isArabic,
+    Color primaryColor,
+    Color accentColor,
+    AppLocalizations l10n,
+  ) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -499,7 +487,7 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
                       // Details
                       _buildDetailRow(
                         Icons.qr_code_scanner,
-                        l10n.equipmentCode ?? "كود المعدة",
+                        l10n.equipmentCode,
                         "${item.equipCode}",
                         primaryColor,
                       ),
@@ -507,15 +495,14 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
                       if (item.equipNo != null)
                         _buildDetailRow(
                           Icons.numbers,
-                          l10n.equipmentNo ?? "رقم المعدة",
+                          l10n.equipmentNo,
                           item.equipNo!,
                           primaryColor,
                         ),
-                      if (item.equipNo != null)
-                        const SizedBox(height: 10),
+                      if (item.equipNo != null) const SizedBox(height: 10),
                       _buildDetailRow(
                         Icons.assignment_outlined,
-                        l10n.workOrderNo ?? "أمر العمل",
+                        l10n.workOrderNo,
                         item.altKey,
                         primaryColor,
                       ),
@@ -577,11 +564,11 @@ class _WorkOrderEquipmentsScreenState extends State<WorkOrderEquipmentsScreen>
   }
 
   Widget _buildDetailRow(
-      IconData icon,
-      String label,
-      String value,
-      Color primaryColor,
-      ) {
+    IconData icon,
+    String label,
+    String value,
+    Color primaryColor,
+  ) {
     return Row(
       children: [
         Container(

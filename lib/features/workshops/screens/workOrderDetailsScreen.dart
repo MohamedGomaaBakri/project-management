@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -20,7 +19,8 @@ class WorkOrderDetailsScreen extends StatefulWidget {
   State<WorkOrderDetailsScreen> createState() => _WorkOrderDetailsScreenState();
 }
 
-class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with SingleTickerProviderStateMixin {
+class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen>
+    with SingleTickerProviderStateMixin {
   WorkOrderModel? _details;
   bool _isLoading = true;
   String? _errorMessage;
@@ -39,13 +39,10 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
       parent: _animationController,
       curve: Curves.easeInOut,
     );
-    _slideAnimation = Tween<Offset>(
-      begin: const Offset(0, 0.1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animationController,
-      curve: Curves.easeOut,
-    ));
+    _slideAnimation =
+        Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(
+          CurvedAnimation(parent: _animationController, curve: Curves.easeOut),
+        );
     _fetchDetails();
   }
 
@@ -56,11 +53,14 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
   }
 
   Future<void> _fetchDetails() async {
-    final String apiUrl = "http://195.201.246.251:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/MneWorkOrdersMastVO1?q=AltKey=${widget.altKey}";
+    final String apiUrl =
+        "http://195.201.246.251:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/MneWorkOrdersMastVO1?q=AltKey=${widget.altKey}";
     try {
       final response = await http.get(Uri.parse(apiUrl));
       if (response.statusCode == 200) {
-        final Map<String, dynamic> data = json.decode(utf8.decode(response.bodyBytes));
+        final Map<String, dynamic> data = json.decode(
+          utf8.decode(response.bodyBytes),
+        );
         final List<dynamic> items = data['items'] ?? [];
         if (items.isNotEmpty) {
           setState(() {
@@ -94,7 +94,8 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final isArabic = Provider.of<LocaleProvider>(context).locale.languageCode == 'ar';
+    final isArabic =
+        Provider.of<LocaleProvider>(context).locale.languageCode == 'ar';
     final primaryColor = const Color(0xFF4F46E5);
     final accentColor = const Color(0xFF7C3AED);
 
@@ -102,7 +103,7 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
       backgroundColor: const Color(0xFFF8FAFC),
       appBar: AppBar(
         title: Text(
-          l10n.details ?? "تفاصيل الطلب",
+          l10n.details,
           style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: 20,
@@ -132,15 +133,14 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
                 borderRadius: BorderRadius.circular(12),
                 onTap: () => _toggleLanguage(context),
                 child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 8,
+                  ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        Icons.language,
-                        color: Colors.white,
-                        size: 20,
-                      ),
+                      Icon(Icons.language, color: Colors.white, size: 20),
                       const SizedBox(width: 6),
                       Text(
                         isArabic ? 'EN' : 'عربي',
@@ -160,244 +160,261 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
       ),
       body: _isLoading
           ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            CircularProgressIndicator(
-              color: primaryColor,
-              strokeWidth: 3,
-            ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.loading ?? "جاري التحميل...",
-              style: TextStyle(
-                color: Colors.grey[600],
-                fontSize: 16,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircularProgressIndicator(
+                    color: primaryColor,
+                    strokeWidth: 3,
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.loading,
+                    style: TextStyle(color: Colors.grey[600], fontSize: 16),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-      )
+            )
           : _errorMessage != null || _details == null
           ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
-            const SizedBox(height: 16),
-            Text(
-              "${l10n.error ?? 'خطأ'}: $_errorMessage",
-              textAlign: TextAlign.center,
-              style: TextStyle(color: Colors.red[700], fontSize: 16),
-            ),
-          ],
-        ),
-      )
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Icons.error_outline, size: 64, color: Colors.red[300]),
+                  const SizedBox(height: 16),
+                  Text(
+                    "${l10n.error}: $_errorMessage",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(color: Colors.red[700], fontSize: 16),
+                  ),
+                ],
+              ),
+            )
           : Column(
-        children: [
-          Expanded(
-            child: FadeTransition(
-              opacity: _fadeAnimation,
-              child: SlideTransition(
-                position: _slideAnimation,
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Column(
-                    children: [
-                      // --- Header Card with Work Order Number ---
-                      _buildHeaderCard(context, primaryColor, accentColor, isArabic, l10n),
-                      const SizedBox(height: 16),
-
-                      // --- Card 1: Main Info ---
-                      _buildSectionCard(
-                        context,
-                        title: l10n.workOrderNo ?? "بيانات الطلب",
-                        icon: Icons.assignment_outlined,
-                        iconColor: primaryColor,
-                        children: [
-                          _buildInfoRow(
-                            l10n.workOrderNo ?? "رقم أمر العمل",
-                            _details!.altKey,
-                            icon: Icons.tag,
-                          ),
-                          _buildInfoRow(
-                            l10n.reqNo ?? "رقم الطلب",
-                            _details!.reqCode,
-                            icon: Icons.confirmation_number_outlined,
-                          ),
-                          _buildInfoRow(
-                            l10n.date ?? "التاريخ",
-                            _details!.trnsDate,
-                            icon: Icons.calendar_today_outlined,
-                          ),
-                          _buildInfoRow(
-                            l10n.status ?? "الحالة",
-                            _details!.getStatus(isArabic),
-                            isHighlighted: true,
-                            icon: Icons.check_circle_outline,
-                          ),
-                          _buildInfoRow(
-                            l10n.authStatus ?? "الاعتماد",
-                            _details!.getAuth(isArabic),
-                            icon: Icons.verified_outlined,
-                          ),
-                          _buildInfoRow(
-                            l10n.orderType ?? "نوع الأمر",
-                            _details!.getType(isArabic),
-                            icon: Icons.category_outlined,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-
-                      // --- Card 2: Operations Info ---
-                      _buildSectionCard(
-                        context,
-                        title: "بيانات التنفيذ",
-                        icon: Icons.engineering_outlined,
-                        iconColor: Colors.orange[700]!,
-                        children: [
-                          _buildInfoRow(
-                            l10n.store ?? "المستودع",
-                            _details!.getStore(isArabic),
-                            icon: Icons.warehouse_outlined,
-                          ),
-                          _buildInfoRow(
-                            l10n.technician ?? "الفني",
-                            _details!.getTech(isArabic),
-                            icon: Icons.person_outline,
-                          ),
-                          _buildInfoRow(
-                            l10n.contactMethod ?? "طريقة الاستلام",
-                            _details!.getContact(isArabic),
-                            icon: Icons.contactless_outlined,
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 16),
-
-                      // --- Card 3: Notes ---
-                      if ((_details!.notes != null && _details!.notes!.isNotEmpty) ||
-                          (_details!.techNotes != null && _details!.techNotes!.isNotEmpty))
-                        _buildSectionCard(
-                          context,
-                          title: l10n.notes ?? "الملاحظات",
-                          icon: Icons.note_alt_outlined,
-                          iconColor: Colors.blue[700]!,
+              children: [
+                Expanded(
+                  child: FadeTransition(
+                    opacity: _fadeAnimation,
+                    child: SlideTransition(
+                      position: _slideAnimation,
+                      child: SingleChildScrollView(
+                        padding: const EdgeInsets.all(16.0),
+                        child: Column(
                           children: [
-                            if (_details!.notes != null && _details!.notes!.isNotEmpty)
-                              _buildNoteBox(
-                                "ملاحظات عامة",
-                                _details!.notes!,
-                                Colors.blue,
+                            // --- Header Card with Work Order Number ---
+                            _buildHeaderCard(
+                              context,
+                              primaryColor,
+                              accentColor,
+                              isArabic,
+                              l10n,
+                            ),
+                            const SizedBox(height: 16),
+
+                            // --- Card 1: Main Info ---
+                            _buildSectionCard(
+                              context,
+                              title: l10n.workOrderNo,
+                              icon: Icons.assignment_outlined,
+                              iconColor: primaryColor,
+                              children: [
+                                _buildInfoRow(
+                                  l10n.workOrderNo,
+                                  _details!.altKey,
+                                  icon: Icons.tag,
+                                ),
+                                _buildInfoRow(
+                                  l10n.reqNo,
+                                  _details!.reqCode,
+                                  icon: Icons.confirmation_number_outlined,
+                                ),
+                                _buildInfoRow(
+                                  l10n.date,
+                                  _details!.trnsDate,
+                                  icon: Icons.calendar_today_outlined,
+                                ),
+                                _buildInfoRow(
+                                  l10n.status,
+                                  _details!.getStatus(isArabic),
+                                  isHighlighted: true,
+                                  icon: Icons.check_circle_outline,
+                                ),
+                                _buildInfoRow(
+                                  l10n.authStatus,
+                                  _details!.getAuth(isArabic),
+                                  icon: Icons.verified_outlined,
+                                ),
+                                _buildInfoRow(
+                                  l10n.orderType,
+                                  _details!.getType(isArabic),
+                                  icon: Icons.category_outlined,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+
+                            // --- Card 2: Operations Info ---
+                            _buildSectionCard(
+                              context,
+                              title: "بيانات التنفيذ",
+                              icon: Icons.engineering_outlined,
+                              iconColor: Colors.orange[700]!,
+                              children: [
+                                _buildInfoRow(
+                                  l10n.store,
+                                  _details!.getStore(isArabic),
+                                  icon: Icons.warehouse_outlined,
+                                ),
+                                _buildInfoRow(
+                                  l10n.technician,
+                                  _details!.getTech(isArabic),
+                                  icon: Icons.person_outline,
+                                ),
+                                _buildInfoRow(
+                                  l10n.contactMethod,
+                                  _details!.getContact(isArabic),
+                                  icon: Icons.contactless_outlined,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 16),
+
+                            // --- Card 3: Notes ---
+                            if ((_details!.notes != null &&
+                                    _details!.notes!.isNotEmpty) ||
+                                (_details!.techNotes != null &&
+                                    _details!.techNotes!.isNotEmpty))
+                              _buildSectionCard(
+                                context,
+                                title: l10n.notes,
+                                icon: Icons.note_alt_outlined,
+                                iconColor: Colors.blue[700]!,
+                                children: [
+                                  if (_details!.notes != null &&
+                                      _details!.notes!.isNotEmpty)
+                                    _buildNoteBox(
+                                      "ملاحظات عامة",
+                                      _details!.notes!,
+                                      Colors.blue,
+                                    ),
+                                  if (_details!.notes != null &&
+                                      _details!.notes!.isNotEmpty &&
+                                      _details!.techNotes != null &&
+                                      _details!.techNotes!.isNotEmpty)
+                                    const SizedBox(height: 12),
+                                  if (_details!.techNotes != null &&
+                                      _details!.techNotes!.isNotEmpty)
+                                    _buildNoteBox(
+                                      "ملاحظات الفني",
+                                      _details!.techNotes!,
+                                      Colors.orange,
+                                    ),
+                                ],
                               ),
-                            if (_details!.notes != null && _details!.notes!.isNotEmpty &&
-                                _details!.techNotes != null && _details!.techNotes!.isNotEmpty)
-                              const SizedBox(height: 12),
-                            if (_details!.techNotes != null && _details!.techNotes!.isNotEmpty)
-                              _buildNoteBox(
-                                "ملاحظات الفني",
-                                _details!.techNotes!,
-                                Colors.orange,
-                              ),
+
+                            if ((_details!.notes != null &&
+                                    _details!.notes!.isNotEmpty) ||
+                                (_details!.techNotes != null &&
+                                    _details!.techNotes!.isNotEmpty))
+                              const SizedBox(height: 16),
+
+                            // --- Card 4: Audit Info ---
+                            _buildSectionCard(
+                              context,
+                              title: "معلومات النظام",
+                              icon: Icons.info_outlined,
+                              iconColor: Colors.purple[700]!,
+                              children: [
+                                _buildInfoRow(
+                                  l10n.user,
+                                  _details!.getUser(isArabic),
+                                  icon: Icons.account_circle_outlined,
+                                ),
+                                _buildInfoRow(
+                                  l10n.entryDate,
+                                  _details!.insertDate ?? "-",
+                                  icon: Icons.access_time,
+                                ),
+                              ],
+                            ),
+                            const SizedBox(height: 20),
                           ],
                         ),
-
-                      if ((_details!.notes != null && _details!.notes!.isNotEmpty) ||
-                          (_details!.techNotes != null && _details!.techNotes!.isNotEmpty))
-                        const SizedBox(height: 16),
-
-                      // --- Card 4: Audit Info ---
-                      _buildSectionCard(
-                        context,
-                        title: "معلومات النظام",
-                        icon: Icons.info_outlined,
-                        iconColor: Colors.purple[700]!,
-                        children: [
-                          _buildInfoRow(
-                            l10n.user ?? "المستخدم",
-                            _details!.getUser(isArabic),
-                            icon: Icons.account_circle_outlined,
-                          ),
-                          _buildInfoRow(
-                            l10n.entryDate ?? "تاريخ الإدخال",
-                            _details!.insertDate ?? "-",
-                            icon: Icons.access_time,
-                          ),
-                        ],
                       ),
-                      const SizedBox(height: 20),
-                    ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-          ),
 
-          // --- Bottom Action Button ---
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.08),
-                  blurRadius: 20,
-                  offset: const Offset(0, -5),
+                // --- Bottom Action Button ---
+                Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.08),
+                        blurRadius: 20,
+                        offset: const Offset(0, -5),
+                      ),
+                    ],
+                  ),
+                  child: SafeArea(
+                    top: false,
+                    child: SizedBox(
+                      width: double.infinity,
+                      height: 56,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WorkOrderEquipmentsScreen(
+                                altKey: _details!.altKey,
+                                workOrderAltKey: _details!.altKey,
+                              ),
+                            ),
+                          );
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.orange[700],
+                          foregroundColor: Colors.white,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                          shadowColor: Colors.orange.withOpacity(0.3),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(Icons.handyman, size: 24),
+                            const SizedBox(width: 12),
+                            Text(
+                              l10n.viewEquipments,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
-            child: SafeArea(
-              top: false,
-              child: SizedBox(
-                width: double.infinity,
-                height: 56,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => WorkOrderEquipmentsScreen(
-                          altKey: _details!.altKey,
-                          workOrderAltKey: _details!.altKey,
-                        ),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.orange[700],
-                    foregroundColor: Colors.white,
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    shadowColor: Colors.orange.withOpacity(0.3),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      const Icon(Icons.handyman, size: 24),
-                      const SizedBox(width: 12),
-                      Text(
-                        l10n.viewEquipments ?? "عرض المعدات",
-                        style: const TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.5,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
     );
   }
 
-  Widget _buildHeaderCard(BuildContext context, Color primaryColor, Color accentColor, bool isArabic, AppLocalizations l10n) {
+  Widget _buildHeaderCard(
+    BuildContext context,
+    Color primaryColor,
+    Color accentColor,
+    bool isArabic,
+    AppLocalizations l10n,
+  ) {
     final isDelivered = _details!.statusDescE.toLowerCase() == 'delivered';
 
     return Container(
@@ -440,7 +457,7 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      l10n.workOrderNo ?? "أمر العمل",
+                      l10n.workOrderNo,
                       style: TextStyle(
                         fontSize: 14,
                         color: Colors.white.withOpacity(0.9),
@@ -499,12 +516,12 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
   }
 
   Widget _buildSectionCard(
-      BuildContext context, {
-        required String title,
-        required IconData icon,
-        required Color iconColor,
-        required List<Widget> children,
-      }) {
+    BuildContext context, {
+    required String title,
+    required IconData icon,
+    required Color iconColor,
+    required List<Widget> children,
+  }) {
     return Container(
       decoration: BoxDecoration(
         color: Colors.white,
@@ -562,22 +579,18 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
   }
 
   Widget _buildInfoRow(
-      String label,
-      String value, {
-        bool isHighlighted = false,
-        IconData? icon,
-      }) {
+    String label,
+    String value, {
+    bool isHighlighted = false,
+    IconData? icon,
+  }) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16.0),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           if (icon != null) ...[
-            Icon(
-              icon,
-              size: 18,
-              color: Colors.grey[500],
-            ),
+            Icon(icon, size: 18, color: Colors.grey[500]),
             const SizedBox(width: 8),
           ],
           Expanded(
@@ -622,8 +635,12 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
 
   Widget _buildNoteBox(String title, String content, Color themeColor) {
     // تحديد الألوان المناسبة حسب نوع الملاحظة
-    final iconColor = themeColor == Colors.blue ? Colors.blue.shade700 : Colors.orange.shade700;
-    final textColor = themeColor == Colors.blue ? Colors.blue.shade800 : Colors.orange.shade800;
+    final iconColor = themeColor == Colors.blue
+        ? Colors.blue.shade700
+        : Colors.orange.shade700;
+    final textColor = themeColor == Colors.blue
+        ? Colors.blue.shade800
+        : Colors.orange.shade800;
 
     return Container(
       width: double.infinity,
@@ -632,27 +649,17 @@ class _WorkOrderDetailsScreenState extends State<WorkOrderDetailsScreen> with Si
         gradient: LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: [
-            themeColor.withOpacity(0.05),
-            themeColor.withOpacity(0.02),
-          ],
+          colors: [themeColor.withOpacity(0.05), themeColor.withOpacity(0.02)],
         ),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(
-          color: themeColor.withOpacity(0.3),
-          width: 1,
-        ),
+        border: Border.all(color: themeColor.withOpacity(0.3), width: 1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Icon(
-                Icons.sticky_note_2_outlined,
-                size: 18,
-                color: iconColor,
-              ),
+              Icon(Icons.sticky_note_2_outlined, size: 18, color: iconColor),
               const SizedBox(width: 8),
               Text(
                 title,

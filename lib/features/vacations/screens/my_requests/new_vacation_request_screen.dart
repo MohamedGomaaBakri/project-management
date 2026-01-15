@@ -19,7 +19,8 @@ class NewVacationRequestScreen extends StatefulWidget {
   const NewVacationRequestScreen({super.key});
 
   @override
-  State<NewVacationRequestScreen> createState() => _NewVacationRequestScreenState();
+  State<NewVacationRequestScreen> createState() =>
+      _NewVacationRequestScreenState();
 }
 
 class _NewVacationRequestScreenState extends State<NewVacationRequestScreen> {
@@ -46,7 +47,6 @@ class _NewVacationRequestScreenState extends State<NewVacationRequestScreen> {
       1: l10n.vacationTypeRegular,
       2: l10n.vacationTypeUnpaid,
       12: l10n.vacationTypeAnnual,
-
     };
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
@@ -100,7 +100,10 @@ class _NewVacationRequestScreenState extends State<NewVacationRequestScreen> {
 
     if (_isForWorker && _selectedWorker == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.selectWorkerError ?? "Please select a worker"), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text(l10n.selectWorkerError),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
@@ -110,8 +113,12 @@ class _NewVacationRequestScreenState extends State<NewVacationRequestScreen> {
     final hrProvider = Provider.of<HrProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-    final int targetEmpCode = _isForWorker ? _selectedWorker!.empCode : authProvider.currentUser!.empCode;
-    final int targetCompEmpCode = _isForWorker ? _selectedWorker!.compEmpCode : authProvider.currentUser!.compEmpCode;
+    final int targetEmpCode = _isForWorker
+        ? _selectedWorker!.empCode
+        : authProvider.currentUser!.empCode;
+    final int targetCompEmpCode = _isForWorker
+        ? _selectedWorker!.compEmpCode
+        : authProvider.currentUser!.compEmpCode;
     final int insertingUserCode = authProvider.currentUser!.usersCode;
 
     final success = await hrProvider.createNewVacationRequest(
@@ -127,12 +134,20 @@ class _NewVacationRequestScreenState extends State<NewVacationRequestScreen> {
 
     if (mounted) {
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(l10n.requestSentSuccessfully), backgroundColor: Colors.green));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.requestSentSuccessfully),
+            backgroundColor: Colors.green,
+          ),
+        );
         Navigator.of(context).pop(true);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-            content: Text(hrProvider.error ?? l10n.unexpectedError), backgroundColor: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(hrProvider.error ?? l10n.unexpectedError),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
   }
@@ -151,152 +166,184 @@ class _NewVacationRequestScreenState extends State<NewVacationRequestScreen> {
       body: hrProvider.isLoading
           ? const Center(child: CircularProgressIndicator())
           : Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: ListView(
-            children: [
-              // كارت اختيار نوع الطلب
-              Card(
-                elevation: 2,
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RadioListTile<bool>(
-                              title: Text(l10n.requestForMyself ?? "For Me"),
-                              value: false,
-                              groupValue: _isForWorker,
-                              onChanged: (val) {
-                                setState(() {
-                                  _isForWorker = val!;
-                                  _selectedWorker = null;
-                                });
-                              },
+              padding: const EdgeInsets.all(16.0),
+              child: Form(
+                key: _formKey,
+                child: ListView(
+                  children: [
+                    // كارت اختيار نوع الطلب
+                    Card(
+                      elevation: 2,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RadioListTile<bool>(
+                                    title: Text(l10n.requestForMyself),
+                                    value: false,
+                                    groupValue: _isForWorker,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _isForWorker = val!;
+                                        _selectedWorker = null;
+                                      });
+                                    },
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RadioListTile<bool>(
+                                    title: Text(l10n.requestForWorker),
+                                    value: true,
+                                    groupValue: _isForWorker,
+                                    onChanged: (val) {
+                                      setState(() {
+                                        _isForWorker = val!;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Expanded(
-                            child: RadioListTile<bool>(
-                              title: Text(l10n.requestForWorker ?? "For Worker"),
-                              value: true,
-                              groupValue: _isForWorker,
-                              onChanged: (val) {
-                                setState(() {
-                                  _isForWorker = val!;
-                                });
-                              },
-                            ),
-                          ),
-                        ],
+
+                            if (_isForWorker) ...[
+                              const Divider(),
+
+                              // ---== 1. بحث باسم العامل ==---
+                              DropdownSearch<WorkerModel>(
+                                items: (filter, loadProps) =>
+                                    hrProvider.workersList,
+                                itemAsString: (WorkerModel u) => isArabic
+                                    ? u.empName
+                                    : (u.empNameE ?? u.empName),
+                                // +++ التعديل الهام هنا +++
+                                // دالة المقارنة المطلوبة لإصلاح الخطأ
+                                compareFn: (item1, item2) =>
+                                    item1.empCode == item2.empCode,
+                                // +++++++++++++++++++++++++
+                                selectedItem: _selectedWorker,
+                                decoratorProps: DropDownDecoratorProps(
+                                  decoration: InputDecoration(
+                                    labelText: l10n.workerName,
+                                    border: const OutlineInputBorder(),
+                                    prefixIcon: const Icon(Icons.person_search),
+                                  ),
+                                ),
+                                popupProps: const PopupProps.menu(
+                                  showSearchBox: true,
+                                  searchFieldProps: TextFieldProps(
+                                    decoration: InputDecoration(
+                                      hintText: "بحث...",
+                                      prefixIcon: Icon(Icons.search),
+                                    ),
+                                  ),
+                                ),
+                                onChanged: (WorkerModel? data) {
+                                  setState(() {
+                                    _selectedWorker = data;
+                                  });
+                                },
+                              ),
+
+                              const SizedBox(height: 10),
+
+                              // ---== 2. بحث برقم العامل ==---
+                              DropdownSearch<WorkerModel>(
+                                items: (filter, loadProps) =>
+                                    hrProvider.workersList,
+                                itemAsString: (WorkerModel u) =>
+                                    u.compEmpCode.toString(),
+                                // +++ التعديل الهام هنا أيضاً +++
+                                compareFn: (item1, item2) =>
+                                    item1.empCode == item2.empCode,
+                                // +++++++++++++++++++++++++
+                                selectedItem: _selectedWorker,
+                                decoratorProps: DropDownDecoratorProps(
+                                  decoration: InputDecoration(
+                                    labelText: l10n.workerNumber,
+                                    border: const OutlineInputBorder(),
+                                    prefixIcon: const Icon(Icons.badge),
+                                  ),
+                                ),
+                                popupProps: const PopupProps.menu(
+                                  showSearchBox: true,
+                                  searchFieldProps: TextFieldProps(
+                                    decoration: InputDecoration(
+                                      hintText: "بحث بالرقم...",
+                                      prefixIcon: Icon(Icons.search),
+                                    ),
+                                  ),
+                                ),
+                                onChanged: (WorkerModel? data) {
+                                  setState(() {
+                                    _selectedWorker = data;
+                                  });
+                                },
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          ],
+                        ),
                       ),
+                    ),
 
-                      if (_isForWorker) ...[
-                        const Divider(),
+                    _buildDropdownField(l10n),
+                    const SizedBox(height: 16),
 
-                        // ---== 1. بحث باسم العامل ==---
-                        DropdownSearch<WorkerModel>(
-                          items: (filter, loadProps) => hrProvider.workersList,
-                          itemAsString: (WorkerModel u) => isArabic ? u.empName : (u.empNameE ?? u.empName),
-                          // +++ التعديل الهام هنا +++
-                          // دالة المقارنة المطلوبة لإصلاح الخطأ
-                          compareFn: (item1, item2) => item1.empCode == item2.empCode,
-                          // +++++++++++++++++++++++++
-                          selectedItem: _selectedWorker,
-                          decoratorProps: DropDownDecoratorProps(
-                            decoration: InputDecoration(
-                              labelText: l10n.workerName ?? "Worker Name",
-                              border: const OutlineInputBorder(),
-                              prefixIcon: const Icon(Icons.person_search),
-                            ),
-                          ),
-                          popupProps: const PopupProps.menu(
-                            showSearchBox: true,
-                            searchFieldProps: TextFieldProps(
-                              decoration: InputDecoration(
-                                hintText: "بحث...",
-                                prefixIcon: Icon(Icons.search),
+                    _buildDatePicker(
+                      l10n.startDateLabel,
+                      _startDate,
+                      () => _selectDate(context, true),
+                    ),
+                    const SizedBox(height: 16),
+                    _buildDatePicker(
+                      l10n.endDateLabel,
+                      _endDate,
+                      () => _selectDate(context, false),
+                    ),
+
+                    const SizedBox(height: 16),
+                    _buildTextField(
+                      _durationController,
+                      l10n.durationLabel,
+                      Icons.timer,
+                      isNumber: true,
+                      isEnabled: false,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildTextField(
+                      _notesController,
+                      l10n.notesLabel,
+                      Icons.notes,
+                      maxLines: 3,
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: hrProvider.isLoading ? null : _saveForm,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
+                      ),
+                      child: hrProvider.isLoading
+                          ? const CircularProgressIndicator(color: Colors.white)
+                          : Text(
+                              l10n.sendRequest,
+                              style: const TextStyle(
+                                fontSize: 18,
+                                color: Colors.white,
                               ),
                             ),
-                          ),
-                          onChanged: (WorkerModel? data) {
-                            setState(() {
-                              _selectedWorker = data;
-                            });
-                          },
-                        ),
-
-                        const SizedBox(height: 10),
-
-                        // ---== 2. بحث برقم العامل ==---
-                        DropdownSearch<WorkerModel>(
-                          items: (filter, loadProps) => hrProvider.workersList,
-                          itemAsString: (WorkerModel u) => u.compEmpCode.toString(),
-                          // +++ التعديل الهام هنا أيضاً +++
-                          compareFn: (item1, item2) => item1.empCode == item2.empCode,
-                          // +++++++++++++++++++++++++
-                          selectedItem: _selectedWorker,
-                          decoratorProps: DropDownDecoratorProps(
-                            decoration: InputDecoration(
-                              labelText: l10n.workerNumber ?? "Worker Number",
-                              border: const OutlineInputBorder(),
-                              prefixIcon: const Icon(Icons.badge),
-                            ),
-                          ),
-                          popupProps: const PopupProps.menu(
-                            showSearchBox: true,
-                            searchFieldProps: TextFieldProps(
-                              decoration: InputDecoration(
-                                hintText: "بحث بالرقم...",
-                                prefixIcon: Icon(Icons.search),
-                              ),
-                            ),
-                          ),
-                          onChanged: (WorkerModel? data) {
-                            setState(() {
-                              _selectedWorker = data;
-                            });
-                          },
-                        ),
-                        const SizedBox(height: 8),
-                      ],
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
-
-              _buildDropdownField(l10n),
-              const SizedBox(height: 16),
-
-                  _buildDatePicker(
-                      l10n.startDateLabel, _startDate, () => _selectDate(context, true)),
-                  const SizedBox(height: 16),
-                  _buildDatePicker(
-                      l10n.endDateLabel, _endDate, () => _selectDate(context, false)),
-
-              const SizedBox(height: 16),
-              _buildTextField(_durationController, l10n.durationLabel, Icons.timer, isNumber: true, isEnabled: false),
-              const SizedBox(height: 16),
-              _buildTextField(_notesController, l10n.notesLabel, Icons.notes, maxLines: 3),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: hrProvider.isLoading ? null : _saveForm,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
-                ),
-                child: hrProvider.isLoading
-                    ? const CircularProgressIndicator(color: Colors.white)
-                    : Text(l10n.sendRequest, style: const TextStyle(fontSize: 18, color: Colors.white)),
-              ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -315,14 +362,24 @@ class _NewVacationRequestScreenState extends State<NewVacationRequestScreen> {
         );
       }).toList(),
       onChanged: (value) => setState(() => _selectedVacationType = value),
-      validator: (value) => value == null ? l10n.selectVacationTypeValidation : null,
+      validator: (value) =>
+          value == null ? l10n.selectVacationTypeValidation : null,
     );
   }
 
-  Widget _buildDatePicker(String label, DateTime? date, VoidCallback onPressed) {
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+  Widget _buildDatePicker(
+    String label,
+    DateTime? date,
+    VoidCallback onPressed,
+  ) {
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     final l10n = AppLocalizations.of(context)!;
-    final text = date == null ? l10n.selectDate : DateFormat.yMd(locale).format(date);
+    final text = date == null
+        ? l10n.selectDate
+        : DateFormat.yMd(locale).format(date);
     return TextFormField(
       readOnly: true,
       decoration: InputDecoration(
@@ -337,8 +394,14 @@ class _NewVacationRequestScreenState extends State<NewVacationRequestScreen> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String label, IconData icon,
-      {bool isNumber = false, int maxLines = 1, bool isEnabled = true}) {
+  Widget _buildTextField(
+    TextEditingController controller,
+    String label,
+    IconData icon, {
+    bool isNumber = false,
+    int maxLines = 1,
+    bool isEnabled = true,
+  }) {
     return TextFormField(
       controller: controller,
       enabled: isEnabled,
