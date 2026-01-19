@@ -397,6 +397,7 @@
     "doneOnly": "Done Only",
     "allStatus": "All",
     "search": "Search",
+    "reset": "Reset Filter",
     "stage": "Stage",
     "operation": "Operation",
     "explanation": "Explanation",

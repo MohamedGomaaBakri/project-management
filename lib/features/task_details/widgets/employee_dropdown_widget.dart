@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../../core/models/user_model.dart';
@@ -23,6 +24,15 @@ class EmployeeDropdownWidget extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final localeProvider = Provider.of<LocaleProvider>(context);
     final isArabic = localeProvider.locale.languageCode == 'ar';
+
+    // Determine the initially selected user
+    final initialCode = selectedEmployeeCode ?? defaultEmployeeCode;
+    final selectedUser = initialCode != null && users.isNotEmpty
+        ? users.cast<User?>().firstWhere(
+            (u) => u?.usersCode.toString() == initialCode,
+            orElse: () => null,
+          )
+        : null;
 
     return Container(
       decoration: BoxDecoration(
@@ -90,48 +100,66 @@ class EmployeeDropdownWidget extends StatelessWidget {
                   width: 1.5,
                 ),
               ),
-              child: DropdownButtonHideUnderline(
-                child: DropdownButton<String>(
-                  isExpanded: true,
-                  value: selectedEmployeeCode ?? defaultEmployeeCode,
-                  hint: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Text(
-                      l10n.selectEmployee,
-                      style: TextStyle(color: Colors.grey[600]),
-                    ),
-                  ),
-                  icon: Padding(
-                    padding: const EdgeInsets.only(right: 12),
-                    child: Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: const Color(0xFF4F46E5),
-                    ),
-                  ),
-                  borderRadius: BorderRadius.circular(12),
-                  dropdownColor: Colors.white,
-                  items: users.map((User user) {
-                    final userName = isArabic
-                        ? user.usersName
-                        : (user.usersNameE ?? user.usersName);
-                    final displayText = '$userName (${user.usersCode})';
-                    return DropdownMenuItem<String>(
-                      value: user.usersCode.toString(),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Text(
-                          displayText,
-                          style: TextStyle(
-                            fontSize: 14,
-                            color: Colors.grey[800],
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                        ),
+              child: DropdownSearch<User>(
+                popupProps: PopupProps.menu(
+                  showSearchBox: true,
+                  searchFieldProps: TextFieldProps(
+                    decoration: InputDecoration(
+                      hintText: l10n.search,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(12),
                       ),
-                    );
-                  }).toList(),
-                  onChanged: onChanged,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 8,
+                      ),
+                    ),
+                  ),
+                  menuProps: MenuProps(borderRadius: BorderRadius.circular(12)),
                 ),
+                items: (filter, loadProps) {
+                  return Future.value(
+                    users.where((user) {
+                      final keyword = filter.toLowerCase();
+                      final nameAr = (user.usersName ?? '').toLowerCase();
+                      final nameEn = (user.usersNameE ?? '').toLowerCase();
+                      final code = user.usersCode.toString();
+                      return nameAr.contains(keyword) ||
+                          nameEn.contains(keyword) ||
+                          code.contains(keyword);
+                    }).toList(),
+                  );
+                },
+                itemAsString: (User u) {
+                  final userName = isArabic
+                      ? u.usersName
+                      : (u.usersNameE ?? u.usersName);
+                  return '$userName (${u.usersCode})';
+                },
+                compareFn: (item1, item2) => item1.usersCode == item2.usersCode,
+                selectedItem: selectedUser,
+                decoratorProps: DropDownDecoratorProps(
+                  decoration: InputDecoration(
+                    hintText: l10n.selectEmployee,
+                    hintStyle: TextStyle(color: Colors.grey[600]),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    suffixIcon: const Icon(
+                      Icons.keyboard_arrow_down_rounded,
+                      color: Color(0xFF4F46E5),
+                    ),
+                  ),
+                ),
+                onChanged: (User? data) {
+                  if (data != null) {
+                    onChanged(data.usersCode.toString());
+                  } else {
+                    onChanged(null);
+                  }
+                },
               ),
             ),
           ],

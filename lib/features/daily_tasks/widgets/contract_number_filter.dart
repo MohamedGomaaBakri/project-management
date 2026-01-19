@@ -31,8 +31,8 @@ class ContractNumberFilter extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        keyboardType: TextInputType.text,
+        // inputFormatters: [FilteringTextInputFormatter.],
         onChanged: onChanged,
         decoration: InputDecoration(
           labelText: l10n.contractNumber,

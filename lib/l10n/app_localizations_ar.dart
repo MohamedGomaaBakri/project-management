@@ -1188,6 +1188,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get search => 'بحث';
 
   @override
+  String get reset => 'إعادة تعيين';
+
+  @override
   String get stage => 'المرحلة';
 
   @override

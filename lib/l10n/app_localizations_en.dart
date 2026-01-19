@@ -1188,6 +1188,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get search => 'Search';
 
   @override
+  String get reset => 'Reset Filter';
+
+  @override
   String get stage => 'Stage';
 
   @override

@@ -27,8 +27,8 @@ class SecNumberFilter extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
-        keyboardType: TextInputType.number,
-        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+        keyboardType: TextInputType.text,
+        // inputFormatters: [FilteringTextInputFormatter.digitsOnly],
         onChanged: onChanged,
         decoration: InputDecoration(
           labelText: l10n.secNumber,

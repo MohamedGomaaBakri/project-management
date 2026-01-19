@@ -15,6 +15,7 @@ class FilterSectionWidget extends StatelessWidget {
   final TextEditingController secController;
   final TaskStatus selectedStatus;
   final ValueChanged<TaskStatus> onStatusChanged;
+  final VoidCallback onResetPressed;
   final VoidCallback onSearchPressed;
   final bool isSearchEnabled;
 
@@ -28,6 +29,7 @@ class FilterSectionWidget extends StatelessWidget {
     required this.selectedStatus,
     required this.onStatusChanged,
     required this.onSearchPressed,
+    required this.onResetPressed,
     this.isSearchEnabled = true,
   });
 
@@ -147,10 +149,37 @@ class FilterSectionWidget extends StatelessWidget {
 
           const SizedBox(height: 20),
 
-          // Search Button
-          SearchButtonWidget(
-            onPressed: onSearchPressed,
-            isEnabled: isSearchEnabled,
+          // Action Buttons
+          Row(
+            children: [
+              Expanded(
+                child: SearchButtonWidget(
+                  onPressed: onSearchPressed,
+                  isEnabled: isSearchEnabled,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: SizedBox(
+                  height: 48,
+                  child: OutlinedButton.icon(
+                    onPressed: onResetPressed,
+                    style: OutlinedButton.styleFrom(
+                      foregroundColor: Colors.redAccent,
+                      side: const BorderSide(color: Colors.redAccent),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    icon: const Icon(Icons.refresh),
+                    label: Text(
+                      l10n.reset,
+                      style: const TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

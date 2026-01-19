@@ -2441,6 +2441,12 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get search;
 
+  /// No description provided for @reset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset Filter'**
+  String get reset;
+
   /// No description provided for @stage.
   ///
   /// In en, this message translates to:

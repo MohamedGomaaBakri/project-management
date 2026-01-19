@@ -215,6 +215,15 @@ class _DailyTasksScreenState extends State<DailyTasksScreen>
                                       });
                                     },
                                     onSearchPressed: _performSearch,
+                                    onResetPressed: () {
+                                      setState(() {
+                                        _selectedProject = null;
+                                        _contractController.clear();
+                                        _secController.clear();
+                                        _selectedStatus = TaskStatus.all;
+                                      });
+                                      _performSearch();
+                                    },
                                   );
                                 },
                               ),
