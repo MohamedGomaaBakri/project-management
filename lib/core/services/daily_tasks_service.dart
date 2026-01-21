@@ -181,10 +181,16 @@ class DailyTasksService {
   }) async {
     try {
       final url =
-          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/EXProjectsPartsProcVO1';
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/EXProjectsPartsProcVO2/$altKey';
       log('🌐 API Request URL: $url', name: 'UpdateTaskProccessData');
 
-      final response = await http.put(
+      log('AltKey: $altKey', name: 'UpdateTaskProccessData');
+      log('Remarks: $remarks', name: 'UpdateTaskProccessData');
+      log('NextUsersCode: $nextUsersCode', name: 'UpdateTaskProccessData');
+      log('DoneFlag: $doneFlag', name: 'UpdateTaskProccessData');
+      log('DoneDate: $doneDate', name: 'UpdateTaskProccessData');
+
+      final response = await http.patch(
         Uri.parse(url),
         headers: {
           "Content-Type":

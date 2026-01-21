@@ -1351,4 +1351,106 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get currency => 'SAR';
+
+  @override
+  String get taskPermissions => 'Permissions';
+
+  @override
+  String get taskPermissionsTitle => 'Project Permissions';
+
+  @override
+  String get permissionType => 'Permission Type';
+
+  @override
+  String get permissionNumber => 'Permission Number';
+
+  @override
+  String get permissionStatus => 'Permission Status';
+
+  @override
+  String get activeStatus => 'Active';
+
+  @override
+  String get expiredStatus => 'Expired';
+
+  @override
+  String get projectInfo => 'Project Information';
+
+  @override
+  String get projectNameLabel => 'Project Name';
+
+  @override
+  String get contractNumberLabel => 'Contract Number';
+
+  @override
+  String get noPermissionsFound => 'No permissions found';
+
+  @override
+  String get loadingPermissions => 'Loading permissions...';
+
+  @override
+  String get newPermission => 'New';
+
+  @override
+  String get permissionDetails => 'Permission Details';
+
+  @override
+  String get permitSerial => 'Permit Serial';
+
+  @override
+  String get permitCopy => 'Copy Number';
+
+  @override
+  String get municipality => 'Municipality';
+
+  @override
+  String get streets => 'Streets';
+
+  @override
+  String get totalLength => 'Total Length';
+
+  @override
+  String get totalWidth => 'Width';
+
+  @override
+  String get requestDate => 'Request Date';
+
+  @override
+  String get issueDate => 'Issue Date';
+
+  @override
+  String get issued => 'Issued';
+
+  @override
+  String get bookingMethod => 'Drilling Method';
+
+  @override
+  String get permitValue => 'Permit Value';
+
+  @override
+  String get renew => 'Renew';
+
+  @override
+  String get attachments => 'Attachments';
+
+  @override
+  String get dates => 'Dates';
+
+  @override
+  String get createPermission => 'Create New Permission';
+
+  @override
+  String get save => 'Save';
+
+  @override
+  String get selectPermissionType => 'Select Permission Type';
+
+  @override
+  String get selectMunicipality => 'Select Municipality';
+
+  @override
+  String get requestedBy => 'Requested By';
+
+  @override
+  String get permissionData => 'Permission Data';
 }

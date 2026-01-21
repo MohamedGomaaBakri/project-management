@@ -2770,6 +2770,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'SAR'**
   String get currency;
+
+  /// No description provided for @taskPermissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions'**
+  String get taskPermissions;
+
+  /// No description provided for @taskPermissionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Permissions'**
+  String get taskPermissionsTitle;
+
+  /// No description provided for @permissionType.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Type'**
+  String get permissionType;
+
+  /// No description provided for @permissionNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Number'**
+  String get permissionNumber;
+
+  /// No description provided for @permissionStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Status'**
+  String get permissionStatus;
+
+  /// No description provided for @activeStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Active'**
+  String get activeStatus;
+
+  /// No description provided for @expiredStatus.
+  ///
+  /// In en, this message translates to:
+  /// **'Expired'**
+  String get expiredStatus;
+
+  /// No description provided for @projectInfo.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Information'**
+  String get projectInfo;
+
+  /// No description provided for @projectNameLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Project Name'**
+  String get projectNameLabel;
+
+  /// No description provided for @contractNumberLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Contract Number'**
+  String get contractNumberLabel;
+
+  /// No description provided for @noPermissionsFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No permissions found'**
+  String get noPermissionsFound;
+
+  /// No description provided for @loadingPermissions.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading permissions...'**
+  String get loadingPermissions;
+
+  /// No description provided for @newPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get newPermission;
+
+  /// No description provided for @permissionDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Details'**
+  String get permissionDetails;
+
+  /// No description provided for @permitSerial.
+  ///
+  /// In en, this message translates to:
+  /// **'Permit Serial'**
+  String get permitSerial;
+
+  /// No description provided for @permitCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Copy Number'**
+  String get permitCopy;
+
+  /// No description provided for @municipality.
+  ///
+  /// In en, this message translates to:
+  /// **'Municipality'**
+  String get municipality;
+
+  /// No description provided for @streets.
+  ///
+  /// In en, this message translates to:
+  /// **'Streets'**
+  String get streets;
+
+  /// No description provided for @totalLength.
+  ///
+  /// In en, this message translates to:
+  /// **'Total Length'**
+  String get totalLength;
+
+  /// No description provided for @totalWidth.
+  ///
+  /// In en, this message translates to:
+  /// **'Width'**
+  String get totalWidth;
+
+  /// No description provided for @requestDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Request Date'**
+  String get requestDate;
+
+  /// No description provided for @issueDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Issue Date'**
+  String get issueDate;
+
+  /// No description provided for @issued.
+  ///
+  /// In en, this message translates to:
+  /// **'Issued'**
+  String get issued;
+
+  /// No description provided for @bookingMethod.
+  ///
+  /// In en, this message translates to:
+  /// **'Drilling Method'**
+  String get bookingMethod;
+
+  /// No description provided for @permitValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Permit Value'**
+  String get permitValue;
+
+  /// No description provided for @renew.
+  ///
+  /// In en, this message translates to:
+  /// **'Renew'**
+  String get renew;
+
+  /// No description provided for @attachments.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments'**
+  String get attachments;
+
+  /// No description provided for @dates.
+  ///
+  /// In en, this message translates to:
+  /// **'Dates'**
+  String get dates;
+
+  /// No description provided for @createPermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Permission'**
+  String get createPermission;
+
+  /// No description provided for @save.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get save;
+
+  /// No description provided for @selectPermissionType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Permission Type'**
+  String get selectPermissionType;
+
+  /// No description provided for @selectMunicipality.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Municipality'**
+  String get selectMunicipality;
+
+  /// No description provided for @requestedBy.
+  ///
+  /// In en, this message translates to:
+  /// **'Requested By'**
+  String get requestedBy;
+
+  /// No description provided for @permissionData.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Data'**
+  String get permissionData;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

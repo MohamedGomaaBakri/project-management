@@ -11,6 +11,7 @@ import 'widgets/notes_input_widget.dart';
 import 'widgets/task_status_widget.dart';
 import 'widgets/action_buttons_widget.dart';
 import 'project_details_view.dart';
+import '../task_permissions/task_permissions_view.dart';
 
 class TaskDetailsView extends StatefulWidget {
   final Items? taskItem;
@@ -252,9 +253,12 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
                                   );
                                 },
                                 onPermissionsTap: () {
-                                  _showComingSoonSnackbar(
-                                    context,
-                                    l10n.permissionsButton,
+                                  Navigator.of(context).push(
+                                    MaterialPageRoute(
+                                      builder: (context) => TaskPermissionsView(
+                                        projectId: widget.taskItem?.projectId,
+                                      ),
+                                    ),
                                   );
                                 },
                                 onNotificationTap: () {
@@ -411,10 +415,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
     final processData = dailyTasksProvider.taskProccessModel?.items?.first;
 
     // Determine which employee code to use (selected or default)
-    final nextUsersCode =
-        _selectedEmployeeCode ??
-        processData?.nextUsersCodeAct?.toString() ??
-        '';
+    final nextUsersCode = _selectedEmployeeCode;
 
     // Get current date in proper format
     final now = DateTime.now();
@@ -426,7 +427,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
       await dailyTasksProvider.updateTaskProccess(
         altKey: widget.taskItem?.altKey ?? '',
         remarks: _notesController.text,
-        nextUsersCode: nextUsersCode,
+        nextUsersCode: nextUsersCode ?? "0",
         doneFlag: '1', // Mark as done
         doneDate: formattedDate,
       );

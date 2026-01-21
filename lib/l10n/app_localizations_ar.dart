@@ -1351,4 +1351,106 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get currency => 'ريال';
+
+  @override
+  String get taskPermissions => 'التصاريح';
+
+  @override
+  String get taskPermissionsTitle => 'تصاريح المشروع';
+
+  @override
+  String get permissionType => 'نوع التصريح';
+
+  @override
+  String get permissionNumber => 'رقم التصريح';
+
+  @override
+  String get permissionStatus => 'حالة التصريح';
+
+  @override
+  String get activeStatus => 'ساري';
+
+  @override
+  String get expiredStatus => 'منتهي';
+
+  @override
+  String get projectInfo => 'بيانات المشروع';
+
+  @override
+  String get projectNameLabel => 'اسم المشروع';
+
+  @override
+  String get contractNumberLabel => 'رقم العقد';
+
+  @override
+  String get noPermissionsFound => 'لا توجد تصاريح';
+
+  @override
+  String get loadingPermissions => 'جار تحميل التصاريح...';
+
+  @override
+  String get newPermission => 'جديد';
+
+  @override
+  String get permissionDetails => 'تفاصيل التصريح';
+
+  @override
+  String get permitSerial => 'التصريح';
+
+  @override
+  String get permitCopy => 'رقم النسخة';
+
+  @override
+  String get municipality => 'البلدية';
+
+  @override
+  String get streets => 'الشوارع';
+
+  @override
+  String get totalLength => 'إجمالي الطول';
+
+  @override
+  String get totalWidth => 'العرض';
+
+  @override
+  String get requestDate => 'تاريخ الطلب';
+
+  @override
+  String get issueDate => 'تاريخ الإصدار';
+
+  @override
+  String get issued => 'تم الإصدار';
+
+  @override
+  String get bookingMethod => 'طريقة الحفر';
+
+  @override
+  String get permitValue => 'قيمة التصريح';
+
+  @override
+  String get renew => 'تجديد';
+
+  @override
+  String get attachments => 'المرفقات';
+
+  @override
+  String get dates => 'المواعيد';
+
+  @override
+  String get createPermission => 'إنشاء تصريح جديد';
+
+  @override
+  String get save => 'حفظ';
+
+  @override
+  String get selectPermissionType => 'اختر نوع التصريح';
+
+  @override
+  String get selectMunicipality => 'اختر البلدية';
+
+  @override
+  String get requestedBy => 'طالب التصريح';
+
+  @override
+  String get permissionData => 'بيانات التصريح';
 }

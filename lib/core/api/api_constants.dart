@@ -129,4 +129,8 @@ class ApiConstants {
   static const String checkExecuteStatus = 'EXProjectsCheckVRO1?q=AltKey=';
   static const String checkSeeProject = 'EXProjectsPassUserVRO1?q=UsersCode=';
   static const String getProjectDetails = 'EXProjectsVO1?q=ProjectId=';
+  static const String getPermissionDetails =
+      'EXProjectsPermitsVo1?q=ProjectId=';
+  static const String getZonesList = 'ExPermitsLocVo1';
+  static const String getPermissionList = 'PermitsTypesVo1';
 }

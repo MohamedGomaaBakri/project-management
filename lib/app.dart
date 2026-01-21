@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shehabapp/core/providers/daily_tasks_provider.dart';
 import 'package:shehabapp/core/providers/hr_provider.dart';
+import 'package:shehabapp/core/providers/task_permission_provider.dart';
 import 'package:shehabapp/features/attendance/providers/attendance_provider.dart';
 import 'package:shehabapp/features/attendance/screens/attendance_main_screen.dart';
 import 'package:shehabapp/features/attendance/screens/attendance_months_list_screen.dart';
@@ -81,6 +82,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => DailyTasksProvider()),
+        ChangeNotifierProvider(create: (_) => TaskPermissionProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => PurchaseProvider()),
         ChangeNotifierProvider(
