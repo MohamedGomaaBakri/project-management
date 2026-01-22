@@ -1395,7 +1395,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get permissionDetails => 'تفاصيل التصريح';
 
   @override
-  String get permitSerial => 'التصريح';
+  String get permitSerial => 'مسلسل التصريح';
 
   @override
   String get permitCopy => 'رقم النسخة';
