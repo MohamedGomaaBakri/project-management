@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../core/providers/task_permission_provider.dart';
 import '../../core/providers/locale_provider.dart';
+import '../../core/models/task_permission_model.dart';
 import '../../l10n/app_localizations.dart';
 import 'widgets/form_text_field_widget.dart';
 import 'widgets/form_dropdown_widget.dart';
 import 'widgets/form_action_buttons_widget.dart';
+import 'widgets/attachments_required_dialog.dart';
 
 class CreatePermissionView extends StatefulWidget {
   final int? projectId;
@@ -53,6 +55,10 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
   // Loading state
   bool _isLoading = false;
 
+  // Attpermitcheck and PermitSerial
+  int? _attpermitcheck;
+  int? _currentPermitSerial;
+
   @override
   void initState() {
     super.initState();
@@ -80,54 +86,47 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
     });
   }
 
-  void _loadPermissionData() {
-    final permissionProvider = Provider.of<TaskPermissionProvider>(
-      context,
-      listen: false,
-    );
+  void _loadPermissionData() async {
+    // Load attpermitcheck and get current permitSerial
+    if (widget.projectId == null) return;
 
-    // Get the first permission item from the model if available
-    final permission =
-        permissionProvider.permissionModel?.items?.isNotEmpty == true
-        ? permissionProvider.permissionModel!.items!.first
-        : null;
+    try {
+      final provider = Provider.of<TaskPermissionProvider>(
+        context,
+        listen: false,
+      );
 
-    if (permission != null) {
-      setState(() {
-        // Populate all fields from permission data
-        _permitSerialController.text =
-            permission.permitSerial?.toString() ?? '';
-        _permitNoController.text = permission.permitNo ?? '';
-        _permitCopyController.text = permission.permitCopy?.toString() ?? '';
-        _streetsController.text = permission.streets ?? '';
-        _totalLengthController.text = permission.totalLength?.toString() ?? '';
-        _totalWidthController.text = permission.totalWidth?.toString() ?? '';
-        _insertUserController.text = permission.insertUser?.toString() ?? '';
-        _drillingMethodController.text = permission.drillingMethod ?? '';
-        _noteController.text = permission.note?.toString() ?? '';
-        _permitValueController.text = permission.permitValue?.toString() ?? '';
+      // Get attpermitcheck
+      await provider.getAttpermitcheck(widget.projectId!);
 
-        // Set dropdown values
-        _selectedPermitType = permission.permitType;
-        _selectedPermitLoc = permission.permitLoc;
+      // Get permission details to find current permitSerial
+      await provider.getPermissionDetails(widget.projectId!);
 
-        // Set dates
-        if (permission.insertDate != null) {
-          _insertDate = DateTime.tryParse(permission.insertDate!);
-        }
-        if (permission.startDate != null) {
-          _startDate = DateTime.tryParse(permission.startDate!);
-        }
-        if (permission.endDate != null) {
-          _endDate = DateTime.tryParse(permission.endDate!);
-        }
-        if (permission.doneDate != null) {
-          _doneDate = DateTime.tryParse(permission.doneDate.toString());
-        }
+      if (mounted) {
+        setState(() {
+          // Find attpermitcheck value
+          final items = provider.attpermitcheckModel?.items;
+          if (items != null && items.isNotEmpty) {
+            _attpermitcheck = items.first.attpermitcheck;
+          }
 
-        // Set checkbox
-        _doneFlag = permission.doneFlag == 1;
-      });
+          // Find current permitSerial (get the maximum)
+          final permissions = provider.permissionModel?.items;
+          if (permissions != null && permissions.isNotEmpty) {
+            _currentPermitSerial = permissions
+                .map((p) => p.permitSerial ?? 0)
+                .reduce((a, b) => a > b ? a : b);
+          }
+        });
+      }
+    } catch (e) {
+      // Handle error silently or show message
+      if (mounted) {
+        setState(() {
+          _attpermitcheck = 0; // Default to disabled
+          _currentPermitSerial = 0;
+        });
+      }
     }
   }
 
@@ -147,29 +146,140 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
     super.dispose();
   }
 
-  void _handleSave() {
-    if (_formKey.currentState!.validate()) {
-      // TODO: Implement save logic with API call
-      setState(() {
-        _isLoading = true;
+  void _handleSave() async {
+    final l10n = AppLocalizations.of(context)!;
+
+    // Validate required fields manually
+    String? validationError;
+
+    if (_selectedPermitType == null) {
+      validationError = l10n.pleaseSelectPermissionType;
+    } else if (_permitNoController.text.isEmpty) {
+      validationError = l10n.pleaseEnterPermissionNumber;
+    } else if (_permitCopyController.text.isEmpty) {
+      validationError = l10n.pleaseEnterPermitCopy;
+    } else if (_selectedPermitLoc == null) {
+      validationError = l10n.pleaseSelectMunicipality;
+    } else if (_startDate == null) {
+      validationError = l10n.pleaseSelectStartDate;
+    } else if (_endDate == null) {
+      validationError = l10n.pleaseSelectEndDate;
+    } else if (_permitValueController.text.isEmpty) {
+      validationError = l10n.pleaseEnterPermitValue;
+    }
+
+    // Show validation error if any
+    if (validationError != null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(validationError),
+          backgroundColor: const Color(0xFFEF4444),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
+
+    // Check attpermitcheck
+    if (_attpermitcheck == null || _attpermitcheck == 0) {
+      // Show attachments required dialog
+      AttachmentsRequiredDialog.show(
+        context,
+        title: l10n.attachmentsRequiredTitle,
+        message: l10n.attachmentsRequiredMessage,
+      );
+      return;
+    }
+
+    // All validation passed, proceed with API call
+    setState(() {
+      _isLoading = true;
+    });
+
+    try {
+      final provider = Provider.of<TaskPermissionProvider>(
+        context,
+        listen: false,
+      );
+
+      // Prepare permission data
+      final permissionData = {
+        // Required fields
+        'ProjectId': widget.projectId,
+        'PermitSerial': (_currentPermitSerial ?? 0) + 1,
+        'PermitType': _selectedPermitType,
+        'PermitNo': _permitNoController.text,
+        'PermitCopy': int.tryParse(_permitCopyController.text) ?? 0,
+        'PermitLoc': _selectedPermitLoc,
+        'StartDate': _startDate!.toIso8601String(),
+        'EndDate': _endDate!.toIso8601String(),
+        'PermitValue': double.tryParse(_permitValueController.text) ?? 0.0,
+      };
+
+      // Optional fields - only add if not empty
+      if (_streetsController.text.isNotEmpty) {
+        permissionData['Streets'] = _streetsController.text;
+      }
+      if (_totalWidthController.text.isNotEmpty) {
+        permissionData['TotalWidth'] =
+            double.tryParse(_totalWidthController.text) ?? 0.0;
+      }
+      if (_totalLengthController.text.isNotEmpty) {
+        permissionData['TotalLength'] =
+            int.tryParse(_totalLengthController.text) ?? 0;
+      }
+      if (_doneDate != null) {
+        permissionData['DoneDate'] = _doneDate!.toIso8601String();
+      }
+      if (_drillingMethodController.text.isNotEmpty) {
+        permissionData['DrillingMethod'] = _drillingMethodController.text;
+      }
+      if (_noteController.text.isNotEmpty) {
+        permissionData['Note'] = _noteController.text;
+      }
+
+      permissionData['DoneFlag'] = _doneFlag ? 1 : 0;
+
+      // Create PermissionModel from data
+      final permission = PermissionModel.fromJson({
+        'items': [permissionData],
       });
 
-      // Simulate API call
-      Future.delayed(const Duration(seconds: 2), () {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-          });
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('تم الحفظ بنجاح!'),
-              backgroundColor: Color(0xFF059669),
-              behavior: SnackBarBehavior.floating,
-            ),
-          );
-          Navigator.of(context).pop();
-        }
-      });
+      // Call API
+      await provider.createPermission(permission);
+
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.permissionCreatedSuccessfully),
+            backgroundColor: const Color(0xFF10B981),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+
+        // Go back
+        Navigator.of(context).pop();
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+        });
+
+        // Show error message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.failedToCreatePermission),
+            backgroundColor: const Color(0xFFEF4444),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
     }
   }
 
@@ -267,7 +377,6 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
                                     label: l10n.permitSerial,
                                     controller: _permitSerialController,
                                     keyboardType: TextInputType.number,
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
                                   FormDropdownWidget<int>(
@@ -306,14 +415,12 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
                                   FormTextFieldWidget(
                                     label: l10n.permissionNumber,
                                     controller: _permitNoController,
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
                                   FormTextFieldWidget(
                                     label: l10n.permitCopy,
                                     controller: _permitCopyController,
                                     keyboardType: TextInputType.number,
-                                    readOnly: true,
                                   ),
                                 ],
                               ),
@@ -358,34 +465,29 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
                                   FormTextFieldWidget(
                                     label: l10n.streets,
                                     controller: _streetsController,
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
                                   FormTextFieldWidget(
                                     label: l10n.totalLength,
                                     controller: _totalLengthController,
                                     keyboardType: TextInputType.number,
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
                                   FormTextFieldWidget(
                                     label: l10n.totalWidth,
                                     controller: _totalWidthController,
                                     keyboardType: TextInputType.number,
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
                                   FormTextFieldWidget(
                                     label: l10n.bookingMethod,
                                     controller: _drillingMethodController,
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
                                   FormTextFieldWidget(
                                     label: l10n.permitValue,
                                     controller: _permitValueController,
                                     keyboardType: TextInputType.number,
-                                    readOnly: true,
                                   ),
                                 ],
                               ),
@@ -399,63 +501,157 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
                                   FormTextFieldWidget(
                                     label: l10n.requestedBy,
                                     controller: _insertUserController,
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
-                                  FormTextFieldWidget(
-                                    label: l10n.requestDate,
-                                    controller: TextEditingController(
-                                      text: _insertDate != null
-                                          ? '${_insertDate!.year}-${_insertDate!.month.toString().padLeft(2, '0')}-${_insertDate!.day.toString().padLeft(2, '0')}'
-                                          : '',
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final picked = await showDatePicker(
+                                        context: context,
+                                        initialDate:
+                                            _insertDate ?? DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (picked != null) {
+                                        setState(() {
+                                          _insertDate = picked;
+                                        });
+                                      }
+                                    },
+                                    child: AbsorbPointer(
+                                      child: FormTextFieldWidget(
+                                        label: l10n.requestDate,
+                                        controller: TextEditingController(
+                                          text: _insertDate != null
+                                              ? '${_insertDate!.year}-${_insertDate!.month.toString().padLeft(2, '0')}-${_insertDate!.day.toString().padLeft(2, '0')}'
+                                              : '',
+                                        ),
+                                      ),
                                     ),
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
-                                  FormTextFieldWidget(
-                                    label: l10n.fromDate,
-                                    controller: TextEditingController(
-                                      text: _startDate != null
-                                          ? '${_startDate!.year}-${_startDate!.month.toString().padLeft(2, '0')}-${_startDate!.day.toString().padLeft(2, '0')}'
-                                          : '',
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final picked = await showDatePicker(
+                                        context: context,
+                                        initialDate:
+                                            _startDate ?? DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (picked != null) {
+                                        setState(() {
+                                          _startDate = picked;
+                                        });
+                                      }
+                                    },
+                                    child: AbsorbPointer(
+                                      child: FormTextFieldWidget(
+                                        label: l10n.fromDate,
+                                        controller: TextEditingController(
+                                          text: _startDate != null
+                                              ? '${_startDate!.year}-${_startDate!.month.toString().padLeft(2, '0')}-${_startDate!.day.toString().padLeft(2, '0')}'
+                                              : '',
+                                        ),
+                                      ),
                                     ),
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
-                                  FormTextFieldWidget(
-                                    label: l10n.toDate,
-                                    controller: TextEditingController(
-                                      text: _endDate != null
-                                          ? '${_endDate!.year}-${_endDate!.month.toString().padLeft(2, '0')}-${_endDate!.day.toString().padLeft(2, '0')}'
-                                          : '',
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final picked = await showDatePicker(
+                                        context: context,
+                                        initialDate: _endDate ?? DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (picked != null) {
+                                        setState(() {
+                                          _endDate = picked;
+                                        });
+                                      }
+                                    },
+                                    child: AbsorbPointer(
+                                      child: FormTextFieldWidget(
+                                        label: l10n.toDate,
+                                        controller: TextEditingController(
+                                          text: _endDate != null
+                                              ? '${_endDate!.year}-${_endDate!.month.toString().padLeft(2, '0')}-${_endDate!.day.toString().padLeft(2, '0')}'
+                                              : '',
+                                        ),
+                                      ),
                                     ),
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
-                                  FormTextFieldWidget(
-                                    label: l10n.issueDate,
-                                    controller: TextEditingController(
-                                      text: _doneDate != null
-                                          ? '${_doneDate!.year}-${_doneDate!.month.toString().padLeft(2, '0')}-${_doneDate!.day.toString().padLeft(2, '0')}'
-                                          : '',
+                                  GestureDetector(
+                                    onTap: () async {
+                                      final picked = await showDatePicker(
+                                        context: context,
+                                        initialDate:
+                                            _doneDate ?? DateTime.now(),
+                                        firstDate: DateTime(2000),
+                                        lastDate: DateTime(2100),
+                                      );
+                                      if (picked != null) {
+                                        setState(() {
+                                          _doneDate = picked;
+                                        });
+                                      }
+                                    },
+                                    child: AbsorbPointer(
+                                      child: FormTextFieldWidget(
+                                        label: l10n.issueDate,
+                                        controller: TextEditingController(
+                                          text: _doneDate != null
+                                              ? '${_doneDate!.year}-${_doneDate!.month.toString().padLeft(2, '0')}-${_doneDate!.day.toString().padLeft(2, '0')}'
+                                              : '',
+                                        ),
+                                      ),
                                     ),
-                                    readOnly: true,
                                   ),
                                   const SizedBox(height: 16),
                                   Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      Checkbox(
-                                        value: _doneFlag,
-                                        onChanged: null, // Read-only
-                                        activeColor: const Color(0xFF4F46E5),
-                                      ),
-                                      const SizedBox(width: 8),
+                                      // Status text
                                       Text(
-                                        l10n.issued,
+                                        _doneFlag
+                                            ? l10n.enabled
+                                            : l10n.disabled,
                                         style: TextStyle(
                                           fontSize: 14,
+                                          color: _doneFlag
+                                              ? const Color(0xFF10B981)
+                                              : const Color(0xFFEF4444),
                                           fontWeight: FontWeight.w600,
-                                          color: Colors.grey[700],
+                                        ),
+                                      ),
+                                      const SizedBox(width: 12),
+                                      // Switch
+                                      Transform.scale(
+                                        scale: 0.8,
+                                        alignment: Alignment.centerRight,
+                                        child: Switch(
+                                          value: _doneFlag,
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _doneFlag = value;
+                                            });
+                                          },
+                                          activeColor: const Color(0xFF10B981),
+                                          activeTrackColor: const Color(
+                                            0xFF10B981,
+                                          ).withOpacity(0.5),
+                                          inactiveThumbColor: const Color(
+                                            0xFFEF4444,
+                                          ),
+                                          inactiveTrackColor: const Color(
+                                            0xFFEF4444,
+                                          ).withOpacity(0.5),
+                                          materialTapTargetSize:
+                                              MaterialTapTargetSize.shrinkWrap,
                                         ),
                                       ),
                                     ],
@@ -473,7 +669,6 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
                                     label: l10n.notes,
                                     controller: _noteController,
                                     maxLines: 4,
-                                    readOnly: true,
                                   ),
                                 ],
                               ),

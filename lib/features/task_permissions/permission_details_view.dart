@@ -6,6 +6,8 @@ import '../../core/providers/locale_provider.dart';
 import '../../l10n/app_localizations.dart';
 import 'widgets/permission_detail_card.dart';
 import 'widgets/permission_action_buttons.dart';
+import 'widgets/permission_financial_card_widget.dart';
+import '../task_details/widgets/section_title_widget.dart';
 
 class PermissionDetailsView extends StatefulWidget {
   final Permission permission;
@@ -21,10 +23,15 @@ class _PermissionDetailsViewState extends State<PermissionDetailsView>
   late AnimationController _controller;
   late Animation<double> _fadeAnimation;
   late Animation<Offset> _slideAnimation;
+  late Permission _currentPermission;
+  int? _attpermitcheck;
 
   @override
   void initState() {
     super.initState();
+
+    // Create a copy of permission to allow local updates
+    _currentPermission = widget.permission;
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 800),
@@ -42,6 +49,44 @@ class _PermissionDetailsViewState extends State<PermissionDetailsView>
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _controller.forward();
+
+    // Load attpermitcheck after build phase completes
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _loadAttpermitcheck();
+    });
+  }
+
+  Future<void> _loadAttpermitcheck() async {
+    if (widget.permission.projectId == null) return;
+
+    try {
+      final provider = Provider.of<TaskPermissionProvider>(
+        context,
+        listen: false,
+      );
+      await provider.getAttpermitcheck(widget.permission.projectId!);
+
+      // Find the matching item based on permitSerial
+      final items = provider.attpermitcheckModel?.items;
+      if (items != null && items.isNotEmpty) {
+        final matchingItem = items.firstWhere(
+          (item) => item.permitSerial == widget.permission.permitSerial,
+          orElse: () => items.first,
+        );
+        if (mounted) {
+          setState(() {
+            _attpermitcheck = matchingItem.attpermitcheck;
+          });
+        }
+      }
+    } catch (e) {
+      // Handle error silently or show a message
+      if (mounted) {
+        setState(() {
+          _attpermitcheck = 0; // Default to disabled if error
+        });
+      }
+    }
   }
 
   @override
@@ -250,13 +295,24 @@ class _PermissionDetailsViewState extends State<PermissionDetailsView>
                                   label: l10n.bookingMethod,
                                   value: widget.permission.drillingMethod,
                                 ),
-                                DetailItem(
-                                  label: l10n.permitValue,
-                                  value: widget.permission.permitValue
-                                      ?.toString(),
-                                ),
                               ],
                             ),
+
+                            const SizedBox(height: 12),
+
+                            // Financial Information (same style as Project Details sections)
+                            SectionTitleWidget(
+                              title: isArabic
+                                  ? 'المعلومات المالية'
+                                  : 'Financial Information',
+                              icon: Icons.attach_money_outlined,
+                            ),
+                            const SizedBox(height: 16),
+                            PermissionFinancialCardWidget(
+                              permitValue: widget.permission.permitValue,
+                              showArabic: isArabic,
+                            ),
+                            const SizedBox(height: 24),
 
                             // Dates Card
                             PermissionDetailCard(
@@ -286,8 +342,113 @@ class _PermissionDetailsViewState extends State<PermissionDetailsView>
                                 ),
                                 DetailItem(
                                   label: l10n.issued,
-                                  value: widget.permission.doneFlag?.toString(),
+                                  value: _currentPermission.doneFlag
+                                      ?.toString(),
                                   isCheckbox: true,
+                                  attpermitcheck: _attpermitcheck,
+                                  onToggleChanged: (bool newValue) async {
+                                    // Store previous value for rollback on error
+                                    final previousValue =
+                                        _currentPermission.doneFlag;
+
+                                    // Update local state immediately for UI feedback
+                                    setState(() {
+                                      _currentPermission.doneFlag = newValue
+                                          ? 1
+                                          : 0;
+                                    });
+
+                                    // Check if altKey exists
+                                    if (widget.permission.altKey == null) {
+                                      // Rollback on error
+                                      setState(() {
+                                        _currentPermission.doneFlag =
+                                            previousValue;
+                                      });
+
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              isArabic
+                                                  ? 'خطأ: معرّف التصريح غير موجود'
+                                                  : 'Error: Permission ID not found',
+                                            ),
+                                            backgroundColor: const Color(
+                                              0xFFEF4444,
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                          ),
+                                        );
+                                      }
+                                      return;
+                                    }
+
+                                    try {
+                                      final provider =
+                                          Provider.of<TaskPermissionProvider>(
+                                            context,
+                                            listen: false,
+                                          );
+
+                                      // Format current date as ISO 8601 string
+                                      final currentDate = DateTime.now()
+                                          .toIso8601String();
+
+                                      // Call API to update doneFlag
+                                      await provider.updateDoneFlag(
+                                        widget.permission.altKey!,
+                                        newValue ? 1 : 0,
+                                        currentDate,
+                                      );
+
+                                      // Show success message
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              isArabic
+                                                  ? 'تم تحديث حالة الإصدار بنجاح'
+                                                  : 'Issue status updated successfully',
+                                            ),
+                                            backgroundColor: const Color(
+                                              0xFF10B981,
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                          ),
+                                        );
+                                      }
+                                    } catch (e) {
+                                      // Rollback on error
+                                      setState(() {
+                                        _currentPermission.doneFlag =
+                                            previousValue;
+                                      });
+
+                                      // Show error message
+                                      if (mounted) {
+                                        ScaffoldMessenger.of(
+                                          context,
+                                        ).showSnackBar(
+                                          SnackBar(
+                                            content: Text(
+                                              isArabic
+                                                  ? 'فشل تحديث حالة الإصدار. يرجى المحاولة مرة أخرى.'
+                                                  : 'Failed to update issue status. Please try again.',
+                                            ),
+                                            backgroundColor: const Color(
+                                              0xFFEF4444,
+                                            ),
+                                            behavior: SnackBarBehavior.floating,
+                                          ),
+                                        );
+                                      }
+                                    }
+                                  },
                                 ),
                               ],
                             ),

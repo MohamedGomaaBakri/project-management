@@ -2974,6 +2974,132 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Permission Data'**
   String get permissionData;
+
+  /// No description provided for @permissionNotAllowedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Allowed to Enable'**
+  String get permissionNotAllowedTitle;
+
+  /// No description provided for @permissionNotAllowedMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This permission cannot be enabled because the permit is not available.\nPlease check the task permissions first.'**
+  String get permissionNotAllowedMessage;
+
+  /// No description provided for @permissionAlreadyEnabledTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Already Enabled'**
+  String get permissionAlreadyEnabledTitle;
+
+  /// No description provided for @permissionAlreadyEnabledMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This permission is currently enabled and cannot be disabled.'**
+  String get permissionAlreadyEnabledMessage;
+
+  /// No description provided for @permissionNotAvailableTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not Available'**
+  String get permissionNotAvailableTitle;
+
+  /// No description provided for @permissionNotAvailableMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This permission cannot be modified at this time.'**
+  String get permissionNotAvailableMessage;
+
+  /// No description provided for @permissionDialogOk.
+  ///
+  /// In en, this message translates to:
+  /// **'OK'**
+  String get permissionDialogOk;
+
+  /// No description provided for @enabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Enabled'**
+  String get enabled;
+
+  /// No description provided for @disabled.
+  ///
+  /// In en, this message translates to:
+  /// **'Disabled'**
+  String get disabled;
+
+  /// No description provided for @attachmentsRequiredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachments Required'**
+  String get attachmentsRequiredTitle;
+
+  /// No description provided for @attachmentsRequiredMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Required attachments must be uploaded before saving the permission.\nPlease add attachments first.'**
+  String get attachmentsRequiredMessage;
+
+  /// No description provided for @validationErrorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Validation Error'**
+  String get validationErrorTitle;
+
+  /// No description provided for @permissionCreatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Permission created successfully'**
+  String get permissionCreatedSuccessfully;
+
+  /// No description provided for @failedToCreatePermission.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create permission. Please try again.'**
+  String get failedToCreatePermission;
+
+  /// No description provided for @pleaseSelectPermissionType.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select permission type'**
+  String get pleaseSelectPermissionType;
+
+  /// No description provided for @pleaseSelectMunicipality.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select municipality'**
+  String get pleaseSelectMunicipality;
+
+  /// No description provided for @pleaseEnterPermissionNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter permission number'**
+  String get pleaseEnterPermissionNumber;
+
+  /// No description provided for @pleaseEnterPermitCopy.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter copy number'**
+  String get pleaseEnterPermitCopy;
+
+  /// No description provided for @pleaseSelectStartDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select start date'**
+  String get pleaseSelectStartDate;
+
+  /// No description provided for @pleaseSelectEndDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select end date'**
+  String get pleaseSelectEndDate;
+
+  /// No description provided for @pleaseEnterPermitValue.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter permit value'**
+  String get pleaseEnterPermitValue;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

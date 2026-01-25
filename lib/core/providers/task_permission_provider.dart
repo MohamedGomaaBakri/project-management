@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:shehabapp/core/models/attpermitcheck_model.dart';
 import 'package:shehabapp/core/models/permissions_list_model.dart';
 import 'package:shehabapp/core/models/task_permission_model.dart';
 import 'package:shehabapp/core/models/zones_list_model.dart';
@@ -10,6 +11,7 @@ class TaskPermissionProvider extends ChangeNotifier {
   PermissionModel? permissionModel;
   PermissionListModel? permissionListModel;
   ZonesListModel? zonesListModel;
+  AttpermitcheckModel? attpermitcheckModel;
   bool isLoading = false;
   String? errorMessage;
 
@@ -77,6 +79,68 @@ class TaskPermissionProvider extends ChangeNotifier {
       errorMessage = 'An error occurred while fetching zones list: $e';
       notifyListeners();
       throw Exception('An error occurred while fetching zones list: $e');
+    }
+  }
+
+  Future<void> getAttpermitcheck(int projectId) async {
+    final taskPermissionService = TaskPermissionService();
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      attpermitcheckModel = await taskPermissionService.getAttpermitcheck(
+        projectId,
+      );
+      isLoading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      log('💥 Exception in getAttpermitcheck: $e', name: 'getAttpermitcheck');
+      isLoading = false;
+      errorMessage = 'An error occurred while fetching attpermitcheck: $e';
+      notifyListeners();
+      throw Exception('An error occurred while fetching attpermitcheck: $e');
+    }
+  }
+
+  Future<void> updateDoneFlag(
+    String altKey,
+    int doneFlag,
+    String doneDate,
+  ) async {
+    final taskPermissionService = TaskPermissionService();
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      await taskPermissionService.updateDoneFlag(altKey, doneFlag, doneDate);
+      isLoading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      log('💥 Exception in updateDoneFlag: $e', name: 'updateDoneFlag');
+      isLoading = false;
+      errorMessage = 'An error occurred while updating done flag: $e';
+      notifyListeners();
+      throw Exception('An error occurred while updating done flag: $e');
+    }
+  }
+
+  Future<void> createPermission(PermissionModel permission) async {
+    final taskPermissionService = TaskPermissionService();
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+    try {
+      await taskPermissionService.createPermission(permission);
+      isLoading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      log('💥 Exception in createPermission: $e', name: 'createPermission');
+      isLoading = false;
+      errorMessage = 'An error occurred while creating permission: $e';
+      notifyListeners();
+      throw Exception('An error occurred while creating permission: $e');
     }
   }
 

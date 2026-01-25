@@ -1453,4 +1453,67 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get permissionData => 'Permission Data';
+
+  @override
+  String get permissionNotAllowedTitle => 'Not Allowed to Enable';
+
+  @override
+  String get permissionNotAllowedMessage => 'This permission cannot be enabled because the permit is not available.\nPlease check the task permissions first.';
+
+  @override
+  String get permissionAlreadyEnabledTitle => 'Permission Already Enabled';
+
+  @override
+  String get permissionAlreadyEnabledMessage => 'This permission is currently enabled and cannot be disabled.';
+
+  @override
+  String get permissionNotAvailableTitle => 'Not Available';
+
+  @override
+  String get permissionNotAvailableMessage => 'This permission cannot be modified at this time.';
+
+  @override
+  String get permissionDialogOk => 'OK';
+
+  @override
+  String get enabled => 'Enabled';
+
+  @override
+  String get disabled => 'Disabled';
+
+  @override
+  String get attachmentsRequiredTitle => 'Attachments Required';
+
+  @override
+  String get attachmentsRequiredMessage => 'Required attachments must be uploaded before saving the permission.\nPlease add attachments first.';
+
+  @override
+  String get validationErrorTitle => 'Validation Error';
+
+  @override
+  String get permissionCreatedSuccessfully => 'Permission created successfully';
+
+  @override
+  String get failedToCreatePermission => 'Failed to create permission. Please try again.';
+
+  @override
+  String get pleaseSelectPermissionType => 'Please select permission type';
+
+  @override
+  String get pleaseSelectMunicipality => 'Please select municipality';
+
+  @override
+  String get pleaseEnterPermissionNumber => 'Please enter permission number';
+
+  @override
+  String get pleaseEnterPermitCopy => 'Please enter copy number';
+
+  @override
+  String get pleaseSelectStartDate => 'Please select start date';
+
+  @override
+  String get pleaseSelectEndDate => 'Please select end date';
+
+  @override
+  String get pleaseEnterPermitValue => 'Please enter permit value';
 }

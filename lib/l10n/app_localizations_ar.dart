@@ -1453,4 +1453,67 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get permissionData => 'بيانات التصريح';
+
+  @override
+  String get permissionNotAllowedTitle => 'غير مسموح بالتفعيل';
+
+  @override
+  String get permissionNotAllowedMessage => 'لا يمكن تفعيل هذا الإذن لأن التصريح غير متاح.\nيرجى التحقق من صلاحيات المهمة أولاً.';
+
+  @override
+  String get permissionAlreadyEnabledTitle => 'الإذن مفعل بالفعل';
+
+  @override
+  String get permissionAlreadyEnabledMessage => 'هذا الإذن مفعل حالياً ولا يمكن تعطيله.';
+
+  @override
+  String get permissionNotAvailableTitle => 'غير متاح';
+
+  @override
+  String get permissionNotAvailableMessage => 'لا يمكن تعديل هذا الإذن في الوقت الحالي.';
+
+  @override
+  String get permissionDialogOk => 'حسناً';
+
+  @override
+  String get enabled => 'تم الاصدار';
+
+  @override
+  String get disabled => 'لم يتم الاصدار';
+
+  @override
+  String get attachmentsRequiredTitle => 'مرفقات مطلوبة';
+
+  @override
+  String get attachmentsRequiredMessage => 'يجب إرفاق المرفقات المطلوبة قبل حفظ التصريح.\nيرجى إضافة المرفقات أولاً.';
+
+  @override
+  String get validationErrorTitle => 'خطأ في البيانات';
+
+  @override
+  String get permissionCreatedSuccessfully => 'تم إنشاء التصريح بنجاح';
+
+  @override
+  String get failedToCreatePermission => 'فشل إنشاء التصريح. يرجى المحاولة مرة أخرى.';
+
+  @override
+  String get pleaseSelectPermissionType => 'يرجى اختيار نوع التصريح';
+
+  @override
+  String get pleaseSelectMunicipality => 'يرجى اختيار البلدية';
+
+  @override
+  String get pleaseEnterPermissionNumber => 'يرجى إدخال رقم التصريح';
+
+  @override
+  String get pleaseEnterPermitCopy => 'يرجى إدخال رقم النسخة';
+
+  @override
+  String get pleaseSelectStartDate => 'يرجى اختيار تاريخ البداية';
+
+  @override
+  String get pleaseSelectEndDate => 'يرجى اختيار تاريخ النهاية';
+
+  @override
+  String get pleaseEnterPermitValue => 'يرجى إدخال قيمة التصريح';
 }

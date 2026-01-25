@@ -133,4 +133,7 @@ class ApiConstants {
       'EXProjectsPermitsVo1?q=ProjectId=';
   static const String getZonesList = 'ExPermitsLocVo1';
   static const String getPermissionList = 'PermitsTypesVo1';
+  static const String Attpermitcheck = 'EXProjectsPermitCheckVRO1?q=ProjectId=';
+  static const String updateDoneFlag = 'EXProjectsPermitsVo1?q=AltKey=';
+  static const String createPermission = 'EXProjectsPermitsVo1';
 }
