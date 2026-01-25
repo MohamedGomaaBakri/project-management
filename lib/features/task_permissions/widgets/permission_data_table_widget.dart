@@ -53,9 +53,9 @@ class PermissionDataTableWidget extends StatelessWidget {
               ),
               columns: [
                 _buildDataColumn(l10n.permissionType, Icons.category),
-                _buildDataColumn(l10n.permissionNumber, Icons.numbers),
                 _buildDataColumn(l10n.fromDate, Icons.calendar_today),
                 _buildDataColumn(l10n.toDate, Icons.event),
+                _buildDataColumn(l10n.permissionNumber, Icons.numbers),
                 _buildDataColumn(l10n.done, Icons.check_circle),
               ],
               rows: permissions.asMap().entries.map((entry) {
@@ -124,55 +124,69 @@ class PermissionDataTableWidget extends StatelessWidget {
       }),
       cells: [
         DataCell(
-          ConstrainedBox(
-            constraints: const BoxConstraints(maxWidth: 150),
-            child: Text(
-              isArabic
-                  ? (permission.typeNameA ?? '-')
-                  : (permission.typeNameE ?? permission.typeNameA ?? '-'),
-              style: TextStyle(fontSize: 13, color: Colors.grey[800]),
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
+          Center(
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(maxWidth: 150),
+              child: Text(
+                isArabic
+                    ? (permission.typeNameA ?? '-')
+                    : (permission.typeNameE ?? permission.typeNameA ?? '-'),
+                style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.center,
+              ),
             ),
           ),
         ),
         DataCell(
-          Text(
-            permission.permitNo ?? '-',
-            style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+          Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
+                const SizedBox(width: 4),
+                Text(
+                  _formatDate(permission.startDate),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                ),
+              ],
+            ),
           ),
         ),
         DataCell(
-          Row(
-            children: [
-              Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                _formatDate(permission.startDate),
-                style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+          Center(
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
+                const SizedBox(width: 4),
+                Text(
+                  _formatDate(permission.endDate),
+                  style: TextStyle(fontSize: 13, color: Colors.grey[700]),
+                ),
+              ],
+            ),
+          ),
+        ),
+        DataCell(
+          Center(
+            child: Text(
+              permission.permitNo ?? '-',
+              style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+        DataCell(
+          Center(
+            child: Checkbox(
+              value: permission.doneFlag == 1,
+              onChanged: null, // Read-only checkbox
+              activeColor: const Color(0xFF4F46E5),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(4),
               ),
-            ],
-          ),
-        ),
-        DataCell(
-          Row(
-            children: [
-              Icon(Icons.access_time, size: 14, color: Colors.grey[600]),
-              const SizedBox(width: 4),
-              Text(
-                _formatDate(permission.endDate),
-                style: TextStyle(fontSize: 13, color: Colors.grey[700]),
-              ),
-            ],
-          ),
-        ),
-        DataCell(
-          Checkbox(
-            value: permission.doneFlag == 1,
-            onChanged: null, // Read-only checkbox
-            activeColor: const Color(0xFF4F46E5),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(4),
             ),
           ),
         ),
