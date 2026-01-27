@@ -7,6 +7,7 @@ import '../../l10n/app_localizations.dart';
 import 'widgets/permission_detail_card.dart';
 import 'widgets/permission_action_buttons.dart';
 import 'widgets/permission_financial_card_widget.dart';
+import 'widgets/attachment_bottom_sheet.dart';
 import '../task_details/widgets/section_title_widget.dart';
 
 class PermissionDetailsView extends StatefulWidget {
@@ -469,27 +470,255 @@ class _PermissionDetailsViewState extends State<PermissionDetailsView>
 
                             // Action Buttons
                             PermissionActionButtons(
-                              onRenewPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      '${l10n.renew} - ${l10n.comingSoon}',
+                              onRenewPressed: () async {
+                                // Validate required fields
+                                if (widget.permission.projectId == null ||
+                                    widget.permission.permitSerial == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        isArabic
+                                            ? 'خطأ: بيانات التصريح غير مكتملة'
+                                            : 'Error: Permission data is incomplete',
+                                      ),
+                                      backgroundColor: const Color(0xFFEF4444),
+                                      behavior: SnackBarBehavior.floating,
                                     ),
-                                    backgroundColor: const Color(0xFF4F46E5),
-                                    behavior: SnackBarBehavior.floating,
+                                  );
+                                  return;
+                                }
+
+                                // Show loading indicator
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(24),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const CircularProgressIndicator(
+                                            color: Color(0xFF4F46E5),
+                                          ),
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            isArabic
+                                                ? 'جاري تجديد التصريح...'
+                                                : 'Renewing permission...',
+                                            style: TextStyle(
+                                              color: Colors.grey[800],
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 );
+
+                                try {
+                                  final provider =
+                                      Provider.of<TaskPermissionProvider>(
+                                        context,
+                                        listen: false,
+                                      );
+
+                                  // Call renewal API
+                                  await provider.renewalPermission(
+                                    projectId: widget.permission.projectId
+                                        .toString(),
+                                    permitSerial: widget.permission.permitSerial
+                                        .toString(),
+                                    userCode: "0",
+                                  );
+
+                                  // Close loading dialog
+                                  if (mounted) Navigator.of(context).pop();
+
+                                  // Show success message
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          isArabic
+                                              ? 'تم تجديد التصريح بنجاح'
+                                              : 'Permission renewed successfully',
+                                        ),
+                                        backgroundColor: const Color(
+                                          0xFF10B981,
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
+                                    );
+
+                                    // Navigate back to task permissions view
+                                    Navigator.of(context).pop(true);
+                                  }
+                                } catch (e) {
+                                  // Close loading dialog
+                                  if (mounted) Navigator.of(context).pop();
+
+                                  // Show error message
+                                  if (mounted) {
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          isArabic
+                                              ? 'فشل تجديد التصريح. يرجى المحاولة مرة أخرى.'
+                                              : 'Failed to renew permission. Please try again.',
+                                        ),
+                                        backgroundColor: const Color(
+                                          0xFFEF4444,
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                      ),
+                                    );
+                                  }
+                                }
                               },
-                              onAttachmentsPressed: () {
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text(
-                                      '${l10n.attachments} - ${l10n.comingSoon}',
+                              onAttachmentsPressed: () async {
+                                // Validate required fields
+                                if (widget.permission.projectId == null ||
+                                    widget.permission.permitSerial == null) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text(
+                                        isArabic
+                                            ? 'خطأ: بيانات التصريح غير مكتملة'
+                                            : 'Error: Permission data is incomplete',
+                                      ),
+                                      backgroundColor: const Color(0xFFEF4444),
+                                      behavior: SnackBarBehavior.floating,
                                     ),
-                                    backgroundColor: const Color(0xFF059669),
-                                    behavior: SnackBarBehavior.floating,
+                                  );
+                                  return;
+                                }
+
+                                // Show loading indicator
+                                showDialog(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  builder: (context) => Center(
+                                    child: Container(
+                                      padding: const EdgeInsets.all(24),
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(16),
+                                      ),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          const CircularProgressIndicator(
+                                            color: Color(0xFF4F46E5),
+                                          ),
+                                          const SizedBox(height: 16),
+                                          Text(
+                                            l10n.loadingAttachment,
+                                            style: TextStyle(
+                                              color: Colors.grey[800],
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
                                   ),
                                 );
+
+                                try {
+                                  final provider =
+                                      Provider.of<TaskPermissionProvider>(
+                                        context,
+                                        listen: false,
+                                      );
+
+                                  // Call API to get attachment data
+                                  await provider.getAttachment(
+                                    widget.permission.projectId!,
+                                    widget.permission.permitSerial!,
+                                  );
+
+                                  // Close loading dialog
+                                  if (mounted) Navigator.of(context).pop();
+
+                                  // Show attachment bottom sheet
+                                  if (mounted) {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      isScrollControlled: true,
+                                      backgroundColor: Colors.transparent,
+                                      builder: (context) =>
+                                          DraggableScrollableSheet(
+                                            initialChildSize: 0.9,
+                                            minChildSize: 0.5,
+                                            maxChildSize: 0.95,
+                                            builder:
+                                                (context, scrollController) =>
+                                                    AttachmentBottomSheet(
+                                                      attachmentData: provider
+                                                          .attatchmentModel,
+                                                      isArabic: isArabic,
+                                                      projectId: widget
+                                                          .permission
+                                                          .projectId!,
+                                                      permitSerial: widget
+                                                          .permission
+                                                          .permitSerial!,
+                                                      altKey:
+                                                          widget
+                                                              .permission
+                                                              .altKey ??
+                                                          '',
+                                                    ),
+                                          ),
+                                    );
+                                  }
+                                } catch (e) {
+                                  // Close loading dialog
+                                  if (mounted) Navigator.of(context).pop();
+
+                                  // Show error message with actual error details
+                                  if (mounted) {
+                                    // Extract meaningful error message
+                                    String errorMessage = e.toString();
+                                    if (errorMessage.contains('Body:')) {
+                                      // Extract the API error message
+                                      final bodyIndex = errorMessage.indexOf(
+                                        'Body:',
+                                      );
+                                      errorMessage = errorMessage
+                                          .substring(bodyIndex + 6)
+                                          .trim();
+                                    } else if (errorMessage.contains(
+                                      'Exception:',
+                                    )) {
+                                      // Remove "Exception:" prefix
+                                      errorMessage = errorMessage
+                                          .replaceAll('Exception:', '')
+                                          .trim();
+                                    }
+
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text(
+                                          isArabic
+                                              ? 'خطأ: $errorMessage'
+                                              : 'Error: $errorMessage',
+                                        ),
+                                        backgroundColor: const Color(
+                                          0xFFEF4444,
+                                        ),
+                                        behavior: SnackBarBehavior.floating,
+                                        duration: const Duration(seconds: 5),
+                                      ),
+                                    );
+                                  }
+                                }
                               },
                             ),
 

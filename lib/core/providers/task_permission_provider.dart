@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/attpermitcheck_model.dart';
 import 'package:shehabapp/core/models/permissions_list_model.dart';
 import 'package:shehabapp/core/models/task_permission_model.dart';
@@ -12,6 +13,7 @@ class TaskPermissionProvider extends ChangeNotifier {
   PermissionListModel? permissionListModel;
   ZonesListModel? zonesListModel;
   AttpermitcheckModel? attpermitcheckModel;
+  AttatchmentModel? attatchmentModel;
   bool isLoading = false;
   String? errorMessage;
 
@@ -144,6 +146,53 @@ class TaskPermissionProvider extends ChangeNotifier {
     }
   }
 
+  Future<void> renewalPermission({
+    required String projectId,
+    required String permitSerial,
+    required String userCode,
+  }) async {
+    final taskPermissionService = TaskPermissionService();
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+    try {
+      await taskPermissionService.renewalPermission(
+        projectId: projectId,
+        permitSerial: permitSerial,
+        userCode: userCode,
+      );
+      isLoading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      log('💥 Exception in renewalPermission: $e', name: 'renewalPermission');
+      isLoading = false;
+      errorMessage = 'An error occurred while renewing permission: $e';
+      notifyListeners();
+      throw Exception('An error occurred while renewing permission: $e');
+    }
+  }
+
+  Future<void> getAttachment(int projectId, int permitSerial) async {
+    final taskPermissionService = TaskPermissionService();
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+    try {
+      attatchmentModel = await taskPermissionService.getAttachment(
+        projectId,
+        permitSerial,
+      );
+      isLoading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      log('💥 Exception in getAttachment: $e', name: 'getAttachment');
+      isLoading = false;
+      errorMessage = 'An error occurred while fetching attachment: $e';
+      notifyListeners();
+      throw Exception('An error occurred while fetching attachment: $e');
+    }
+  }
+
   // Filter permissions by status (Active/Expired/All)
   List<Permission> filterByStatus(String status) {
     if (permissionModel?.items == null) return [];
@@ -201,6 +250,38 @@ class TaskPermissionProvider extends ChangeNotifier {
       case 'all':
       default:
         return permissionModel!.items!;
+    }
+  }
+
+  Future<void> uploadAttachment({
+    required int projectId,
+    required int permitSerial,
+    required int docSerial,
+    required String docPath,
+    required String fileDesc,
+    required String fileContent,
+  }) async {
+    final taskPermissionService = TaskPermissionService();
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+    try {
+      await taskPermissionService.uploadAttachment(
+        projectId: projectId.toString(),
+        permitSerial: permitSerial.toString(),
+        docSerial: docSerial.toString(),
+        docPath: docPath,
+        fileDesc: fileDesc,
+        fileContent: fileContent,
+      );
+      isLoading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      log('💥 Exception in uploadAttachment: $e', name: 'uploadAttachment');
+      isLoading = false;
+      errorMessage = 'An error occurred while uploading attachment: $e';
+      notifyListeners();
+      throw Exception('An error occurred while uploading attachment: $e');
     }
   }
 }

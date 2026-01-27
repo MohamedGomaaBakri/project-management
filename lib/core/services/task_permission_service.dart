@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:http/http.dart' as http;
 import 'package:shehabapp/core/api/api_constants.dart';
+import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/attpermitcheck_model.dart';
 import 'package:shehabapp/core/models/permissions_list_model.dart';
 import 'package:shehabapp/core/models/task_permission_model.dart';
@@ -250,6 +251,181 @@ class TaskPermissionService {
       log('💥 Exception occurred: $e', name: 'TaskPermissionService');
       log('💥 Stack trace: $stackTrace', name: 'TaskPermissionService');
       throw Exception('Failed to create permission: $e');
+    }
+  }
+
+  Future<void> renewalPermission({
+    required String projectId,
+    required String permitSerial,
+    required String userCode,
+  }) async {
+    try {
+      final url = '${ApiConstants.baseUrl}${ApiConstants.renewalPermission}';
+      log('🔵 Request URL: $url', name: 'TaskPermissionService');
+
+      final requestBody = {
+        "name": "exRenewProjectsPermits",
+        "parameters": [
+          {"ProjectId": projectId},
+          {"PermitSerial": permitSerial},
+          {"UserCode": userCode},
+        ],
+      };
+
+      log(
+        '🔵 Request Body: ${jsonEncode(requestBody)}',
+        name: 'TaskPermissionService',
+      );
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {"Content-Type": "application/vnd.oracle.adf.action+json"},
+        body: jsonEncode(requestBody),
+      );
+
+      log(
+        '🔵 Response Status Code: ${response.statusCode}',
+        name: 'TaskPermissionService',
+      );
+
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        log('✅ Successfully renewed permit', name: 'TaskPermissionService');
+        log('🔵 Response Body: $decodedBody', name: 'TaskPermissionService');
+      } else {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        log(
+          '❌ Failed with status code: ${response.statusCode}',
+          name: 'TaskPermissionService',
+        );
+        log('❌ Response Body: $decodedBody', name: 'TaskPermissionService');
+        throw Exception(
+          'Failed to renew permit: ${response.statusCode} - $decodedBody',
+        );
+      }
+    } catch (e, stackTrace) {
+      log('💥 Exception occurred: $e', name: 'TaskPermissionService');
+      log('💥 Stack trace: $stackTrace', name: 'TaskPermissionService');
+      throw Exception('Failed to renew permit: $e');
+    }
+  }
+
+  Future<AttatchmentModel> getAttachment(
+    int projectId,
+    int permitSerial,
+  ) async {
+    try {
+      // Oracle ADF REST API expects semicolons within the q parameter
+      final queryParams =
+          '?q=TblNm=PROJECTS_PERMITS;Pk1=$projectId;Pk2=$permitSerial';
+      final url =
+          '${ApiConstants.baseUrl}${ApiConstants.Attachment}$queryParams';
+
+      log('🔵 Request URL: $url', name: 'TaskPermissionService');
+
+      final response = await http.get(
+        Uri.parse(url),
+        // headers: {
+        //   "Content-Type":
+        //       "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
+        // },
+      );
+      log('🔵 Response Body: ${response.body}', name: 'TaskPermissionService');
+
+      log(
+        '🔵 Response Status Code: ${response.statusCode}',
+        name: 'TaskPermissionService',
+      );
+
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        log('✅ Successfully parsed JSON data', name: 'TaskPermissionService');
+        log('🔵 Response Body: $decodedBody', name: 'TaskPermissionService');
+        return AttatchmentModel.fromJson(jsonDecode(decodedBody));
+      } else {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        log(
+          '❌ Failed with status code: ${response.statusCode}',
+          name: 'TaskPermissionService',
+        );
+        log(
+          '❌ Error Response Body: $decodedBody',
+          name: 'TaskPermissionService',
+        );
+        throw Exception(
+          'Failed to load attachment - Status: ${response.statusCode}, Body: $decodedBody',
+        );
+      }
+    } catch (e, stackTrace) {
+      log('💥 Exception occurred: $e', name: 'TaskPermissionService');
+      log('💥 Stack trace: $stackTrace', name: 'TaskPermissionService');
+      throw Exception('Failed to load permission details: $e');
+    }
+  }
+
+  Future<void> uploadAttachment({
+    required String projectId,
+    required String permitSerial,
+    required String docSerial,
+    required String docPath,
+    required String fileDesc,
+    required String fileContent,
+  }) async {
+    try {
+      final url = '${ApiConstants.baseUrl}${ApiConstants.Attachment}';
+      log('🔵 Request URL: $url', name: 'TaskPermissionService');
+
+      final requestBody = {
+        'TblNm': 'PROJECTS_PERMITS',
+        'DocType': 999,
+        'DocSerial': docSerial,
+        'DocPath': docPath,
+        'Pk1': projectId,
+        'Pk2': permitSerial,
+        'FileDesc': fileDesc,
+        'Photo': fileContent,
+      };
+      log(
+        '🔵 Request Body: ${jsonEncode(requestBody)}',
+        name: 'TaskPermissionService',
+      );
+      final response = await http.post(
+        Uri.parse(url),
+        body: jsonEncode(requestBody),
+        headers: {"Content-Type": "application/json"},
+      );
+      log('🔵 Response Body: ${response.body}', name: 'TaskPermissionService');
+
+      log(
+        '🔵 Response Status Code: ${response.statusCode}',
+        name: 'TaskPermissionService',
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        log(
+          '✅ Successfully uploaded attachment',
+          name: 'TaskPermissionService',
+        );
+        log('🔵 Response Body: $decodedBody', name: 'TaskPermissionService');
+      } else {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        log(
+          '❌ Failed with status code: ${response.statusCode}',
+          name: 'TaskPermissionService',
+        );
+        log(
+          '❌ Error Response Body: $decodedBody',
+          name: 'TaskPermissionService',
+        );
+        throw Exception(
+          'Failed to load attachment - Status: ${response.statusCode}, Body: $decodedBody',
+        );
+      }
+    } catch (e, stackTrace) {
+      log('💥 Exception occurred: $e', name: 'TaskPermissionService');
+      log('💥 Stack trace: $stackTrace', name: 'TaskPermissionService');
+      throw Exception('Failed to load permission details: $e');
     }
   }
 }

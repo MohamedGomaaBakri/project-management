@@ -678,7 +678,7 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
                               // Action Buttons
                               FormActionButtonsWidget(
                                 onSavePressed: _handleSave,
-                                onAttachmentsPressed: _handleAttachments,
+                                // onAttachmentsPressed: _handleAttachments,
                                 isLoading: _isLoading,
                               ),
 

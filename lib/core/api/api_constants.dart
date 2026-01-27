@@ -136,4 +136,6 @@ class ApiConstants {
   static const String Attpermitcheck = 'EXProjectsPermitCheckVRO1?q=ProjectId=';
   static const String updateDoneFlag = 'EXProjectsPermitsVo1?q=AltKey=';
   static const String createPermission = 'EXProjectsPermitsVo1';
+  static const String renewalPermission = 'EXProjectsPermitsVo1';
+  static const String Attachment = 'SysDocsVO1';
 }

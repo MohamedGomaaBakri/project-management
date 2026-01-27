@@ -1516,4 +1516,70 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get pleaseEnterPermitValue => 'Please enter permit value';
+
+  @override
+  String get uploadFile => 'Upload File';
+
+  @override
+  String get uploadImage => 'Upload Image';
+
+  @override
+  String get viewFile => 'View File';
+
+  @override
+  String get selectFileSource => 'Select Image Source';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String get fileDescription => 'File Description';
+
+  @override
+  String get documentSerial => 'Document Serial';
+
+  @override
+  String get documentType => 'Document Type';
+
+  @override
+  String get noFileSelected => 'No file selected';
+
+  @override
+  String get noImageSelected => 'No image selected';
+
+  @override
+  String get selectFileFirst => 'Please select a file first';
+
+  @override
+  String get attachmentDetails => 'Attachment Details';
+
+  @override
+  String get tableName => 'Table Name';
+
+  @override
+  String get primaryKey1 => 'Primary Key 1';
+
+  @override
+  String get primaryKey2 => 'Primary Key 2';
+
+  @override
+  String get alternateKey => 'Alternate Key';
+
+  @override
+  String get selectedFile => 'Selected File';
+
+  @override
+  String get selectedImage => 'Selected Image';
+
+  @override
+  String get loadingAttachment => 'Loading attachment...';
+
+  @override
+  String get errorLoadingAttachment => 'Error loading attachment';
+
+  @override
+  String get noAttachmentData => 'No attachment data';
 }

@@ -1516,4 +1516,70 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get pleaseEnterPermitValue => 'يرجى إدخال قيمة التصريح';
+
+  @override
+  String get uploadFile => 'رفع ملف';
+
+  @override
+  String get uploadImage => 'رفع صورة';
+
+  @override
+  String get viewFile => 'عرض الملف';
+
+  @override
+  String get selectFileSource => 'اختر مصدر الصورة';
+
+  @override
+  String get camera => 'الكاميرا';
+
+  @override
+  String get gallery => 'المعرض';
+
+  @override
+  String get fileDescription => 'وصف الملف';
+
+  @override
+  String get documentSerial => 'مسلسل المستند';
+
+  @override
+  String get documentType => 'نوع المستند';
+
+  @override
+  String get noFileSelected => 'لم يتم اختيار ملف';
+
+  @override
+  String get noImageSelected => 'لم يتم اختيار صورة';
+
+  @override
+  String get selectFileFirst => 'يرجى اختيار ملف أولاً';
+
+  @override
+  String get attachmentDetails => 'تفاصيل المرفق';
+
+  @override
+  String get tableName => 'اسم الجدول';
+
+  @override
+  String get primaryKey1 => 'المفتاح الأساسي 1';
+
+  @override
+  String get primaryKey2 => 'المفتاح الأساسي 2';
+
+  @override
+  String get alternateKey => 'المفتاح البديل';
+
+  @override
+  String get selectedFile => 'الملف المحدد';
+
+  @override
+  String get selectedImage => 'الصورة المحددة';
+
+  @override
+  String get loadingAttachment => 'جاري تحميل المرفق...';
+
+  @override
+  String get errorLoadingAttachment => 'خطأ في تحميل المرفق';
+
+  @override
+  String get noAttachmentData => 'لا توجد بيانات مرفق';
 }

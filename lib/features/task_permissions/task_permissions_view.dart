@@ -260,6 +260,7 @@ class _TaskPermissionsViewState extends State<TaskPermissionsView>
                                       )
                                     : PermissionDataTableWidget(
                                         permissions: _permissions,
+                                        onDataChanged: _loadInitialData,
                                       ),
                               ),
 

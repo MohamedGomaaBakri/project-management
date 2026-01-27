@@ -7,8 +7,13 @@ import '../permission_details_view.dart';
 
 class PermissionDataTableWidget extends StatelessWidget {
   final List<Permission> permissions;
+  final VoidCallback? onDataChanged;
 
-  const PermissionDataTableWidget({super.key, required this.permissions});
+  const PermissionDataTableWidget({
+    super.key,
+    required this.permissions,
+    this.onDataChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +66,7 @@ class PermissionDataTableWidget extends StatelessWidget {
               rows: permissions.asMap().entries.map((entry) {
                 final index = entry.key;
                 final permission = entry.value;
-                return _buildDataRow(context, permission, index);
+                return _buildDataRow(context, permission, index, onDataChanged);
               }).toList(),
             ),
           ),
@@ -93,6 +98,7 @@ class PermissionDataTableWidget extends StatelessWidget {
     BuildContext context,
     Permission permission,
     int index,
+    VoidCallback? onDataChanged,
   ) {
     final isArabic =
         Provider.of<LocaleProvider>(
@@ -102,13 +108,18 @@ class PermissionDataTableWidget extends StatelessWidget {
         'ar';
 
     return DataRow(
-      onSelectChanged: (_) {
-        // Navigate to permission details
-        Navigator.of(context).push(
+      onSelectChanged: (_) async {
+        // Navigate to permission details and wait for result
+        final result = await Navigator.of(context).push(
           MaterialPageRoute(
             builder: (context) => PermissionDetailsView(permission: permission),
           ),
         );
+
+        // If result is true, reload data
+        if (result == true && onDataChanged != null) {
+          onDataChanged();
+        }
       },
       color: WidgetStateProperty.resolveWith<Color?>((Set<WidgetState> states) {
         // If permission is done (doneFlag = 1) → light green

@@ -3100,6 +3100,138 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Please enter permit value'**
   String get pleaseEnterPermitValue;
+
+  /// No description provided for @uploadFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload File'**
+  String get uploadFile;
+
+  /// No description provided for @uploadImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Upload Image'**
+  String get uploadImage;
+
+  /// No description provided for @viewFile.
+  ///
+  /// In en, this message translates to:
+  /// **'View File'**
+  String get viewFile;
+
+  /// No description provided for @selectFileSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Image Source'**
+  String get selectFileSource;
+
+  /// No description provided for @camera.
+  ///
+  /// In en, this message translates to:
+  /// **'Camera'**
+  String get camera;
+
+  /// No description provided for @gallery.
+  ///
+  /// In en, this message translates to:
+  /// **'Gallery'**
+  String get gallery;
+
+  /// No description provided for @fileDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'File Description'**
+  String get fileDescription;
+
+  /// No description provided for @documentSerial.
+  ///
+  /// In en, this message translates to:
+  /// **'Document Serial'**
+  String get documentSerial;
+
+  /// No description provided for @documentType.
+  ///
+  /// In en, this message translates to:
+  /// **'Document Type'**
+  String get documentType;
+
+  /// No description provided for @noFileSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No file selected'**
+  String get noFileSelected;
+
+  /// No description provided for @noImageSelected.
+  ///
+  /// In en, this message translates to:
+  /// **'No image selected'**
+  String get noImageSelected;
+
+  /// No description provided for @selectFileFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select a file first'**
+  String get selectFileFirst;
+
+  /// No description provided for @attachmentDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Attachment Details'**
+  String get attachmentDetails;
+
+  /// No description provided for @tableName.
+  ///
+  /// In en, this message translates to:
+  /// **'Table Name'**
+  String get tableName;
+
+  /// No description provided for @primaryKey1.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary Key 1'**
+  String get primaryKey1;
+
+  /// No description provided for @primaryKey2.
+  ///
+  /// In en, this message translates to:
+  /// **'Primary Key 2'**
+  String get primaryKey2;
+
+  /// No description provided for @alternateKey.
+  ///
+  /// In en, this message translates to:
+  /// **'Alternate Key'**
+  String get alternateKey;
+
+  /// No description provided for @selectedFile.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected File'**
+  String get selectedFile;
+
+  /// No description provided for @selectedImage.
+  ///
+  /// In en, this message translates to:
+  /// **'Selected Image'**
+  String get selectedImage;
+
+  /// No description provided for @loadingAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading attachment...'**
+  String get loadingAttachment;
+
+  /// No description provided for @errorLoadingAttachment.
+  ///
+  /// In en, this message translates to:
+  /// **'Error loading attachment'**
+  String get errorLoadingAttachment;
+
+  /// No description provided for @noAttachmentData.
+  ///
+  /// In en, this message translates to:
+  /// **'No attachment data'**
+  String get noAttachmentData;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

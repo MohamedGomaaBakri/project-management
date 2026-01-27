@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 class FormActionButtonsWidget extends StatelessWidget {
   final VoidCallback onSavePressed;
-  final VoidCallback onAttachmentsPressed;
+  // final VoidCallback onAttachmentsPressed;
   final bool isLoading;
 
   const FormActionButtonsWidget({
     super.key,
     required this.onSavePressed,
-    required this.onAttachmentsPressed,
+    // required this.onAttachmentsPressed,
     this.isLoading = false,
   });
 
@@ -27,17 +27,17 @@ class FormActionButtonsWidget extends StatelessWidget {
             isLoading: isLoading,
           ),
         ),
-        const SizedBox(width: 12),
-        Expanded(
-          child: _buildActionButton(
-            label: 'المرفقات',
-            icon: Icons.attach_file,
-            gradient: const LinearGradient(
-              colors: [Color(0xFF059669), Color(0xFF10B981)],
-            ),
-            onPressed: isLoading ? null : onAttachmentsPressed,
-          ),
-        ),
+        // const SizedBox(width: 12),
+        // Expanded(
+        //   child: _buildActionButton(
+        //     label: 'المرفقات',
+        //     icon: Icons.attach_file,
+        //     gradient: const LinearGradient(
+        //       colors: [Color(0xFF059669), Color(0xFF10B981)],
+        //     ),
+        //     onPressed: isLoading ? null : onAttachmentsPressed,
+        //   ),
+        // ),
       ],
     );
   }
