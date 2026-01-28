@@ -121,7 +121,6 @@ class ApiConstants {
       '/SsFixedSalVO1';
 
   // ----------------------------------------NEw---------------------------------------------------
-
   static const String projectsEndpoint = 'EXProjectsVRO1';
   static const String projectsDetailsEndpoint = 'EXProjectsTaskVRO1?q=';
   static const String projectsProccessEndpoint =

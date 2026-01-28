@@ -582,6 +582,7 @@ class _AddTaskAttachmentBottomSheetState
                                     PartId: widget.partId,
                                     FlowId: widget.flowId,
                                     ProcId: widget.procId,
+
                                     fileDesc: _fileDescController.text.trim(),
                                     fileContent: base64String,
                                   );

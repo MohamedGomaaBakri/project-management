@@ -345,6 +345,54 @@ class DailyTasksService {
     }
   }
 
+  Future<int> getMaxDocSerial() async {
+    try {
+      final url =
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SysDocsVO1?q=TblNm=PROJECTS_PARTS_PROC';
+      log('🌐 API Request URL: $url', name: 'getMaxDocSerial');
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        String responseBody = utf8.decode(response.bodyBytes);
+        log(
+          '✅ API Response (getMaxDocSerial): $responseBody',
+          name: 'getMaxDocSerial',
+        );
+
+        final AttatchmentModel attachmentModel = AttatchmentModel.fromJson(
+          json.decode(responseBody),
+        );
+
+        // Find the maximum DocSerial value
+        int maxDocSerial = 0;
+        if (attachmentModel.items != null &&
+            attachmentModel.items!.isNotEmpty) {
+          for (var item in attachmentModel.items!) {
+            if (item.docSerial != null && item.docSerial! > maxDocSerial) {
+              maxDocSerial = item.docSerial!;
+            }
+          }
+        }
+
+        log('✅ Max DocSerial found: $maxDocSerial', name: 'getMaxDocSerial');
+        return maxDocSerial;
+      } else {
+        log(
+          '❌ API Error (${response.statusCode}): ${response.body}',
+          name: 'getMaxDocSerial',
+        );
+        throw Exception('Failed to load max DocSerial data.');
+      }
+    } catch (e) {
+      log('💥 Exception in getMaxDocSerial: $e', name: 'getMaxDocSerial');
+      throw Exception('An error occurred while fetching max DocSerial: $e');
+    }
+  }
+
   Future<void> uploadAttachment({
     required String projectId,
     required String PartId,
@@ -354,15 +402,24 @@ class DailyTasksService {
     required String fileContent,
   }) async {
     try {
+      // Fetch the maximum DocSerial and add 1
+      final maxDocSerial = await getMaxDocSerial();
+      final newDocSerial = maxDocSerial + 1;
+      log(
+        '🔵 New DocSerial to be used: $newDocSerial',
+        name: 'DailyTasksService',
+      );
+
       final url = '${ApiConstants.baseUrl}${ApiConstants.uploadAttachment}';
       log('🔵 Request URL: $url', name: 'DailyTasksService');
 
       final requestBody = {
         'TblNm': 'PROJECTS_PARTS_PROC',
-        'pk1': projectId,
-        'pk2': PartId,
-        'pk3': FlowId,
-        'pk4': ProcId,
+        'Pk1': projectId,
+        'Pk2': PartId,
+        'Pk3': FlowId,
+        'Pk4': ProcId,
+        'DocSerial': newDocSerial.toString(),
         'FileDesc': fileDesc,
         'Photo': fileContent,
       };
