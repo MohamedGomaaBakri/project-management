@@ -12,6 +12,7 @@ import 'widgets/task_status_widget.dart';
 import 'widgets/action_buttons_widget.dart';
 import 'project_details_view.dart';
 import '../task_permissions/task_permissions_view.dart';
+import 'widgets/task_attachment_bottom_sheet.dart';
 
 class TaskDetailsView extends StatefulWidget {
   final Items? taskItem;
@@ -246,11 +247,8 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
                                 onProjectTap: () async {
                                   await _handleProjectTap(context);
                                 },
-                                onAttachmentsTap: () {
-                                  _showComingSoonSnackbar(
-                                    context,
-                                    l10n.attachmentsButton,
-                                  );
+                                onAttachmentsTap: () async {
+                                  await _handleAttachmentsTap(context);
                                 },
                                 onPermissionsTap: () {
                                   Navigator.of(context).push(
@@ -526,6 +524,96 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
           ),
         );
       }
+    } catch (e) {
+      // Show error message
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${l10n.errorOccurred}: $e'),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 3),
+          ),
+        );
+      }
+    }
+  }
+
+  Future<void> _handleAttachmentsTap(BuildContext context) async {
+    final l10n = AppLocalizations.of(context)!;
+    final dailyTasksProvider = Provider.of<DailyTasksProvider>(
+      context,
+      listen: false,
+    );
+    final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
+
+    // Get the required parameters from task item
+    final projectId = widget.taskItem?.projectId?.toString();
+    final partId = widget.taskItem?.partId?.toString();
+    final flowId = widget.taskItem?.flowId?.toString();
+    final procId = widget.taskItem?.procId?.toString();
+
+    if (projectId == null ||
+        partId == null ||
+        flowId == null ||
+        procId == null) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.errorOccurred),
+            backgroundColor: Colors.red,
+            behavior: SnackBarBehavior.floating,
+            duration: const Duration(seconds: 2),
+          ),
+        );
+      }
+      return;
+    }
+
+    // Show loading snackbar
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            localeProvider.locale.languageCode == 'ar'
+                ? 'جاري تحميل المرفقات...'
+                : 'Loading attachments...',
+          ),
+          backgroundColor: const Color(0xFF4F46E5),
+          behavior: SnackBarBehavior.floating,
+          duration: const Duration(seconds: 1),
+        ),
+      );
+    }
+
+    try {
+      // Fetch attachments
+      await dailyTasksProvider.getTaskDetailsAttachment(
+        projectId: projectId,
+        PartId: partId,
+        FlowId: flowId,
+        ProcId: procId,
+      );
+
+      if (!mounted) return;
+
+      // Show bottom sheet
+      showModalBottomSheet(
+        context: context,
+        isScrollControlled: true,
+        backgroundColor: Colors.transparent,
+        builder: (context) => SizedBox(
+          height: MediaQuery.of(context).size.height * 0.85,
+          child: TaskAttachmentBottomSheet(
+            attachmentData: dailyTasksProvider.taskDetailsAttachmentModel,
+            isArabic: localeProvider.locale.languageCode == 'ar',
+            projectId: projectId,
+            partId: partId,
+            flowId: flowId,
+            procId: procId,
+          ),
+        ),
+      );
     } catch (e) {
       // Show error message
       if (mounted) {

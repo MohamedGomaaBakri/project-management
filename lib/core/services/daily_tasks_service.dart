@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
+import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/check_see_project_model.dart';
 import 'package:shehabapp/core/models/proccess_model.dart';
 import 'package:shehabapp/core/models/project_details_model.dart';
@@ -301,6 +302,105 @@ class DailyTasksService {
       throw Exception(
         'An error occurred while fetching project details model: $e',
       );
+    }
+  }
+
+  Future<AttatchmentModel> getTaskDetailsAttachment({
+    required String projectId,
+    required String PartId,
+    required String FlowId,
+    required String ProcId,
+  }) async {
+    try {
+      final url =
+          '${ApiConstants.baseUrl}${ApiConstants.taskDetailsAttachment}Pk1=$projectId;Pk2=$PartId;Pk3=$FlowId;Pk4=$ProcId';
+      log('🌐 API Request URL: $url', name: 'getTaskDetailsAttachment');
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        String responseBody = utf8.decode(response.bodyBytes);
+        log(
+          '✅ API Response (getTaskAttachment): $responseBody',
+          name: 'getTaskAttachment',
+        );
+
+        final AttatchmentModel attatchmentModel = AttatchmentModel.fromJson(
+          json.decode(responseBody),
+        );
+        return attatchmentModel;
+      } else {
+        log(
+          '❌ API Error (${response.statusCode}): ${response.body}',
+          name: 'getTaskAttachment',
+        );
+        throw Exception('Failed to load task attachment data.');
+      }
+    } catch (e) {
+      log('💥 Exception in getTaskAttachment: $e', name: 'getTaskAttachment');
+      throw Exception('An error occurred while fetching task attachment: $e');
+    }
+  }
+
+  Future<void> uploadAttachment({
+    required String projectId,
+    required String PartId,
+    required String FlowId,
+    required String ProcId,
+    required String fileDesc,
+    required String fileContent,
+  }) async {
+    try {
+      final url = '${ApiConstants.baseUrl}${ApiConstants.uploadAttachment}';
+      log('🔵 Request URL: $url', name: 'DailyTasksService');
+
+      final requestBody = {
+        'TblNm': 'PROJECTS_PARTS_PROC',
+        'pk1': projectId,
+        'pk2': PartId,
+        'pk3': FlowId,
+        'pk4': ProcId,
+        'FileDesc': fileDesc,
+        'Photo': fileContent,
+      };
+      log(
+        '🔵 Request Body: ${jsonEncode(requestBody)}',
+        name: 'DailyTasksService',
+      );
+      final response = await http.post(
+        Uri.parse(url),
+        body: jsonEncode(requestBody),
+        headers: {"Content-Type": "application/json"},
+      );
+      log('🔵 Response Body: ${response.body}', name: 'DailyTasksService');
+
+      log(
+        '🔵 Response Status Code: ${response.statusCode}',
+        name: 'DailyTasksService',
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        log('✅ Successfully uploaded attachment', name: 'DailyTasksService');
+        log('🔵 Response Body: $decodedBody', name: 'DailyTasksService');
+      } else {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        log(
+          '❌ Failed with status code: ${response.statusCode}',
+          name: 'DailyTasksService',
+        );
+        log('❌ Error Response Body: $decodedBody', name: 'DailyTasksService');
+        throw Exception(
+          'Failed to load attachment - Status: ${response.statusCode}, Body: $decodedBody',
+        );
+      }
+    } catch (e, stackTrace) {
+      log('💥 Exception occurred: $e', name: 'DailyTasksService');
+      log('💥 Stack trace: $stackTrace', name: 'DailyTasksService');
+      throw Exception('Failed to load attachment: $e');
     }
   }
 }

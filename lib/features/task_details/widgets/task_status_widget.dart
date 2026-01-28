@@ -60,6 +60,49 @@ class _TaskStatusWidgetState extends State<TaskStatusWidget>
     super.dispose();
   }
 
+  String _formatDate(String date) {
+    if (date.isEmpty) return '--/--/----';
+
+    try {
+      // Try to parse as DateTime first (handles formats like "2026-01-28 13:12:48" or "2026-01-28")
+      DateTime parsedDate;
+
+      // Check if date contains time component
+      if (date.contains(' ')) {
+        // Format: "YYYY-MM-DD HH:MM:SS"
+        parsedDate = DateTime.parse(date);
+      } else if (date.contains('-')) {
+        // Format: "YYYY-MM-DD"
+        parsedDate = DateTime.parse(date);
+      } else if (date.contains('/')) {
+        // Already formatted as DD/MM/YYYY, return as is
+        return date;
+      } else {
+        return date;
+      }
+
+      // Format as DD/MM/YYYY
+      final day = parsedDate.day.toString().padLeft(2, '0');
+      final month = parsedDate.month.toString().padLeft(2, '0');
+      final year = parsedDate.year.toString();
+
+      return '$day/$month/$year';
+    } catch (e) {
+      // If parsing fails, try manual split
+      try {
+        final parts = date.split('-');
+        if (parts.length >= 3) {
+          final year = parts[0];
+          final month = parts[1];
+          final day = parts[2].split(' ')[0]; // Remove time if exists
+          return '$day/$month/$year';
+        }
+      } catch (_) {}
+
+      return date;
+    }
+  }
+
   Future<void> _handleExecuteValidation() async {
     final l10n = AppLocalizations.of(context)!;
 
@@ -262,9 +305,7 @@ class _TaskStatusWidgetState extends State<TaskStatusWidget>
                   ),
                   const SizedBox(height: 8),
                   Text(
-                    _currentDoneDate.isNotEmpty
-                        ? _currentDoneDate
-                        : '--/--/----',
+                    _formatDate(_currentDoneDate),
                     style: const TextStyle(
                       fontSize: 11,
                       fontWeight: FontWeight.w600,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/check_see_project_model.dart';
 import 'package:shehabapp/core/models/proccess_model.dart';
 import 'package:shehabapp/core/models/project_details_model.dart';
@@ -15,6 +16,8 @@ class DailyTasksProvider with ChangeNotifier {
   ProccessModel? taskProccessModel;
   ProjectDetailsModel? projectDetailsModel;
   CheckSeeProjectModel? checkSeeProjectModel;
+  AttatchmentModel? attatchmentModel;
+  AttatchmentModel? taskDetailsAttachmentModel;
   bool isLoading = false;
   String? errorMessage;
 
@@ -138,6 +141,59 @@ class DailyTasksProvider with ChangeNotifier {
     try {
       checkSeeProjectModel = await _dailyTasksService.checkSeeProject(
         usersCode: usersCode,
+      );
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      errorMessage = e.toString();
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getTaskDetailsAttachment({
+    required String projectId,
+    required String PartId,
+    required String FlowId,
+    required String ProcId,
+  }) async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      taskDetailsAttachmentModel = await _dailyTasksService
+          .getTaskDetailsAttachment(
+            projectId: projectId,
+            PartId: PartId,
+            FlowId: FlowId,
+            ProcId: ProcId,
+          );
+      isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      errorMessage = e.toString();
+      isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> uploadAttachment({
+    required String projectId,
+    required String PartId,
+    required String FlowId,
+    required String ProcId,
+    required String fileDesc,
+    required String fileContent,
+  }) async {
+    isLoading = true;
+    notifyListeners();
+    try {
+      await _dailyTasksService.uploadAttachment(
+        projectId: projectId,
+        PartId: PartId,
+        FlowId: FlowId,
+        ProcId: ProcId,
+        fileDesc: fileDesc,
+        fileContent: fileContent,
       );
       isLoading = false;
       notifyListeners();

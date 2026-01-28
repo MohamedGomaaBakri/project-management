@@ -138,4 +138,7 @@ class ApiConstants {
   static const String createPermission = 'EXProjectsPermitsVo1';
   static const String renewalPermission = 'EXProjectsPermitsVo1';
   static const String Attachment = 'SysDocsVO1';
+  static const String taskDetailsAttachment =
+      'SysDocsVO1?q=TblNm=PROJECTS_PARTS_PROC;';
+  static const String uploadAttachment = 'SysDocsVO1';
 }
