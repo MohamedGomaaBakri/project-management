@@ -351,7 +351,13 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView>
           const SizedBox(height: 32),
 
           // Attachments Button
-          const NotificationAttachmentsButton(),
+          NotificationAttachmentsButton(
+            projectId: widget.projectId,
+            partId: widget.partId,
+            flowId: widget.flowId,
+            procId: widget.procId,
+            noteSer: widget.noteSer,
+          ),
 
           const SizedBox(height: 24),
         ],
