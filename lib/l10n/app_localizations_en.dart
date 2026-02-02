@@ -1663,4 +1663,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get loadingNotificationDetails => 'Loading notification details...';
+
+  @override
+  String get createNewNotification => 'Create New Notification';
+
+  @override
+  String get selectUserType => 'Select User Type';
+
+  @override
+  String get selectUser => 'Select User';
+
+  @override
+  String get notificationTypeStop => 'Stop Notification';
+
+  @override
+  String get notificationTypeGeneral => 'General Notification';
+
+  @override
+  String get todayDate => 'Today\'s Date';
+
+  @override
+  String get notificationDescription => 'Notification Description';
+
+  @override
+  String get enterDescription => 'Enter notification description';
+
+  @override
+  String get createNotification => 'Create Notification';
+
+  @override
+  String get creatingNotification => 'Creating notification...';
+
+  @override
+  String get notificationCreatedSuccessfully => 'Notification created successfully';
+
+  @override
+  String get failedToCreateNotification => 'Failed to create notification';
+
+  @override
+  String get pleaseSelectUserType => 'Please select user type';
+
+  @override
+  String get pleaseSelectUser => 'Please select user';
+
+  @override
+  String get pleaseEnterDescription => 'Please enter description';
+
+  @override
+  String get addNotificationButton => 'Create Notification';
+
+  @override
+  String get notificationData => 'Notification Data';
 }

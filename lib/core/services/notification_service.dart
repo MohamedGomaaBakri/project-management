@@ -2,8 +2,11 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:http/http.dart' as http;
+import 'package:shehabapp/core/models/all_notification_model.dart';
 import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/create_notification_model.dart';
+import 'package:shehabapp/core/models/users_model.dart';
+import 'package:shehabapp/core/models/users_type_model.dart';
 
 class NotificationService {
   Future<CreateNotificationModel> getNotificationList({
@@ -274,6 +277,224 @@ class NotificationService {
         name: 'NotificationService',
       );
       throw Exception('Failed to upload notification attachment: $e');
+    }
+  }
+
+  Future<UsersModel> getNotificationUsers() async {
+    try {
+      final url =
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/EXNotifUsersVRO1';
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Content-Type":
+              "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        final jsonData = jsonDecode(decodedBody);
+        return UsersModel.fromJson(jsonData);
+      } else {
+        throw Exception(
+          'Failed to load notification details - Status: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('Failed to load notification details: $e');
+    }
+  }
+
+  Future<UsersTypeModel> getUsersType({
+    required int usersCode,
+    required int projectId,
+  }) async {
+    try {
+      final url =
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ExNotifTypesVRO1?q=UsersCode=$usersCode;ProjectId=$projectId';
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Content-Type":
+              "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        final jsonData = jsonDecode(decodedBody);
+        return UsersTypeModel.fromJson(jsonData);
+      } else {
+        throw Exception(
+          'Failed to load notification details - Status: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('Failed to load notification details: $e');
+    }
+  }
+
+  Future<AllNotificationsModel> getAllNotifications() async {
+    try {
+      final url =
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ProjectsPartsProcNotifVO1';
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Content-Type":
+              "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
+        },
+      );
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        final jsonData = jsonDecode(decodedBody);
+        return AllNotificationsModel.fromJson(jsonData);
+      } else {
+        throw Exception(
+          'Failed to load notification details - Status: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      throw Exception('Failed to load notification details: $e');
+    }
+  }
+
+  Future<void> uploadNewNotification({
+    required int projectId,
+    required int flowId,
+    required int partId,
+    required int procId,
+    required int noteSer,
+    required int userType,
+    required int userCode,
+    required int noteType,
+    required String noteDate,
+    required String descA,
+    required int insertUser,
+  }) async {
+    try {
+      final url =
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ProjectsPartsProcNotifVO1';
+
+      final requestBody = {
+        'ProjectId': projectId.toString(),
+        'FlowId': flowId.toString(),
+        'PartId': partId.toString(),
+        'ProcId': procId.toString(),
+        'NoteSer': noteSer.toString(),
+        'UserType': userType.toString(),
+        'UserCode': userCode.toString(),
+        'NoteType': noteType.toString(),
+        'NoteDate': noteDate,
+        'DescA': descA,
+        'InsertUser': insertUser.toString(),
+      };
+
+      log(
+        '🔵 [NotificationService] Creating new notification',
+        name: 'NotificationService',
+      );
+      log('🔵 Request Body: $requestBody', name: 'NotificationService');
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          "Content-Type":
+              "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
+        },
+        body: jsonEncode(requestBody),
+      );
+
+      log(
+        '🔵 Response Status: ${response.statusCode}',
+        name: 'NotificationService',
+      );
+      log('🔵 Response Body: ${response.body}', name: 'NotificationService');
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        log(
+          '✅ Successfully uploaded new notification',
+          name: 'NotificationService',
+        );
+      } else {
+        throw Exception(
+          'Failed to upload new notification - Status: ${response.statusCode}, Body: ${response.body}',
+        );
+      }
+    } catch (e) {
+      log(
+        '💥 Exception in uploadNewNotification: $e',
+        name: 'NotificationService',
+      );
+      throw Exception('Failed to upload new notification: $e');
+    }
+  }
+
+  Future<int> getMaxNoteSer() async {
+    try {
+      final allNotifications = await getAllNotifications();
+
+      if (allNotifications.items == null || allNotifications.items!.isEmpty) {
+        return 0;
+      }
+
+      int maxNoteSer = 0;
+      for (var item in allNotifications.items!) {
+        if (item.noteSer != null && item.noteSer! > maxNoteSer) {
+          maxNoteSer = item.noteSer!;
+        }
+      }
+
+      log('🔵 Max NoteSer found: $maxNoteSer', name: 'NotificationService');
+
+      return maxNoteSer;
+    } catch (e) {
+      log('💥 Exception in getMaxNoteSer: $e', name: 'NotificationService');
+      return 0;
+    }
+  }
+
+  Future<UsersTypeModel> getAllUsersTypes({required int projectId}) async {
+    try {
+      final url =
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ExNotifTypesVRO1?q=ProjectId=$projectId';
+
+      log(
+        '🔵 [NotificationService] Fetching all user types for project: $projectId',
+        name: 'NotificationService',
+      );
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Content-Type":
+              "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
+        },
+      );
+
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        final jsonData = jsonDecode(decodedBody);
+        final model = UsersTypeModel.fromJson(jsonData);
+
+        log(
+          '🔵 [NotificationService] Loaded ${model.items?.length ?? 0} user types',
+          name: 'NotificationService',
+        );
+
+        return model;
+      } else {
+        throw Exception(
+          'Failed to load user types - Status: ${response.statusCode}',
+        );
+      }
+    } catch (e) {
+      log(
+        '💥 [NotificationService] Exception in getAllUsersTypes: $e',
+        name: 'NotificationService',
+      );
+      throw Exception('Failed to load user types: $e');
     }
   }
 }

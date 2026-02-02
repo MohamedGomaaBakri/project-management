@@ -6,6 +6,7 @@ import '../../core/providers/locale_provider.dart';
 import '../../core/models/create_notification_model.dart';
 import 'widgets/notification_data_table_widget.dart';
 import 'widgets/response_status_filter_radio.dart';
+import 'add_notification_view.dart';
 
 class NotificationsView extends StatefulWidget {
   final int projectId;
@@ -252,6 +253,52 @@ class _NotificationsViewState extends State<NotificationsView>
                                   : NotificationDataTableWidget(
                                       notifications: _notifications,
                                     ),
+
+                              const SizedBox(height: 24),
+
+                              // Create Notification Button
+                              SizedBox(
+                                width: double.infinity,
+                                height: 56,
+                                child: ElevatedButton.icon(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AddNotificationView(
+                                              projectId: widget.projectId,
+                                              partId: widget.partId,
+                                              flowId: widget.flowId,
+                                              procId: widget.procId,
+                                            ),
+                                      ),
+                                    );
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: const Color(0xFF4F46E5),
+                                    foregroundColor: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(16),
+                                    ),
+                                    elevation: 4,
+                                    shadowColor: const Color(
+                                      0xFF4F46E5,
+                                    ).withOpacity(0.4),
+                                  ),
+                                  icon: const Icon(
+                                    Icons.add_circle_outline,
+                                    size: 24,
+                                  ),
+                                  label: Text(
+                                    l10n.addNotificationButton,
+                                    style: const TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                ),
+                              ),
                             ],
                           ),
                         ),

@@ -3394,6 +3394,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Loading notification details...'**
   String get loadingNotificationDetails;
+
+  /// No description provided for @createNewNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Create New Notification'**
+  String get createNewNotification;
+
+  /// No description provided for @selectUserType.
+  ///
+  /// In en, this message translates to:
+  /// **'Select User Type'**
+  String get selectUserType;
+
+  /// No description provided for @selectUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Select User'**
+  String get selectUser;
+
+  /// No description provided for @notificationTypeStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop Notification'**
+  String get notificationTypeStop;
+
+  /// No description provided for @notificationTypeGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General Notification'**
+  String get notificationTypeGeneral;
+
+  /// No description provided for @todayDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s Date'**
+  String get todayDate;
+
+  /// No description provided for @notificationDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Description'**
+  String get notificationDescription;
+
+  /// No description provided for @enterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter notification description'**
+  String get enterDescription;
+
+  /// No description provided for @createNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Notification'**
+  String get createNotification;
+
+  /// No description provided for @creatingNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Creating notification...'**
+  String get creatingNotification;
+
+  /// No description provided for @notificationCreatedSuccessfully.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification created successfully'**
+  String get notificationCreatedSuccessfully;
+
+  /// No description provided for @failedToCreateNotification.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to create notification'**
+  String get failedToCreateNotification;
+
+  /// No description provided for @pleaseSelectUserType.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select user type'**
+  String get pleaseSelectUserType;
+
+  /// No description provided for @pleaseSelectUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Please select user'**
+  String get pleaseSelectUser;
+
+  /// No description provided for @pleaseEnterDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter description'**
+  String get pleaseEnterDescription;
+
+  /// No description provided for @addNotificationButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create Notification'**
+  String get addNotificationButton;
+
+  /// No description provided for @notificationData.
+  ///
+  /// In en, this message translates to:
+  /// **'Notification Data'**
+  String get notificationData;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

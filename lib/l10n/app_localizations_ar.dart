@@ -1663,4 +1663,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get loadingNotificationDetails => 'جار تحميل تفاصيل الإشعار...';
+
+  @override
+  String get createNewNotification => 'إنشاء إشعار جديد';
+
+  @override
+  String get selectUserType => 'اختر نوع المستخدم';
+
+  @override
+  String get selectUser => 'اختر المستخدم';
+
+  @override
+  String get notificationTypeStop => 'إشعار بتوقف';
+
+  @override
+  String get notificationTypeGeneral => 'إشعار عام';
+
+  @override
+  String get todayDate => 'تاريخ اليوم';
+
+  @override
+  String get notificationDescription => 'شرح الإشعار';
+
+  @override
+  String get enterDescription => 'أدخل شرح الإشعار';
+
+  @override
+  String get createNotification => 'إنشاء الإشعار';
+
+  @override
+  String get creatingNotification => 'جاري إنشاء الإشعار...';
+
+  @override
+  String get notificationCreatedSuccessfully => 'تم إنشاء الإشعار بنجاح';
+
+  @override
+  String get failedToCreateNotification => 'فشل إنشاء الإشعار';
+
+  @override
+  String get pleaseSelectUserType => 'يرجى اختيار نوع المستخدم';
+
+  @override
+  String get pleaseSelectUser => 'يرجى اختيار المستخدم';
+
+  @override
+  String get pleaseEnterDescription => 'يرجى إدخال شرح الإشعار';
+
+  @override
+  String get addNotificationButton => 'إنشاء إشعار';
+
+  @override
+  String get notificationData => 'بيانات الإشعار';
 }
