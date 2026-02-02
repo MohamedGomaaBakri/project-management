@@ -637,6 +637,9 @@ class _AddNotificationAttachmentBottomSheetState
       final bytes = await fileToUpload.readAsBytes();
       final base64String = base64Encode(bytes);
 
+      // Extract just the filename from the full path
+      final fileName = fileToUpload.path.split('/').last.split('\\').last;
+
       // Upload using provider
       await provider.uploadNotificationAttachment(
         projectId: widget.projectId,
@@ -645,7 +648,7 @@ class _AddNotificationAttachmentBottomSheetState
         procId: widget.procId,
         noteSer: widget.noteSer,
         docSerial: nextDocSerial,
-        docPath: fileToUpload.path,
+        docPath: fileName,
         fileDesc: _fileDescController.text.trim(),
         fileContent: base64String,
       );

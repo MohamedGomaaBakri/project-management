@@ -200,15 +200,15 @@ class NotificationService {
   }
 
   Future<void> uploadNotificationAttachment({
-    required int projectId,
-    required int partId,
-    required int flowId,
-    required int procId,
-    required int noteSer,
-    required int docSerial,
-    required String docPath,
-    required String fileDesc,
-    required String fileContent,
+    required dynamic projectId,
+    required dynamic partId,
+    required dynamic flowId,
+    required dynamic procId,
+    required dynamic noteSer,
+    required dynamic docSerial,
+    required dynamic docPath,
+    required dynamic fileDesc,
+    required dynamic fileContent,
   }) async {
     try {
       final url =
@@ -222,31 +222,30 @@ class NotificationService {
         '🔵 [NotificationService] Request Parameters:',
         name: 'NotificationService',
       );
-      log('   ProjectId: $projectId', name: 'NotificationService');
-      log('   PartId: $partId', name: 'NotificationService');
-      log('   FlowId: $flowId', name: 'NotificationService');
-      log('   ProcId: $procId', name: 'NotificationService');
-      log('   NoteSer: $noteSer', name: 'NotificationService');
+      log('   Pk1: $projectId', name: 'NotificationService');
+      log('   Pk2: $partId', name: 'NotificationService');
+      log('   Pk3: $flowId', name: 'NotificationService');
+      log('   Pk4: $procId', name: 'NotificationService');
+      log('   Pk5: $noteSer', name: 'NotificationService');
       log('   DocSerial: $docSerial', name: 'NotificationService');
+      log('   DocPath: $docPath', name: 'NotificationService');
       log('   FileDesc: $fileDesc', name: 'NotificationService');
+      log('   Photo64: $fileContent', name: 'NotificationService');
 
       final response = await http.post(
         Uri.parse(url),
-        headers: {
-          "Content-Type":
-              "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
-        },
+        headers: {"Content-Type": "application/json"},
         body: jsonEncode({
           'TblNm': 'PROJECTS_PARTS_PROC_NOTIF',
-          'Pk1': projectId,
-          'Pk2': partId,
-          'Pk3': flowId,
-          'Pk4': procId,
-          'Pk5': noteSer,
-          'DocSerial': docSerial,
-          'DocPath': docPath,
-          'FileDesc': fileDesc,
-          'Photo64': fileContent,
+          'Pk1': projectId.toString(),
+          'Pk2': partId.toString(),
+          'Pk3': flowId.toString(),
+          'Pk4': procId.toString(),
+          'Pk5': noteSer.toString(),
+          'DocSerial': docSerial.toString(),
+          'DocPath': docPath.toString(),
+          'FileDesc': fileDesc.toString(),
+          'Photo': fileContent.toString(),
         }),
       );
 
