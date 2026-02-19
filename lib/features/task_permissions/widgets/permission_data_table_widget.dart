@@ -59,6 +59,10 @@ class PermissionDataTableWidget extends StatelessWidget {
                   ),
                 ),
                 columns: [
+                  _buildDataColumn(
+                    l10n.internalNumber,
+                    Icons.format_list_numbered,
+                  ),
                   _buildDataColumn(l10n.permissionType, Icons.category),
                   _buildDataColumn(l10n.fromDate, Icons.calendar_today),
                   _buildDataColumn(l10n.toDate, Icons.event),
@@ -142,6 +146,14 @@ class PermissionDataTableWidget extends StatelessWidget {
         return Colors.grey[50];
       }),
       cells: [
+        DataCell(
+          Center(
+            child: Text(
+              permission.contractNo.toString(),
+              style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+            ),
+          ),
+        ),
         DataCell(
           Center(
             child: ConstrainedBox(

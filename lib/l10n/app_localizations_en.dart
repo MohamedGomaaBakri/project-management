@@ -1409,7 +1409,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get projectNameLabel => 'Project Name';
 
   @override
-  String get contractNumberLabel => 'Contract Number';
+  String get contractNumberLabel => 'entire Number';
 
   @override
   String get noPermissionsFound => 'No permissions found';

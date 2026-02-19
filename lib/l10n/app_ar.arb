@@ -465,7 +465,7 @@
     "expiredStatus": "منتهي",
     "projectInfo": "بيانات المشروع",
     "projectNameLabel": "اسم المشروع",
-    "contractNumberLabel": "رقم العقد",
+    "contractNumberLabel": "الرقم الداخلى",
     "noPermissionsFound": "لا توجد تصاريح",
     "loadingPermissions": "جار تحميل التصاريح...",
     "newPermission": "جديد",

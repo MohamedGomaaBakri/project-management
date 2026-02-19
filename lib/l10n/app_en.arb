@@ -465,7 +465,7 @@
     "expiredStatus": "Expired",
     "projectInfo": "Project Information",
     "projectNameLabel": "Project Name",
-    "contractNumberLabel": "Contract Number",
+    "contractNumberLabel": "entire Number",
     "noPermissionsFound": "No permissions found",
     "loadingPermissions": "Loading permissions...",
     "newPermission": "New",

@@ -220,11 +220,11 @@ class _PermissionDetailsViewState extends State<PermissionDetailsView>
                             PermissionDetailCard(
                               title: l10n.projectInfo,
                               items: [
-                                DetailItem(
-                                  label: l10n.projectNumber,
-                                  value: widget.permission.projectId
-                                      ?.toString(),
-                                ),
+                                // DetailItem(
+                                //   label: l10n.projectNumber,
+                                //   value: widget.permission.projectId
+                                //       ?.toString(),
+                                // ),
                                 DetailItem(
                                   label: l10n.projectNameLabel,
                                   value: isArabic
@@ -238,83 +238,6 @@ class _PermissionDetailsViewState extends State<PermissionDetailsView>
                                 ),
                               ],
                             ),
-
-                            // Permission Info Card
-                            PermissionDetailCard(
-                              title: l10n.taskPermissions,
-                              items: [
-                                DetailItem(
-                                  label: l10n.permitSerial,
-                                  value: widget.permission.permitSerial
-                                      ?.toString(),
-                                ),
-                                DetailItem(
-                                  label: l10n.permissionType,
-                                  value: _getPermissionTypeName(
-                                    context,
-                                    widget.permission.permitType,
-                                  ),
-                                ),
-                                DetailItem(
-                                  label: l10n.permissionNumber,
-                                  value: widget.permission.permitNo,
-                                ),
-                                DetailItem(
-                                  label: l10n.permitCopy,
-                                  value: widget.permission.permitCopy
-                                      ?.toString(),
-                                ),
-                              ],
-                            ),
-
-                            // Location & Details Card
-                            PermissionDetailCard(
-                              title: l10n.details,
-                              items: [
-                                DetailItem(
-                                  label: l10n.municipality,
-                                  value: _getZoneName(
-                                    context,
-                                    widget.permission.permitLoc,
-                                  ),
-                                ),
-                                DetailItem(
-                                  label: l10n.streets,
-                                  value: widget.permission.streets,
-                                ),
-                                DetailItem(
-                                  label: l10n.totalLength,
-                                  value: widget.permission.totalLength
-                                      ?.toString(),
-                                ),
-                                DetailItem(
-                                  label: l10n.totalWidth,
-                                  value: widget.permission.totalWidth
-                                      ?.toString(),
-                                ),
-                                DetailItem(
-                                  label: l10n.bookingMethod,
-                                  value: widget.permission.drillingMethod,
-                                ),
-                              ],
-                            ),
-
-                            const SizedBox(height: 12),
-
-                            // Financial Information (same style as Project Details sections)
-                            SectionTitleWidget(
-                              title: isArabic
-                                  ? 'المعلومات المالية'
-                                  : 'Financial Information',
-                              icon: Icons.attach_money_outlined,
-                            ),
-                            const SizedBox(height: 16),
-                            PermissionFinancialCardWidget(
-                              permitValue: widget.permission.permitValue,
-                              showArabic: isArabic,
-                            ),
-                            const SizedBox(height: 24),
-
                             // Dates Card
                             PermissionDetailCard(
                               title: l10n.dates,
@@ -453,6 +376,82 @@ class _PermissionDetailsViewState extends State<PermissionDetailsView>
                                 ),
                               ],
                             ),
+
+                            // Permission Info Card
+                            PermissionDetailCard(
+                              title: l10n.taskPermissions,
+                              items: [
+                                // DetailItem(
+                                //   label: l10n.permitSerial,
+                                //   value: widget.permission.permitSerial
+                                //       ?.toString(),
+                                // ),
+                                DetailItem(
+                                  label: l10n.permissionType,
+                                  value: _getPermissionTypeName(
+                                    context,
+                                    widget.permission.permitType,
+                                  ),
+                                ),
+                                DetailItem(
+                                  label: l10n.permissionNumber,
+                                  value: widget.permission.permitNo,
+                                ),
+                                DetailItem(
+                                  label: l10n.permitCopy,
+                                  value: widget.permission.permitCopy
+                                      ?.toString(),
+                                ),
+                              ],
+                            ),
+
+                            // Location & Details Card
+                            PermissionDetailCard(
+                              title: l10n.details,
+                              items: [
+                                DetailItem(
+                                  label: l10n.municipality,
+                                  value: _getZoneName(
+                                    context,
+                                    widget.permission.permitLoc,
+                                  ),
+                                ),
+                                DetailItem(
+                                  label: l10n.streets,
+                                  value: widget.permission.streets,
+                                ),
+                                DetailItem(
+                                  label: l10n.totalLength,
+                                  value: widget.permission.totalLength
+                                      ?.toString(),
+                                ),
+                                DetailItem(
+                                  label: l10n.totalWidth,
+                                  value: widget.permission.totalWidth
+                                      ?.toString(),
+                                ),
+                                DetailItem(
+                                  label: l10n.bookingMethod,
+                                  value: widget.permission.drillingMethod,
+                                ),
+                              ],
+                            ),
+
+                            const SizedBox(height: 12),
+
+                            // // Financial Information (same style as Project Details sections)
+                            // SectionTitleWidget(
+                            //   title: isArabic
+                            //       ? 'المعلومات المالية'
+                            //       : 'Financial Information',
+                            //   icon: Icons.attach_money_outlined,
+                            // ),
+                            // const SizedBox(height: 16),
+                            // PermissionFinancialCardWidget(
+                            //   permitValue: widget.permission.permitValue,
+                            //   showArabic: isArabic,
+                            // ),
+                            // const SizedBox(height: 24),
 
                             // Notes Card
                             if (widget.permission.note != null)

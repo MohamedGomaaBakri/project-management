@@ -2831,7 +2831,7 @@ abstract class AppLocalizations {
   /// No description provided for @contractNumberLabel.
   ///
   /// In ar, this message translates to:
-  /// **'رقم العقد'**
+  /// **'الرقم الداخلى'**
   String get contractNumberLabel;
 
   /// No description provided for @noPermissionsFound.

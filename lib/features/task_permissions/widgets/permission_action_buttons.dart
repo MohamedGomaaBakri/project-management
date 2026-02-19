@@ -14,17 +14,17 @@ class PermissionActionButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        Expanded(
-          child: _buildActionButton(
-            label: 'تجديد',
-            icon: Icons.refresh,
-            gradient: const LinearGradient(
-              colors: [Color(0xFF4F46E5), Color(0xFF7C3AED)],
-            ),
-            onPressed: onRenewPressed,
-          ),
-        ),
-        const SizedBox(width: 12),
+        // Expanded(
+        //   child: _buildActionButton(
+        //     label: 'تجديد',
+        //     icon: Icons.refresh,
+        //     gradient: const LinearGradient(
+        //       colors: [Color(0xFF4F46E5), Color(0xFF7C3AED)],
+        //     ),
+        //     onPressed: onRenewPressed,
+        //   ),
+        // ),
+        // const SizedBox(width: 12),
         Expanded(
           child: _buildActionButton(
             label: 'المرفقات',

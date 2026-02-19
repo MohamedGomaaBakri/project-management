@@ -1397,7 +1397,7 @@ class AppLocalizationsAr extends AppLocalizations {
   String get projectNameLabel => 'اسم المشروع';
 
   @override
-  String get contractNumberLabel => 'رقم العقد';
+  String get contractNumberLabel => 'الرقم الداخلى';
 
   @override
   String get noPermissionsFound => 'لا توجد تصاريح';
