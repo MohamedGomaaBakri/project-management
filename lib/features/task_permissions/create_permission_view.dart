@@ -41,6 +41,7 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
   // Dropdown values
   int? _selectedPermitType;
   int? _selectedPermitLoc;
+  int? _selectedPermitStatus;
 
   DateTime? _startDate;
   DateTime? _endDate;
@@ -100,6 +101,9 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
 
       // Get permission details to find current permitSerial
       await provider.getPermissionDetails(widget.projectId!);
+
+      // Get permit status list for the dropdown
+      await provider.getPermissionStatus();
 
       if (mounted) {
         setState(() {
@@ -217,6 +221,7 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
         'StartDate': _startDate!.toIso8601String(),
         'EndDate': _endDate!.toIso8601String(),
         'PermitValue': double.tryParse(_permitValueController.text) ?? 0.0,
+        'PermitStatus': _selectedPermitStatus,
       };
 
       // Optional fields - only add if not empty
@@ -455,6 +460,39 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
                                     onChanged: (value) {
                                       setState(() {
                                         _selectedPermitLoc = value;
+                                      });
+                                    },
+                                    required: true,
+                                  ),
+                                  const SizedBox(height: 16),
+                                  FormDropdownWidget<int>(
+                                    label: l10n.permitStatus,
+                                    hint: l10n.selectPermitStatus,
+                                    value: _selectedPermitStatus,
+                                    items:
+                                        permissionProvider
+                                            .permitStatusModel
+                                            ?.items
+                                            ?.map((item) {
+                                              return DropdownMenuItem<int>(
+                                                value: item.code,
+                                                child: Text(
+                                                  isArabic
+                                                      ? (item.nameA ?? '')
+                                                      : (item.nameE ??
+                                                            item.nameA ??
+                                                            ''),
+                                                  style: const TextStyle(
+                                                    fontSize: 14,
+                                                  ),
+                                                ),
+                                              );
+                                            })
+                                            .toList() ??
+                                        [],
+                                    onChanged: (value) {
+                                      setState(() {
+                                        _selectedPermitStatus = value;
                                       });
                                     },
                                     required: true,

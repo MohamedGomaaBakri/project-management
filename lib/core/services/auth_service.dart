@@ -1,6 +1,7 @@
 import 'dart:convert'; // للتأكد من وجود utf8
 import 'package:http/http.dart' as http;
 import 'package:shehabapp/core/models/project_categories_count.dart';
+import 'package:shehabapp/core/models/users_permissions_model.dart';
 import '../api/api_constants.dart';
 import '../models/user_model.dart';
 
@@ -128,6 +129,30 @@ class AuthService {
     } catch (e) {
       print('Error getting all users: $e');
       throw Exception('An error occurred while fetching users: $e');
+    }
+  }
+
+  // Get all users permissions for dropdown selection
+  Future<UsersPermissionsModel> getAllUsersPermissions({
+    required String usersCode,
+  }) async {
+    try {
+      final response = await http.get(
+        Uri.parse(
+          '${ApiConstants.baseUrl}${ApiConstants.usersPermissionsEndpoint}$usersCode',
+        ),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        String responseBody = utf8.decode(response.bodyBytes);
+        return UsersPermissionsModel.fromJson(json.decode(responseBody));
+      } else {
+        throw Exception('Failed to load users permissions data.');
+      }
+    } catch (e) {
+      print('Error getting all users permissions: $e');
+      throw Exception('An error occurred while fetching users permissions: $e');
     }
   }
 }

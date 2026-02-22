@@ -1751,4 +1751,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get executionDate => 'تاريخ التنفيذ';
+
+  @override
+  String get permitStatus => 'حالة التصريح';
+
+  @override
+  String get selectPermitStatus => 'اختر حالة التصريح';
 }

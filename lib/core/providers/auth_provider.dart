@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shehabapp/core/models/project_categories_count.dart';
+import 'package:shehabapp/core/models/users_permissions_model.dart';
 import '../models/user_model.dart';
 import '../services/auth_service.dart';
 import 'package:shared_preferences/shared_preferences.dart'; // لاستخدامها لاحقًا إذا أردت حفظ حالة تسجيل الدخول
@@ -8,6 +9,7 @@ class AuthProvider with ChangeNotifier {
   final AuthService _authService = AuthService();
   User? _currentUser;
   ProjectCategoriesCount? _projectCategoriesCount;
+  UsersPermissionsModel? _usersPermissions;
   bool _isLoading = false;
   String? _errorMessage;
   List<User> _allUsers = [];
@@ -16,6 +18,7 @@ class AuthProvider with ChangeNotifier {
 
   User? get currentUser => _currentUser;
   ProjectCategoriesCount? get projectCategoriesCount => _projectCategoriesCount;
+  UsersPermissionsModel? get usersPermissions => _usersPermissions;
   bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
   bool get isAuthChecked => _isAuthChecked;
@@ -139,6 +142,28 @@ class AuthProvider with ChangeNotifier {
     } catch (e) {
       print('Error getting all users in provider: $e');
       _allUsers = [];
+      notifyListeners();
+    }
+  }
+
+  Future<void> getAllUsersPermissions({required String usersCode}) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      final usersPermissions = await _authService.getAllUsersPermissions(
+        usersCode: usersCode,
+      );
+      _usersPermissions = usersPermissions;
+      _isLoading = false;
+      notifyListeners();
+    } catch (e) {
+      _errorMessage =
+          'حدث خطأ أثناء جلب بيانات صلاحيات المستخدمين. حاول مرة أخرى.';
+      print('Error getting users permissions in provider: $e');
+      _isLoading = false;
+      _usersPermissions = null;
       notifyListeners();
     }
   }

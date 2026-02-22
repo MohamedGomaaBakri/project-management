@@ -1764,4 +1764,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get executionDate => 'Execution Date';
+
+  @override
+  String get permitStatus => 'Permit Status';
+
+  @override
+  String get selectPermitStatus => 'Select Permit Status';
 }

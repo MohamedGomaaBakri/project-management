@@ -63,27 +63,30 @@ class Permission {
   String? insertDate;
   int? updateUser;
   String? updateDate;
-  dynamic? note;
+  dynamic note;
   int? doneFlag;
   String? drillingMethod;
   String? streets;
-  dynamic? orgPermitSerial;
+  dynamic orgPermitSerial;
   int? renewFlag;
-  dynamic? totalWidth;
+  dynamic totalWidth;
   int? permitLoc;
-  dynamic? doneDate;
+  dynamic doneDate;
   String? altKey;
   String? typeNameA;
   int? code;
-  dynamic? typeNameE;
+  dynamic typeNameE;
   String? locNameA;
   int? code1;
   String? locNameE;
-  dynamic? permitValue;
+  dynamic permitValue;
   String? projectNameA;
   int? projectId1;
-  dynamic? projectNameE;
+  dynamic projectNameE;
   String? contractNo;
+  int? codeStatus;
+  String? statusNameA;
+  String? statusNameE;
   List<Links>? links;
 
   Permission({
@@ -120,6 +123,9 @@ class Permission {
     this.projectId1,
     this.projectNameE,
     this.contractNo,
+    this.codeStatus,
+    this.statusNameA,
+    this.statusNameE,
     this.links,
   });
 
@@ -157,6 +163,9 @@ class Permission {
     projectId1 = json['ProjectId1'];
     projectNameE = json['ProjectNameE'];
     contractNo = json['ContractNo'];
+    codeStatus = json['CodeStatus'];
+    statusNameA = json['StatusNameA'];
+    statusNameE = json['StatusNameE'];
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
@@ -200,6 +209,9 @@ class Permission {
     data['ProjectId1'] = this.projectId1;
     data['ProjectNameE'] = this.projectNameE;
     data['ContractNo'] = this.contractNo;
+    data['CodeStatus'] = this.codeStatus;
+    data['StatusNameA'] = this.statusNameA;
+    data['StatusNameE'] = this.statusNameE;
     if (this.links != null) {
       data['links'] = this.links!.map((v) => v.toJson()).toList();
     }

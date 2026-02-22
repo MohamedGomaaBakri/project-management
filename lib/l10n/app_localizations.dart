@@ -3529,6 +3529,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تاريخ التنفيذ'**
   String get executionDate;
+
+  /// No description provided for @permitStatus.
+  ///
+  /// In ar, this message translates to:
+  /// **'حالة التصريح'**
+  String get permitStatus;
+
+  /// No description provided for @selectPermitStatus.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر حالة التصريح'**
+  String get selectPermitStatus;
 }
 
 class _AppLocalizationsDelegate

@@ -9,6 +9,7 @@ class ApiConstants {
   static const String usersEndpoint = 'UsersVO1';
   static const String projectCategoriesCountEndpoint =
       'EXTrnsCount1?q=UsersCode=';
+  static const String usersPermissionsEndpoint = 'ExUsersPer1?q=UsersCode=';
   static const String userSalaryInfoEndpoint = '/PySlrsInfoVO1';
   static const String userTransactionsInfoEndpoint = '/UsersTrnInfoVRO1';
 
@@ -132,6 +133,7 @@ class ApiConstants {
       'EXProjectsPermitsVo1?q=ProjectId=';
   static const String getZonesList = 'ExPermitsLocVo1';
   static const String getPermissionList = 'PermitsTypesVo1';
+  static const String getPermissionStatus = 'ExPermitsStatusVO1';
   static const String Attpermitcheck = 'EXProjectsPermitCheckVRO1?q=ProjectId=';
   static const String updateDoneFlag = 'EXProjectsPermitsVo1?q=AltKey=';
   static const String createPermission = 'EXProjectsPermitsVo1';

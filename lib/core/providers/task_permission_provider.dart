@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/attpermitcheck_model.dart';
 import 'package:shehabapp/core/models/permissions_list_model.dart';
+import 'package:shehabapp/core/models/permit_status_model.dart';
 import 'package:shehabapp/core/models/task_permission_model.dart';
 import 'package:shehabapp/core/models/zones_list_model.dart';
 import 'package:shehabapp/core/services/task_permission_service.dart';
@@ -12,6 +13,7 @@ class TaskPermissionProvider extends ChangeNotifier {
   PermissionModel? permissionModel;
   PermissionListModel? permissionListModel;
   ZonesListModel? zonesListModel;
+  PermitStatusModel? permitStatusModel;
   AttpermitcheckModel? attpermitcheckModel;
   AttatchmentModel? attatchmentModel;
   bool isLoading = false;
@@ -81,6 +83,28 @@ class TaskPermissionProvider extends ChangeNotifier {
       errorMessage = 'An error occurred while fetching zones list: $e';
       notifyListeners();
       throw Exception('An error occurred while fetching zones list: $e');
+    }
+  }
+
+  Future<void> getPermissionStatus() async {
+    final taskPermissionService = TaskPermissionService();
+    isLoading = true;
+    errorMessage = null;
+    notifyListeners();
+
+    try {
+      permitStatusModel = await taskPermissionService.getPermissionStatus();
+      isLoading = false;
+      notifyListeners();
+    } on Exception catch (e) {
+      log(
+        '💥 Exception in getPermissionStatus: $e',
+        name: 'getPermissionStatus',
+      );
+      isLoading = false;
+      errorMessage = 'An error occurred while fetching permission status: $e';
+      notifyListeners();
+      throw Exception('An error occurred while fetching permission status: $e');
     }
   }
 

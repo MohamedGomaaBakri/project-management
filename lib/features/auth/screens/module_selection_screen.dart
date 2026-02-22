@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shehabapp/features/auth/screens/project_categories.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/providers/locale_provider.dart';
+import '../../../core/providers/auth_provider.dart';
 import '../../home/screens/home_screen.dart';
 import '../../workshops/screens/workshops_screen.dart';
 import 'login_screen.dart';
@@ -121,10 +122,25 @@ class _ModuleSelectionScreenState extends State<ModuleSelectionScreen>
                                 const Color(0xFF6366F1),
                               ],
                               delay: 0,
-                              onTap: () {
-                                Navigator.of(
+                              onTap: () async {
+                                final authProvider = Provider.of<AuthProvider>(
                                   context,
-                                ).pushNamed(ProjectCategories.routeName);
+                                  listen: false,
+                                );
+                                final usersCode = authProvider
+                                    .currentUser
+                                    ?.usersCode
+                                    .toString();
+                                if (usersCode != null) {
+                                  await authProvider.getAllUsersPermissions(
+                                    usersCode: usersCode,
+                                  );
+                                }
+                                if (context.mounted) {
+                                  Navigator.of(
+                                    context,
+                                  ).pushNamed(ProjectCategories.routeName);
+                                }
                               },
                             ),
                           ],

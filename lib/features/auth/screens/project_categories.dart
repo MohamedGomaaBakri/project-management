@@ -8,6 +8,7 @@ import '../../../l10n/app_localizations.dart';
 import '../../../core/providers/locale_provider.dart';
 import '../../../core/providers/auth_provider.dart';
 import '../../../core/models/project_categories_count.dart';
+
 import 'login_screen.dart';
 
 class ProjectCategories extends StatefulWidget {
@@ -59,6 +60,11 @@ class _ProjectCategoriesState extends State<ProjectCategories>
 
     if (usersCode != null) {
       await authProvider.getProjectCategoriesCount(usersCode: usersCode);
+
+      // Also fetch user permissions if not already loaded
+      if (authProvider.usersPermissions == null) {
+        await authProvider.getAllUsersPermissions(usersCode: usersCode);
+      }
 
       if (authProvider.projectCategoriesCount?.items?.isNotEmpty == true) {
         setState(() {
@@ -143,138 +149,160 @@ class _ProjectCategoriesState extends State<ProjectCategories>
 
                             // Category Cards Grid
                             Expanded(
-                              child: GridView.count(
-                                crossAxisCount: size.width > 600
-                                    ? 3
-                                    : 2, // Responsive
-                                crossAxisSpacing: 16,
-                                mainAxisSpacing: 16,
-                                childAspectRatio: 0.85,
-                                children: [
-                                  _buildCategoryCard(
-                                    context,
-                                    title: l10n.dailyTasks,
-                                    subtitle: l10n.dailyTasksDesc,
-                                    icon: Icons.task_alt,
-                                    gradientColors: [
-                                      const Color(0xFF4F46E5),
-                                      const Color(0xFF6366F1),
-                                    ],
-                                    delay: 0,
-                                    onTap: () {
-                                      Navigator.pushNamed(
+                              child: Consumer<AuthProvider>(
+                                builder: (context, authProv, _) {
+                                  final perms =
+                                      authProv
+                                              .usersPermissions
+                                              ?.items
+                                              ?.isNotEmpty ==
+                                          true
+                                      ? authProv.usersPermissions!.items!.first
+                                      : null;
+                                  return GridView.count(
+                                    crossAxisCount: size.width > 600 ? 3 : 2,
+                                    crossAxisSpacing: 16,
+                                    mainAxisSpacing: 16,
+                                    childAspectRatio: 0.85,
+                                    children: [
+                                      _buildCategoryCard(
                                         context,
-                                        DailyTasksScreen.routeName,
-                                      );
-                                    },
-                                    showNotifications: true,
-                                    notificationCount:
-                                        _categoriesData?.procCnt ?? 0,
-                                  ),
-                                  _buildNotificationsCard(
-                                    context,
-                                    title: l10n.notifications,
-                                    subtitle: l10n.notificationsDesc,
-                                    gradientColors: [
-                                      const Color(0xFFEC4899),
-                                      const Color(0xFFF97316),
-                                    ],
-                                    delay: 100,
-                                    onTap: () {
-                                      final authProvider =
-                                          Provider.of<AuthProvider>(
+                                        title: l10n.dailyTasks,
+                                        subtitle: l10n.dailyTasksDesc,
+                                        icon: Icons.task_alt,
+                                        gradientColors: [
+                                          const Color(0xFF4F46E5),
+                                          const Color(0xFF6366F1),
+                                        ],
+                                        delay: 0,
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            DailyTasksScreen.routeName,
+                                          );
+                                        },
+                                        showNotifications: true,
+                                        notificationCount:
+                                            _categoriesData?.procCnt ?? 0,
+                                      ),
+                                      _buildNotificationsCard(
+                                        context,
+                                        title: l10n.notifications,
+                                        subtitle: l10n.notificationsDesc,
+                                        gradientColors: [
+                                          const Color(0xFFEC4899),
+                                          const Color(0xFFF97316),
+                                        ],
+                                        delay: 100,
+                                        onTap: () {
+                                          final ap = Provider.of<AuthProvider>(
                                             context,
                                             listen: false,
                                           );
-                                      final userCode =
-                                          authProvider.currentUser?.usersCode;
-
-                                      if (userCode != null) {
-                                        Navigator.pushNamed(
+                                          final userCode =
+                                              ap.currentUser?.usersCode;
+                                          if (userCode != null) {
+                                            Navigator.pushNamed(
+                                              context,
+                                              DisplayNotificationsView
+                                                  .routeName,
+                                              arguments: userCode,
+                                            );
+                                          } else {
+                                            ScaffoldMessenger.of(
+                                              context,
+                                            ).showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  'خطأ: لم يتم العثور على بيانات المستخدم',
+                                                ),
+                                                backgroundColor: Colors.red,
+                                              ),
+                                            );
+                                          }
+                                        },
+                                        showNotifications: true,
+                                        stopNotifCnt:
+                                            _categoriesData?.stopNotifCnt ?? 0,
+                                        allNotifCnt:
+                                            _categoriesData?.allNotifCnt ?? 0,
+                                      ),
+                                      // إدارة - MobileManagerFlag
+                                      if (perms == null ||
+                                          perms.mobileManagerFlag == 1)
+                                        _buildCategoryCard(
                                           context,
-                                          DisplayNotificationsView.routeName,
-                                          arguments: userCode,
-                                        );
-                                      } else {
-                                        ScaffoldMessenger.of(
+                                          title: l10n.department,
+                                          subtitle: l10n.managementDesc,
+                                          icon: Icons.business_center,
+                                          gradientColors: [
+                                            const Color(0xFF10B981),
+                                            const Color(0xFF059669),
+                                          ],
+                                          delay: 200,
+                                          onTap: () {
+                                            // TODO: Navigate to Management screen
+                                          },
+                                          showNotifications: false,
+                                        ),
+                                      // امر عمل مقايسة - MobileTenderFlag
+                                      if (perms == null ||
+                                          perms.mobileTenderFlag == 1)
+                                        _buildCategoryCard(
                                           context,
-                                        ).showSnackBar(
-                                          const SnackBar(
-                                            content: Text(
-                                              'خطأ: لم يتم العثور على بيانات المستخدم',
-                                            ),
-                                            backgroundColor: Colors.red,
-                                          ),
-                                        );
-                                      }
-                                    },
-                                    showNotifications: true,
-                                    stopNotifCnt:
-                                        _categoriesData?.stopNotifCnt ?? 0,
-                                    allNotifCnt:
-                                        _categoriesData?.allNotifCnt ?? 0,
-                                  ),
-                                  _buildCategoryCard(
-                                    context,
-                                    title: l10n.department,
-                                    subtitle: l10n.managementDesc,
-                                    icon: Icons.business_center,
-                                    gradientColors: [
-                                      const Color(0xFF10B981),
-                                      const Color(0xFF059669),
+                                          title: l10n.workOrderQuotation,
+                                          subtitle: l10n.workOrderQuotationDesc,
+                                          icon: Icons.description,
+                                          gradientColors: [
+                                            const Color(0xFF3B82F6),
+                                            const Color(0xFF2563EB),
+                                          ],
+                                          delay: 300,
+                                          onTap: () {
+                                            // TODO: Navigate to Work Order Quotation
+                                          },
+                                          showNotifications: false,
+                                        ),
+                                      // امر عمل مشروع - MobileProjectFlag
+                                      if (perms == null ||
+                                          perms.mobileProjectFlag == 1)
+                                        _buildCategoryCard(
+                                          context,
+                                          title: l10n.workOrderProjects,
+                                          subtitle: l10n.workOrderProjectsDesc,
+                                          icon: Icons.assignment,
+                                          gradientColors: [
+                                            const Color(0xFF8B5CF6),
+                                            const Color(0xFF7C3AED),
+                                          ],
+                                          delay: 400,
+                                          onTap: () {
+                                            // TODO: Navigate to Work Order Projects
+                                          },
+                                          showNotifications: false,
+                                        ),
+                                      // امر عمل صيانة - MobileMainFlag
+                                      if (perms == null ||
+                                          perms.mobileMainFlag == 1)
+                                        _buildCategoryCard(
+                                          context,
+                                          title: l10n.workOrderMaintenance,
+                                          subtitle:
+                                              l10n.workOrderMaintenanceDesc,
+                                          icon: Icons.build,
+                                          gradientColors: [
+                                            const Color(0xFFF59E0B),
+                                            const Color(0xFFD97706),
+                                          ],
+                                          delay: 500,
+                                          onTap: () {
+                                            // TODO: Navigate to Work Order Maintenance
+                                          },
+                                          showNotifications: false,
+                                        ),
                                     ],
-                                    delay: 200,
-                                    onTap: () {
-                                      // TODO: Navigate to Management screen
-                                    },
-                                    showNotifications: false,
-                                  ),
-                                  _buildCategoryCard(
-                                    context,
-                                    title: l10n.workOrderQuotation,
-                                    subtitle: l10n.workOrderQuotationDesc,
-                                    icon: Icons.description,
-                                    gradientColors: [
-                                      const Color(0xFF3B82F6),
-                                      const Color(0xFF2563EB),
-                                    ],
-                                    delay: 300,
-                                    onTap: () {
-                                      // TODO: Navigate to Work Order Quotation
-                                    },
-                                    showNotifications: false,
-                                  ),
-                                  _buildCategoryCard(
-                                    context,
-                                    title: l10n.workOrderProjects,
-                                    subtitle: l10n.workOrderProjectsDesc,
-                                    icon: Icons.assignment,
-                                    gradientColors: [
-                                      const Color(0xFF8B5CF6),
-                                      const Color(0xFF7C3AED),
-                                    ],
-                                    delay: 400,
-                                    onTap: () {
-                                      // TODO: Navigate to Work Order Projects
-                                    },
-                                    showNotifications: false,
-                                  ),
-                                  _buildCategoryCard(
-                                    context,
-                                    title: l10n.workOrderMaintenance,
-                                    subtitle: l10n.workOrderMaintenanceDesc,
-                                    icon: Icons.build,
-                                    gradientColors: [
-                                      const Color(0xFFF59E0B),
-                                      const Color(0xFFD97706),
-                                    ],
-                                    delay: 500,
-                                    onTap: () {
-                                      // TODO: Navigate to Work Order Maintenance
-                                    },
-                                    showNotifications: false,
-                                  ),
-                                ],
+                                  );
+                                },
                               ),
                             ),
                           ],

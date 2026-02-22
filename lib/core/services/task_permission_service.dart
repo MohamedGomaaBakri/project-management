@@ -6,6 +6,7 @@ import 'package:shehabapp/core/api/api_constants.dart';
 import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/attpermitcheck_model.dart';
 import 'package:shehabapp/core/models/permissions_list_model.dart';
+import 'package:shehabapp/core/models/permit_status_model.dart';
 import 'package:shehabapp/core/models/task_permission_model.dart';
 import 'package:shehabapp/core/models/zones_list_model.dart';
 
@@ -135,6 +136,46 @@ class TaskPermissionService {
         final jsonData = jsonDecode(decodedBody);
         log('✅ Successfully parsed JSON data', name: 'TaskPermissionService');
         return ZonesListModel.fromJson(jsonData);
+      } else {
+        log(
+          '❌ Failed with status code: ${response.statusCode}',
+          name: 'TaskPermissionService',
+        );
+        throw Exception(
+          'Failed to load permission details - Status: ${response.statusCode}',
+        );
+      }
+    } catch (e, stackTrace) {
+      log('💥 Exception occurred: $e', name: 'TaskPermissionService');
+      log('💥 Stack trace: $stackTrace', name: 'TaskPermissionService');
+      throw Exception('Failed to load permission details: $e');
+    }
+  }
+
+  // -----------------------
+  // 4. Get Permission Status
+  // -----------------------
+  Future<PermitStatusModel> getPermissionStatus() async {
+    try {
+      final url = '${ApiConstants.baseUrl}${ApiConstants.getPermissionStatus}';
+      log('🔵 Request URL: $url', name: 'TaskPermissionService');
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {
+          "Content-Type":
+              "application/vnd.oracle.adf.resourceitem+json; charset=UTF-8",
+        },
+      );
+      log(
+        '🔵 Response Status Code: ${response.statusCode}',
+        name: 'TaskPermissionService',
+      );
+      if (response.statusCode == 200) {
+        String decodedBody = utf8.decode(response.bodyBytes);
+        final jsonData = jsonDecode(decodedBody);
+        log('✅ Successfully parsed JSON data', name: 'TaskPermissionService');
+        return PermitStatusModel.fromJson(jsonData);
       } else {
         log(
           '❌ Failed with status code: ${response.statusCode}',
