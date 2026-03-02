@@ -1388,6 +1388,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get taskPermissionsTitle => 'Project Permissions';
 
   @override
+  String get taskPermissionsDesc => 'Manage Project Permissions';
+
+  @override
   String get permissionType => 'Permission Type';
 
   @override

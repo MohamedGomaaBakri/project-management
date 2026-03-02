@@ -1376,6 +1376,9 @@ class AppLocalizationsAr extends AppLocalizations {
   String get taskPermissionsTitle => 'تصاريح المشروع';
 
   @override
+  String get taskPermissionsDesc => 'إدارة التصاريح الخاصة بالمشاريع';
+
+  @override
   String get permissionType => 'نوع التصريح';
 
   @override

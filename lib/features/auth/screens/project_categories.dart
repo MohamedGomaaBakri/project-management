@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shehabapp/features/daily_tasks/daily_tasks_screen.dart';
 import 'package:shehabapp/features/display_notifications/display_notifications_view.dart';
+import 'package:shehabapp/features/management/views/management_view.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/providers/locale_provider.dart';
 import '../../../core/providers/auth_provider.dart';
@@ -241,7 +242,10 @@ class _ProjectCategoriesState extends State<ProjectCategories>
                                           ],
                                           delay: 200,
                                           onTap: () {
-                                            // TODO: Navigate to Management screen
+                                            Navigator.pushNamed(
+                                              context,
+                                              ManagementView.routeName,
+                                            );
                                           },
                                           showNotifications: false,
                                         ),

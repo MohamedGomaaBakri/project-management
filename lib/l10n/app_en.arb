@@ -458,6 +458,7 @@
     "currency": "SAR",
     "taskPermissions": "Permissions",
     "taskPermissionsTitle": "Project Permissions",
+    "taskPermissionsDesc": "Manage Project Permissions",
     "permissionType": "Permission Type",
     "permissionNumber": "Permission Number",
     "permissionStatus": "Permission Status",

@@ -2786,6 +2786,12 @@ abstract class AppLocalizations {
   /// **'تصاريح المشروع'**
   String get taskPermissionsTitle;
 
+  /// No description provided for @taskPermissionsDesc.
+  ///
+  /// In ar, this message translates to:
+  /// **'إدارة التصاريح الخاصة بالمشاريع'**
+  String get taskPermissionsDesc;
+
   /// No description provided for @permissionType.
   ///
   /// In ar, this message translates to:

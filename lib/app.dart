@@ -4,6 +4,7 @@ import 'package:shehabapp/core/providers/hr_provider.dart';
 import 'package:shehabapp/core/providers/notification_provider.dart';
 import 'package:shehabapp/core/providers/task_permission_provider.dart';
 import 'package:shehabapp/features/attendance/providers/attendance_provider.dart';
+import 'package:shehabapp/core/providers/management_provider.dart';
 import 'package:shehabapp/features/attendance/screens/attendance_main_screen.dart';
 import 'package:shehabapp/features/attendance/screens/attendance_months_list_screen.dart';
 import 'package:shehabapp/features/attendance/screens/checked_attendance_months_list_screen.dart';
@@ -14,6 +15,9 @@ import 'package:shehabapp/features/daily_tasks/daily_tasks_screen.dart';
 import 'package:shehabapp/features/display_notifications/display_notifications_view.dart';
 import 'package:shehabapp/features/loans/screens/loan_request_details_screen.dart';
 import 'package:shehabapp/features/loans/screens/loan_requests_list_screen.dart';
+import 'package:shehabapp/features/management/views/management_view.dart';
+import 'package:shehabapp/features/management/views/mng_notification_details_view.dart';
+import 'package:shehabapp/features/management/views/mng_notification_view.dart';
 import 'package:shehabapp/features/permissions/screens/my_requests/my_permission_requests_list_screen.dart';
 import 'package:shehabapp/features/permissions/screens/my_requests/new_permission_request_screen.dart';
 import 'package:shehabapp/features/permissions/screens/permission_request_details_screen.dart';
@@ -93,6 +97,7 @@ class MyApp extends StatelessWidget {
           create: (_) => HrProvider(),
         ), // <-- الإضافة الجديدة
         ChangeNotifierProvider(create: (_) => AttendanceProvider()),
+        ChangeNotifierProvider(create: (_) => ManagementProvider()),
 
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
@@ -199,6 +204,14 @@ class MyApp extends StatelessWidget {
                   DisplayNotificationsView(
                     userCode: ModalRoute.of(context)!.settings.arguments as int,
                   ),
+              ManagementView.routeName: (context) => const ManagementView(),
+              MngNotificationView.routeName: (context) =>
+                  const MngNotificationView(),
+              MngNotificationDetailsView.routeName: (context) {
+                final String altKey =
+                    ModalRoute.of(context)!.settings.arguments as String;
+                return MngNotificationDetailsView(altKey: altKey);
+              },
               // --== مسارات جديدة ==--
               VacationRequestsListScreen.routeName: (context) =>
                   const VacationRequestsListScreen(),

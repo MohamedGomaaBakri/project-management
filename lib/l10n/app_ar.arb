@@ -458,6 +458,7 @@
     "currency": "ريال",
     "taskPermissions": "التصاريح",
     "taskPermissionsTitle": "تصاريح المشروع",
+    "taskPermissionsDesc": "إدارة التصاريح الخاصة بالمشاريع",
     "permissionType": "نوع التصريح",
     "permissionNumber": "رقم التصريح",
     "permissionStatus": "حالة التصريح",
