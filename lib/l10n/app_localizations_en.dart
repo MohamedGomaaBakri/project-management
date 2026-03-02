@@ -1764,4 +1764,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get executionDate => 'Execution Date';
+
+  @override
+  String get insertUser => 'Insert User';
 }

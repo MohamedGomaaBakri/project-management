@@ -6,7 +6,6 @@ import '../../l10n/app_localizations.dart';
 import 'widgets/form_text_field_widget.dart';
 import 'widgets/form_dropdown_widget.dart';
 import 'widgets/form_action_buttons_widget.dart';
-import 'widgets/attachments_required_dialog.dart';
 
 class CreatePermissionView extends StatefulWidget {
   final int? projectId;
@@ -281,17 +280,17 @@ class _CreatePermissionViewState extends State<CreatePermissionView>
     }
   }
 
-  void _handleAttachments() {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          '${AppLocalizations.of(context)!.attachments} - ${AppLocalizations.of(context)!.comingSoon}',
-        ),
-        backgroundColor: const Color(0xFF059669),
-        behavior: SnackBarBehavior.floating,
-      ),
-    );
-  }
+  // void _handleAttachments() {
+  //   ScaffoldMessenger.of(context).showSnackBar(
+  //     SnackBar(
+  //       content: Text(
+  //         '${AppLocalizations.of(context)!.attachments} - ${AppLocalizations.of(context)!.comingSoon}',
+  //       ),
+  //       backgroundColor: const Color(0xFF059669),
+  //       behavior: SnackBarBehavior.floating,
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

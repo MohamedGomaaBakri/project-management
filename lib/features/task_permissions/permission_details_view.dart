@@ -6,9 +6,7 @@ import '../../core/providers/locale_provider.dart';
 import '../../l10n/app_localizations.dart';
 import 'widgets/permission_detail_card.dart';
 import 'widgets/permission_action_buttons.dart';
-import 'widgets/permission_financial_card_widget.dart';
 import 'widgets/attachment_bottom_sheet.dart';
-import '../task_details/widgets/section_title_widget.dart';
 
 class PermissionDetailsView extends StatefulWidget {
   final Permission permission;

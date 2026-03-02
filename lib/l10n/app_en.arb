@@ -591,5 +591,6 @@
     "savedSuccessfully": "Saved Successfully",
     "replyDate": "Reply Date",
     "internalNumber": "Internal No",
-    "executionDate": "Execution Date"
+    "executionDate": "Execution Date",
+    "insertUser": "Insert User"
 }

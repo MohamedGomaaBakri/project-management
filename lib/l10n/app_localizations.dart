@@ -3529,6 +3529,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تاريخ التنفيذ'**
   String get executionDate;
+
+  /// No description provided for @insertUser.
+  ///
+  /// In ar, this message translates to:
+  /// **'مدخل الحقل'**
+  String get insertUser;
 }
 
 class _AppLocalizationsDelegate

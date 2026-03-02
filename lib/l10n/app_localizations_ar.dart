@@ -1751,4 +1751,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get executionDate => 'تاريخ التنفيذ';
+
+  @override
+  String get insertUser => 'مدخل الحقل';
 }

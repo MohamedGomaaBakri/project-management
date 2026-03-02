@@ -228,6 +228,13 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView>
           ),
 
           const SizedBox(height: 24),
+          // Contract Number
+          NotificationInfoCard(
+            label: l10n.contractNumber,
+            value: _notificationDetails?.contractNo?.toString() ?? '',
+            icon: Icons.numbers,
+          ),
+          const SizedBox(height: 16),
 
           // Project
           NotificationInfoCard(
@@ -251,6 +258,13 @@ class _NotificationDetailsViewState extends State<NotificationDetailsView>
             icon: Icons.settings,
           ),
 
+          const SizedBox(height: 16),
+          // insert user
+          NotificationInfoCard(
+            label: l10n.insertUser,
+            value: _notificationDetails?.insertUser?.toString() ?? '',
+            icon: Icons.person_outline,
+          ),
           const SizedBox(height: 16),
 
           // User Type

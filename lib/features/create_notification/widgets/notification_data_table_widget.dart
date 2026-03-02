@@ -85,6 +85,7 @@ class NotificationDataTableWidget extends StatelessWidget {
               ),
               columns: [
                 _buildDataColumn(l10n.serialNumber, Icons.numbers),
+                _buildDataColumn(l10n.contractNumber, Icons.numbers),
                 _buildDataColumn(l10n.userType, Icons.person),
                 _buildDataColumn(l10n.notificationType, Icons.notifications),
                 _buildDataColumn(l10n.notificationDate, Icons.calendar_today),
@@ -158,6 +159,13 @@ class NotificationDataTableWidget extends StatelessWidget {
         DataCell(
           Text(
             notification.noteSer?.toString() ?? '',
+            style: TextStyle(fontSize: 13, color: Colors.grey[800]),
+          ),
+        ),
+        // Contract No (رقم العقد)
+        DataCell(
+          Text(
+            notification.contractNo?.toString() ?? '',
             style: TextStyle(fontSize: 13, color: Colors.grey[800]),
           ),
         ),

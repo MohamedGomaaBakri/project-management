@@ -591,5 +591,6 @@
     "savedSuccessfully": "تم الحفظ بنجاح",
     "replyDate": "تاريخ الرد",
     "internalNumber": "الرقم الداخلي",
-    "executionDate": "تاريخ التنفيذ"
+    "executionDate": "تاريخ التنفيذ",
+    "insertUser": "مدخل الحقل"
 }
