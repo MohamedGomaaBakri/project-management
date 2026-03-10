@@ -45,5 +45,32 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>CFBundleLocalizations</key>
+    <array>
+        <string>en</string>
+        <string>ar</string>
+    </array>
+    <key>NSCameraUsageDescription</key>
+    <string>نحتاج للوصول إلى الكاميرا لالتقاط صورة لملفك الشخصي أو إرفاقها.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>نحتاج للوصول إلى معرض الصور لاختيار الصور المطلوبة.</string>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>UIFileSharingEnabled</key>
+    <true/>
+
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>http</string>
+        <string>https</string>
+        <string>tel</string>
+        <string>mailto</string>
+    </array>
+
+    <key>NSAppTransportSecurity</key>
+    <dict>
+        <key>NSAllowsArbitraryLoads</key>
+        <true/>
+    </dict>
 </dict>
 </plist>
