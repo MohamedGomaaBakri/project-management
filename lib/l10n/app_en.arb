@@ -595,5 +595,8 @@
     "executionDate": "Execution Date",
     "permitStatus": "Permit Status",
     "selectPermitStatus": "Select Permit Status",
-    "insertUser": "Insert User"
+    "insertUser": "Insert User",
+    "errorBandRequired": "Cannot execute without entering the process details",
+    "enterQuantity": "Enter quantity",
+    "itemsAndCategoriesButton": "Items & Categories"
 }

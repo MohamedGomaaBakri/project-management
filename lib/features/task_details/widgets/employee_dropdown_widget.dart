@@ -9,6 +9,8 @@ class EmployeeDropdownWidget extends StatelessWidget {
   final List<User> users;
   final String? defaultEmployeeCode;
   final String? selectedEmployeeCode;
+  final String? nextProcessNameAr;
+  final String? nextProcessNameEn;
   final Function(String?) onChanged;
 
   const EmployeeDropdownWidget({
@@ -16,6 +18,8 @@ class EmployeeDropdownWidget extends StatelessWidget {
     required this.users,
     this.defaultEmployeeCode,
     this.selectedEmployeeCode,
+    this.nextProcessNameAr,
+    this.nextProcessNameEn,
     required this.onChanged,
   });
 
@@ -24,6 +28,9 @@ class EmployeeDropdownWidget extends StatelessWidget {
     final l10n = AppLocalizations.of(context)!;
     final localeProvider = Provider.of<LocaleProvider>(context);
     final isArabic = localeProvider.locale.languageCode == 'ar';
+    final displayNextProcessName = isArabic
+        ? (nextProcessNameAr ?? '')
+        : (nextProcessNameEn ?? nextProcessNameAr ?? '');
 
     // Determine the initially selected user
     final initialCode = selectedEmployeeCode ?? defaultEmployeeCode;
@@ -51,6 +58,69 @@ class EmployeeDropdownWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            if (displayNextProcessName.isNotEmpty) ...[
+              Container(
+                padding: const EdgeInsets.all(14),
+                decoration: BoxDecoration(
+                  color: const Color(0xFFF8FAFC),
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(
+                    color: const Color(0xFF8B5CF6).withOpacity(0.2),
+                  ),
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 40,
+                      height: 40,
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFF7C3AED), Color(0xFFA78BFA)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: const Icon(
+                        Icons.alt_route_rounded,
+                        color: Colors.white,
+                        size: 20,
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            isArabic
+                                ? 'اسم العملية التالية'
+                                : 'Next Process Name',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Colors.grey[600],
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                          const SizedBox(height: 4),
+                          Text(
+                            displayNextProcessName,
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.grey[800],
+                            ),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 16),
+            ],
             Row(
               children: [
                 Container(
@@ -121,7 +191,7 @@ class EmployeeDropdownWidget extends StatelessWidget {
                   return Future.value(
                     users.where((user) {
                       final keyword = filter.toLowerCase();
-                      final nameAr = (user.usersName ?? '').toLowerCase();
+                      final nameAr = user.usersName.toLowerCase();
                       final nameEn = (user.usersNameE ?? '').toLowerCase();
                       final code = user.usersCode.toString();
                       return nameAr.contains(keyword) ||

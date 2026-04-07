@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import '../../../core/providers/locale_provider.dart';
 import '../../../l10n/app_localizations.dart';
@@ -9,6 +10,9 @@ class TaskInfoCard extends StatelessWidget {
   final String? processNameAr;
   final String? processNameEn;
   final String? contractNo;
+  final dynamic procPeriod;
+  final dynamic procStartDate;
+  final dynamic procEndDate;
 
   const TaskInfoCard({
     super.key,
@@ -17,6 +21,9 @@ class TaskInfoCard extends StatelessWidget {
     this.processNameAr,
     this.processNameEn,
     this.contractNo,
+    this.procPeriod,
+    this.procStartDate,
+    this.procEndDate,
   });
 
   @override
@@ -88,6 +95,39 @@ class TaskInfoCard extends StatelessWidget {
                 const Color(0xFF8B5CF6),
               ],
             ),
+            const SizedBox(height: 16),
+            _buildInfoRow(
+              context,
+              icon: Icons.timelapse_rounded,
+              label: isArabic ? 'مدة العملية' : 'Process Period',
+              value: procPeriod?.toString(),
+              gradientColors: [
+                const Color(0xFF14B8A6),
+                const Color(0xFF2DD4BF),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildInfoRow(
+              context,
+              icon: Icons.event_available_rounded,
+              label: isArabic ? 'تاريخ بداية العملية' : 'Process Start Date',
+              value: _formatDate(procStartDate, isArabic: isArabic),
+              gradientColors: [
+                const Color(0xFF10B981),
+                const Color(0xFF34D399),
+              ],
+            ),
+            const SizedBox(height: 16),
+            _buildInfoRow(
+              context,
+              icon: Icons.event_busy_rounded,
+              label: isArabic ? 'تاريخ نهاية العملية' : 'Process End Date',
+              value: _formatDate(procEndDate, isArabic: isArabic),
+              gradientColors: [
+                const Color(0xFFF59E0B),
+                const Color(0xFFFBBF24),
+              ],
+            ),
           ],
         ),
       ),
@@ -153,5 +193,17 @@ class TaskInfoCard extends StatelessWidget {
         ),
       ],
     );
+  }
+
+  String _formatDate(dynamic rawValue, {required bool isArabic}) {
+    if (rawValue == null) return '';
+    final value = rawValue.toString().trim();
+    if (value.isEmpty) return '';
+
+    final parsedDate = DateTime.tryParse(value);
+    if (parsedDate == null) return value;
+
+    final locale = isArabic ? 'ar' : 'en';
+    return DateFormat('dd MMM yyyy', locale).format(parsedDate);
   }
 }

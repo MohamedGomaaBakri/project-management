@@ -99,6 +99,7 @@ class DailyTasksProvider with ChangeNotifier {
     required String nextUsersCode,
     required String doneFlag,
     required String doneDate,
+    required String procQty,
   }) async {
     isLoading = true;
     notifyListeners();
@@ -109,6 +110,7 @@ class DailyTasksProvider with ChangeNotifier {
         nextUsersCode: nextUsersCode,
         doneFlag: doneFlag,
         doneDate: doneDate,
+        procQty: procQty,
       );
       isLoading = false;
       notifyListeners();

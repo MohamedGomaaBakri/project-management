@@ -179,6 +179,7 @@ class DailyTasksService {
     required String nextUsersCode,
     required String doneFlag,
     required String doneDate,
+    required String procQty,
   }) async {
     try {
       final url =
@@ -190,6 +191,7 @@ class DailyTasksService {
       log('NextUsersCode: $nextUsersCode', name: 'UpdateTaskProccessData');
       log('DoneFlag: $doneFlag', name: 'UpdateTaskProccessData');
       log('DoneDate: $doneDate', name: 'UpdateTaskProccessData');
+      log('ProcQty: $procQty', name: 'UpdateTaskProccessData');
 
       final response = await http.patch(
         Uri.parse(url),
@@ -203,6 +205,7 @@ class DailyTasksService {
           'NextUsersCode': nextUsersCode,
           'DoneFlag': doneFlag,
           'DoneDate': doneDate,
+          'ProcQty': procQty,
         }),
       );
 

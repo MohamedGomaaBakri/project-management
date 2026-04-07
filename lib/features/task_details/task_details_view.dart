@@ -34,6 +34,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
 
   final TextEditingController _notesController = TextEditingController();
   final TextEditingController _replyController = TextEditingController();
+  final TextEditingController _procQtyController = TextEditingController();
   String? _selectedEmployeeCode;
 
   @override
@@ -84,6 +85,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
     _controller.dispose();
     _notesController.dispose();
     _replyController.dispose();
+    _procQtyController.dispose();
     super.dispose();
   }
 
@@ -162,6 +164,9 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
                                     processNameEn: processData?.procNameE,
                                     contractNo: processData?.contractNo
                                         ?.toString(),
+                                    procPeriod: processData?.ProcPeriod,
+                                    procStartDate: processData?.ProcStartDate,
+                                    procEndDate: processData?.ProcEndDate,
                                   );
                                 },
                               ),
@@ -180,6 +185,12 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
                                         users: authProvider.allUsers,
                                         defaultEmployeeCode: processData
                                             ?.nextUsersCodeAct
+                                            ?.toString(),
+                                        nextProcessNameAr: processData
+                                            ?.NextProcNameA
+                                            ?.toString(),
+                                        nextProcessNameEn: processData
+                                            ?.NextProcNameE
                                             ?.toString(),
                                         selectedEmployeeCode:
                                             _selectedEmployeeCode,
@@ -200,6 +211,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
                                 notesController: _notesController,
                                 replyController: _replyController,
                                 isReplyReadOnly: true,
+                                procQtyController: _procQtyController,
                               ),
                               const SizedBox(height: 16),
 
@@ -222,6 +234,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
                                     attFlagCheck: taskDetails?.attFlagCheck,
                                     attPermitCheck: taskDetails?.attPermitCheck,
                                     attNotifCheck: taskDetails?.attNotifCheck,
+                                    attBandCheck: taskDetails?.AttBandCheck,
                                     notesController: _notesController,
                                     selectedEmployeeCode: _selectedEmployeeCode,
                                     defaultEmployeeCode: processData
@@ -453,6 +466,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
         nextUsersCode: nextUsersCode ?? "0",
         doneFlag: '1', // Mark as done
         doneDate: formattedDate,
+        procQty: _procQtyController.text.trim(),
       );
 
       // Show success message

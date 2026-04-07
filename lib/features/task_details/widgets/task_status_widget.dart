@@ -9,10 +9,12 @@ class TaskStatusWidget extends StatefulWidget {
   final int? attFlagCheck;
   final int? attPermitCheck;
   final int? attNotifCheck;
+  final int? attBandCheck;
   final TextEditingController? notesController;
   final String? selectedEmployeeCode;
   final String? defaultEmployeeCode;
   final Function(int doneFlag, String doneDate)? onStatusUpdated;
+  final VoidCallback? onItemsAndCategoriesTap;
 
   const TaskStatusWidget({
     super.key,
@@ -22,10 +24,12 @@ class TaskStatusWidget extends StatefulWidget {
     this.attFlagCheck,
     this.attPermitCheck,
     this.attNotifCheck,
+    this.attBandCheck,
     this.notesController,
     this.selectedEmployeeCode,
     this.defaultEmployeeCode,
     this.onStatusUpdated,
+    this.onItemsAndCategoriesTap,
   });
 
   @override
@@ -124,6 +128,12 @@ class _TaskStatusWidgetState extends State<TaskStatusWidget>
       return;
     }
 
+    // Check attBandCheck (band)
+    if (widget.attBandCheck == 0) {
+      await ErrorDialog.show(context, l10n.errorBandRequired);
+      return;
+    }
+
     // Check notes (remarks)
     final notesText = widget.notesController?.text ?? '';
     if (notesText.trim().isEmpty) {
@@ -165,9 +175,31 @@ class _TaskStatusWidgetState extends State<TaskStatusWidget>
     widget.onExecute();
   }
 
+  void _handleItemsAndCategoriesTap() {
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    final buttonText = isArabic ? 'البنود والأصناف' : 'Items & Categories';
+    if (widget.onItemsAndCategoriesTap != null) {
+      widget.onItemsAndCategoriesTap!();
+      return;
+    }
+    final l10n = AppLocalizations.of(context)!;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$buttonText - ${l10n.comingSoon}'),
+        backgroundColor: const Color(0xFFF97316),
+        behavior: SnackBarBehavior.floating,
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
+    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
+    final itemsAndCategoriesText = isArabic
+        ? 'البنود والأصناف'
+        : 'Items & Categories';
     final isCompleted = _currentDoneFlag == 1;
 
     return Container(
@@ -186,59 +218,113 @@ class _TaskStatusWidgetState extends State<TaskStatusWidget>
         padding: const EdgeInsets.all(20),
         child: Row(
           children: [
-            // Execute Button
+            // Execute + Items/Categories Buttons
             Expanded(
-              child: GestureDetector(
-                onTapDown: (_) {
-                  _controller.forward();
-                },
-                onTapUp: (_) {
-                  _controller.reverse();
-                  _handleExecuteValidation();
-                },
-                onTapCancel: () {
-                  _controller.reverse();
-                },
-                child: ScaleTransition(
-                  scale: _scaleAnimation,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    decoration: BoxDecoration(
-                      gradient: const LinearGradient(
-                        colors: [Color(0xFF4F46E5), Color(0xFF7C3AED)],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(12),
-                      boxShadow: [
-                        BoxShadow(
-                          color: const Color(0xFF4F46E5).withOpacity(0.4),
-                          blurRadius: 12,
-                          offset: const Offset(0, 4),
-                        ),
-                      ],
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        const Icon(
-                          Icons.play_circle_outline_rounded,
-                          color: Colors.white,
-                          size: 24,
-                        ),
-                        const SizedBox(width: 8),
-                        Text(
-                          l10n.executeButton,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+              child: Column(
+                children: [
+                  GestureDetector(
+                    onTapDown: (_) {
+                      _controller.forward();
+                    },
+                    onTapUp: (_) {
+                      _controller.reverse();
+                      _handleExecuteValidation();
+                    },
+                    onTapCancel: () {
+                      _controller.reverse();
+                    },
+                    child: ScaleTransition(
+                      scale: _scaleAnimation,
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        decoration: BoxDecoration(
+                          gradient: const LinearGradient(
+                            colors: [Color(0xFF4F46E5), Color(0xFF7C3AED)],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
+                          borderRadius: BorderRadius.circular(12),
+                          boxShadow: [
+                            BoxShadow(
+                              color: const Color(0xFF4F46E5).withOpacity(0.4),
+                              blurRadius: 12,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
                         ),
-                      ],
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.play_circle_outline_rounded,
+                              color: Colors.white,
+                              size: 24,
+                            ),
+                            const SizedBox(width: 8),
+                            Text(
+                              l10n.executeButton,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                ),
+                  const SizedBox(height: 10),
+                  GestureDetector(
+                    onTap: _handleItemsAndCategoriesTap,
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      decoration: BoxDecoration(
+                        gradient: const LinearGradient(
+                          colors: [Color(0xFFF97316), Color(0xFFEC4899)],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: const Color(0xFFF97316).withOpacity(0.35),
+                            blurRadius: 10,
+                            offset: const Offset(0, 4),
+                          ),
+                        ],
+                      ),
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            const Icon(
+                              Icons.inventory_2_rounded,
+                              color: Colors.white,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                itemsAndCategoriesText,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w700,
+                                ),
+                                // maxLines: 1,
+                                // overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
             const SizedBox(width: 16),

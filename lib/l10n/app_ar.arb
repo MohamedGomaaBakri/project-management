@@ -595,5 +595,8 @@
     "executionDate": "تاريخ التنفيذ",
     "permitStatus": "حالة التصريح",
     "selectPermitStatus": "اختر حالة التصريح",
-    "insertUser": "مدخل الحقل"
+    "insertUser": "مدخل الحقل",
+    "errorBandRequired": "لا يمكن التنفيذ بدون ادخال بنود للعملية",
+    "enterQuantity": "أدخل الكمية",
+    "itemsAndCategoriesButton": "البنود والأصناف"
 }

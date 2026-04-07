@@ -59,6 +59,7 @@ class Items {
   int? attFlagCheck;
   int? attPermitCheck;
   int? attNotifCheck;
+  int? AttBandCheck;
   List<Links>? links;
 
   Items({
@@ -70,6 +71,7 @@ class Items {
     this.attFlagCheck,
     this.attPermitCheck,
     this.attNotifCheck,
+    this.AttBandCheck,
     this.links,
   });
 
@@ -82,6 +84,7 @@ class Items {
     attFlagCheck = json['AttFlagCheck'];
     attPermitCheck = json['AttPermitCheck'];
     attNotifCheck = json['AttNotifCheck'];
+    AttBandCheck = json['AttBandCheck'];
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
@@ -100,6 +103,7 @@ class Items {
     data['AttFlagCheck'] = this.attFlagCheck;
     data['AttPermitCheck'] = this.attPermitCheck;
     data['AttNotifCheck'] = this.attNotifCheck;
+    data['AttBandCheck'] = this.AttBandCheck;
     if (this.links != null) {
       data['links'] = this.links!.map((v) => v.toJson()).toList();
     }

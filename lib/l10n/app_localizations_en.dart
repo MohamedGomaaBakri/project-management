@@ -1776,4 +1776,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get insertUser => 'Insert User';
+
+  @override
+  String get errorBandRequired =>
+      'Cannot execute without entering the process details';
+
+  @override
+  String get enterQuantity => 'Enter quantity';
+
+  @override
+  String get itemsAndCategoriesButton => 'Items & Categories';
 }

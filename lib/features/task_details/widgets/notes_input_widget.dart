@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../l10n/app_localizations.dart';
 
 class NotesInputWidget extends StatelessWidget {
   final TextEditingController notesController;
   final TextEditingController replyController;
   final bool isReplyReadOnly;
+  final TextEditingController? procQtyController;
 
   const NotesInputWidget({
     super.key,
     required this.notesController,
     required this.replyController,
     this.isReplyReadOnly = false,
+    this.procQtyController,
   });
 
   @override
@@ -58,6 +61,23 @@ class NotesInputWidget extends StatelessWidget {
                 const Color(0xFF2563EB),
               ],
             ),
+            if (procQtyController != null) ...[
+              const SizedBox(height: 20),
+              _buildTextField(
+                context,
+                controller: procQtyController!,
+                label: l10n.quantity,
+                hint: l10n.enterQuantity,
+                icon: Icons.pin_outlined,
+                keyboardType: TextInputType.number,
+                maxLines: 1,
+                inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+                gradientColors: [
+                  const Color(0xFFF59E0B),
+                  const Color(0xFFD97706),
+                ],
+              ),
+            ],
           ],
         ),
       ),
@@ -72,6 +92,9 @@ class NotesInputWidget extends StatelessWidget {
     required IconData icon,
     required List<Color> gradientColors,
     bool isReadOnly = false,
+    TextInputType keyboardType = TextInputType.multiline,
+    int maxLines = 3,
+    List<TextInputFormatter>? inputFormatters,
   }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +145,9 @@ class NotesInputWidget extends StatelessWidget {
           child: TextField(
             controller: controller,
             enabled: !isReadOnly,
-            maxLines: 3,
+            maxLines: maxLines,
+            keyboardType: keyboardType,
+            inputFormatters: inputFormatters,
             style: TextStyle(
               fontSize: 14,
               color: isReadOnly ? Colors.grey[600] : Colors.grey[800],

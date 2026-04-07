@@ -3553,6 +3553,24 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'مدخل الحقل'**
   String get insertUser;
+
+  /// No description provided for @errorBandRequired.
+  ///
+  /// In ar, this message translates to:
+  /// **'لا يمكن التنفيذ بدون ادخال بنود للعملية'**
+  String get errorBandRequired;
+
+  /// No description provided for @enterQuantity.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل الكمية'**
+  String get enterQuantity;
+
+  /// No description provided for @itemsAndCategoriesButton.
+  ///
+  /// In ar, this message translates to:
+  /// **'البنود والأصناف'**
+  String get itemsAndCategoriesButton;
 }
 
 class _AppLocalizationsDelegate

@@ -87,6 +87,12 @@ class Items {
   dynamic? procNameA;
   dynamic? procNameE;
   dynamic? nextUsersCodeAct;
+  dynamic? ProcPeriod;
+  dynamic? ProcStartDate;
+  dynamic? ProcEndDate;
+  dynamic? NextProcNameA;
+  dynamic? NextProcNameE;
+  dynamic? ProcQty;
   List<Links>? links;
 
   Items({
@@ -126,6 +132,12 @@ class Items {
     this.procNameA,
     this.procNameE,
     this.nextUsersCodeAct,
+    this.ProcPeriod,
+    this.ProcStartDate,
+    this.ProcEndDate,
+    this.NextProcNameA,
+    this.NextProcNameE,
+    this.ProcQty,
     this.links,
   });
 
@@ -166,6 +178,12 @@ class Items {
     procNameA = json['ProcNameA'];
     procNameE = json['ProcNameE'];
     nextUsersCodeAct = json['NextUsersCodeAct'];
+    ProcPeriod = json['ProcPeriod'];
+    ProcStartDate = json['ProcStartDate'];
+    ProcEndDate = json['ProcEndDate'];
+    NextProcNameA = json['NextProcNameA'];
+    NextProcNameE = json['NextProcNameE'];
+    ProcQty = json['ProcQty'];
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
@@ -212,6 +230,12 @@ class Items {
     data['ProcNameA'] = this.procNameA;
     data['ProcNameE'] = this.procNameE;
     data['NextUsersCodeAct'] = this.nextUsersCodeAct;
+    data['ProcPeriod'] = this.ProcPeriod;
+    data['ProcStartDate'] = this.ProcStartDate;
+    data['ProcEndDate'] = this.ProcEndDate;
+    data['NextProcNameA'] = this.NextProcNameA;
+    data['NextProcNameE'] = this.NextProcNameE;
+    data['ProcQty'] = this.ProcQty;
     if (this.links != null) {
       data['links'] = this.links!.map((v) => v.toJson()).toList();
     }

@@ -1763,4 +1763,13 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get insertUser => 'مدخل الحقل';
+
+  @override
+  String get errorBandRequired => 'لا يمكن التنفيذ بدون ادخال بنود للعملية';
+
+  @override
+  String get enterQuantity => 'أدخل الكمية';
+
+  @override
+  String get itemsAndCategoriesButton => 'البنود والأصناف';
 }
