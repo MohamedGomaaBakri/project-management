@@ -87,8 +87,13 @@ class SectionToggleCard extends StatelessWidget {
                 Switch.adaptive(
                   value: isEnabled,
                   onChanged: onToggle,
-                  activeColor: iconColor,
-                  activeTrackColor: iconColor.withValues(alpha: 0.3),
+                  activeColor: Colors.white,
+                  activeTrackColor: iconColor,
+                  inactiveThumbColor: Colors.white,
+                  inactiveTrackColor: Colors.grey.shade300,
+                  trackOutlineColor: WidgetStateProperty.resolveWith(
+                    (states) => Colors.transparent,
+                  ),
                 ),
               ],
             ),
