@@ -3595,6 +3595,150 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'إضافة'**
   String get addBandAndItem;
+
+  /// No description provided for @createBandOrItem.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة بند / صنف'**
+  String get createBandOrItem;
+
+  /// No description provided for @bandSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'قسم البند'**
+  String get bandSection;
+
+  /// No description provided for @itemSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'قسم الصنف'**
+  String get itemSection;
+
+  /// No description provided for @selectBand.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر البند'**
+  String get selectBand;
+
+  /// No description provided for @selectItem.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر الصنف'**
+  String get selectItem;
+
+  /// No description provided for @executedQty.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية المنفذة'**
+  String get executedQty;
+
+  /// No description provided for @remainingQtyLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية المتبقية'**
+  String get remainingQtyLabel;
+
+  /// No description provided for @unitLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'الوحدة'**
+  String get unitLabel;
+
+  /// No description provided for @executedQtyHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل الكمية المنفذة'**
+  String get executedQtyHint;
+
+  /// No description provided for @selectBandValidation.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى اختيار البند'**
+  String get selectBandValidation;
+
+  /// No description provided for @selectItemValidation.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى اختيار الصنف'**
+  String get selectItemValidation;
+
+  /// No description provided for @executedQtyValidation.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى إدخال الكمية المنفذة'**
+  String get executedQtyValidation;
+
+  /// No description provided for @executedQtyExceedsRemaining.
+  ///
+  /// In ar, this message translates to:
+  /// **'الكمية المنفذة تتجاوز الكمية المتبقية'**
+  String get executedQtyExceedsRemaining;
+
+  /// No description provided for @executedQtyMustBePositive.
+  ///
+  /// In ar, this message translates to:
+  /// **'يجب أن تكون الكمية أكبر من صفر'**
+  String get executedQtyMustBePositive;
+
+  /// No description provided for @enableBandSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة بند'**
+  String get enableBandSection;
+
+  /// No description provided for @enableItemSection.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة صنف'**
+  String get enableItemSection;
+
+  /// No description provided for @selectAtLeastOne.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى تفعيل قسم البند أو قسم الصنف على الأقل'**
+  String get selectAtLeastOne;
+
+  /// No description provided for @creating.
+  ///
+  /// In ar, this message translates to:
+  /// **'جاري الحفظ...'**
+  String get creating;
+
+  /// No description provided for @createSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الحفظ بنجاح'**
+  String get createSuccess;
+
+  /// No description provided for @createFailed.
+  ///
+  /// In ar, this message translates to:
+  /// **'فشل الحفظ، يرجى المحاولة مرة أخرى'**
+  String get createFailed;
+
+  /// No description provided for @autofilled.
+  ///
+  /// In ar, this message translates to:
+  /// **'يتم ملؤه تلقائياً'**
+  String get autofilled;
+
+  /// No description provided for @transactionDateLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ المعاملة'**
+  String get transactionDateLabel;
+
+  /// No description provided for @selectTransactionDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر تاريخ المعاملة'**
+  String get selectTransactionDate;
+
+  /// No description provided for @selectTransactionDateValidation.
+  ///
+  /// In ar, this message translates to:
+  /// **'يرجى اختيار تاريخ المعاملة'**
+  String get selectTransactionDateValidation;
 }
 
 class _AppLocalizationsDelegate

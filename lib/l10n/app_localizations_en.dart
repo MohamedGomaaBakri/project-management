@@ -1798,4 +1798,79 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addBandAndItem => 'Add';
+
+  @override
+  String get createBandOrItem => 'Add Band / Item';
+
+  @override
+  String get bandSection => 'Band Section';
+
+  @override
+  String get itemSection => 'Item Section';
+
+  @override
+  String get selectBand => 'Select Band';
+
+  @override
+  String get selectItem => 'Select Item';
+
+  @override
+  String get executedQty => 'Executed Qty';
+
+  @override
+  String get remainingQtyLabel => 'Remaining Qty';
+
+  @override
+  String get unitLabel => 'Unit';
+
+  @override
+  String get executedQtyHint => 'Enter executed quantity';
+
+  @override
+  String get selectBandValidation => 'Please select a band';
+
+  @override
+  String get selectItemValidation => 'Please select an item';
+
+  @override
+  String get executedQtyValidation => 'Please enter the executed quantity';
+
+  @override
+  String get executedQtyExceedsRemaining =>
+      'Executed qty exceeds remaining qty';
+
+  @override
+  String get executedQtyMustBePositive => 'Quantity must be greater than zero';
+
+  @override
+  String get enableBandSection => 'Add Band';
+
+  @override
+  String get enableItemSection => 'Add Item';
+
+  @override
+  String get selectAtLeastOne =>
+      'Please enable the Band or Item section at least';
+
+  @override
+  String get creating => 'Saving...';
+
+  @override
+  String get createSuccess => 'Saved successfully';
+
+  @override
+  String get createFailed => 'Save failed, please try again';
+
+  @override
+  String get autofilled => 'Auto-filled';
+
+  @override
+  String get transactionDateLabel => 'Transaction Date';
+
+  @override
+  String get selectTransactionDate => 'Select transaction date';
+
+  @override
+  String get selectTransactionDateValidation =>
+      'Please select a transaction date';
 }

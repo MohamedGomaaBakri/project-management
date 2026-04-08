@@ -105,4 +105,39 @@ class BandItemsService {
       throw Exception('An error occurred while fetching task proccess: $e');
     }
   }
+
+  Future<void> createBandOrItem({required Map<String, dynamic> body}) async {
+    try {
+      final url =
+          '${ApiConstants.baseUrl}${ApiConstants.getAllBandItemsEndpoint}';
+      log('🌐 API Request URL: $url', name: 'createBandOrItem');
+      log('📤 Request Body: ${json.encode(body)}', name: 'createBandOrItem');
+
+      final response = await http.post(
+        Uri.parse(url),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+        },
+        body: json.encode(body),
+      );
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        String responseBody = utf8.decode(response.bodyBytes);
+        log(
+          '✅ API Response (createBandOrItem): $responseBody',
+          name: 'createBandOrItem',
+        );
+      } else {
+        log(
+          '❌ API Error (${response.statusCode}): ${response.body}',
+          name: 'createBandOrItem',
+        );
+        throw Exception('Failed to create band or item. Status: ${response.statusCode}');
+      }
+    } catch (e) {
+      log('💥 Exception in createBandOrItem: $e', name: 'createBandOrItem');
+      throw Exception('An error occurred while creating band or item: $e');
+    }
+  }
 }

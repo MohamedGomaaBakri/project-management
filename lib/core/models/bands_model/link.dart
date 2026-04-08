@@ -1,13 +1,22 @@
 class Link {
-  Link();
+  String? rel;
+  String? href;
+  String? name;
+  String? kind;
 
-  factory Link.fromJson(Map<String, dynamic> json) {
-    // TODO: implement fromJson
-    throw UnimplementedError('Link.fromJson($json) is not implemented');
-  }
+  Link({this.rel, this.href, this.name, this.kind});
 
-  Map<String, dynamic> toJson() {
-    // TODO: implement toJson
-    throw UnimplementedError();
-  }
+  factory Link.fromJson(Map<String, dynamic> json) => Link(
+    rel: json['rel'] as String?,
+    href: json['href'] as String?,
+    name: json['name'] as String?,
+    kind: json['kind'] as String?,
+  );
+
+  Map<String, dynamic> toJson() => {
+    'rel': rel,
+    'href': href,
+    'name': name,
+    'kind': kind,
+  };
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shehabapp/core/providers/daily_tasks_provider.dart';
+import '../bands_And_items/views/band_and_items_view.dart';
 import '../../core/models/project_tasks_model.dart';
 import '../../core/providers/auth_provider.dart';
 import '../../core/providers/locale_provider.dart';
@@ -244,6 +245,19 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
                                     onStatusUpdated: (doneFlag, doneDate) {
                                       // Here you can update the task in the backend
                                       // or perform any other action after status update
+                                    },
+                                    onItemsAndCategoriesTap: () {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (_) => BandAndItemsView(
+                                            projectId: widget.taskItem?.projectId != null ? int.tryParse(widget.taskItem!.projectId.toString()) : null,
+                                            partId: widget.taskItem?.partId != null ? int.tryParse(widget.taskItem!.partId.toString()) : null,
+                                            flowId: widget.taskItem?.flowId != null ? int.tryParse(widget.taskItem!.flowId.toString()) : null,
+                                            procId: widget.taskItem?.procId != null ? int.tryParse(widget.taskItem!.procId.toString()) : null,
+                                            insertUser: widget.taskItem?.usersCode != null ? int.tryParse(widget.taskItem!.usersCode.toString()) : null,
+                                          ),
+                                        ),
+                                      );
                                     },
                                   );
                                 },

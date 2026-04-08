@@ -1784,4 +1784,77 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get addBandAndItem => 'إضافة';
+
+  @override
+  String get createBandOrItem => 'إضافة بند / صنف';
+
+  @override
+  String get bandSection => 'قسم البند';
+
+  @override
+  String get itemSection => 'قسم الصنف';
+
+  @override
+  String get selectBand => 'اختر البند';
+
+  @override
+  String get selectItem => 'اختر الصنف';
+
+  @override
+  String get executedQty => 'الكمية المنفذة';
+
+  @override
+  String get remainingQtyLabel => 'الكمية المتبقية';
+
+  @override
+  String get unitLabel => 'الوحدة';
+
+  @override
+  String get executedQtyHint => 'أدخل الكمية المنفذة';
+
+  @override
+  String get selectBandValidation => 'يرجى اختيار البند';
+
+  @override
+  String get selectItemValidation => 'يرجى اختيار الصنف';
+
+  @override
+  String get executedQtyValidation => 'يرجى إدخال الكمية المنفذة';
+
+  @override
+  String get executedQtyExceedsRemaining =>
+      'الكمية المنفذة تتجاوز الكمية المتبقية';
+
+  @override
+  String get executedQtyMustBePositive => 'يجب أن تكون الكمية أكبر من صفر';
+
+  @override
+  String get enableBandSection => 'إضافة بند';
+
+  @override
+  String get enableItemSection => 'إضافة صنف';
+
+  @override
+  String get selectAtLeastOne => 'يرجى تفعيل قسم البند أو قسم الصنف على الأقل';
+
+  @override
+  String get creating => 'جاري الحفظ...';
+
+  @override
+  String get createSuccess => 'تم الحفظ بنجاح';
+
+  @override
+  String get createFailed => 'فشل الحفظ، يرجى المحاولة مرة أخرى';
+
+  @override
+  String get autofilled => 'يتم ملؤه تلقائياً';
+
+  @override
+  String get transactionDateLabel => 'تاريخ المعاملة';
+
+  @override
+  String get selectTransactionDate => 'اختر تاريخ المعاملة';
+
+  @override
+  String get selectTransactionDateValidation => 'يرجى اختيار تاريخ المعاملة';
 }

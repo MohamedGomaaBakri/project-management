@@ -11,7 +11,9 @@ class BandItemsProvider with ChangeNotifier {
   BandsModel? bandsModel;
   ItemsModel? itemsModel;
   bool isLoading = false;
+  bool isCreating = false;
   String? errorMessage;
+  String? createErrorMessage;
 
   Future<void> getAllBandItems() async {
     isLoading = true;
@@ -52,6 +54,35 @@ class BandItemsProvider with ChangeNotifier {
       errorMessage = e.toString();
       isLoading = false;
       notifyListeners();
+    }
+  }
+
+  /// Calculates the next Serial = max(existing serials) + 1
+  int getNextSerial() {
+    final items = bandAndItemsModel?.items ?? [];
+    if (items.isEmpty) return 1;
+    final maxSerial = items
+        .map((e) => e.serial ?? 0)
+        .reduce((a, b) => a > b ? a : b);
+    return maxSerial + 1;
+  }
+
+  Future<bool> createBandOrItem({required Map<String, dynamic> body}) async {
+    isCreating = true;
+    createErrorMessage = null;
+    notifyListeners();
+    try {
+      await _bandItemsService.createBandOrItem(body: body);
+      // Refresh the list after successful creation
+      await getAllBandItems();
+      isCreating = false;
+      notifyListeners();
+      return true;
+    } catch (e) {
+      createErrorMessage = e.toString();
+      isCreating = false;
+      notifyListeners();
+      return false;
     }
   }
 }

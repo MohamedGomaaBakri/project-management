@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shehabapp/core/providers/band_items_provider.dart';
+import 'package:shehabapp/features/bands_And_items/views/create_band_or_item_view.dart';
 import 'package:shehabapp/features/bands_And_items/widgets/band_and_item_card.dart';
 import 'package:shehabapp/features/bands_And_items/widgets/band_and_items_header.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
 class BandAndItemsView extends StatefulWidget {
-  const BandAndItemsView({super.key});
+  final int? projectId;
+  final int? partId;
+  final int? flowId;
+  final int? procId;
+  final int? insertUser;
+
+  const BandAndItemsView({
+    super.key,
+    this.projectId,
+    this.partId,
+    this.flowId,
+    this.procId,
+    this.insertUser,
+  });
 
   @override
   State<BandAndItemsView> createState() => _BandAndItemsViewState();
@@ -75,14 +89,15 @@ class _BandAndItemsViewState extends State<BandAndItemsView>
                   BandAndItemsHeader(
                     title: l10n.itemsAndCategoriesButton,
                     onAddTap: () {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(
-                          content: Text(
-                            '${l10n.addBandAndItem} - ${l10n.comingSoon}',
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (_) => CreateBandOrItemView(
+                            projectId: widget.projectId,
+                            partId: widget.partId,
+                            flowId: widget.flowId,
+                            procId: widget.procId,
+                            insertUser: widget.insertUser,
                           ),
-                          backgroundColor: const Color(0xFFF97316),
-                          behavior: SnackBarBehavior.floating,
-                          duration: const Duration(seconds: 2),
                         ),
                       );
                     },
