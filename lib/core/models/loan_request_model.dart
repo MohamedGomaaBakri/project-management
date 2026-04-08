@@ -4,16 +4,19 @@ import 'dart:convert';
 
 import 'package:shehabapp/core/models/purchase_order_model.dart';
 
-
-LoanRequestList loanRequestListFromJson(String str) => LoanRequestList.fromJson(json.decode(str));
+LoanRequestList loanRequestListFromJson(String str) =>
+    LoanRequestList.fromJson(json.decode(str));
 
 class LoanRequestList {
   final List<LoanRequestItem> items;
   LoanRequestList({required this.items});
 
-  factory LoanRequestList.fromJson(Map<String, dynamic> json) => LoanRequestList(
-    items: List<LoanRequestItem>.from(json["items"].map((x) => LoanRequestItem.fromJson(x))),
-  );
+  factory LoanRequestList.fromJson(Map<String, dynamic> json) =>
+      LoanRequestList(
+        items: List<LoanRequestItem>.from(
+          json["items"].map((x) => LoanRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class LoanRequestItem {
@@ -43,19 +46,20 @@ class LoanRequestItem {
     required this.links,
   });
 
-  factory LoanRequestItem.fromJson(Map<String, dynamic> json) => LoanRequestItem(
-    empCode: json["EmpCode"],
-    reqSerial: json["ReqSerial"],
-    reqLoanDate: json["ReqLoanDate"],
-    loanType: json["LoanType"],
-    loanStartDate: json["LoanStartDate"],
-    descA: json["DescA"],
-    descE: json["DescE"],
-    altKey: json["AltKey"],
-    empName: json["EmpName"],
-    empNameE: json["EmpNameE"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory LoanRequestItem.fromJson(Map<String, dynamic> json) =>
+      LoanRequestItem(
+        empCode: json["EmpCode"],
+        reqSerial: json["ReqSerial"],
+        reqLoanDate: json["ReqLoanDate"],
+        loanType: json["LoanType"],
+        loanStartDate: json["LoanStartDate"],
+        descA: json["DescA"],
+        descE: json["DescE"],
+        altKey: json["AltKey"],
+        empName: json["EmpName"],
+        empNameE: json["EmpNameE"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 
   String? getLink(String name) {
     try {

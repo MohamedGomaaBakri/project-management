@@ -7,5 +7,5 @@ class AppStrings {
   static const String anErrorOccurred = 'حدث خطأ ما';
   static const String pleaseWait = 'يرجى الانتظار...';
   static const String welcome = 'مرحباً';
-// ... أضف المزيد من النصوص هنا
+  // ... أضف المزيد من النصوص هنا
 }

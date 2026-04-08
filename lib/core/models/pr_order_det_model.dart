@@ -1,14 +1,19 @@
 import 'dart:convert';
 
-PrOrderDetResponse prOrderDetResponseFromJson(String str) => PrOrderDetResponse.fromJson(json.decode(str));
-String prOrderDetResponseToJson(PrOrderDetResponse data) => json.encode(data.toJson());
+PrOrderDetResponse prOrderDetResponseFromJson(String str) =>
+    PrOrderDetResponse.fromJson(json.decode(str));
+String prOrderDetResponseToJson(PrOrderDetResponse data) =>
+    json.encode(data.toJson());
 
 class PrOrderDetResponse {
   final List<PrOrderDetItem> items;
   PrOrderDetResponse({required this.items});
-  factory PrOrderDetResponse.fromJson(Map<String, dynamic> json) => PrOrderDetResponse(
-    items: List<PrOrderDetItem>.from(json["items"].map((x) => PrOrderDetItem.fromJson(x))),
-  );
+  factory PrOrderDetResponse.fromJson(Map<String, dynamic> json) =>
+      PrOrderDetResponse(
+        items: List<PrOrderDetItem>.from(
+          json["items"].map((x) => PrOrderDetItem.fromJson(x)),
+        ),
+      );
   Map<String, dynamic> toJson() => {
     "items": List<dynamic>.from(items.map((x) => x.toJson())),
   };
@@ -23,9 +28,9 @@ class PrOrderDetItem {
   final String? unitNameD; // الوحدة
   final String? unitNameDE;
   final double? unitPrice; // سعر الوحدة
-  final double? taxValue;  // الضريبة
-  final double? qty;       // الكمية
-  final String? itemDesc;  // وصف الصنف
+  final double? taxValue; // الضريبة
+  final double? qty; // الكمية
+  final String? itemDesc; // وصف الصنف
 
   PrOrderDetItem({
     this.itemName,
@@ -66,6 +71,7 @@ class PrOrderDetItem {
   double get totalAmount {
     return (unitPrice ?? 0.0) * (qty ?? 0.0);
   }
+
   double get totalAmountWithTax {
     return totalAmount + (taxValue ?? 0.0);
   }

@@ -40,11 +40,16 @@ class CarMovementRequestCard extends StatelessWidget {
   String _getPermissionTypeName(BuildContext context, int? type) {
     final l10n = AppLocalizations.of(context)!;
     switch (type) {
-      case 1: return l10n.permissionType1;
-      case 2: return l10n.permissionType2;
-      case 3: return l10n.permissionType3;
-      case 4: return l10n.permissionType4;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.permissionType1;
+      case 2:
+        return l10n.permissionType2;
+      case 3:
+        return l10n.permissionType3;
+      case 4:
+        return l10n.permissionType4;
+      default:
+        return l10n.notSpecified;
     }
   }
 
@@ -54,7 +59,9 @@ class CarMovementRequestCard extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final isArabic = localeProvider.locale.languageCode == 'ar';
 
-    final empName = isArabic ? request.empName : (request.empNameE ?? request.empName);
+    final empName = isArabic
+        ? request.empName
+        : (request.empNameE ?? request.empName);
     final permissionType = _getPermissionTypeName(context, request.trnsType);
     final locale = localeProvider.locale.toLanguageTag();
 
@@ -80,30 +87,57 @@ class CarMovementRequestCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       empName ?? l10n.carMovementInfo,
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.accentColor.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       l10n.underAction,
-                      style: const TextStyle(color: AppColors.accentColor, fontSize: 12, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        color: AppColors.accentColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              _buildInfoRow(Icons.directions_car_filled_outlined, l10n.carNoLabel, request.carNo ?? l10n.notSpecified),
-              _buildInfoRow(Icons.category_outlined, l10n.permissionTypeLabel, permissionType),
-              _buildInfoRow(Icons.calendar_today_outlined, l10n.permissionDateLabel, _formatDate(request.prmDate, locale)),
-              _buildInfoRow(Icons.access_time_outlined, l10n.permissionTimeLabel, '${_formatTime(request.fromTime, locale)} - ${_formatTime(request.toTime, locale)}'),
+              _buildInfoRow(
+                Icons.directions_car_filled_outlined,
+                l10n.carNoLabel,
+                request.carNo ?? l10n.notSpecified,
+              ),
+              _buildInfoRow(
+                Icons.category_outlined,
+                l10n.permissionTypeLabel,
+                permissionType,
+              ),
+              _buildInfoRow(
+                Icons.calendar_today_outlined,
+                l10n.permissionDateLabel,
+                _formatDate(request.prmDate, locale),
+              ),
+              _buildInfoRow(
+                Icons.access_time_outlined,
+                l10n.permissionTimeLabel,
+                '${_formatTime(request.fromTime, locale)} - ${_formatTime(request.toTime, locale)}',
+              ),
             ],
           ),
         ),
@@ -118,12 +152,22 @@ class CarMovementRequestCard extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.textColor.withOpacity(0.6), size: 20),
           const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontSize: 14, color: AppColors.textColor, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.8)),
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.textColor.withOpacity(0.8),
+              ),
             ),
           ),
         ],

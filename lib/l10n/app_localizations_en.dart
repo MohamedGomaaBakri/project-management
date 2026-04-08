@@ -1786,4 +1786,16 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get itemsAndCategoriesButton => 'Items & Categories';
+
+  @override
+  String get band => 'Band';
+
+  @override
+  String get remainingQty => 'Remaining';
+
+  @override
+  String get transactionDate => 'Transaction Date';
+
+  @override
+  String get addBandAndItem => 'Add';
 }

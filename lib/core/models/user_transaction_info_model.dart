@@ -2,16 +2,20 @@
 
 import 'dart:convert';
 
-UserTransactionInfo userTransactionInfoFromJson(String str) => UserTransactionInfo.fromJson(json.decode(str));
+UserTransactionInfo userTransactionInfoFromJson(String str) =>
+    UserTransactionInfo.fromJson(json.decode(str));
 
 class UserTransactionInfo {
   final List<UserTransactionInfoItem> items;
 
-  UserTransactionInfo({ required this.items });
+  UserTransactionInfo({required this.items});
 
-  factory UserTransactionInfo.fromJson(Map<String, dynamic> json) => UserTransactionInfo(
-    items: List<UserTransactionInfoItem>.from(json["items"].map((x) => UserTransactionInfoItem.fromJson(x))),
-  );
+  factory UserTransactionInfo.fromJson(Map<String, dynamic> json) =>
+      UserTransactionInfo(
+        items: List<UserTransactionInfoItem>.from(
+          json["items"].map((x) => UserTransactionInfoItem.fromJson(x)),
+        ),
+      );
 }
 
 class UserTransactionInfoItem {
@@ -21,7 +25,7 @@ class UserTransactionInfoItem {
   final int? lastEndsrvSeq;
   final int? lastPrmSeq;
   final int? lastVcncRetSeq;
-  final int?  lASTMOVESSEQ;
+  final int? lASTMOVESSEQ;
   final int? lastCarSeq;
   final int? lastFixSeq;
   final int? lastUnFixSeq;
@@ -38,21 +42,20 @@ class UserTransactionInfoItem {
     this.lASTMOVESSEQ,
     this.lastCarSeq,
     this.lastFixSeq,
-    this.lastUnFixSeq
+    this.lastUnFixSeq,
   });
 
-  factory UserTransactionInfoItem.fromJson(Map<String, dynamic> json) => UserTransactionInfoItem(
-    usersCode: json["UsersCode"],
-    lastVcncSeq: json["LastVcncSeq"],
-    lastLoanSeq: json["LastLoanSeq"],
-    lastEndsrvSeq: json["LastEndsrvSeq"],
-    lastPrmSeq: json["LastPrmSeq"],
-    lastVcncRetSeq: json["LastVcncRetSeq"],
-      lASTMOVESSEQ: json["LastMovesSeq"],
-    lastCarSeq: json["LastCarSeq"],
-    lastFixSeq: json["LastFixSeq"],
-    lastUnFixSeq: json["LastUnfixSeq"]
-  );
+  factory UserTransactionInfoItem.fromJson(Map<String, dynamic> json) =>
+      UserTransactionInfoItem(
+        usersCode: json["UsersCode"],
+        lastVcncSeq: json["LastVcncSeq"],
+        lastLoanSeq: json["LastLoanSeq"],
+        lastEndsrvSeq: json["LastEndsrvSeq"],
+        lastPrmSeq: json["LastPrmSeq"],
+        lastVcncRetSeq: json["LastVcncRetSeq"],
+        lASTMOVESSEQ: json["LastMovesSeq"],
+        lastCarSeq: json["LastCarSeq"],
+        lastFixSeq: json["LastFixSeq"],
+        lastUnFixSeq: json["LastUnfixSeq"],
+      );
 }
-
-

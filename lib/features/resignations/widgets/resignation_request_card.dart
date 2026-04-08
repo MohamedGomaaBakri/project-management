@@ -35,8 +35,12 @@ class ResignationRequestCard extends StatelessWidget {
     final isArabic = localeProvider.locale.languageCode == 'ar';
     final locale = localeProvider.locale.toLanguageTag();
 
-    final empName = isArabic ? request.empName : (request.empNameE ?? request.empName);
-    final reasons = isArabic ? request.endReasons : (request.endReasons ?? request.endReasons);
+    final empName = isArabic
+        ? request.empName
+        : (request.empNameE ?? request.empName);
+    final reasons = isArabic
+        ? request.endReasons
+        : (request.endReasons ?? request.endReasons);
 
     return Card(
       elevation: 2.0,
@@ -60,30 +64,53 @@ class ResignationRequestCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       l10n.requestForResignation(empName ?? l10n.unknownUser),
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.accentColor.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       l10n.underAction,
-                      style: const TextStyle(color: AppColors.accentColor, fontSize: 12, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        color: AppColors.accentColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              _buildInfoRow(Icons.date_range_outlined, l10n.requestDateLabel, _formatDate(request.trnsDate, locale)),
-              _buildInfoRow(Icons.event_busy_outlined, l10n.lastWorkDayLabel, _formatDate(request.lastWorkDt, locale)),
+              _buildInfoRow(
+                Icons.date_range_outlined,
+                l10n.requestDateLabel,
+                _formatDate(request.trnsDate, locale),
+              ),
+              _buildInfoRow(
+                Icons.event_busy_outlined,
+                l10n.lastWorkDayLabel,
+                _formatDate(request.lastWorkDt, locale),
+              ),
               if (reasons != null && reasons.isNotEmpty)
-                _buildInfoRow(Icons.comment_outlined, l10n.reasonsLabel, reasons),
+                _buildInfoRow(
+                  Icons.comment_outlined,
+                  l10n.reasonsLabel,
+                  reasons,
+                ),
             ],
           ),
         ),
@@ -99,12 +126,22 @@ class ResignationRequestCard extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.textColor.withOpacity(0.6), size: 20),
           const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontSize: 14, color: AppColors.textColor, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.8)),
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.textColor.withOpacity(0.8),
+              ),
             ),
           ),
         ],

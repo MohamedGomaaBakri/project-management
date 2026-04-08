@@ -2,16 +2,19 @@
 
 import 'dart:convert';
 
-
-LoanAuthResponse loanAuthResponseFromJson(String str) => LoanAuthResponse.fromJson(json.decode(str));
+LoanAuthResponse loanAuthResponseFromJson(String str) =>
+    LoanAuthResponse.fromJson(json.decode(str));
 
 class LoanAuthResponse {
   final List<LoanAuthItem> items;
   LoanAuthResponse({required this.items});
 
-  factory LoanAuthResponse.fromJson(Map<String, dynamic> json) => LoanAuthResponse(
-    items: List<LoanAuthItem>.from(json["items"].map((x) => LoanAuthItem.fromJson(x))),
-  );
+  factory LoanAuthResponse.fromJson(Map<String, dynamic> json) =>
+      LoanAuthResponse(
+        items: List<LoanAuthItem>.from(
+          json["items"].map((x) => LoanAuthItem.fromJson(x)),
+        ),
+      );
 }
 
 class LoanAuthItem {
@@ -44,6 +47,5 @@ class LoanAuthItem {
     jobDesc: json["JobDesc"],
     usersNameE: json["UsersNameE"],
     jobDescE: json["JobDescE"],
-
   );
 }

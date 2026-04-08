@@ -23,21 +23,23 @@ class LanguageSwitcherButton extends StatelessWidget {
             },
             borderRadius: BorderRadius.circular(25), // زيادة دائرية الحواف
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // تعديل الحشو
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 8,
+              ), // تعديل الحشو
               decoration: BoxDecoration(
                 // استخدام لون مختلف قليلاً ليتناسب مع التصميم
                 color: Colors.white.withOpacity(0.2),
                 borderRadius: BorderRadius.circular(25),
-                border: Border.all(color: Colors.white.withOpacity(0.5), width: 1), // إضافة حدود
+                border: Border.all(
+                  color: Colors.white.withOpacity(0.5),
+                  width: 1,
+                ), // إضافة حدود
               ),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  const Icon(
-                    Icons.language,
-                    color: Colors.white,
-                    size: 22,
-                  ),
+                  const Icon(Icons.language, color: Colors.white, size: 22),
                   const SizedBox(width: 8),
                   Text(
                     buttonText,

@@ -12,18 +12,26 @@ import '../../../approvals/widgets/auth_timeline_widget.dart'; // Re-use timelin
 
 class CancelSalaryConfirmationDetailsBottomSheet extends StatefulWidget {
   final MyCancelSalaryConfirmationRequestItem request;
-  const CancelSalaryConfirmationDetailsBottomSheet({super.key, required this.request});
+  const CancelSalaryConfirmationDetailsBottomSheet({
+    super.key,
+    required this.request,
+  });
 
   @override
-  State<CancelSalaryConfirmationDetailsBottomSheet> createState() => _CancelSalaryConfirmationDetailsBottomSheetState();
+  State<CancelSalaryConfirmationDetailsBottomSheet> createState() =>
+      _CancelSalaryConfirmationDetailsBottomSheetState();
 }
 
-class _CancelSalaryConfirmationDetailsBottomSheetState extends State<CancelSalaryConfirmationDetailsBottomSheet> {
+class _CancelSalaryConfirmationDetailsBottomSheetState
+    extends State<CancelSalaryConfirmationDetailsBottomSheet> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<HrProvider>(context, listen: false).loadMyCancelSalaryConfirmationAuthDetails();
+      Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadMyCancelSalaryConfirmationAuthDetails();
     });
   }
 
@@ -39,10 +47,14 @@ class _CancelSalaryConfirmationDetailsBottomSheetState extends State<CancelSalar
   String _getStatusText(BuildContext context, int? flag) {
     final l10n = AppLocalizations.of(context)!;
     switch (flag) {
-      case 1: return l10n.approved;
-      case -1: return l10n.rejected;
-      case 0: return l10n.underAction;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.approved;
+      case -1:
+        return l10n.rejected;
+      case 0:
+        return l10n.underAction;
+      default:
+        return l10n.notSpecified;
     }
   }
 
@@ -65,17 +77,42 @@ class _CancelSalaryConfirmationDetailsBottomSheetState extends State<CancelSalar
               Container(
                 width: 40,
                 height: 5,
-                decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(l10n.cancelSalaryConfirmationRequestDetails, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    l10n.cancelSalaryConfirmationRequestDetails,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(color: AppColors.getStatusColor(widget.request.aproveFlag).withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
-                    child: Text(status, style: TextStyle(color: AppColors.getStatusColor(widget.request.aproveFlag), fontWeight: FontWeight.bold)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.getStatusColor(
+                        widget.request.aproveFlag,
+                      ).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        color: AppColors.getStatusColor(
+                          widget.request.aproveFlag,
+                        ),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -106,9 +143,16 @@ class _CancelSalaryConfirmationDetailsBottomSheetState extends State<CancelSalar
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            _buildDetailRow(l10n.requestDateLabel, _formatDate(widget.request.trnsDate, locale)),
-            _buildDetailRow(l10n.dCodeHint, widget.request.dCode?.toString() ?? '...'),
-            if (widget.request.notes != null && widget.request.notes!.isNotEmpty)
+            _buildDetailRow(
+              l10n.requestDateLabel,
+              _formatDate(widget.request.trnsDate, locale),
+            ),
+            _buildDetailRow(
+              l10n.dCodeHint,
+              widget.request.dCode?.toString() ?? '...',
+            ),
+            if (widget.request.notes != null &&
+                widget.request.notes!.isNotEmpty)
               _buildDetailRow(l10n.notesLabel, widget.request.notes!),
           ],
         ),
@@ -124,10 +168,18 @@ class _CancelSalaryConfirmationDetailsBottomSheetState extends State<CancelSalar
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.approvals, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(
+          l10n.approvals,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         hrProvider.isLoading && authDetails == null
-            ? const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 30))
+            ? const Center(
+                child: SpinKitFadingCircle(
+                  color: AppColors.primaryColor,
+                  size: 30,
+                ),
+              )
             : authItems.isEmpty
             ? Center(child: Text(l10n.noRegisteredApprovals))
             : AuthTimeline(authItems: authItems),
@@ -142,7 +194,13 @@ class _CancelSalaryConfirmationDetailsBottomSheetState extends State<CancelSalar
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w500)),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.grey.shade700,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

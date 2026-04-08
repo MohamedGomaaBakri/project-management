@@ -21,10 +21,12 @@ class NewEmployeeTransferRequestScreen extends StatefulWidget {
   const NewEmployeeTransferRequestScreen({super.key});
 
   @override
-  State<NewEmployeeTransferRequestScreen> createState() => _NewEmployeeTransferRequestScreenState();
+  State<NewEmployeeTransferRequestScreen> createState() =>
+      _NewEmployeeTransferRequestScreenState();
 }
 
-class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRequestScreen> {
+class _NewEmployeeTransferRequestScreenState
+    extends State<NewEmployeeTransferRequestScreen> {
   final _formKey = GlobalKey<FormState>();
 
   DateTime? _movingDate;
@@ -45,7 +47,10 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
     // جلب قائمة الشركات أول ما الشاشة تفتح
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Provider.of<HrProvider>(context, listen: false).fetchCompanies();
-      Provider.of<HrProvider>(context, listen: false).clearDepartments(); // تنظيف قائمة الإدارات القديمة
+      Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).clearDepartments(); // تنظيف قائمة الإدارات القديمة
     });
   }
 
@@ -91,7 +96,10 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
     // التحقق من العامل
     if (_isForWorker && _selectedWorker == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.selectWorkerError ?? "Please select a worker"), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text(l10n.selectWorkerError ?? "Please select a worker"),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
@@ -105,34 +113,53 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
     final int? companyCodeNew = _selectedCompanyCode;
     final int? dCodeNew = _selectedDCode;
 
-    if (companyCodeNew == null || dCodeNew == null ) {
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.numericFieldsError), backgroundColor: Colors.red));
+    if (companyCodeNew == null || dCodeNew == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(l10n.numericFieldsError),
+          backgroundColor: Colors.red,
+        ),
+      );
       return;
     }
 
     // ---== تحديد البيانات ==---
-    final int targetEmpCode = _isForWorker ? _selectedWorker!.empCode : user.empCode;
-    final int targetCompEmpCode = _isForWorker ? _selectedWorker!.compEmpCode : user.compEmpCode;
+    final int targetEmpCode = _isForWorker
+        ? _selectedWorker!.empCode
+        : user.empCode;
+    final int targetCompEmpCode = _isForWorker
+        ? _selectedWorker!.compEmpCode
+        : user.compEmpCode;
     final int insertingUserCode = user.usersCode;
 
     final bool success = await hrProvider.createEmployeeTransferRequest(
-        empCode: targetEmpCode,
-        insertUser: insertingUserCode,
-        companyCodeNew: companyCodeNew,
-        dCodeNew: dCodeNew,
-        compEmpCodeNew: targetCompEmpCode,
-        movingDate: _movingDate!,
-        movingNote: _movingNoteController.text,
-        movingNoteE: _movingNoteEController.text,
-        userCode: insertingUserCode
+      empCode: targetEmpCode,
+      insertUser: insertingUserCode,
+      companyCodeNew: companyCodeNew,
+      dCodeNew: dCodeNew,
+      compEmpCodeNew: targetCompEmpCode,
+      movingDate: _movingDate!,
+      movingNote: _movingNoteController.text,
+      movingNoteE: _movingNoteEController.text,
+      userCode: insertingUserCode,
     );
 
     if (mounted) {
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.employeeTransferRequestSentSuccessfully), backgroundColor: Colors.green));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.employeeTransferRequestSentSuccessfully),
+            backgroundColor: Colors.green,
+          ),
+        );
         Navigator.of(context).pop(true);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(hrProvider.error ?? l10n.actionFailed), backgroundColor: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(hrProvider.error ?? l10n.actionFailed),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
   }
@@ -141,7 +168,12 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final hrProvider = context.watch<HrProvider>();
-    final isArabic = Provider.of<LocaleProvider>(context, listen: false).locale.languageCode == 'ar';
+    final isArabic =
+        Provider.of<LocaleProvider>(
+          context,
+          listen: false,
+        ).locale.languageCode ==
+        'ar';
 
     return Scaffold(
       appBar: AppBar(
@@ -170,15 +202,21 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
                               title: Text(l10n.requestForMyself ?? "For Me"),
                               value: false,
                               groupValue: _isForWorker,
-                              onChanged: (val) => setState(() { _isForWorker = val!; _selectedWorker = null; }),
+                              onChanged: (val) => setState(() {
+                                _isForWorker = val!;
+                                _selectedWorker = null;
+                              }),
                             ),
                           ),
                           Expanded(
                             child: RadioListTile<bool>(
-                              title: Text(l10n.requestForWorker ?? "For Worker"),
+                              title: Text(
+                                l10n.requestForWorker ?? "For Worker",
+                              ),
                               value: true,
                               groupValue: _isForWorker,
-                              onChanged: (val) => setState(() => _isForWorker = val!),
+                              onChanged: (val) =>
+                                  setState(() => _isForWorker = val!),
                             ),
                           ),
                         ],
@@ -187,14 +225,28 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
                         const Divider(),
                         DropdownSearch<WorkerModel>(
                           items: (filter, loadProps) => hrProvider.workersList,
-                          itemAsString: (u) => isArabic ? u.empName : (u.empNameE ?? u.empName),
+                          itemAsString: (u) =>
+                              isArabic ? u.empName : (u.empNameE ?? u.empName),
                           compareFn: (i1, i2) => i1.empCode == i2.empCode,
                           selectedItem: _selectedWorker,
                           decoratorProps: DropDownDecoratorProps(
-                            decoration: InputDecoration(labelText: l10n.workerName ?? "Worker Name", border: const OutlineInputBorder(), prefixIcon: const Icon(Icons.person_search)),
+                            decoration: InputDecoration(
+                              labelText: l10n.workerName ?? "Worker Name",
+                              border: const OutlineInputBorder(),
+                              prefixIcon: const Icon(Icons.person_search),
+                            ),
                           ),
-                          popupProps: const PopupProps.menu(showSearchBox: true, searchFieldProps: TextFieldProps(decoration: InputDecoration(hintText: "بحث...", prefixIcon: Icon(Icons.search)))),
-                          onChanged: (data) => setState(() => _selectedWorker = data),
+                          popupProps: const PopupProps.menu(
+                            showSearchBox: true,
+                            searchFieldProps: TextFieldProps(
+                              decoration: InputDecoration(
+                                hintText: "بحث...",
+                                prefixIcon: Icon(Icons.search),
+                              ),
+                            ),
+                          ),
+                          onChanged: (data) =>
+                              setState(() => _selectedWorker = data),
                         ),
                         const SizedBox(height: 10),
                         DropdownSearch<WorkerModel>(
@@ -203,10 +255,23 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
                           compareFn: (i1, i2) => i1.empCode == i2.empCode,
                           selectedItem: _selectedWorker,
                           decoratorProps: DropDownDecoratorProps(
-                            decoration: InputDecoration(labelText: l10n.workerNumber ?? "Worker Number", border: const OutlineInputBorder(), prefixIcon: const Icon(Icons.badge)),
+                            decoration: InputDecoration(
+                              labelText: l10n.workerNumber ?? "Worker Number",
+                              border: const OutlineInputBorder(),
+                              prefixIcon: const Icon(Icons.badge),
+                            ),
                           ),
-                          popupProps: const PopupProps.menu(showSearchBox: true, searchFieldProps: TextFieldProps(decoration: InputDecoration(hintText: "بحث بالرقم...", prefixIcon: Icon(Icons.search)))),
-                          onChanged: (data) => setState(() => _selectedWorker = data),
+                          popupProps: const PopupProps.menu(
+                            showSearchBox: true,
+                            searchFieldProps: TextFieldProps(
+                              decoration: InputDecoration(
+                                hintText: "بحث بالرقم...",
+                                prefixIcon: Icon(Icons.search),
+                              ),
+                            ),
+                          ),
+                          onChanged: (data) =>
+                              setState(() => _selectedWorker = data),
                         ),
                         const SizedBox(height: 8),
                       ],
@@ -219,7 +284,8 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
                 label: l10n.transferDate,
                 date: _movingDate,
                 onPressed: () => _selectDate(context),
-                validator: (value) => _movingDate == null ? l10n.selectTransferDate : null,
+                validator: (value) =>
+                    _movingDate == null ? l10n.selectTransferDate : null,
               ),
               const SizedBox(height: 16),
 
@@ -232,9 +298,19 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
               const SizedBox(height: 16),
 
               const SizedBox(height: 16),
-              _buildTextField(_movingNoteController, l10n.transferNotesAr, Icons.notes_outlined, maxLines: 2),
+              _buildTextField(
+                _movingNoteController,
+                l10n.transferNotesAr,
+                Icons.notes_outlined,
+                maxLines: 2,
+              ),
               const SizedBox(height: 16),
-              _buildTextField(_movingNoteEController, l10n.transferNotesEn, Icons.notes_outlined, maxLines: 2),
+              _buildTextField(
+                _movingNoteEController,
+                l10n.transferNotesEn,
+                Icons.notes_outlined,
+                maxLines: 2,
+              ),
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: hrProvider.isLoading ? null : _submitForm,
@@ -243,8 +319,15 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
                   padding: const EdgeInsets.symmetric(vertical: 16),
                 ),
                 child: hrProvider.isLoading
-                    ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white))
-                    : Text(l10n.sendRequest, style: const TextStyle(fontSize: 16)),
+                    ? const SizedBox(
+                        width: 24,
+                        height: 24,
+                        child: CircularProgressIndicator(color: Colors.white),
+                      )
+                    : Text(
+                        l10n.sendRequest,
+                        style: const TextStyle(fontSize: 16),
+                      ),
               ),
             ],
           ),
@@ -254,7 +337,11 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
   }
 
   // ---== ودجت الشركات ==---
-  Widget _buildCompanyDropdown(HrProvider hrProvider, AppLocalizations l10n, bool isArabic) {
+  Widget _buildCompanyDropdown(
+    HrProvider hrProvider,
+    AppLocalizations l10n,
+    bool isArabic,
+  ) {
     return DropdownButtonFormField<int>(
       value: _selectedCompanyCode,
       decoration: InputDecoration(
@@ -267,7 +354,11 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
       items: hrProvider.companies.map((CompanyItem company) {
         return DropdownMenuItem<int>(
           value: company.companyCode,
-          child: Text(isArabic ? company.companyDesc ?? '' : company.companyDescE ?? company.companyDesc ?? ''),
+          child: Text(
+            isArabic
+                ? company.companyDesc ?? ''
+                : company.companyDescE ?? company.companyDesc ?? '',
+          ),
         );
       }).toList(),
       onChanged: (int? newValue) {
@@ -285,8 +376,13 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
   }
 
   // ---== ودجت الإدارات ==---
-  Widget _buildDepartmentDropdown(HrProvider hrProvider, AppLocalizations l10n, bool isArabic) {
-    bool isDisabled = _selectedCompanyCode == null || hrProvider.departments.isEmpty;
+  Widget _buildDepartmentDropdown(
+    HrProvider hrProvider,
+    AppLocalizations l10n,
+    bool isArabic,
+  ) {
+    bool isDisabled =
+        _selectedCompanyCode == null || hrProvider.departments.isEmpty;
 
     return DropdownButtonFormField<int>(
       value: _selectedDCode,
@@ -302,16 +398,20 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
       items: hrProvider.departments.map((DepartmentItem dept) {
         return DropdownMenuItem<int>(
           value: dept.dCode,
-          child: Text(isArabic ? dept.dName ?? '' : dept.dNameE ?? dept.dName ?? ''),
+          child: Text(
+            isArabic ? dept.dName ?? '' : dept.dNameE ?? dept.dName ?? '',
+          ),
         );
       }).toList(),
-      onChanged: isDisabled ? null : (int? newValue) {
-        if (newValue != null) {
-          setState(() {
-            _selectedDCode = newValue;
-          });
-        }
-      },
+      onChanged: isDisabled
+          ? null
+          : (int? newValue) {
+              if (newValue != null) {
+                setState(() {
+                  _selectedDCode = newValue;
+                });
+              }
+            },
       validator: (value) => value == null ? l10n.selectDepartment : null,
     );
   }
@@ -322,9 +422,14 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
     required VoidCallback onPressed,
     required FormFieldValidator<String> validator,
   }) {
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     final l10n = AppLocalizations.of(context)!;
-    final text = date == null ? l10n.selectDate : DateFormat.yMd(locale).format(date);
+    final text = date == null
+        ? l10n.selectDate
+        : DateFormat.yMd(locale).format(date);
 
     return TextFormField(
       readOnly: true,
@@ -340,11 +445,13 @@ class _NewEmployeeTransferRequestScreenState extends State<NewEmployeeTransferRe
   }
 
   Widget _buildTextField(
-      TextEditingController controller,
-      String label,
-      IconData icon,
-      {int maxLines = 1, bool isNumber = false, FormFieldValidator<String>? validator}
-      ) {
+    TextEditingController controller,
+    String label,
+    IconData icon, {
+    int maxLines = 1,
+    bool isNumber = false,
+    FormFieldValidator<String>? validator,
+  }) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(

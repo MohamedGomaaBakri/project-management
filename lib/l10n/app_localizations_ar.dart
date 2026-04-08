@@ -1772,4 +1772,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get itemsAndCategoriesButton => 'البنود والأصناف';
+
+  @override
+  String get band => 'البند';
+
+  @override
+  String get remainingQty => 'المتبقي';
+
+  @override
+  String get transactionDate => 'تاريخ الحركة';
+
+  @override
+  String get addBandAndItem => 'إضافة';
 }

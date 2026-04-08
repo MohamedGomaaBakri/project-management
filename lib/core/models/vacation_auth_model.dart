@@ -3,17 +3,19 @@
 import 'dart:convert';
 import 'package:shehabapp/core/models/purchase_order_model.dart';
 
-
-
-VacationAuthResponse vacationAuthResponseFromJson(String str) => VacationAuthResponse.fromJson(json.decode(str));
+VacationAuthResponse vacationAuthResponseFromJson(String str) =>
+    VacationAuthResponse.fromJson(json.decode(str));
 
 class VacationAuthResponse {
   final List<VacationAuthItem> items;
   VacationAuthResponse({required this.items});
 
-  factory VacationAuthResponse.fromJson(Map<String, dynamic> json) => VacationAuthResponse(
-    items: List<VacationAuthItem>.from(json["items"].map((x) => VacationAuthItem.fromJson(x))),
-  );
+  factory VacationAuthResponse.fromJson(Map<String, dynamic> json) =>
+      VacationAuthResponse(
+        items: List<VacationAuthItem>.from(
+          json["items"].map((x) => VacationAuthItem.fromJson(x)),
+        ),
+      );
 }
 
 class VacationAuthItem {
@@ -49,20 +51,21 @@ class VacationAuthItem {
     required this.links,
   });
 
-  factory VacationAuthItem.fromJson(Map<String, dynamic> json) => VacationAuthItem(
-    altKey: json["AltKey"],
-    authDate: json["AuthDate"],
-    authFlag: json["AuthFlag"],
-    authPk1: json["AuthPk1"],
-    authPk2: json["AuthPk2"],
-    authTableName: json["AuthTableName"],
-    prevSer: json["PrevSer"],
-    usersCode: json["UsersCode"],
-    usersDesc: json["UsersDesc"],
-    usersName: json["UsersName"],
-    usersNameE: json["UsersNameE"],
-    jobDesc: json["JobDesc"],
-    jobDescE: json["JobDescE"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory VacationAuthItem.fromJson(Map<String, dynamic> json) =>
+      VacationAuthItem(
+        altKey: json["AltKey"],
+        authDate: json["AuthDate"],
+        authFlag: json["AuthFlag"],
+        authPk1: json["AuthPk1"],
+        authPk2: json["AuthPk2"],
+        authTableName: json["AuthTableName"],
+        prevSer: json["PrevSer"],
+        usersCode: json["UsersCode"],
+        usersDesc: json["UsersDesc"],
+        usersName: json["UsersName"],
+        usersNameE: json["UsersNameE"],
+        jobDesc: json["JobDesc"],
+        jobDescE: json["JobDescE"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 }

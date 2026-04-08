@@ -18,7 +18,8 @@ class LoanRequestDetailsScreen extends StatefulWidget {
   const LoanRequestDetailsScreen({super.key});
 
   @override
-  State<LoanRequestDetailsScreen> createState() => _LoanRequestDetailsScreenState();
+  State<LoanRequestDetailsScreen> createState() =>
+      _LoanRequestDetailsScreenState();
 }
 
 class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
@@ -70,7 +71,9 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
                       decoration: InputDecoration(
                         labelText: l10n.statementLabel,
                         hintText: l10n.statementHint,
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
                       maxLines: 3,
                       minLines: 1,
@@ -90,15 +93,27 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
                       ),
                       const Spacer(),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorColor),
-                        onPressed: () => _submitAction(-1, dialogContext, request),
-                        child: Text(l10n.reject, style: const TextStyle(color: Colors.white)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.errorColor,
+                        ),
+                        onPressed: () =>
+                            _submitAction(-1, dialogContext, request),
+                        child: Text(
+                          l10n.reject,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.successColor),
-                        onPressed: () => _submitAction(1, dialogContext, request),
-                        child: Text(l10n.approve, style: const TextStyle(color: Colors.white)),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.successColor,
+                        ),
+                        onPressed: () =>
+                            _submitAction(1, dialogContext, request),
+                        child: Text(
+                          l10n.approve,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -110,7 +125,11 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
     );
   }
 
-  Future<void> _submitAction(int authFlag, BuildContext dialogContext, LoanRequestItem request) async {
+  Future<void> _submitAction(
+    int authFlag,
+    BuildContext dialogContext,
+    LoanRequestItem request,
+  ) async {
     final hrProvider = Provider.of<HrProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final l10n = AppLocalizations.of(context)!;
@@ -134,7 +153,10 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
       Navigator.of(context).pop(true);
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(hrProvider.actionError ?? l10n.anErrorOccurred), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text(hrProvider.actionError ?? l10n.anErrorOccurred),
+          backgroundColor: Colors.red,
+        ),
       );
     }
   }
@@ -146,17 +168,17 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
       builder: (context, hrProvider, child) {
         final request = hrProvider.selectedLoanRequest;
         if (request == null) {
-          return Scaffold(appBar: AppBar(), body: Center(child: Text(l10n.noRequestSelected)));
+          return Scaffold(
+            appBar: AppBar(),
+            body: Center(child: Text(l10n.noRequestSelected)),
+          );
         }
 
         return Scaffold(
           appBar: AppBar(
             title: Text(l10n.loanRequestDetailsTitle),
             backgroundColor: AppColors.primaryColor,
-            actions: const [
-              LanguageSwitcherButton(),
-              SizedBox(width: 8),
-            ],
+            actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
           ),
           body: SingleChildScrollView(
             child: Padding(
@@ -166,7 +188,12 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
                 children: [
                   _buildHeaderCard(request),
                   const SizedBox(height: 10),
-                  Center(child: Tab(text: l10n.approvals, icon: const Icon(Icons.playlist_add_check_circle_rounded))),
+                  Center(
+                    child: Tab(
+                      text: l10n.approvals,
+                      icon: const Icon(Icons.playlist_add_check_circle_rounded),
+                    ),
+                  ),
                   _buildAuthDetailsTab(hrProvider),
                 ],
               ),
@@ -182,11 +209,21 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final isArabic = localeProvider.locale.languageCode == 'ar';
 
-    final empName = isArabic ? request.empName : (request.empNameE ?? request.empName);
+    final empName = isArabic
+        ? request.empName
+        : (request.empNameE ?? request.empName);
     final loanTypeName = isArabic
-        ? Provider.of<HrProvider>(context, listen: false).getLoanTypeName(request.loanType ?? 0,true)
-        : (Provider.of<HrProvider>(context, listen: false).getLoanTypeName(request.loanType ?? 0, false));
-    final description = isArabic ? request.descA : (request.descE ?? request.descA);
+        ? Provider.of<HrProvider>(
+            context,
+            listen: false,
+          ).getLoanTypeName(request.loanType ?? 0, true)
+        : (Provider.of<HrProvider>(
+            context,
+            listen: false,
+          ).getLoanTypeName(request.loanType ?? 0, false));
+    final description = isArabic
+        ? request.descA
+        : (request.descE ?? request.descA);
     final locale = localeProvider.locale.toLanguageTag();
 
     return Card(
@@ -198,11 +235,25 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.requestForLoan(empName ?? l10n.unknownUser), style: const TextStyle(fontSize: 17.5, fontWeight: FontWeight.bold, color: AppColors.primaryColor, height: 1.4)),
+            Text(
+              l10n.requestForLoan(empName ?? l10n.unknownUser),
+              style: const TextStyle(
+                fontSize: 17.5,
+                fontWeight: FontWeight.bold,
+                color: AppColors.primaryColor,
+                height: 1.4,
+              ),
+            ),
             const SizedBox(height: 12),
             _buildDetailRow(l10n.loanTypeLabel, loanTypeName),
-            _buildDetailRow(l10n.requestDateLabel, _formatDate(request.reqLoanDate, "yyyy-MM-dd", locale)),
-            _buildDetailRow(l10n.loanStartDateLabel, _formatDate(request.loanStartDate, "yyyy-MM-dd", locale)),
+            _buildDetailRow(
+              l10n.requestDateLabel,
+              _formatDate(request.reqLoanDate, "yyyy-MM-dd", locale),
+            ),
+            _buildDetailRow(
+              l10n.loanStartDateLabel,
+              _formatDate(request.loanStartDate, "yyyy-MM-dd", locale),
+            ),
             if (description != null && description.isNotEmpty)
               _buildDetailRow(l10n.descriptionLabel, description),
             const SizedBox(height: 16),
@@ -210,13 +261,21 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
               width: double.infinity,
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.gavel_rounded),
-                label: Text(l10n.takeAction, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                label: Text(
+                  l10n.takeAction,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 onPressed: () => _showActionDialog(context, request),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.accentColor,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
             ),
@@ -232,8 +291,23 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('$label ', style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 14.5, color: AppColors.textColor)),
-          Expanded(child: Text(value, style: TextStyle(fontSize: 14.5, color: AppColors.textColor.withOpacity(0.75)))),
+          Text(
+            '$label ',
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              fontSize: 14.5,
+              color: AppColors.textColor,
+            ),
+          ),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 14.5,
+                color: AppColors.textColor.withOpacity(0.75),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -242,18 +316,31 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
   Widget _buildAuthDetailsTab(HrProvider provider) {
     final l10n = AppLocalizations.of(context)!;
     if (provider.isLoading && provider.loanAuthDetails == null) {
-      return const Center(heightFactor: 5, child: SpinKitFadingCircle(color: AppColors.primaryColor));
+      return const Center(
+        heightFactor: 5,
+        child: SpinKitFadingCircle(color: AppColors.primaryColor),
+      );
     }
     final authItems = provider.loanAuthDetails?.items;
     if (authItems == null || authItems.isEmpty) {
-      return Center(heightFactor: 5, child: Text(l10n.noRegisteredApprovalsForRequest));
+      return Center(
+        heightFactor: 5,
+        child: Text(l10n.noRegisteredApprovalsForRequest),
+      );
     }
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text(l10n.approvalChain, style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
+          child: Text(
+            l10n.approvalChain,
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
+          ),
         ),
         _buildAuthTimeline(authItems),
       ],
@@ -279,8 +366,10 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
 
           Color precedingLineColor = AppColors.hintColor.withOpacity(0.4);
           if (index > 0) {
-            if (authItems[index - 1].authFlag == 1) precedingLineColor = AppColors.successColor;
-            else if (authItems[index - 1].authFlag == -1) precedingLineColor = AppColors.errorColor;
+            if (authItems[index - 1].authFlag == 1)
+              precedingLineColor = AppColors.successColor;
+            else if (authItems[index - 1].authFlag == -1)
+              precedingLineColor = AppColors.errorColor;
           }
 
           Color succeedingLineColor = AppColors.hintColor.withOpacity(0.4);
@@ -294,61 +383,140 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
             succeedingLineColor = AppColors.errorColor;
           } else {
             stepIconData = Icons.pending_actions_rounded;
-            stepColor = isActiveStep ? AppColors.primaryColor : AppColors.hintColor.withOpacity(0.8);
+            stepColor = isActiveStep
+                ? AppColors.primaryColor
+                : AppColors.hintColor.withOpacity(0.8);
           }
 
-          final usersName = isArabic ? item.usersName : (item.usersNameE ?? item.usersName);
-          final jobDesc = isArabic ? item.jobDesc : (item.jobDescE ?? item.jobDesc);
+          final usersName = isArabic
+              ? item.usersName
+              : (item.usersNameE ?? item.usersName);
+          final jobDesc = isArabic
+              ? item.jobDesc
+              : (item.jobDescE ?? item.jobDesc);
 
           return InkWell(
-            onTap: () { if (mounted) setState(() => _activeAuthStep = index); },
+            onTap: () {
+              if (mounted) setState(() => _activeAuthStep = index);
+            },
             child: IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Column(
                     children: [
-                      if (index > 0) Expanded(child: Container(width: 2.5, color: precedingLineColor)),
-                      Container(height: 30, width: 30, alignment: Alignment.center, child: Icon(stepIconData, color: stepColor, size: isActiveStep ? 28 : 24)),
-                      if (index < authItems.length - 1) Expanded(child: Container(width: 2.5, color: succeedingLineColor)),
+                      if (index > 0)
+                        Expanded(
+                          child: Container(
+                            width: 2.5,
+                            color: precedingLineColor,
+                          ),
+                        ),
+                      Container(
+                        height: 30,
+                        width: 30,
+                        alignment: Alignment.center,
+                        child: Icon(
+                          stepIconData,
+                          color: stepColor,
+                          size: isActiveStep ? 28 : 24,
+                        ),
+                      ),
+                      if (index < authItems.length - 1)
+                        Expanded(
+                          child: Container(
+                            width: 2.5,
+                            color: succeedingLineColor,
+                          ),
+                        ),
                     ],
                   ),
                   const SizedBox(width: 14),
                   Expanded(
                     child: Container(
-                      margin: EdgeInsets.only(bottom: index < authItems.length - 1 ? 10 : 0, top: 5),
+                      margin: EdgeInsets.only(
+                        bottom: index < authItems.length - 1 ? 10 : 0,
+                        top: 5,
+                      ),
                       padding: const EdgeInsets.all(12.0),
                       decoration: BoxDecoration(
-                          color: isActiveStep ? AppColors.primaryColor.withOpacity(0.05) : Colors.grey.withOpacity(0.08),
-                          borderRadius: BorderRadius.circular(8.0),
-                          border: Border.all(color: isActiveStep ? AppColors.primaryColor.withOpacity(0.5) : Colors.grey.withOpacity(0.3), width: isActiveStep ? 1.0 : 0.7)
+                        color: isActiveStep
+                            ? AppColors.primaryColor.withOpacity(0.05)
+                            : Colors.grey.withOpacity(0.08),
+                        borderRadius: BorderRadius.circular(8.0),
+                        border: Border.all(
+                          color: isActiveStep
+                              ? AppColors.primaryColor.withOpacity(0.5)
+                              : Colors.grey.withOpacity(0.3),
+                          width: isActiveStep ? 1.0 : 0.7,
+                        ),
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(usersName ?? l10n.unknownUser, style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: isActiveStep ? AppColors.primaryColor : AppColors.textColor)),
+                          Text(
+                            usersName ?? l10n.unknownUser,
+                            style: TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              color: isActiveStep
+                                  ? AppColors.primaryColor
+                                  : AppColors.textColor,
+                            ),
+                          ),
                           if (jobDesc != null && jobDesc.isNotEmpty) ...[
                             const SizedBox(height: 2),
-                            Text(jobDesc, style: TextStyle(fontSize: 12, color: AppColors.textColor.withOpacity(0.75))),
+                            Text(
+                              jobDesc,
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textColor.withOpacity(0.75),
+                              ),
+                            ),
                           ],
                           const SizedBox(height: 6),
                           Row(
                             children: [
-                              Text('${l10n.dateLabel} ${_formatDate(item.authDate, "dd-MM-yyyy hh:mm a", locale)}', style: TextStyle(fontSize: 11.5, color: AppColors.textColor.withOpacity(0.65))),
+                              Text(
+                                '${l10n.dateLabel} ${_formatDate(item.authDate, "dd-MM-yyyy hh:mm a", locale)}',
+                                style: TextStyle(
+                                  fontSize: 11.5,
+                                  color: AppColors.textColor.withOpacity(0.65),
+                                ),
+                              ),
                               const Spacer(),
-                              Text(_getAuthStatusText(item.authFlag), style: TextStyle(fontSize: 12, color: stepColor, fontWeight: FontWeight.bold)),
+                              Text(
+                                _getAuthStatusText(item.authFlag),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: stepColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ],
                           ),
-                          if (item.usersDesc != null && item.usersDesc!.isNotEmpty) ...[
+                          if (item.usersDesc != null &&
+                              item.usersDesc!.isNotEmpty) ...[
                             const SizedBox(height: 8),
                             Container(
                               width: double.infinity,
                               padding: const EdgeInsets.all(8),
-                              decoration: BoxDecoration(border: Border(top: BorderSide(color: Colors.grey.shade200))),
-                              child: Text('${l10n.notesLabel} ${item.usersDesc}', style: TextStyle(fontSize: 12, color: AppColors.textColor.withOpacity(0.85), fontStyle: FontStyle.italic)),
+                              decoration: BoxDecoration(
+                                border: Border(
+                                  top: BorderSide(color: Colors.grey.shade200),
+                                ),
+                              ),
+                              child: Text(
+                                '${l10n.notesLabel} ${item.usersDesc}',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: AppColors.textColor.withOpacity(0.85),
+                                  fontStyle: FontStyle.italic,
+                                ),
+                              ),
                             ),
-                          ]
+                          ],
                         ],
                       ),
                     ),
@@ -365,9 +533,12 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
   String _getAuthStatusText(int? authFlag) {
     final l10n = AppLocalizations.of(context)!;
     switch (authFlag) {
-      case 1: return l10n.approved;
-      case -1: return l10n.rejected;
-      default: return l10n.underAction;
+      case 1:
+        return l10n.approved;
+      case -1:
+        return l10n.rejected;
+      default:
+        return l10n.underAction;
     }
   }
 
@@ -378,7 +549,9 @@ class _LoanRequestDetailsScreenState extends State<LoanRequestDetailsScreen> {
       if (format == "yyyy-MM-dd") {
         return DateFormat.yMd(locale).format(DateTime.parse(dateString));
       }
-      return DateFormat.yMd(locale).add_jm().format(DateFormat(format, "en_US").parse(dateString));
+      return DateFormat.yMd(
+        locale,
+      ).add_jm().format(DateFormat(format, "en_US").parse(dateString));
     } catch (e) {
       return dateString;
     }

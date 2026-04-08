@@ -28,7 +28,9 @@ class HomeProvider with ChangeNotifier {
     notifyListeners();
 
     try {
-      _notificationInfo = await _dataFetchService.fetchUserNotifications(usersCode);
+      _notificationInfo = await _dataFetchService.fetchUserNotifications(
+        usersCode,
+      );
     } catch (e) {
       _notificationError = "فشل تحميل الإشعارات: ${e.toString()}";
       print("Error in HomeProvider loadNotifications: $e");

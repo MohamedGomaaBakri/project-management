@@ -1,19 +1,22 @@
 // features/attendance/models/checked_attendance_month_model.dart
 
-
 import 'dart:convert';
 
 import '../../../core/models/purchase_order_model.dart';
 
-CheckedAttendanceMonthList checkedAttendanceMonthListFromJson(String str) => CheckedAttendanceMonthList.fromJson(json.decode(str));
+CheckedAttendanceMonthList checkedAttendanceMonthListFromJson(String str) =>
+    CheckedAttendanceMonthList.fromJson(json.decode(str));
 
 class CheckedAttendanceMonthList {
   final List<CheckedAttendanceMonthItem> items;
-  CheckedAttendanceMonthList({ required this.items });
+  CheckedAttendanceMonthList({required this.items});
 
-  factory CheckedAttendanceMonthList.fromJson(Map<String, dynamic> json) => CheckedAttendanceMonthList(
-    items: List<CheckedAttendanceMonthItem>.from(json["items"].map((x) => CheckedAttendanceMonthItem.fromJson(x))),
-  );
+  factory CheckedAttendanceMonthList.fromJson(Map<String, dynamic> json) =>
+      CheckedAttendanceMonthList(
+        items: List<CheckedAttendanceMonthItem>.from(
+          json["items"].map((x) => CheckedAttendanceMonthItem.fromJson(x)),
+        ),
+      );
 }
 
 class CheckedAttendanceMonthItem {
@@ -29,12 +32,13 @@ class CheckedAttendanceMonthItem {
     required this.links,
   });
 
-  factory CheckedAttendanceMonthItem.fromJson(Map<String, dynamic> json) => CheckedAttendanceMonthItem(
-    empCode: json["EmpCode"],
-    yearMonth: json["YearMonth"],
-    altKey: json["AltKey"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory CheckedAttendanceMonthItem.fromJson(Map<String, dynamic> json) =>
+      CheckedAttendanceMonthItem(
+        empCode: json["EmpCode"],
+        yearMonth: json["YearMonth"],
+        altKey: json["AltKey"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 
   String? getDetailLink() {
     try {

@@ -720,7 +720,6 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
 
 */
 
-
 import 'package:flutter/material.dart';
 import 'package:shehabapp/features/purchases/widgets/language_switcher_button.dart';
 import 'package:provider/provider.dart';
@@ -742,10 +741,12 @@ class PurchaseOrderDetailsScreen extends StatefulWidget {
   const PurchaseOrderDetailsScreen({super.key});
 
   @override
-  State<PurchaseOrderDetailsScreen> createState() => _PurchaseOrderDetailsScreenState();
+  State<PurchaseOrderDetailsScreen> createState() =>
+      _PurchaseOrderDetailsScreenState();
 }
 
-class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen> with SingleTickerProviderStateMixin {
+class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final TextEditingController _statementController = TextEditingController();
   final Set<int> _loadedTabs = {};
@@ -762,7 +763,10 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     _tabController.addListener(_handleTabSelection);
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final purchaseProvider = Provider.of<PurchaseProvider>(context, listen: false);
+      final purchaseProvider = Provider.of<PurchaseProvider>(
+        context,
+        listen: false,
+      );
       final selectedOrder = purchaseProvider.selectedOrder;
 
       if (selectedOrder == null && mounted) {
@@ -780,7 +784,10 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
 
   void _showActionDialog() {
     final l10n = AppLocalizations.of(context)!;
-    final purchaseProvider = Provider.of<PurchaseProvider>(context, listen: false);
+    final purchaseProvider = Provider.of<PurchaseProvider>(
+      context,
+      listen: false,
+    );
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final order = purchaseProvider.selectedOrder;
     final authDetails = purchaseProvider.authDetails;
@@ -788,15 +795,18 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
 
     if (order == null || currentUser == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.actionErrorIncompleteData), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text(l10n.actionErrorIncompleteData),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
 
     if (purchaseProvider.isLoadingOrderDetails && authDetails == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.waitForAuthDetails)),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text(l10n.waitForAuthDetails)));
       return;
     }
 
@@ -834,13 +844,21 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
                         hintText: l10n.statementHint,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: Colors.grey.shade400, width: 1.0),
+                          borderSide: BorderSide(
+                            color: Colors.grey.shade400,
+                            width: 1.0,
+                          ),
                         ),
                         focusedBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(8),
-                          borderSide: BorderSide(color: AppColors.primaryColor, width: 1.5),
+                          borderSide: BorderSide(
+                            color: AppColors.primaryColor,
+                            width: 1.5,
+                          ),
                         ),
-                        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                        ),
                       ),
                       maxLines: 3,
                       minLines: 1,
@@ -861,15 +879,25 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
                       ),
                       const Spacer(),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.errorColor),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.errorColor,
+                        ),
                         onPressed: () => _submitAction(-1, dialogContext),
-                        child: Text(l10n.reject, style: const TextStyle(color: Colors.white)),
+                        child: Text(
+                          l10n.reject,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                       const SizedBox(width: 8),
                       ElevatedButton(
-                        style: ElevatedButton.styleFrom(backgroundColor: AppColors.successColor),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: AppColors.successColor,
+                        ),
                         onPressed: () => _submitAction(1, dialogContext),
-                        child: Text(l10n.approve, style: const TextStyle(color: Colors.white)),
+                        child: Text(
+                          l10n.approve,
+                          style: const TextStyle(color: Colors.white),
+                        ),
                       ),
                     ],
                   ),
@@ -883,7 +911,10 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
 
   Future<void> _submitAction(int authFlag, BuildContext dialogContext) async {
     final l10n = AppLocalizations.of(context)!;
-    final purchaseProvider = Provider.of<PurchaseProvider>(context, listen: false);
+    final purchaseProvider = Provider.of<PurchaseProvider>(
+      context,
+      listen: false,
+    );
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     final order = purchaseProvider.selectedOrder!;
@@ -905,7 +936,9 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
       Navigator.of(context).pop(true);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(authFlag == 1 ? l10n.approvalSuccess : l10n.rejectionSuccess),
+          content: Text(
+            authFlag == 1 ? l10n.approvalSuccess : l10n.rejectionSuccess,
+          ),
           backgroundColor: AppColors.successColor,
         ),
       );
@@ -927,7 +960,9 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     super.dispose();
   }
 
-  Future<void> _loadServicesAndItemsForTotal(PurchaseProvider purchaseProvider) async {
+  Future<void> _loadServicesAndItemsForTotal(
+    PurchaseProvider purchaseProvider,
+  ) async {
     // ... (الكود الداخلي لا يتغير لأنه لا يحتوي على نصوص)
     if (!mounted) return;
     setState(() {
@@ -941,33 +976,47 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     }
 
     String? srvcUrl = selectedOrder.getLink("PrOrderSrvcVRO");
-    if (srvcUrl != null && (!_loadedTabs.contains(1) || purchaseProvider.srvcDetails == null)) {
+    if (srvcUrl != null &&
+        (!_loadedTabs.contains(1) || purchaseProvider.srvcDetails == null)) {
       try {
         await purchaseProvider.loadOrderSrvcDetails(srvcUrl);
         if (mounted && purchaseProvider.srvcDetails != null) {
-          _totalServicesAmount = purchaseProvider.srvcDetails!.items
-              .fold(0.0, (sum, item) => sum + (item.totalAmountWithTax ?? 0.0));
+          _totalServicesAmount = purchaseProvider.srvcDetails!.items.fold(
+            0.0,
+            (sum, item) => sum + (item.totalAmountWithTax ?? 0.0),
+          );
           _loadedTabs.add(1);
         }
-      } catch (e) { /* Error handling is inside provider */ }
+      } catch (e) {
+        /* Error handling is inside provider */
+      }
     } else if (purchaseProvider.srvcDetails != null) {
-      _totalServicesAmount = purchaseProvider.srvcDetails!.items
-          .fold(0.0, (sum, item) => sum + (item.totalAmountWithTax ?? 0.0));
+      _totalServicesAmount = purchaseProvider.srvcDetails!.items.fold(
+        0.0,
+        (sum, item) => sum + (item.totalAmountWithTax ?? 0.0),
+      );
     }
 
     String? itemUrl = selectedOrder.getLink("PrOrderDetVRO");
-    if (itemUrl != null && (!_loadedTabs.contains(2) || purchaseProvider.itemDetails == null)) {
+    if (itemUrl != null &&
+        (!_loadedTabs.contains(2) || purchaseProvider.itemDetails == null)) {
       try {
         await purchaseProvider.loadOrderItemDetails(itemUrl);
         if (mounted && purchaseProvider.itemDetails != null) {
-          _totalItemsAmount = purchaseProvider.itemDetails!.items
-              .fold(0.0, (sum, item) => sum + (item.totalAmountWithTax ?? 0.0));
+          _totalItemsAmount = purchaseProvider.itemDetails!.items.fold(
+            0.0,
+            (sum, item) => sum + (item.totalAmountWithTax ?? 0.0),
+          );
           _loadedTabs.add(2);
         }
-      } catch (e) { /* Error handling is inside provider */ }
+      } catch (e) {
+        /* Error handling is inside provider */
+      }
     } else if (purchaseProvider.itemDetails != null) {
-      _totalItemsAmount = purchaseProvider.itemDetails!.items
-          .fold(0.0, (sum, item) => sum + (item.totalAmountWithTax ?? 0.0));
+      _totalItemsAmount = purchaseProvider.itemDetails!.items.fold(
+        0.0,
+        (sum, item) => sum + (item.totalAmountWithTax ?? 0.0),
+      );
     }
 
     if (mounted) {
@@ -978,16 +1027,24 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
   }
 
   void _handleTabSelection() {
-    final purchaseProvider = Provider.of<PurchaseProvider>(context, listen: false);
+    final purchaseProvider = Provider.of<PurchaseProvider>(
+      context,
+      listen: false,
+    );
     if (!_loadedTabs.contains(_tabController.index) && mounted) {
       _loadTabData(_tabController.index, purchaseProvider);
     }
   }
 
-  Future<void> _loadTabData(int tabIndex, PurchaseProvider purchaseProvider) async {
+  Future<void> _loadTabData(
+    int tabIndex,
+    PurchaseProvider purchaseProvider,
+  ) async {
     // ... (الكود الداخلي لا يتغير لأنه لا يحتوي على نصوص)
     final selectedOrder = purchaseProvider.selectedOrder;
-    if (selectedOrder == null || (_loadedTabs.contains(tabIndex) && _dataForTabIsNotNull(tabIndex, purchaseProvider))) {
+    if (selectedOrder == null ||
+        (_loadedTabs.contains(tabIndex) &&
+            _dataForTabIsNotNull(tabIndex, purchaseProvider))) {
       return;
     }
 
@@ -997,15 +1054,18 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     switch (tabIndex) {
       case 0:
         url = selectedOrder.getLink("PrOrderAuthVO");
-        if (url != null) loadFuture = purchaseProvider.loadOrderAuthDetails(url);
+        if (url != null)
+          loadFuture = purchaseProvider.loadOrderAuthDetails(url);
         break;
       case 1:
         url = selectedOrder.getLink("PrOrderSrvcVRO");
-        if (url != null) loadFuture = purchaseProvider.loadOrderSrvcDetails(url);
+        if (url != null)
+          loadFuture = purchaseProvider.loadOrderSrvcDetails(url);
         break;
       case 2:
         url = selectedOrder.getLink("PrOrderDetVRO");
-        if (url != null) loadFuture = purchaseProvider.loadOrderItemDetails(url);
+        if (url != null)
+          loadFuture = purchaseProvider.loadOrderItemDetails(url);
         break;
     }
 
@@ -1018,7 +1078,7 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
           });
         }
       } catch (error) {
-        if(mounted) setState(() => _loadedTabs.add(tabIndex));
+        if (mounted) setState(() => _loadedTabs.add(tabIndex));
       }
     } else if (mounted) {
       setState(() => _loadedTabs.add(tabIndex));
@@ -1027,10 +1087,14 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
 
   bool _dataForTabIsNotNull(int tabIndex, PurchaseProvider provider) {
     switch (tabIndex) {
-      case 0: return provider.authDetails != null;
-      case 1: return provider.srvcDetails != null;
-      case 2: return provider.itemDetails != null;
-      default: return false;
+      case 0:
+        return provider.authDetails != null;
+      case 1:
+        return provider.srvcDetails != null;
+      case 2:
+        return provider.itemDetails != null;
+      default:
+        return false;
     }
   }
 
@@ -1064,17 +1128,17 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
       WidgetsBinding.instance.addPostFrameCallback((_) {
         if (mounted) Navigator.of(context).pop();
       });
-      return Scaffold(appBar: AppBar(title: Text(l10n.orderDetailsTitle)), body: Center(child: Text(l10n.errorLoadingOrder)));
+      return Scaffold(
+        appBar: AppBar(title: Text(l10n.orderDetailsTitle)),
+        body: Center(child: Text(l10n.errorLoadingOrder)),
+      );
     }
 
     return Scaffold(
       appBar: AppBar(
-
         title: Text('${l10n.orderDetailsTitle} ${order.altKey}'),
         backgroundColor: AppColors.primaryColor,
-        actions: [
-          LanguageSwitcherButton()
-        ],
+        actions: [LanguageSwitcherButton()],
       ),
       body: Column(
         children: [
@@ -1085,9 +1149,18 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
             unselectedLabelColor: AppColors.hintColor,
             indicatorColor: AppColors.accentColor,
             tabs: [
-              Tab(text: l10n.approvals, icon: const Icon(Icons.playlist_add_check_circle_rounded)),
-              Tab(text: l10n.services, icon: const Icon(Icons.design_services_outlined)),
-              Tab(text: l10n.items, icon: const Icon(Icons.inventory_2_outlined)),
+              Tab(
+                text: l10n.approvals,
+                icon: const Icon(Icons.playlist_add_check_circle_rounded),
+              ),
+              Tab(
+                text: l10n.services,
+                icon: const Icon(Icons.design_services_outlined),
+              ),
+              Tab(
+                text: l10n.items,
+                icon: const Icon(Icons.inventory_2_outlined),
+              ),
             ],
           ),
           Expanded(
@@ -1109,7 +1182,9 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     final l10n = AppLocalizations.of(context)!;
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final isArabic = localeProvider.locale.languageCode == 'ar';
-    final currencyFormat = _getCurrencyFormat(localeProvider.locale.languageCode);
+    final currencyFormat = _getCurrencyFormat(
+      localeProvider.locale.languageCode,
+    );
 
     final String displaySubject = isArabic
         ? (order.poSubject ?? l10n.notSpecified)
@@ -1135,42 +1210,90 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (trnsDesc.isNotEmpty) ...[
-              Text(trnsDesc, style: TextStyle(fontSize: 17.5, fontWeight: FontWeight.bold, color: AppColors.primaryColor, height: 1.4), textAlign: TextAlign.start),
+              Text(
+                trnsDesc,
+                style: TextStyle(
+                  fontSize: 17.5,
+                  fontWeight: FontWeight.bold,
+                  color: AppColors.primaryColor,
+                  height: 1.4,
+                ),
+                textAlign: TextAlign.start,
+              ),
               const SizedBox(height: 4),
             ],
             if (displaySubject.isNotEmpty) ...[
-              Text(displaySubject, style: TextStyle(fontSize: 16, fontWeight: FontWeight.normal, color: AppColors.textColor, height: 1.4), textAlign: TextAlign.start),
+              Text(
+                displaySubject,
+                style: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.normal,
+                  color: AppColors.textColor,
+                  height: 1.4,
+                ),
+                textAlign: TextAlign.start,
+              ),
               const SizedBox(height: 10),
             ],
             _buildDetailRowForHeader(l10n.orderNumberLabel, order.altKey),
-            _buildDetailRowForHeader(l10n.orderDateLabel, _formatDate(order.prOrderDate, localeProvider.locale.toLanguageTag())),
+            _buildDetailRowForHeader(
+              l10n.orderDateLabel,
+              _formatDate(
+                order.prOrderDate,
+                localeProvider.locale.toLanguageTag(),
+              ),
+            ),
             _buildDetailRowForHeader(l10n.supplierNameLabel, supplierName),
             const SizedBox(height: 6),
             if (_areTotalsBeingCalculated)
-              Row(children: [
-                Text(l10n.calculatingTotal, style: const TextStyle(fontSize: 14.5, fontWeight: FontWeight.w500, color: AppColors.textColor)),
-                const SizedBox(width: 8),
-                SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2, color: AppColors.primaryColor.withOpacity(0.7))),
-              ])
+              Row(
+                children: [
+                  Text(
+                    l10n.calculatingTotal,
+                    style: const TextStyle(
+                      fontSize: 14.5,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.textColor,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  SizedBox(
+                    width: 16,
+                    height: 16,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: AppColors.primaryColor.withOpacity(0.7),
+                    ),
+                  ),
+                ],
+              )
             else
               _buildDetailRowForHeader(
-                  l10n.totalOrderAmount,
-                  currencyFormat.format(grandTotal),
-                  valueColor: AppColors.successColor,
-                  isBoldValue: true
+                l10n.totalOrderAmount,
+                currencyFormat.format(grandTotal),
+                valueColor: AppColors.successColor,
+                isBoldValue: true,
               ),
             const SizedBox(height: 16),
             SizedBox(
               width: double.infinity,
               child: ElevatedButton.icon(
                 icon: const Icon(Icons.gavel_rounded),
-                label: Text(l10n.takeAction, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                label: Text(
+                  l10n.takeAction,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
                 onPressed: _showActionDialog,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppColors.accentColor,
                   foregroundColor: Colors.white,
                   padding: const EdgeInsets.symmetric(vertical: 12),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
+                  ),
                 ),
               ),
             ),
@@ -1180,23 +1303,35 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     );
   }
 
-  Widget _buildDetailRowForHeader(String label, String value, {Color? valueColor, bool isBoldValue = false}) {
+  Widget _buildDetailRowForHeader(
+    String label,
+    String value, {
+    Color? valueColor,
+    bool isBoldValue = false,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 3.5),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(fontSize: 14.5, fontWeight: FontWeight.w500, color: AppColors.textColor.withOpacity(0.9))),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 14.5,
+              fontWeight: FontWeight.w500,
+              color: AppColors.textColor.withOpacity(0.9),
+            ),
+          ),
           Expanded(
-              child: Text(
-                value,
-                style: TextStyle(
-                  fontSize: 14.5,
-                  color: valueColor ?? AppColors.textColor.withOpacity(0.75),
-                  fontWeight: isBoldValue ? FontWeight.bold : FontWeight.normal,
-                ),
-                textAlign: TextAlign.start,
-              )
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 14.5,
+                color: valueColor ?? AppColors.textColor.withOpacity(0.75),
+                fontWeight: isBoldValue ? FontWeight.bold : FontWeight.normal,
+              ),
+              textAlign: TextAlign.start,
+            ),
           ),
         ],
       ),
@@ -1206,10 +1341,14 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
   String _getAuthStatusText(int? authFlag) {
     final l10n = AppLocalizations.of(context)!;
     switch (authFlag) {
-      case 0: return l10n.authStatusPending;
-      case 1: return l10n.authStatusApproved;
-      case 2: return l10n.authStatusRejected;
-      default: return l10n.authStatusUndefined;
+      case 0:
+        return l10n.authStatusPending;
+      case 1:
+        return l10n.authStatusApproved;
+      case 2:
+        return l10n.authStatusRejected;
+      default:
+        return l10n.authStatusUndefined;
     }
   }
 
@@ -1217,23 +1356,43 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     final l10n = AppLocalizations.of(context)!;
     if (provider.authDetails == null) {
       if (provider.isLoadingOrderDetails && _tabController.index == 0) {
-        return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0));
+        return const Center(
+          child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0),
+        );
       }
       if (provider.orderDetailsError != null && _tabController.index == 0) {
-        return Center(child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text('${l10n.errorLoadingApprovals} ${provider.orderDetailsError}', style: const TextStyle(color: AppColors.errorColor), textAlign: TextAlign.center),
-        ));
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              '${l10n.errorLoadingApprovals} ${provider.orderDetailsError}',
+              style: const TextStyle(color: AppColors.errorColor),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
       }
       if (_loadedTabs.contains(0)) {
-        return Center(child: Text(l10n.noApprovalData, style: const TextStyle(fontSize: 16, color: AppColors.hintColor)));
+        return Center(
+          child: Text(
+            l10n.noApprovalData,
+            style: const TextStyle(fontSize: 16, color: AppColors.hintColor),
+          ),
+        );
       }
-      return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0));
+      return const Center(
+        child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0),
+      );
     }
 
     final authItems = provider.authDetails!.items;
     if (authItems.isEmpty) {
-      return Center(child: Text(l10n.noRegisteredApprovals, style: const TextStyle(fontSize: 16, color: AppColors.hintColor)));
+      return Center(
+        child: Text(
+          l10n.noRegisteredApprovals,
+          style: const TextStyle(fontSize: 16, color: AppColors.hintColor),
+        ),
+      );
     }
 
     return SingleChildScrollView(
@@ -1243,7 +1402,11 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
         children: [
           Text(
             l10n.approvalChain,
-            style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+            style: const TextStyle(
+              fontSize: 17,
+              fontWeight: FontWeight.bold,
+              color: AppColors.primaryColor,
+            ),
           ),
           const SizedBox(height: 14),
           _buildAuthTimeline(authItems),
@@ -1271,8 +1434,10 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
 
         Color precedingLineColor = AppColors.hintColor.withOpacity(0.4);
         if (index > 0) {
-          if (authItems[index-1].authFlag == 1) precedingLineColor = AppColors.successColor;
-          else if (authItems[index-1].authFlag == 2) precedingLineColor = AppColors.errorColor;
+          if (authItems[index - 1].authFlag == 1)
+            precedingLineColor = AppColors.successColor;
+          else if (authItems[index - 1].authFlag == 2)
+            precedingLineColor = AppColors.errorColor;
         }
 
         Color succeedingLineColor = AppColors.hintColor.withOpacity(0.4);
@@ -1286,73 +1451,156 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
           succeedingLineColor = AppColors.errorColor;
         } else {
           stepIconData = Icons.pending_actions_rounded;
-          stepColor = isActiveStep ? AppColors.primaryColor : AppColors.hintColor.withOpacity(0.8);
+          stepColor = isActiveStep
+              ? AppColors.primaryColor
+              : AppColors.hintColor.withOpacity(0.8);
         }
 
-        final String usersName = isArabic ? (item.usersName ?? l10n.unknownUser) : (item.usersNameE ?? item.usersName ?? l10n.unknownUser);
-        final String jobDesc = isArabic ? (item.jobDesc ?? '') : (item.jobDescE ?? item.jobDesc ?? '');
+        final String usersName = isArabic
+            ? (item.usersName ?? l10n.unknownUser)
+            : (item.usersNameE ?? item.usersName ?? l10n.unknownUser);
+        final String jobDesc = isArabic
+            ? (item.jobDesc ?? '')
+            : (item.jobDescE ?? item.jobDesc ?? '');
 
         return InkWell(
-          onTap: () { if (mounted) setState(() => _activeAuthStep = index); },
+          onTap: () {
+            if (mounted) setState(() => _activeAuthStep = index);
+          },
           child: IntrinsicHeight(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Column(
                   children: [
-                    if (index > 0) Expanded(child: Container(width: 2.5, color: precedingLineColor)),
+                    if (index > 0)
+                      Expanded(
+                        child: Container(width: 2.5, color: precedingLineColor),
+                      ),
                     Container(
                       height: 30,
                       width: 30,
                       alignment: Alignment.center,
-                      child: Icon(stepIconData, color: stepColor, size: isActiveStep ? 28 : 24),
+                      child: Icon(
+                        stepIconData,
+                        color: stepColor,
+                        size: isActiveStep ? 28 : 24,
+                      ),
                     ),
-                    if (index < authItems.length - 1) Expanded(child: Container(width: 2.5, color: succeedingLineColor)),
+                    if (index < authItems.length - 1)
+                      Expanded(
+                        child: Container(
+                          width: 2.5,
+                          color: succeedingLineColor,
+                        ),
+                      ),
                   ],
                 ),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Container(
-                    margin: EdgeInsets.only(bottom: index < authItems.length -1 ? 10 : 0, top: 5),
+                    margin: EdgeInsets.only(
+                      bottom: index < authItems.length - 1 ? 10 : 0,
+                      top: 5,
+                    ),
                     padding: const EdgeInsets.all(10.0),
                     decoration: BoxDecoration(
-                        color: isActiveStep ? AppColors.primaryColor.withOpacity(0.05) : Colors.grey.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                            color: isActiveStep ? AppColors.primaryColor.withOpacity(0.5) : Colors.grey.withOpacity(0.3),
-                            width: isActiveStep ? 1.0 : 0.7
-                        )
+                      color: isActiveStep
+                          ? AppColors.primaryColor.withOpacity(0.05)
+                          : Colors.grey.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
+                        color: isActiveStep
+                            ? AppColors.primaryColor.withOpacity(0.5)
+                            : Colors.grey.withOpacity(0.3),
+                        width: isActiveStep ? 1.0 : 0.7,
+                      ),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(usersName, style: TextStyle(fontSize: 15, fontWeight: isActiveStep ? FontWeight.bold : FontWeight.w500, color: isActiveStep ? AppColors.primaryColor : AppColors.textColor)),
+                        Text(
+                          usersName,
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: isActiveStep
+                                ? FontWeight.bold
+                                : FontWeight.w500,
+                            color: isActiveStep
+                                ? AppColors.primaryColor
+                                : AppColors.textColor,
+                          ),
+                        ),
                         if (jobDesc.isNotEmpty) ...[
                           const SizedBox(height: 2),
-                          Text(jobDesc, style: TextStyle(fontSize: 12, color: AppColors.textColor.withOpacity(0.75))),
+                          Text(
+                            jobDesc,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textColor.withOpacity(0.75),
+                            ),
+                          ),
                         ],
                         const SizedBox(height: 4),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text('${l10n.dateLabel} ${_formatDate(item.authDate, localeProvider.locale.toLanguageTag())}', style: TextStyle(fontSize: 11.5, color: AppColors.textColor.withOpacity(0.65))),
-                            Text(_getAuthStatusText(item.authFlag), style: TextStyle(fontSize: 11.5, color: isCompleted ? AppColors.successColor : (isRejected ? AppColors.errorColor : AppColors.hintColor), fontWeight: FontWeight.bold)),
+                            Text(
+                              '${l10n.dateLabel} ${_formatDate(item.authDate, localeProvider.locale.toLanguageTag())}',
+                              style: TextStyle(
+                                fontSize: 11.5,
+                                color: AppColors.textColor.withOpacity(0.65),
+                              ),
+                            ),
+                            Text(
+                              _getAuthStatusText(item.authFlag),
+                              style: TextStyle(
+                                fontSize: 11.5,
+                                color: isCompleted
+                                    ? AppColors.successColor
+                                    : (isRejected
+                                          ? AppColors.errorColor
+                                          : AppColors.hintColor),
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ],
                         ),
-                        if (item.usersDesc != null && item.usersDesc!.isNotEmpty) ...[
+                        if (item.usersDesc != null &&
+                            item.usersDesc!.isNotEmpty) ...[
                           const SizedBox(height: 6),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 6,
+                            ),
                             width: double.infinity,
                             decoration: BoxDecoration(
-                                color: (isActiveStep ? AppColors.primaryColor : Colors.blueGrey).withOpacity(0.04),
-                                borderRadius: BorderRadius.circular(4),
-                                border: Border.all(color: (isActiveStep ? AppColors.primaryColor : Colors.blueGrey).withOpacity(0.1))
+                              color:
+                                  (isActiveStep
+                                          ? AppColors.primaryColor
+                                          : Colors.blueGrey)
+                                      .withOpacity(0.04),
+                              borderRadius: BorderRadius.circular(4),
+                              border: Border.all(
+                                color:
+                                    (isActiveStep
+                                            ? AppColors.primaryColor
+                                            : Colors.blueGrey)
+                                        .withOpacity(0.1),
+                              ),
                             ),
-                            child: Text('${l10n.notesLabel} ${item.usersDesc}', style: TextStyle(fontSize: 12, color: AppColors.textColor.withOpacity(0.85), fontStyle: FontStyle.italic)),
+                            child: Text(
+                              '${l10n.notesLabel} ${item.usersDesc}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textColor.withOpacity(0.85),
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
                           ),
-                        ]
+                        ],
                       ],
                     ),
                   ),
@@ -1369,27 +1617,49 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     final l10n = AppLocalizations.of(context)!;
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final isArabic = localeProvider.locale.languageCode == 'ar';
-    final currencyFormat = _getCurrencyFormat(localeProvider.locale.languageCode);
+    final currencyFormat = _getCurrencyFormat(
+      localeProvider.locale.languageCode,
+    );
 
     if (provider.srvcDetails == null) {
       if (provider.isLoadingOrderDetails && _tabController.index == 1) {
-        return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0));
+        return const Center(
+          child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0),
+        );
       }
       if (provider.orderDetailsError != null && _tabController.index == 1) {
-        return Center(child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text('${l10n.errorLoadingServices} ${provider.orderDetailsError}', style: const TextStyle(color: AppColors.errorColor), textAlign: TextAlign.center),
-        ));
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              '${l10n.errorLoadingServices} ${provider.orderDetailsError}',
+              style: const TextStyle(color: AppColors.errorColor),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
       }
       if (_loadedTabs.contains(1)) {
-        return Center(child: Text(l10n.noServiceData, style: const TextStyle(fontSize: 16, color: AppColors.hintColor)));
+        return Center(
+          child: Text(
+            l10n.noServiceData,
+            style: const TextStyle(fontSize: 16, color: AppColors.hintColor),
+          ),
+        );
       }
-      return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0));
+      return const Center(
+        child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0),
+      );
     }
 
     final services = provider.srvcDetails!.items;
     if (services.isEmpty) {
-      return Center(child: Text(l10n.noRegisteredServices, style: const TextStyle(fontSize: 16, color: AppColors.hintColor)));
+      return Center(
+        child: Text(
+          l10n.noRegisteredServices,
+          style: const TextStyle(fontSize: 16, color: AppColors.hintColor),
+        ),
+      );
     }
 
     return SingleChildScrollView(
@@ -1400,27 +1670,125 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
           padding: const EdgeInsets.all(12.0),
           child: DataTable(
             columnSpacing: 18.0,
-            headingRowColor: MaterialStateColor.resolveWith((states) => AppColors.primaryColor.withOpacity(0.08)),
-            border: TableBorder.all(color: AppColors.hintColor.withOpacity(0.25), borderRadius: BorderRadius.circular(8)),
+            headingRowColor: MaterialStateColor.resolveWith(
+              (states) => AppColors.primaryColor.withOpacity(0.08),
+            ),
+            border: TableBorder.all(
+              color: AppColors.hintColor.withOpacity(0.25),
+              borderRadius: BorderRadius.circular(8),
+            ),
             columns: [
-              DataColumn(label: Text(l10n.service, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5))),
-              DataColumn(label: Text(l10n.unit, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5))),
-              DataColumn(label: Text(l10n.quantity, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)), numeric: true),
-              DataColumn(label: Text(l10n.cost, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)), numeric: true),
-              DataColumn(label: Text(l10n.tax, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)), numeric: true),
-              DataColumn(label: Text(l10n.total, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)), numeric: true),
+              DataColumn(
+                label: Text(
+                  l10n.service,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.unit,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.quantity,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+                numeric: true,
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.cost,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+                numeric: true,
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.tax,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+                numeric: true,
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.total,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+                numeric: true,
+              ),
             ],
             rows: services.map((service) {
-              final srvcName = isArabic ? (service.srvcName ?? '') : (service.srvcNameE ?? service.srvcName ?? '');
-              final unitName = isArabic ? (service.unitName ?? '') : (service.unitNameE ?? service.unitName ?? '');
-              return DataRow(cells: [
-                DataCell(SizedBox(width: 180, child: Text(srvcName, overflow: TextOverflow.ellipsis, maxLines: 2, style: const TextStyle(fontSize: 13)))),
-                DataCell(Text(unitName, style: const TextStyle(fontSize: 13))),
-                DataCell(Text(service.quantity?.toStringAsFixed(2) ?? '0', style: const TextStyle(fontSize: 13))),
-                DataCell(Text(currencyFormat.format(service.unitCost ?? 0), style: const TextStyle(fontSize: 13))),
-                DataCell(Text(currencyFormat.format(service.taxValue1 ?? 0), style: const TextStyle(fontSize: 13))),
-                DataCell(Text(currencyFormat.format(service.totalAmountWithTax), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 13))),
-              ]);
+              final srvcName = isArabic
+                  ? (service.srvcName ?? '')
+                  : (service.srvcNameE ?? service.srvcName ?? '');
+              final unitName = isArabic
+                  ? (service.unitName ?? '')
+                  : (service.unitNameE ?? service.unitName ?? '');
+              return DataRow(
+                cells: [
+                  DataCell(
+                    SizedBox(
+                      width: 180,
+                      child: Text(
+                        srvcName,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                    ),
+                  ),
+                  DataCell(
+                    Text(unitName, style: const TextStyle(fontSize: 13)),
+                  ),
+                  DataCell(
+                    Text(
+                      service.quantity?.toStringAsFixed(2) ?? '0',
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  DataCell(
+                    Text(
+                      currencyFormat.format(service.unitCost ?? 0),
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  DataCell(
+                    Text(
+                      currencyFormat.format(service.taxValue1 ?? 0),
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  DataCell(
+                    Text(
+                      currencyFormat.format(service.totalAmountWithTax),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              );
             }).toList(),
           ),
         ),
@@ -1432,27 +1800,49 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
     final l10n = AppLocalizations.of(context)!;
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final isArabic = localeProvider.locale.languageCode == 'ar';
-    final currencyFormat = _getCurrencyFormat(localeProvider.locale.languageCode);
+    final currencyFormat = _getCurrencyFormat(
+      localeProvider.locale.languageCode,
+    );
 
     if (provider.itemDetails == null) {
       if (provider.isLoadingOrderDetails && _tabController.index == 2) {
-        return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0));
+        return const Center(
+          child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0),
+        );
       }
       if (provider.orderDetailsError != null && _tabController.index == 2) {
-        return Center(child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Text('${l10n.errorLoadingItems} ${provider.orderDetailsError}', style: const TextStyle(color: AppColors.errorColor), textAlign: TextAlign.center),
-        ));
+        return Center(
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Text(
+              '${l10n.errorLoadingItems} ${provider.orderDetailsError}',
+              style: const TextStyle(color: AppColors.errorColor),
+              textAlign: TextAlign.center,
+            ),
+          ),
+        );
       }
       if (_loadedTabs.contains(2)) {
-        return Center(child: Text(l10n.noItemData, style: const TextStyle(fontSize: 16, color: AppColors.hintColor)));
+        return Center(
+          child: Text(
+            l10n.noItemData,
+            style: const TextStyle(fontSize: 16, color: AppColors.hintColor),
+          ),
+        );
       }
-      return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0));
+      return const Center(
+        child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 40.0),
+      );
     }
 
     final items = provider.itemDetails!.items;
     if (items.isEmpty) {
-      return Center(child: Text(l10n.noRegisteredItems, style: const TextStyle(fontSize: 16, color: AppColors.hintColor)));
+      return Center(
+        child: Text(
+          l10n.noRegisteredItems,
+          style: const TextStyle(fontSize: 16, color: AppColors.hintColor),
+        ),
+      );
     }
 
     return SingleChildScrollView(
@@ -1463,31 +1853,131 @@ class _PurchaseOrderDetailsScreenState extends State<PurchaseOrderDetailsScreen>
           padding: const EdgeInsets.all(12.0),
           child: DataTable(
             columnSpacing: 16.0,
-            headingRowColor: MaterialStateColor.resolveWith((states) => AppColors.primaryColor.withOpacity(0.08)),
-            border: TableBorder.all(color: AppColors.hintColor.withOpacity(0.25), borderRadius: BorderRadius.circular(8)),
+            headingRowColor: MaterialStateColor.resolveWith(
+              (states) => AppColors.primaryColor.withOpacity(0.08),
+            ),
+            border: TableBorder.all(
+              color: AppColors.hintColor.withOpacity(0.25),
+              borderRadius: BorderRadius.circular(8),
+            ),
             columns: [
-              DataColumn(label: Text(l10n.item, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5))),
-             // DataColumn(label: Text(l10n.description, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5))),
-              DataColumn(label: Text(l10n.unit, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5))),
-              DataColumn(label: Text(l10n.quantity, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)), numeric: true),
-              DataColumn(label: Text(l10n.price, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)), numeric: true),
-              DataColumn(label: Text(l10n.tax, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)), numeric: true),
-              DataColumn(label: Text(l10n.total, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5)), numeric: true),
+              DataColumn(
+                label: Text(
+                  l10n.item,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+              ),
+              // DataColumn(label: Text(l10n.description, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 13.5))),
+              DataColumn(
+                label: Text(
+                  l10n.unit,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.quantity,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+                numeric: true,
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.price,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+                numeric: true,
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.tax,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+                numeric: true,
+              ),
+              DataColumn(
+                label: Text(
+                  l10n.total,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 13.5,
+                  ),
+                ),
+                numeric: true,
+              ),
             ],
             rows: items.map((item) {
-              final itemName = isArabic ? (item.itemName ?? '') : (item.itemNameE ?? item.itemName ?? '');
-              final itemDesc = isArabic ? (item.itemDesc ?? '') : (item.itemDesc ?? item.itemDesc ?? '');
-              final unitName = isArabic ? (item.unitNameD ?? '') : (item.unitNameDE ?? item.unitNameD ?? '');
+              final itemName = isArabic
+                  ? (item.itemName ?? '')
+                  : (item.itemNameE ?? item.itemName ?? '');
+              final itemDesc = isArabic
+                  ? (item.itemDesc ?? '')
+                  : (item.itemDesc ?? item.itemDesc ?? '');
+              final unitName = isArabic
+                  ? (item.unitNameD ?? '')
+                  : (item.unitNameDE ?? item.unitNameD ?? '');
 
-              return DataRow(cells: [
-                DataCell(SizedBox(width: 160, child: Text(itemName, overflow: TextOverflow.ellipsis, maxLines: 2, style: const TextStyle(fontSize: 13)))),
-              //  DataCell(SizedBox(width: 160, child: Text(itemDesc, overflow: TextOverflow.ellipsis, maxLines: 2, style: const TextStyle(fontSize: 13)))),
-                DataCell(Text(unitName, style: const TextStyle(fontSize: 13))),
-                DataCell(Text(item.qty?.toStringAsFixed(2) ?? '0', style: const TextStyle(fontSize: 13))),
-                DataCell(Text(currencyFormat.format(item.unitPrice ?? 0), style: const TextStyle(fontSize: 13))),
-                DataCell(Text(currencyFormat.format(item.taxValue ?? 0), style: const TextStyle(fontSize: 13))),
-                DataCell(Text(currencyFormat.format(item.totalAmountWithTax), style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 13))),
-              ]);
+              return DataRow(
+                cells: [
+                  DataCell(
+                    SizedBox(
+                      width: 160,
+                      child: Text(
+                        itemName,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: const TextStyle(fontSize: 13),
+                      ),
+                    ),
+                  ),
+                  //  DataCell(SizedBox(width: 160, child: Text(itemDesc, overflow: TextOverflow.ellipsis, maxLines: 2, style: const TextStyle(fontSize: 13)))),
+                  DataCell(
+                    Text(unitName, style: const TextStyle(fontSize: 13)),
+                  ),
+                  DataCell(
+                    Text(
+                      item.qty?.toStringAsFixed(2) ?? '0',
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  DataCell(
+                    Text(
+                      currencyFormat.format(item.unitPrice ?? 0),
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  DataCell(
+                    Text(
+                      currencyFormat.format(item.taxValue ?? 0),
+                      style: const TextStyle(fontSize: 13),
+                    ),
+                  ),
+                  DataCell(
+                    Text(
+                      currencyFormat.format(item.totalAmountWithTax),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                ],
+              );
             }).toList(),
           ),
         ),

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class AppColors {
@@ -12,14 +11,14 @@ class AppColors {
   static const Color successColor = Colors.green;
   static Color getStatusColor(int? flag) {
     switch (flag) {
-      case 1: return successColor;
-      case -1: return errorColor;
-      case 0: return Colors.orange.shade700; // تحت الإجراء
-      default: return hintColor;
+      case 1:
+        return successColor;
+      case -1:
+        return errorColor;
+      case 0:
+        return Colors.orange.shade700; // تحت الإجراء
+      default:
+        return hintColor;
     }
   }
 }
-
-
-
-

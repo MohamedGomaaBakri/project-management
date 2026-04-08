@@ -33,7 +33,9 @@ class SalaryConfirmationRequestCard extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final isArabic = localeProvider.locale.languageCode == 'ar';
 
-    final empName = isArabic ? request.empName : (request.empNameE ?? request.empName);
+    final empName = isArabic
+        ? request.empName
+        : (request.empNameE ?? request.empName);
     final locale = localeProvider.locale.toLanguageTag();
 
     return Card(
@@ -58,29 +60,48 @@ class SalaryConfirmationRequestCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       empName ?? l10n.salaryConfirmationInfo,
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.accentColor.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       l10n.underAction,
-                      style: const TextStyle(color: AppColors.accentColor, fontSize: 12, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        color: AppColors.accentColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              _buildInfoRow(Icons.calendar_today_outlined, l10n.requestDateLabel, _formatDate(request.trnsDate, locale)),
+              _buildInfoRow(
+                Icons.calendar_today_outlined,
+                l10n.requestDateLabel,
+                _formatDate(request.trnsDate, locale),
+              ),
               if (request.notes != null && request.notes!.isNotEmpty)
-                _buildInfoRow(Icons.notes_outlined, l10n.notesLabel, request.notes!),
+                _buildInfoRow(
+                  Icons.notes_outlined,
+                  l10n.notesLabel,
+                  request.notes!,
+                ),
             ],
           ),
         ),
@@ -95,12 +116,22 @@ class SalaryConfirmationRequestCard extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.textColor.withOpacity(0.6), size: 20),
           const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontSize: 14, color: AppColors.textColor, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.8)),
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.textColor.withOpacity(0.8),
+              ),
               overflow: TextOverflow.ellipsis,
             ),
           ),

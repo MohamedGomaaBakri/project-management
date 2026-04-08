@@ -33,7 +33,9 @@ class EmployeeTransferRequestCard extends StatelessWidget {
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final isArabic = localeProvider.locale.languageCode == 'ar';
 
-    final empName = isArabic ? request.empName : (request.empNameE ?? request.empName);
+    final empName = isArabic
+        ? request.empName
+        : (request.empNameE ?? request.empName);
     final locale = localeProvider.locale.toLanguageTag();
 
     return Card(
@@ -58,29 +60,52 @@ class EmployeeTransferRequestCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       empName ?? l10n.employeeTransferInfo,
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.accentColor.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       l10n.underAction,
-                      style: const TextStyle(color: AppColors.accentColor, fontSize: 12, fontWeight: FontWeight.w500),
+                      style: const TextStyle(
+                        color: AppColors.accentColor,
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              _buildInfoRow(Icons.calendar_today_outlined, l10n.transferDate, _formatDate(request.movingDate, locale)),
-              _buildInfoRow(Icons.account_tree_outlined, l10n.newDCode, request.dCodeNew?.toString() ?? l10n.notSpecified),
-              _buildInfoRow(Icons.person_outline, l10n.newManagerCode, request.compEmpCodeNew?.toString() ?? l10n.notSpecified),
+              _buildInfoRow(
+                Icons.calendar_today_outlined,
+                l10n.transferDate,
+                _formatDate(request.movingDate, locale),
+              ),
+              _buildInfoRow(
+                Icons.account_tree_outlined,
+                l10n.newDCode,
+                request.dCodeNew?.toString() ?? l10n.notSpecified,
+              ),
+              _buildInfoRow(
+                Icons.person_outline,
+                l10n.newManagerCode,
+                request.compEmpCodeNew?.toString() ?? l10n.notSpecified,
+              ),
             ],
           ),
         ),
@@ -95,12 +120,22 @@ class EmployeeTransferRequestCard extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.textColor.withOpacity(0.6), size: 20),
           const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontSize: 14, color: AppColors.textColor, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.8)),
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.textColor.withOpacity(0.8),
+              ),
             ),
           ),
         ],

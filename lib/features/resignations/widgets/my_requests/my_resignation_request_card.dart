@@ -11,7 +11,11 @@ class MyResignationRequestCard extends StatelessWidget {
   final MyResignationRequestItem request;
   final VoidCallback onTap;
 
-  const MyResignationRequestCard({super.key, required this.request, required this.onTap});
+  const MyResignationRequestCard({
+    super.key,
+    required this.request,
+    required this.onTap,
+  });
 
   String _formatDate(String? dateString, String locale) {
     if (dateString == null) return '';
@@ -21,17 +25,24 @@ class MyResignationRequestCard extends StatelessWidget {
   String _getRequestStatusName(BuildContext context, int? flag) {
     final l10n = AppLocalizations.of(context)!;
     switch (flag) {
-      case 1: return l10n.approved;
-      case -1: return l10n.rejected;
-      case 0: return l10n.underAction;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.approved;
+      case -1:
+        return l10n.rejected;
+      case 0:
+        return l10n.underAction;
+      default:
+        return l10n.notSpecified;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     final status = _getRequestStatusName(context, request.aproveFlag);
 
     return Card(
@@ -49,18 +60,51 @@ class MyResignationRequestCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(l10n.resignationRequest, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
+                  Text(
+                    l10n.resignationRequest,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(color: AppColors.getStatusColor(request.aproveFlag).withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
-                    child: Text(status, style: TextStyle(color: AppColors.getStatusColor(request.aproveFlag), fontWeight: FontWeight.bold)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.getStatusColor(
+                        request.aproveFlag,
+                      ).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        color: AppColors.getStatusColor(request.aproveFlag),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
               const Divider(height: 20),
-              _buildInfoRow(Icons.date_range_outlined, l10n.requestDateLabel, _formatDate(request.trnsDate, locale)),
-              _buildInfoRow(Icons.event_available_outlined, l10n.resignationDateLabel, _formatDate(request.endDate, locale)),
-              _buildInfoRow(Icons.event_busy_outlined, l10n.lastWorkDayLabel, _formatDate(request.lastWorkDt, locale)),
+              _buildInfoRow(
+                Icons.date_range_outlined,
+                l10n.requestDateLabel,
+                _formatDate(request.trnsDate, locale),
+              ),
+              _buildInfoRow(
+                Icons.event_available_outlined,
+                l10n.resignationDateLabel,
+                _formatDate(request.endDate, locale),
+              ),
+              _buildInfoRow(
+                Icons.event_busy_outlined,
+                l10n.lastWorkDayLabel,
+                _formatDate(request.lastWorkDt, locale),
+              ),
             ],
           ),
         ),
@@ -77,7 +121,9 @@ class MyResignationRequestCard extends StatelessWidget {
           const SizedBox(width: 8),
           Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(width: 5),
-          Expanded(child: Text(value, style: TextStyle(color: Colors.grey.shade800))),
+          Expanded(
+            child: Text(value, style: TextStyle(color: Colors.grey.shade800)),
+          ),
         ],
       ),
     );

@@ -17,25 +17,33 @@ class UserInfoBottomBar extends StatelessWidget {
       return const SizedBox.shrink();
     }
 
-    final String placeholderImageUrl = 'https://picsum.photos/seed/${user.usersCode}/100';
+    final String placeholderImageUrl =
+        'https://picsum.photos/seed/${user.usersCode}/100';
 
     return Material(
       elevation: 8.0,
-      color: AppColors.backgroundColor, // أو Theme.of(context).cardColor إذا أردت لون البطاقة
+      color: AppColors
+          .backgroundColor, // أو Theme.of(context).cardColor إذا أردت لون البطاقة
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed(UserProfileScreen.routeName, arguments: user.compEmpCode);
+          Navigator.of(
+            context,
+          ).pushNamed(UserProfileScreen.routeName, arguments: user.compEmpCode);
         },
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
           decoration: BoxDecoration(
             border: Border(
-              top: BorderSide(color: AppColors.primaryColor.withOpacity(0.2), width: 0.8),
+              top: BorderSide(
+                color: AppColors.primaryColor.withOpacity(0.2),
+                width: 0.8,
+              ),
             ),
           ),
           // استخدام Directionality للتحكم في اتجاه العناصر
           child: Directionality(
-            textDirection: TextDirection.rtl, // <--- تحديد الاتجاه من اليمين لليسار
+            textDirection:
+                TextDirection.rtl, // <--- تحديد الاتجاه من اليمين لليسار
             child: Row(
               children: [
                 // الصورة أولاً (على اليمين في RTL)
@@ -47,16 +55,31 @@ class UserInfoBottomBar extends StatelessWidget {
                     imageBuilder: (context, imageProvider) => Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        image: DecorationImage(image: imageProvider, fit: BoxFit.cover),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
-                    placeholder: (context, url) => const CircularProgressIndicator(strokeWidth: 2, valueColor: AlwaysStoppedAnimation<Color>(Colors.white70),),
+                    placeholder: (context, url) =>
+                        const CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white70,
+                          ),
+                        ),
                     errorWidget: (context, url, error) => CircleAvatar(
                       radius: 28,
                       backgroundColor: AppColors.accentColor,
                       child: Text(
-                        user.usersName.isNotEmpty ? user.usersName[0].toUpperCase() : 'U',
-                        style: const TextStyle(fontSize: 24, color: Colors.white, fontWeight: FontWeight.bold),
+                        user.usersName.isNotEmpty
+                            ? user.usersName[0].toUpperCase()
+                            : 'U',
+                        style: const TextStyle(
+                          fontSize: 24,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
                     ),
                   ),
@@ -65,22 +88,27 @@ class UserInfoBottomBar extends StatelessWidget {
                 // النصوص (ستكون في المنتصف)
                 Expanded(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start, // النصوص ستبدأ من اليمين داخل هذا العمود
+                    crossAxisAlignment: CrossAxisAlignment
+                        .start, // النصوص ستبدأ من اليمين داخل هذا العمود
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
                         user.usersName,
                         style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
-                            color: AppColors.textColor),
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.textColor,
+                        ),
                         overflow: TextOverflow.ellipsis,
                         textDirection: TextDirection.rtl, // تأكيد اتجاه النص
                       ),
                       const SizedBox(height: 2),
                       Text(
                         ' ${user.jobDesc}',
-                        style: TextStyle(fontSize: 13, color: AppColors.textColor.withOpacity(0.7)),
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppColors.textColor.withOpacity(0.7),
+                        ),
                         overflow: TextOverflow.ellipsis,
                         textDirection: TextDirection.rtl, // تأكيد اتجاه النص
                       ),
@@ -88,7 +116,11 @@ class UserInfoBottomBar extends StatelessWidget {
                   ),
                 ),
                 // أيقونة السهم (ستكون على اليسار في RTL)
-                const Icon(Icons.arrow_back_ios_new, color: AppColors.hintColor, size: 18), // استخدام سهم يشير للخلف في RTL
+                const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: AppColors.hintColor,
+                  size: 18,
+                ), // استخدام سهم يشير للخلف في RTL
               ],
             ),
           ),

@@ -1,11 +1,10 @@
-
-
-
 import 'dart:convert';
 // لا نحتاج لاستيراد Link هنا إذا لم تكن جزءًا من AuthItem مباشرة
 
-PrOrderAuthResponse prOrderAuthResponseFromJson(String str) => PrOrderAuthResponse.fromJson(json.decode(str));
-String prOrderAuthResponseToJson(PrOrderAuthResponse data) => json.encode(data.toJson());
+PrOrderAuthResponse prOrderAuthResponseFromJson(String str) =>
+    PrOrderAuthResponse.fromJson(json.decode(str));
+String prOrderAuthResponseToJson(PrOrderAuthResponse data) =>
+    json.encode(data.toJson());
 
 class PrOrderAuthResponse {
   final List<PrOrderAuthItem> items;
@@ -25,8 +24,12 @@ class PrOrderAuthResponse {
     // this.links,
   });
 
-  factory PrOrderAuthResponse.fromJson(Map<String, dynamic> json) => PrOrderAuthResponse(
-    items: List<PrOrderAuthItem>.from(json["items"].map((x) => PrOrderAuthItem.fromJson(x))),
+  factory PrOrderAuthResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => PrOrderAuthResponse(
+    items: List<PrOrderAuthItem>.from(
+      json["items"].map((x) => PrOrderAuthItem.fromJson(x)),
+    ),
     count: json["count"],
     hasMore: json["hasMore"],
     limit: json["limit"],
@@ -44,11 +47,10 @@ class PrOrderAuthResponse {
   };
 }
 
-
 class PrOrderAuthItem {
   final String? altKey;
   final String? authDate; // "12-02-2024 02:10 pm"
-  final int? authFlag;   // حالة الاعتماد (1 = معتمد)
+  final int? authFlag; // حالة الاعتماد (1 = معتمد)
   final String? authPk1;
   final String? authPk2;
   final String? authTableName;
@@ -57,7 +59,7 @@ class PrOrderAuthItem {
   final String? usersDesc; // البيان/الملاحظات المسجلة من قبل هذا المستخدم
   final String? usersName;
   final String? usersNameE;
-  final String? jobDesc;   // المسمى الوظيفي للمسؤول
+  final String? jobDesc; // المسمى الوظيفي للمسؤول
   final String? jobDescE;
   // final List<Link>? links; // إذا كان لكل item روابط خاصة به
 
@@ -78,7 +80,9 @@ class PrOrderAuthItem {
     // this.links,
   });
 
-  factory PrOrderAuthItem.fromJson(Map<String, dynamic> json) => PrOrderAuthItem(
+  factory PrOrderAuthItem.fromJson(
+    Map<String, dynamic> json,
+  ) => PrOrderAuthItem(
     altKey: json["AltKey"],
     authDate: json["AuthDate"],
     authFlag: json["AuthFlag"],
@@ -112,15 +116,3 @@ class PrOrderAuthItem {
     // "links": links == null ? null : List<dynamic>.from(links!.map((x) => x.toJson())),
   };
 }
-
-
-
-
-
-
-
-
-
-
-
-

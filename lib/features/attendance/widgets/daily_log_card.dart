@@ -30,7 +30,10 @@ class DailyLogCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 8),
       elevation: 3,
@@ -69,8 +72,12 @@ class DailyLogCard extends StatelessWidget {
                   return Row(
                     children: [
                       Icon(
-                        isCheckIn ? Icons.login_outlined : Icons.logout_outlined,
-                        color: isCheckIn ? Colors.green.shade600 : Colors.red.shade600,
+                        isCheckIn
+                            ? Icons.login_outlined
+                            : Icons.logout_outlined,
+                        color: isCheckIn
+                            ? Colors.green.shade600
+                            : Colors.red.shade600,
                         size: 22,
                       ),
                       const SizedBox(width: 12),

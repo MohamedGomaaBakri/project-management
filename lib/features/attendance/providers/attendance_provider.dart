@@ -76,7 +76,8 @@ class AttendanceProvider with ChangeNotifier {
     _monthsError = null;
     notifyListeners();
     try {
-      final url = "${ApiConstants.baseUrl}${ApiConstants.attendanceMonthsEndpoint}?q=EmpCode=$empCode";
+      final url =
+          "${ApiConstants.baseUrl}${ApiConstants.attendanceMonthsEndpoint}?q=EmpCode=$empCode";
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         final monthList = AttendanceMonthList.fromJson(data);
@@ -138,7 +139,8 @@ class AttendanceProvider with ChangeNotifier {
     _checkedMonthsError = null;
     notifyListeners();
     try {
-      final url = "${ApiConstants.baseUrl}${ApiConstants.checkedAttendanceMonthsEndpoint}?q=EmpCode=$empCode";
+      final url =
+          "${ApiConstants.baseUrl}${ApiConstants.checkedAttendanceMonthsEndpoint}?q=EmpCode=$empCode";
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         _checkedMonths = CheckedAttendanceMonthList.fromJson(data).items;
@@ -167,7 +169,8 @@ class AttendanceProvider with ChangeNotifier {
         _checkedDetails = detailList.items;
       }
     } catch (e) {
-      _checkedDetailsError = "فشل تحميل تفاصيل الحضور المعتمدة: ${e.toString()}";
+      _checkedDetailsError =
+          "فشل تحميل تفاصيل الحضور المعتمدة: ${e.toString()}";
     } finally {
       _isLoadingCheckedDetails = false;
       notifyListeners();
@@ -176,10 +179,13 @@ class AttendanceProvider with ChangeNotifier {
 
   // جلب موقع الشركة
   Future<void> fetchCompanyLocation(int usersCode) async {
-    final url = "${ApiConstants.baseUrl}${ApiConstants.userTransactionsInfoEndpoint}?q=UsersCode=$usersCode";
+    final url =
+        "${ApiConstants.baseUrl}${ApiConstants.userTransactionsInfoEndpoint}?q=UsersCode=$usersCode";
     try {
       final data = await _dataFetchService.fetchDataFromUrl(url);
-      if (data != null && data['items'] != null && (data['items'] as List).isNotEmpty) {
+      if (data != null &&
+          data['items'] != null &&
+          (data['items'] as List).isNotEmpty) {
         final firstItem = data['items'][0];
         if (firstItem['Lat'] != null && firstItem['Lon'] != null) {
           _companyLocationInfo = NotificationInfo.fromJson(firstItem);
@@ -207,21 +213,35 @@ class AttendanceProvider with ChangeNotifier {
     try {
       Position currentUserPosition = await getCurrentLocationWithPermissions();
 
-      if (_companyLocationInfo != null && _companyLocationInfo!.lat != null && _companyLocationInfo!.lon != null) {
-        LatLng companyLatLng = LatLng(_companyLocationInfo!.lat!, _companyLocationInfo!.lon!);
-        LatLng userLatLng = LatLng(currentUserPosition.latitude, currentUserPosition.longitude);
+      if (_companyLocationInfo != null &&
+          _companyLocationInfo!.lat != null &&
+          _companyLocationInfo!.lon != null) {
+        LatLng companyLatLng = LatLng(
+          _companyLocationInfo!.lat!,
+          _companyLocationInfo!.lon!,
+        );
+        LatLng userLatLng = LatLng(
+          currentUserPosition.latitude,
+          currentUserPosition.longitude,
+        );
 
         Geodesy geodesy = Geodesy();
-        num distance = geodesy.distanceBetweenTwoGeoPoints(userLatLng, companyLatLng);
-// انا مغير العلامة هنا
+        num distance = geodesy.distanceBetweenTwoGeoPoints(
+          userLatLng,
+          companyLatLng,
+        );
+        // انا مغير العلامة هنا
         if (distance < 50) {
-          throw Exception("أنت خارج النطاق المسموح به (المسافة: ${distance.round()} متر)");
+          throw Exception(
+            "أنت خارج النطاق المسموح به (المسافة: ${distance.round()} متر)",
+          );
         }
       }
 
       DateTime now = DateTime.now();
       String altKey = "$empCode-${DateFormat('ddMMyyyyHHmm').format(now)}";
-      String formattedDate = "${DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(now)}+03:00";
+      String formattedDate =
+          "${DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS").format(now)}+03:00";
 
       final Map<String, dynamic> requestBody = {
         "EmpCode": 789,
@@ -247,7 +267,6 @@ class AttendanceProvider with ChangeNotifier {
       } else {
         throw Exception("فشل الإجراء. رمز الحالة: ${response.statusCode}");
       }
-
     } catch (e) {
       _actionError = e.toString().replaceFirst("Exception: ", "");
       return false;
@@ -276,6 +295,8 @@ class AttendanceProvider with ChangeNotifier {
       throw Exception('تم رفض إذن الوصول للموقع بشكل دائم.');
     }
 
-    return await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    return await Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+    );
   }
 }

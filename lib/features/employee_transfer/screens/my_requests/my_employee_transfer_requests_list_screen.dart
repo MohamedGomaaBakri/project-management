@@ -16,11 +16,12 @@ class MyEmployeeTransferRequestsListScreen extends StatefulWidget {
   const MyEmployeeTransferRequestsListScreen({super.key});
 
   @override
-  State<MyEmployeeTransferRequestsListScreen> createState() => _MyEmployeeTransferRequestsListScreenState();
+  State<MyEmployeeTransferRequestsListScreen> createState() =>
+      _MyEmployeeTransferRequestsListScreenState();
 }
 
-class _MyEmployeeTransferRequestsListScreenState extends State<MyEmployeeTransferRequestsListScreen> {
-
+class _MyEmployeeTransferRequestsListScreenState
+    extends State<MyEmployeeTransferRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,8 +31,10 @@ class _MyEmployeeTransferRequestsListScreenState extends State<MyEmployeeTransfe
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchMyEmployeeTransferRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchMyEmployeeTransferRequests(authProvider.currentUser!.empCode);
     }
   }
 
@@ -45,11 +48,18 @@ class _MyEmployeeTransferRequestsListScreenState extends State<MyEmployeeTransfe
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
-          if (hrProvider.isLoading && hrProvider.myEmployeeTransferRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+          if (hrProvider.isLoading &&
+              hrProvider.myEmployeeTransferRequests.isEmpty) {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.myEmployeeTransferRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.myEmployeeTransferRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
@@ -65,15 +75,24 @@ class _MyEmployeeTransferRequestsListScreenState extends State<MyEmployeeTransfe
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return MyEmployeeTransferRequestCard( // الكارد الجديد
+                return MyEmployeeTransferRequestCard(
+                  // الكارد الجديد
                   request: request,
                   onTap: () {
-                    hrProvider.selectMyEmployeeTransferRequest(request); // الدالة الجديدة
+                    hrProvider.selectMyEmployeeTransferRequest(
+                      request,
+                    ); // الدالة الجديدة
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                      builder: (_) => EmployeeTransferDetailsBottomSheet(request: request), // البوتوم شيت الجديد
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (_) => EmployeeTransferDetailsBottomSheet(
+                        request: request,
+                      ), // البوتوم شيت الجديد
                     );
                   },
                 );
@@ -84,7 +103,9 @@ class _MyEmployeeTransferRequestsListScreenState extends State<MyEmployeeTransfe
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewEmployeeTransferRequestScreen.routeName); // شاشة الطلب الجديد
+          final result = await Navigator.of(context).pushNamed(
+            NewEmployeeTransferRequestScreen.routeName,
+          ); // شاشة الطلب الجديد
           if (result == true && mounted) {
             _loadRequests();
           }

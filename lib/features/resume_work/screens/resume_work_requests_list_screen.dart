@@ -10,16 +10,17 @@ import '../../../core/utils/app_colors.dart';
 import '../widgets/resume_work_request_card.dart';
 import 'resume_work_request_details_screen.dart';
 
-
 class ResumeWorkRequestsListScreen extends StatefulWidget {
   static const String routeName = '/resume-work-requests-list';
   const ResumeWorkRequestsListScreen({super.key});
 
   @override
-  State<ResumeWorkRequestsListScreen> createState() => _ResumeWorkRequestsListScreenState();
+  State<ResumeWorkRequestsListScreen> createState() =>
+      _ResumeWorkRequestsListScreenState();
 }
 
-class _ResumeWorkRequestsListScreenState extends State<ResumeWorkRequestsListScreen> {
+class _ResumeWorkRequestsListScreenState
+    extends State<ResumeWorkRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -29,8 +30,10 @@ class _ResumeWorkRequestsListScreenState extends State<ResumeWorkRequestsListScr
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchResumeWorkRequests(authProvider.currentUser!.usersCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchResumeWorkRequests(authProvider.currentUser!.usersCode);
     }
   }
 
@@ -45,15 +48,23 @@ class _ResumeWorkRequestsListScreenState extends State<ResumeWorkRequestsListScr
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.resumeWorkRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.resumeWorkRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.resumeWorkRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
           if (hrProvider.resumeWorkRequests.isEmpty) {
-            return Center(child: Text(l10n.noResumeWorkRequests)); // "لا توجد طلبات"
+            return Center(
+              child: Text(l10n.noResumeWorkRequests),
+            ); // "لا توجد طلبات"
           }
 
           final requests = hrProvider.resumeWorkRequests;
@@ -64,12 +75,16 @@ class _ResumeWorkRequestsListScreenState extends State<ResumeWorkRequestsListScr
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return ResumeWorkRequestCard( // استخدام الكارد الجديد
+                return ResumeWorkRequestCard(
+                  // استخدام الكارد الجديد
                   request: request,
                   onTap: () async {
-                    hrProvider.selectResumeWorkRequest(request); // استخدام الدالة الجديدة
+                    hrProvider.selectResumeWorkRequest(
+                      request,
+                    ); // استخدام الدالة الجديدة
                     final result = await Navigator.of(context).pushNamed(
-                      ResumeWorkRequestDetailsScreen.routeName, // الشاشة الجديدة
+                      ResumeWorkRequestDetailsScreen
+                          .routeName, // الشاشة الجديدة
                     );
                     if (result == true && mounted) {
                       _loadRequests();

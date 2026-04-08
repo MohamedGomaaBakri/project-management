@@ -14,7 +14,8 @@ class PurchaseOrdersListScreen extends StatefulWidget {
   const PurchaseOrdersListScreen({super.key});
 
   @override
-  State<PurchaseOrdersListScreen> createState() => _PurchaseOrdersListScreenState();
+  State<PurchaseOrdersListScreen> createState() =>
+      _PurchaseOrdersListScreenState();
 }
 
 class _PurchaseOrdersListScreenState extends State<PurchaseOrdersListScreen> {
@@ -29,8 +30,10 @@ class _PurchaseOrdersListScreenState extends State<PurchaseOrdersListScreen> {
   Future<void> _loadOrders() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<PurchaseProvider>(context, listen: false)
-          .loadPurchaseOrders(authProvider.currentUser!.usersCode);
+      await Provider.of<PurchaseProvider>(
+        context,
+        listen: false,
+      ).loadPurchaseOrders(authProvider.currentUser!.usersCode);
     }
   }
 
@@ -44,77 +47,90 @@ class _PurchaseOrdersListScreenState extends State<PurchaseOrdersListScreen> {
       appBar: AppBar(
         title: Text(l10n.purchaseOrdersTitle),
         backgroundColor: AppColors.primaryColor,
-        actions: [
-          LanguageSwitcherButton()
-        ],
+        actions: [LanguageSwitcherButton()],
       ),
       body: purchaseProvider.isLoadingOrders && orders.isEmpty
-          ? const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0))
+          ? const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            )
           : purchaseProvider.ordersError != null
           ? Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                purchaseProvider.ordersError!,
-                style: const TextStyle(color: AppColors.errorColor, fontSize: 16),
-                textAlign: TextAlign.center,
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      purchaseProvider.ordersError!,
+                      style: const TextStyle(
+                        color: AppColors.errorColor,
+                        fontSize: 16,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    const SizedBox(height: 10),
+                    ElevatedButton.icon(
+                      icon: const Icon(Icons.refresh),
+                      label: Text(l10n.retry),
+                      onPressed: _loadOrders,
+                    ),
+                  ],
+                ),
               ),
-              const SizedBox(height: 10),
-              ElevatedButton.icon(
-                icon: const Icon(Icons.refresh),
-                label: Text(l10n.retry),
-                onPressed: _loadOrders,
-              )
-            ],
-          ),
-        ),
-      )
+            )
           : orders.isEmpty
           ? Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.inbox_outlined, size: 80, color: AppColors.hintColor.withOpacity(0.7)),
-            const SizedBox(height: 16),
-            Text(
-              l10n.noPurchaseOrders,
-              style: const TextStyle(fontSize: 18, color: AppColors.hintColor),
-            ),
-            const SizedBox(height: 10),
-            ElevatedButton.icon(
-              icon: const Icon(Icons.refresh),
-              label: Text(l10n.refresh),
-              onPressed: _loadOrders,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.inbox_outlined,
+                    size: 80,
+                    color: AppColors.hintColor.withOpacity(0.7),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.noPurchaseOrders,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      color: AppColors.hintColor,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  ElevatedButton.icon(
+                    icon: const Icon(Icons.refresh),
+                    label: Text(l10n.refresh),
+                    onPressed: _loadOrders,
+                  ),
+                ],
+              ),
             )
-          ],
-        ),
-      )
           : RefreshIndicator(
-        onRefresh: _loadOrders,
-        child: ListView.builder(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          itemCount: orders.length,
-          itemBuilder: (context, index) {
-            final order = orders[index];
-            return PurchaseOrderCard(
-              order: order,
-              onTap: () async {
-                purchaseProvider.selectOrder(order);
-                final result = await Navigator.of(context).pushNamed(
-                  PurchaseOrderDetailsScreen.routeName,
-                );
+              onRefresh: _loadOrders,
+              child: ListView.builder(
+                padding: const EdgeInsets.symmetric(vertical: 8.0),
+                itemCount: orders.length,
+                itemBuilder: (context, index) {
+                  final order = orders[index];
+                  return PurchaseOrderCard(
+                    order: order,
+                    onTap: () async {
+                      purchaseProvider.selectOrder(order);
+                      final result = await Navigator.of(
+                        context,
+                      ).pushNamed(PurchaseOrderDetailsScreen.routeName);
 
-                if (result == true && mounted) {
-                  _loadOrders();
-                }
-              },
-            );
-          },
-        ),
-      ),
+                      if (result == true && mounted) {
+                        _loadOrders();
+                      }
+                    },
+                  );
+                },
+              ),
+            ),
     );
   }
 }

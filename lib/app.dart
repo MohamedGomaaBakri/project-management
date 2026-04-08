@@ -77,6 +77,7 @@ import 'features/resignations/screens/my_requests/new_resignation_request_screen
 import 'package:flutter_localizations/flutter_localizations.dart'; // <-- إضافة جديدة
 
 import 'core/providers/locale_provider.dart';
+import 'core/providers/band_items_provider.dart';
 import 'l10n/app_localizations.dart';
 
 //import 'navigation/app_router.dart'; // سننشئه لاحقًا
@@ -101,6 +102,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AttendanceProvider()),
         ChangeNotifierProvider(create: (_) => ManagementProvider()),
 
+        ChangeNotifierProvider(create: (_) => BandItemsProvider()),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: Consumer<LocaleProvider>(

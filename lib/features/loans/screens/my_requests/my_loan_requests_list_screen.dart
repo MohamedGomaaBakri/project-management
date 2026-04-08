@@ -11,17 +11,16 @@ import '../../widgets/my_requests/my_loan_request_card.dart';
 import 'new_loan_request_screen.dart';
 import '../../widgets/my_requests/loan_details_bottom_sheet.dart';
 
-
 class MyLoanRequestsListScreen extends StatefulWidget {
   static const String routeName = '/my-loan-requests';
   const MyLoanRequestsListScreen({super.key});
 
   @override
-  State<MyLoanRequestsListScreen> createState() => _MyLoanRequestsListScreenState();
+  State<MyLoanRequestsListScreen> createState() =>
+      _MyLoanRequestsListScreenState();
 }
 
 class _MyLoanRequestsListScreenState extends State<MyLoanRequestsListScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -31,8 +30,10 @@ class _MyLoanRequestsListScreenState extends State<MyLoanRequestsListScreen> {
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .loadMyLoanRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadMyLoanRequests(authProvider.currentUser!.empCode);
     }
   }
 
@@ -43,15 +44,17 @@ class _MyLoanRequestsListScreenState extends State<MyLoanRequestsListScreen> {
       appBar: AppBar(
         title: Text(l10n.myLoanRequestsTitle),
         backgroundColor: AppColors.primaryColor,
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.myLoanRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
           if (hrProvider.error != null && hrProvider.myLoanRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
@@ -75,7 +78,11 @@ class _MyLoanRequestsListScreenState extends State<MyLoanRequestsListScreen> {
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
                       builder: (_) => LoanDetailsBottomSheet(request: request),
                     );
                   },
@@ -87,7 +94,9 @@ class _MyLoanRequestsListScreenState extends State<MyLoanRequestsListScreen> {
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewLoanRequestScreen.routeName);
+          final result = await Navigator.of(
+            context,
+          ).pushNamed(NewLoanRequestScreen.routeName);
           if (result == true && mounted) {
             _loadRequests();
           }

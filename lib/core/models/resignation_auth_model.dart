@@ -2,15 +2,19 @@
 
 import 'dart:convert';
 
-ResignationAuthResponse resignationAuthResponseFromJson(String str) => ResignationAuthResponse.fromJson(json.decode(str));
+ResignationAuthResponse resignationAuthResponseFromJson(String str) =>
+    ResignationAuthResponse.fromJson(json.decode(str));
 
 class ResignationAuthResponse {
   final List<ResignationAuthItem> items;
   ResignationAuthResponse({required this.items});
 
-  factory ResignationAuthResponse.fromJson(Map<String, dynamic> json) => ResignationAuthResponse(
-    items: List<ResignationAuthItem>.from(json["items"].map((x) => ResignationAuthItem.fromJson(x))),
-  );
+  factory ResignationAuthResponse.fromJson(Map<String, dynamic> json) =>
+      ResignationAuthResponse(
+        items: List<ResignationAuthItem>.from(
+          json["items"].map((x) => ResignationAuthItem.fromJson(x)),
+        ),
+      );
 }
 
 class ResignationAuthItem {
@@ -34,15 +38,15 @@ class ResignationAuthItem {
     this.jobDescE,
   });
 
-  factory ResignationAuthItem.fromJson(Map<String, dynamic> json) => ResignationAuthItem(
-    authDate: json["AuthDate"],
-    authFlag: json["AuthFlag"],
-    prevSer: json["PrevSer"],
-    usersDesc: json["UsersDesc"],
-    usersName: json["UsersName"],
-    jobDesc: json["JobDesc"],
-    usersNameE: json["UsersNameE"],
-    jobDescE: json["JobDescE"],
-
-  );
+  factory ResignationAuthItem.fromJson(Map<String, dynamic> json) =>
+      ResignationAuthItem(
+        authDate: json["AuthDate"],
+        authFlag: json["AuthFlag"],
+        prevSer: json["PrevSer"],
+        usersDesc: json["UsersDesc"],
+        usersName: json["UsersName"],
+        jobDesc: json["JobDesc"],
+        usersNameE: json["UsersNameE"],
+        jobDescE: json["JobDescE"],
+      );
 }

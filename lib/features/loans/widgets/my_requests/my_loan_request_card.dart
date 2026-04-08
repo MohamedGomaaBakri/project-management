@@ -12,7 +12,11 @@ class MyLoanRequestCard extends StatelessWidget {
   final MyLoanRequestItem request;
   final VoidCallback onTap;
 
-  const MyLoanRequestCard({super.key, required this.request, required this.onTap});
+  const MyLoanRequestCard({
+    super.key,
+    required this.request,
+    required this.onTap,
+  });
 
   String _formatDate(String? dateString, String locale) {
     if (dateString == null) return '';
@@ -21,17 +25,24 @@ class MyLoanRequestCard extends StatelessWidget {
 
   String _formatCurrency(double? amount, String locale) {
     if (amount == null) return '0';
-    final format = NumberFormat.currency(locale: locale, symbol: locale == 'ar_SA' ? 'ر.س' : '\$');
+    final format = NumberFormat.currency(
+      locale: locale,
+      symbol: locale == 'ar_SA' ? 'ر.س' : '\$',
+    );
     return format.format(amount);
   }
 
   String _getRequestStatusName(BuildContext context, int? flag) {
     final l10n = AppLocalizations.of(context)!;
     switch (flag) {
-      case 1: return l10n.approved;
-      case -1: return l10n.rejected;
-      case 0: return l10n.underAction;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.approved;
+      case -1:
+        return l10n.rejected;
+      case 0:
+        return l10n.underAction;
+      default:
+        return l10n.notSpecified;
     }
   }
 
@@ -69,28 +80,49 @@ class MyLoanRequestCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       loanType,
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
                   ),
                   const SizedBox(width: 8),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
                     decoration: BoxDecoration(
-                      color: AppColors.getStatusColor(request.authFlag).withOpacity(0.15),
+                      color: AppColors.getStatusColor(
+                        request.authFlag,
+                      ).withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       status,
-                      style: TextStyle(color: AppColors.getStatusColor(request.authFlag), fontSize: 12, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        color: AppColors.getStatusColor(request.authFlag),
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 12),
-              _buildInfoRow(Icons.date_range_outlined, l10n.requestDateLabel, _formatDate(request.reqLoanDate, locale)),
-              _buildInfoRow(Icons.attach_money_outlined, l10n.loanValueLabel, _formatCurrency(request.loanValuePys, currencyLocale)),
+              _buildInfoRow(
+                Icons.date_range_outlined,
+                l10n.requestDateLabel,
+                _formatDate(request.reqLoanDate, locale),
+              ),
+              _buildInfoRow(
+                Icons.attach_money_outlined,
+                l10n.loanValueLabel,
+                _formatCurrency(request.loanValuePys, currencyLocale),
+              ),
             ],
           ),
         ),
@@ -105,9 +137,24 @@ class MyLoanRequestCard extends StatelessWidget {
         children: [
           Icon(icon, color: AppColors.textColor.withOpacity(0.6), size: 20),
           const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontSize: 14, color: AppColors.textColor, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 5),
-          Expanded(child: Text(value, style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.8)))),
+          Expanded(
+            child: Text(
+              value,
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.textColor.withOpacity(0.8),
+              ),
+            ),
+          ),
         ],
       ),
     );

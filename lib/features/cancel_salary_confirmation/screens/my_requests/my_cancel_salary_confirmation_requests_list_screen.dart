@@ -16,11 +16,12 @@ class MyCancelSalaryConfirmationRequestsListScreen extends StatefulWidget {
   const MyCancelSalaryConfirmationRequestsListScreen({super.key});
 
   @override
-  State<MyCancelSalaryConfirmationRequestsListScreen> createState() => _MyCancelSalaryConfirmationRequestsListScreenState();
+  State<MyCancelSalaryConfirmationRequestsListScreen> createState() =>
+      _MyCancelSalaryConfirmationRequestsListScreenState();
 }
 
-class _MyCancelSalaryConfirmationRequestsListScreenState extends State<MyCancelSalaryConfirmationRequestsListScreen> {
-
+class _MyCancelSalaryConfirmationRequestsListScreenState
+    extends State<MyCancelSalaryConfirmationRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,8 +31,12 @@ class _MyCancelSalaryConfirmationRequestsListScreenState extends State<MyCancelS
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchMyCancelSalaryConfirmationRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchMyCancelSalaryConfirmationRequests(
+        authProvider.currentUser!.empCode,
+      );
     }
   }
 
@@ -40,16 +45,25 @@ class _MyCancelSalaryConfirmationRequestsListScreenState extends State<MyCancelS
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.cancelSalaryConfirmationInfo), // "طلبات إلغاء تثبيت راتب"
+        title: Text(
+          l10n.cancelSalaryConfirmationInfo,
+        ), // "طلبات إلغاء تثبيت راتب"
         actions: const [LanguageSwitcherButton()],
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
-          if (hrProvider.isLoading && hrProvider.myCancelSalaryConfirmationRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+          if (hrProvider.isLoading &&
+              hrProvider.myCancelSalaryConfirmationRequests.isEmpty) {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.myCancelSalaryConfirmationRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.myCancelSalaryConfirmationRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
@@ -65,15 +79,25 @@ class _MyCancelSalaryConfirmationRequestsListScreenState extends State<MyCancelS
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return MyCancelSalaryConfirmationRequestCard( // الكارد الجديد
+                return MyCancelSalaryConfirmationRequestCard(
+                  // الكارد الجديد
                   request: request,
                   onTap: () {
-                    hrProvider.selectMyCancelSalaryConfirmationRequest(request); // الدالة الجديدة
+                    hrProvider.selectMyCancelSalaryConfirmationRequest(
+                      request,
+                    ); // الدالة الجديدة
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                      builder: (_) => CancelSalaryConfirmationDetailsBottomSheet(request: request), // البوتوم شيت الجديد
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (_) =>
+                          CancelSalaryConfirmationDetailsBottomSheet(
+                            request: request,
+                          ), // البوتوم شيت الجديد
                     );
                   },
                 );
@@ -84,12 +108,16 @@ class _MyCancelSalaryConfirmationRequestsListScreenState extends State<MyCancelS
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewCancelSalaryConfirmationRequestScreen.routeName); // الشاشة الجديدة
+          final result = await Navigator.of(context).pushNamed(
+            NewCancelSalaryConfirmationRequestScreen.routeName,
+          ); // الشاشة الجديدة
           if (result == true && mounted) {
             _loadRequests();
           }
         },
-        label: Text(l10n.newCancelSalaryConfirmationRequest), // "طلب إلغاء تثبيت راتب جديد"
+        label: Text(
+          l10n.newCancelSalaryConfirmationRequest,
+        ), // "طلب إلغاء تثبيت راتب جديد"
         icon: const Icon(Icons.add),
         backgroundColor: AppColors.accentColor,
       ),

@@ -11,16 +11,17 @@ import '../../../core/utils/app_colors.dart';
 import '../widgets/resignation_request_card.dart';
 import 'resignation_request_details_screen.dart';
 
-
 class ResignationRequestsListScreen extends StatefulWidget {
   static const String routeName = '/resignation-requests-list';
   const ResignationRequestsListScreen({super.key});
 
   @override
-  State<ResignationRequestsListScreen> createState() => _ResignationRequestsListScreenState();
+  State<ResignationRequestsListScreen> createState() =>
+      _ResignationRequestsListScreenState();
 }
 
-class _ResignationRequestsListScreenState extends State<ResignationRequestsListScreen> {
+class _ResignationRequestsListScreenState
+    extends State<ResignationRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,8 +31,10 @@ class _ResignationRequestsListScreenState extends State<ResignationRequestsListS
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .loadResignationRequests(authProvider.currentUser!.usersCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadResignationRequests(authProvider.currentUser!.usersCode);
     }
   }
 
@@ -42,17 +45,20 @@ class _ResignationRequestsListScreenState extends State<ResignationRequestsListS
       appBar: AppBar(
         title: Text(l10n.resignationRequestsTitle),
         backgroundColor: AppColors.primaryColor,
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.resignationRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
-          if (hrProvider.error != null && hrProvider.resignationRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.resignationRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
           if (hrProvider.resignationRequests.isEmpty) {
@@ -71,9 +77,9 @@ class _ResignationRequestsListScreenState extends State<ResignationRequestsListS
                   request: request,
                   onTap: () async {
                     hrProvider.selectResignationRequest(request);
-                    final result = await Navigator.of(context).pushNamed(
-                      ResignationRequestDetailsScreen.routeName,
-                    );
+                    final result = await Navigator.of(
+                      context,
+                    ).pushNamed(ResignationRequestDetailsScreen.routeName);
                     if (result == true && mounted) {
                       _loadRequests();
                     }

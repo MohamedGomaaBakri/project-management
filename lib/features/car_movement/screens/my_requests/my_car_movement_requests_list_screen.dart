@@ -16,11 +16,12 @@ class MyCarMovementRequestsListScreen extends StatefulWidget {
   const MyCarMovementRequestsListScreen({super.key});
 
   @override
-  State<MyCarMovementRequestsListScreen> createState() => _MyCarMovementRequestsListScreenState();
+  State<MyCarMovementRequestsListScreen> createState() =>
+      _MyCarMovementRequestsListScreenState();
 }
 
-class _MyCarMovementRequestsListScreenState extends State<MyCarMovementRequestsListScreen> {
-
+class _MyCarMovementRequestsListScreenState
+    extends State<MyCarMovementRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,8 +31,10 @@ class _MyCarMovementRequestsListScreenState extends State<MyCarMovementRequestsL
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchMyCarMovementRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchMyCarMovementRequests(authProvider.currentUser!.empCode);
     }
   }
 
@@ -45,11 +48,18 @@ class _MyCarMovementRequestsListScreenState extends State<MyCarMovementRequestsL
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
-          if (hrProvider.isLoading && hrProvider.myCarMovementRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+          if (hrProvider.isLoading &&
+              hrProvider.myCarMovementRequests.isEmpty) {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.myCarMovementRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.myCarMovementRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
@@ -65,15 +75,24 @@ class _MyCarMovementRequestsListScreenState extends State<MyCarMovementRequestsL
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return MyCarMovementRequestCard( // الكارد الجديد
+                return MyCarMovementRequestCard(
+                  // الكارد الجديد
                   request: request,
                   onTap: () {
-                    hrProvider.selectMyCarMovementRequest(request); // الدالة الجديدة
+                    hrProvider.selectMyCarMovementRequest(
+                      request,
+                    ); // الدالة الجديدة
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                      builder: (_) => CarMovementDetailsBottomSheet(request: request), // البوتوم شيت الجديد
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (_) => CarMovementDetailsBottomSheet(
+                        request: request,
+                      ), // البوتوم شيت الجديد
                     );
                   },
                 );
@@ -84,7 +103,9 @@ class _MyCarMovementRequestsListScreenState extends State<MyCarMovementRequestsL
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewCarMovementRequestScreen.routeName); // شاشة الطلب الجديد
+          final result = await Navigator.of(context).pushNamed(
+            NewCarMovementRequestScreen.routeName,
+          ); // شاشة الطلب الجديد
           if (result == true && mounted) {
             _loadRequests();
           }

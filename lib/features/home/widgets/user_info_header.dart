@@ -24,7 +24,9 @@ class UserInfoHeader extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // الانتقال إلى صفحة تفاصيل المستخدم عند الضغط
-        Navigator.of(context).pushNamed(UserProfileScreen.routeName, arguments: user.compEmpCode);
+        Navigator.of(
+          context,
+        ).pushNamed(UserProfileScreen.routeName, arguments: user.compEmpCode);
       },
       child: Container(
         padding: const EdgeInsets.all(16.0),
@@ -47,7 +49,8 @@ class UserInfoHeader extends StatelessWidget {
               backgroundColor: AppColors.primaryColor,
               // foregroundImage: NetworkImage(user.profileImageUrl ?? placeholderImageUrl), // إذا كان لديك رابط صورة
               child: CachedNetworkImage(
-                imageUrl: placeholderImageUrl, // استخدم الصورة من الإنترنت أو صورة محلية
+                imageUrl:
+                    placeholderImageUrl, // استخدم الصورة من الإنترنت أو صورة محلية
                 imageBuilder: (context, imageProvider) => Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -57,10 +60,17 @@ class UserInfoHeader extends StatelessWidget {
                     ),
                   ),
                 ),
-                placeholder: (context, url) => const CircularProgressIndicator(color: Colors.white),
+                placeholder: (context, url) =>
+                    const CircularProgressIndicator(color: Colors.white),
                 errorWidget: (context, url, error) => Text(
-                  user.usersName.isNotEmpty ? user.usersName[0].toUpperCase() : 'U',
-                  style: const TextStyle(fontSize: 30, color: Colors.white, fontWeight: FontWeight.bold),
+                  user.usersName.isNotEmpty
+                      ? user.usersName[0].toUpperCase()
+                      : 'U',
+                  style: const TextStyle(
+                    fontSize: 30,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             ),
@@ -72,31 +82,45 @@ class UserInfoHeader extends StatelessWidget {
                   Text(
                     user.usersName,
                     style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: AppColors.primaryColor),
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 4),
                   Text(
                     'الكود: ${user.compEmpCode}',
-                    style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.8)),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textColor.withOpacity(0.8),
+                    ),
                   ),
                   const SizedBox(height: 2),
                   Text(
                     user.jobDesc,
-                    style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.7)),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textColor.withOpacity(0.7),
+                    ),
                     overflow: TextOverflow.ellipsis,
                   ),
                   const SizedBox(height: 2),
                   Text(
                     'الجنسية: ${user.ntnltyDesc}',
-                    style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.7)),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textColor.withOpacity(0.7),
+                    ),
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, color: AppColors.primaryColor, size: 18),
+            const Icon(
+              Icons.arrow_forward_ios,
+              color: AppColors.primaryColor,
+              size: 18,
+            ),
           ],
         ),
       ),

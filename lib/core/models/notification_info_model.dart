@@ -4,7 +4,9 @@ import 'dart:convert';
 
 // دالة مساعدة لتحويل JSON إلى قائمة من النماذج
 List<NotificationInfo> notificationInfoListFromJson(String str) =>
-    List<NotificationInfo>.from(json.decode(str)["items"].map((x) => NotificationInfo.fromJson(x)));
+    List<NotificationInfo>.from(
+      json.decode(str)["items"].map((x) => NotificationInfo.fromJson(x)),
+    );
 
 class NotificationInfo {
   final int usersCode;
@@ -59,30 +61,31 @@ class NotificationInfo {
     this.lon,
   });
 
-  factory NotificationInfo.fromJson(Map<String, dynamic> json) => NotificationInfo(
-    usersCode: json["UsersCode"],
-    reqApprVcnc: json["ReqApprVcnc"],
-    lastVcncSeq: json["LastVcncSeq"],
-    reqApprLoan: json["ReqApprLoan"],
-    lastLoanSeq: json["LastLoanSeq"],
-    reqApprEndsrv: json["ReqApprEndsrv"],
-    lastEndsrvSeq: json["LastEndsrvSeq"],
-    reqApprPrOrder: json["ReqApprPrOrder"],
-    reqApprPrReq: json["ReqApprPrReq"],
-    reqApprAsOrder: json["ReqApprAsOrder"],
-    reqApprAsReq: json["ReqApprAsReq"],
-    reqApprCstd: json["ReqApprCstd"],
-    reqApprCstdReq: json["ReqApprCstdReq"],
-    hrSystem: json["HrSystem"],
-    mnSystem: json["MnSystem"],
-    puSystem: json["PuSystem"],
-    asSystem: json["AsSystem"],
-    cstdSystem: json["CstdSystem"],
-    taSystem: json["TaSystem"],
-    reqApprMnEntry: json["ReqApprMnEntry"],
-    reqApprMnReq: json["ReqApprMnReq"],
-    reqApprMnMast: json["ReqApprMnMast"],
-    lat: (json["Lat"] as num?)?.toDouble(),
-    lon: (json["Lon"] as num?)?.toDouble(),
-  );
+  factory NotificationInfo.fromJson(Map<String, dynamic> json) =>
+      NotificationInfo(
+        usersCode: json["UsersCode"],
+        reqApprVcnc: json["ReqApprVcnc"],
+        lastVcncSeq: json["LastVcncSeq"],
+        reqApprLoan: json["ReqApprLoan"],
+        lastLoanSeq: json["LastLoanSeq"],
+        reqApprEndsrv: json["ReqApprEndsrv"],
+        lastEndsrvSeq: json["LastEndsrvSeq"],
+        reqApprPrOrder: json["ReqApprPrOrder"],
+        reqApprPrReq: json["ReqApprPrReq"],
+        reqApprAsOrder: json["ReqApprAsOrder"],
+        reqApprAsReq: json["ReqApprAsReq"],
+        reqApprCstd: json["ReqApprCstd"],
+        reqApprCstdReq: json["ReqApprCstdReq"],
+        hrSystem: json["HrSystem"],
+        mnSystem: json["MnSystem"],
+        puSystem: json["PuSystem"],
+        asSystem: json["AsSystem"],
+        cstdSystem: json["CstdSystem"],
+        taSystem: json["TaSystem"],
+        reqApprMnEntry: json["ReqApprMnEntry"],
+        reqApprMnReq: json["ReqApprMnReq"],
+        reqApprMnMast: json["ReqApprMnMast"],
+        lat: (json["Lat"] as num?)?.toDouble(),
+        lon: (json["Lon"] as num?)?.toDouble(),
+      );
 }

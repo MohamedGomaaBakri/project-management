@@ -38,18 +38,24 @@ class PurchaseOrderCard extends StatelessWidget {
 
     // -- منطق اختيار النص بناءً على اللغة --
     // استخدام القاعدة: key للغة العربية و keyE للإنجليزية
-    final String subject = isArabic ? (order.poSubject ?? '') : (order.poSubjectE ?? order.poSubject ?? '');
-    final String supplier = isArabic ? (order.supplierName ?? '') : (order.supplierNameE ?? order.supplierName ?? '');
+    final String subject = isArabic
+        ? (order.poSubject ?? '')
+        : (order.poSubjectE ?? order.poSubject ?? '');
+    final String supplier = isArabic
+        ? (order.supplierName ?? '')
+        : (order.supplierNameE ?? order.supplierName ?? '');
 
     // -- منطق تحديد حالة الطلب ولونها --
     final String statusKey = order.poStatusDesc ?? l10n.underAction;
     String statusText;
     Color statusColor;
 
-    if (statusKey.contains('معتمد') || statusKey.toLowerCase().contains('approved')) {
+    if (statusKey.contains('معتمد') ||
+        statusKey.toLowerCase().contains('approved')) {
       statusText = l10n.approved;
       statusColor = AppColors.successColor;
-    } else if (statusKey.contains('مرفوض') || statusKey.toLowerCase().contains('rejected')) {
+    } else if (statusKey.contains('مرفوض') ||
+        statusKey.toLowerCase().contains('rejected')) {
       statusText = l10n.rejected;
       statusColor = AppColors.errorColor;
     } else {
@@ -99,23 +105,33 @@ class PurchaseOrderCard extends StatelessWidget {
                 context,
                 icon: Icons.calendar_today_outlined,
                 label: "${l10n.orderDate}:",
-                value: _formatDate(order.prOrderDate, localeProvider.locale.toLanguageTag()),
+                value: _formatDate(
+                  order.prOrderDate,
+                  localeProvider.locale.toLanguageTag(),
+                ),
               ),
               const SizedBox(height: 12),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
                     decoration: BoxDecoration(
                       color: statusColor.withOpacity(0.15),
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       statusText,
-                      style: TextStyle(color: statusColor, fontSize: 13, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                        color: statusColor,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w500,
+                      ),
                     ),
-                  )
+                  ),
                 ],
               ),
             ],
@@ -125,19 +141,34 @@ class PurchaseOrderCard extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoRow(BuildContext context, {required IconData icon, required String label, required String value}) {
+  Widget _buildInfoRow(
+    BuildContext context, {
+    required IconData icon,
+    required String label,
+    required String value,
+  }) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Row(
         children: [
           Icon(icon, color: AppColors.textColor.withOpacity(0.6), size: 20),
           const SizedBox(width: 10),
-          Text(label, style: const TextStyle(fontSize: 14, color: AppColors.textColor, fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(
+              fontSize: 14,
+              color: AppColors.textColor,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
           const SizedBox(width: 5),
           Expanded(
             child: Text(
               value,
-              style: TextStyle(fontSize: 14, color: AppColors.textColor.withOpacity(0.8)),
+              style: TextStyle(
+                fontSize: 14,
+                color: AppColors.textColor.withOpacity(0.8),
+              ),
             ),
           ),
         ],

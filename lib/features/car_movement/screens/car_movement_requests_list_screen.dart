@@ -10,16 +10,17 @@ import '../../../core/utils/app_colors.dart';
 import '../widgets/car_movement_request_card.dart';
 import 'car_movement_request_details_screen.dart';
 
-
 class CarMovementRequestsListScreen extends StatefulWidget {
   static const String routeName = '/car-movement-requests-list';
   const CarMovementRequestsListScreen({super.key});
 
   @override
-  State<CarMovementRequestsListScreen> createState() => _CarMovementRequestsListScreenState();
+  State<CarMovementRequestsListScreen> createState() =>
+      _CarMovementRequestsListScreenState();
 }
 
-class _CarMovementRequestsListScreenState extends State<CarMovementRequestsListScreen> {
+class _CarMovementRequestsListScreenState
+    extends State<CarMovementRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -29,8 +30,10 @@ class _CarMovementRequestsListScreenState extends State<CarMovementRequestsListS
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchCarMovementRequests(authProvider.currentUser!.usersCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchCarMovementRequests(authProvider.currentUser!.usersCode);
     }
   }
 
@@ -45,15 +48,23 @@ class _CarMovementRequestsListScreenState extends State<CarMovementRequestsListS
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.carMovementRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.carMovementRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.carMovementRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
           if (hrProvider.carMovementRequests.isEmpty) {
-            return Center(child: Text(l10n.noCarMovementRequests)); // "لا توجد طلبات"
+            return Center(
+              child: Text(l10n.noCarMovementRequests),
+            ); // "لا توجد طلبات"
           }
 
           final requests = hrProvider.carMovementRequests;
@@ -64,12 +75,16 @@ class _CarMovementRequestsListScreenState extends State<CarMovementRequestsListS
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return CarMovementRequestCard( // استخدام الكارد الجديد
+                return CarMovementRequestCard(
+                  // استخدام الكارد الجديد
                   request: request,
                   onTap: () async {
-                    hrProvider.selectCarMovementRequest(request); // استخدام الدالة الجديدة
+                    hrProvider.selectCarMovementRequest(
+                      request,
+                    ); // استخدام الدالة الجديدة
                     final result = await Navigator.of(context).pushNamed(
-                      CarMovementRequestDetailsScreen.routeName, // الشاشة الجديدة
+                      CarMovementRequestDetailsScreen
+                          .routeName, // الشاشة الجديدة
                     );
                     if (result == true && mounted) {
                       _loadRequests();

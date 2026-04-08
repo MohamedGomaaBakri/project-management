@@ -10,16 +10,17 @@ import '../../../core/utils/app_colors.dart';
 import '../widgets/permission_request_card.dart';
 import 'permission_request_details_screen.dart';
 
-
 class PermissionRequestsListScreen extends StatefulWidget {
   static const String routeName = '/permission-requests-list';
   const PermissionRequestsListScreen({super.key});
 
   @override
-  State<PermissionRequestsListScreen> createState() => _PermissionRequestsListScreenState();
+  State<PermissionRequestsListScreen> createState() =>
+      _PermissionRequestsListScreenState();
 }
 
-class _PermissionRequestsListScreenState extends State<PermissionRequestsListScreen> {
+class _PermissionRequestsListScreenState
+    extends State<PermissionRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -29,8 +30,10 @@ class _PermissionRequestsListScreenState extends State<PermissionRequestsListScr
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchPermissionRequests(authProvider.currentUser!.usersCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchPermissionRequests(authProvider.currentUser!.usersCode);
     }
   }
 
@@ -45,10 +48,16 @@ class _PermissionRequestsListScreenState extends State<PermissionRequestsListScr
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.permissionRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.permissionRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.permissionRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
@@ -68,9 +77,9 @@ class _PermissionRequestsListScreenState extends State<PermissionRequestsListScr
                   request: request,
                   onTap: () async {
                     hrProvider.selectPermissionRequest(request);
-                    final result = await Navigator.of(context).pushNamed(
-                      PermissionRequestDetailsScreen.routeName,
-                    );
+                    final result = await Navigator.of(
+                      context,
+                    ).pushNamed(PermissionRequestDetailsScreen.routeName);
                     if (result == true && mounted) {
                       _loadRequests();
                     }

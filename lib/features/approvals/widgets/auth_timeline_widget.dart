@@ -57,8 +57,11 @@ class _AuthTimelineState extends State<AuthTimeline> {
   Widget build(BuildContext context) {
     if (widget.authItems.isEmpty) {
       return const Center(
-          child: Text("لا توجد خطوات اعتماد.",
-              style: TextStyle(color: AppColors.hintColor)));
+        child: Text(
+          "لا توجد خطوات اعتماد.",
+          style: TextStyle(color: AppColors.hintColor),
+        ),
+      );
     }
 
     return Column(
@@ -106,69 +109,91 @@ class _AuthTimelineState extends State<AuthTimeline> {
                   children: [
                     if (index > 0)
                       Expanded(
-                          child:
-                          Container(width: 2.5, color: precedingLineColor)),
+                        child: Container(width: 2.5, color: precedingLineColor),
+                      ),
                     Container(
-                        height: 30,
-                        width: 30,
-                        alignment: Alignment.center,
-                        child: Icon(stepIconData,
-                            color: stepColor, size: isActiveStep ? 28 : 24)),
+                      height: 30,
+                      width: 30,
+                      alignment: Alignment.center,
+                      child: Icon(
+                        stepIconData,
+                        color: stepColor,
+                        size: isActiveStep ? 28 : 24,
+                      ),
+                    ),
                     if (index < widget.authItems.length - 1)
                       Expanded(
-                          child: Container(
-                              width: 2.5, color: succeedingLineColor)),
+                        child: Container(
+                          width: 2.5,
+                          color: succeedingLineColor,
+                        ),
+                      ),
                   ],
                 ),
                 const SizedBox(width: 14),
                 Expanded(
                   child: Container(
                     margin: EdgeInsets.only(
-                        bottom: index < widget.authItems.length - 1 ? 10 : 0,
-                        top: 5),
+                      bottom: index < widget.authItems.length - 1 ? 10 : 0,
+                      top: 5,
+                    ),
                     padding: const EdgeInsets.all(12.0),
                     decoration: BoxDecoration(
+                      color: isActiveStep
+                          ? AppColors.primaryColor.withOpacity(0.05)
+                          : Colors.grey.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(8.0),
+                      border: Border.all(
                         color: isActiveStep
-                            ? AppColors.primaryColor.withOpacity(0.05)
-                            : Colors.grey.withOpacity(0.08),
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                            color: isActiveStep
-                                ? AppColors.primaryColor.withOpacity(0.5)
-                                : Colors.grey.withOpacity(0.3),
-                            width: isActiveStep ? 1.0 : 0.7)),
+                            ? AppColors.primaryColor.withOpacity(0.5)
+                            : Colors.grey.withOpacity(0.3),
+                        width: isActiveStep ? 1.0 : 0.7,
+                      ),
+                    ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(item.usersName ?? 'غير معروف',
-                            style: TextStyle(
-                                fontSize: 15,
-                                fontWeight: FontWeight.bold,
-                                color: isActiveStep
-                                    ? AppColors.primaryColor
-                                    : AppColors.textColor)),
-                        if (item.jobDesc != null && item.jobDesc!.isNotEmpty) ...[
+                        Text(
+                          item.usersName ?? 'غير معروف',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold,
+                            color: isActiveStep
+                                ? AppColors.primaryColor
+                                : AppColors.textColor,
+                          ),
+                        ),
+                        if (item.jobDesc != null &&
+                            item.jobDesc!.isNotEmpty) ...[
                           const SizedBox(height: 2),
-                          Text(item.jobDesc!,
-                              style: TextStyle(
-                                  fontSize: 12,
-                                  color: AppColors.textColor.withOpacity(0.75))),
+                          Text(
+                            item.jobDesc!,
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: AppColors.textColor.withOpacity(0.75),
+                            ),
+                          ),
                         ],
                         const SizedBox(height: 6),
                         Row(
                           children: [
-                            Text('التاريخ: ${_formatDate(item.authDate)}',
-                                style: TextStyle(
-                                    fontSize: 11.5,
-                                    color: AppColors.textColor
-                                        .withOpacity(0.65))),
+                            Text(
+                              'التاريخ: ${_formatDate(item.authDate)}',
+                              style: TextStyle(
+                                fontSize: 11.5,
+                                color: AppColors.textColor.withOpacity(0.65),
+                              ),
+                            ),
                             const Spacer(),
-                            Text(_getAuthStatusText(item.authFlag),
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: stepColor,
-                                    fontWeight: FontWeight.bold)),
+                            Text(
+                              _getAuthStatusText(item.authFlag),
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: stepColor,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                           ],
                         ),
                         if (item.usersDesc != null &&
@@ -178,17 +203,20 @@ class _AuthTimelineState extends State<AuthTimeline> {
                             width: double.infinity,
                             padding: const EdgeInsets.all(8),
                             decoration: BoxDecoration(
-                                border: Border(
-                                    top:
-                                    BorderSide(color: Colors.grey.shade200))),
-                            child: Text('الملاحظات: ${item.usersDesc}',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color:
-                                    AppColors.textColor.withOpacity(0.85),
-                                    fontStyle: FontStyle.italic)),
+                              border: Border(
+                                top: BorderSide(color: Colors.grey.shade200),
+                              ),
+                            ),
+                            child: Text(
+                              'الملاحظات: ${item.usersDesc}',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textColor.withOpacity(0.85),
+                                fontStyle: FontStyle.italic,
+                              ),
+                            ),
                           ),
-                        ]
+                        ],
                       ],
                     ),
                   ),

@@ -19,15 +19,16 @@ class NewCancelSalaryConfirmationRequestScreen extends StatefulWidget {
   const NewCancelSalaryConfirmationRequestScreen({super.key});
 
   @override
-  State<NewCancelSalaryConfirmationRequestScreen> createState() => _NewCancelSalaryConfirmationRequestScreenState();
+  State<NewCancelSalaryConfirmationRequestScreen> createState() =>
+      _NewCancelSalaryConfirmationRequestScreenState();
 }
 
-class _NewCancelSalaryConfirmationRequestScreenState extends State<NewCancelSalaryConfirmationRequestScreen> {
+class _NewCancelSalaryConfirmationRequestScreenState
+    extends State<NewCancelSalaryConfirmationRequestScreen> {
   final _formKey = GlobalKey<FormState>();
 
   DateTime? _trnsDate;
   final TextEditingController _notesController = TextEditingController();
-
 
   // ---== متغيرات العمال ==---
   bool _isForWorker = false;
@@ -80,7 +81,10 @@ class _NewCancelSalaryConfirmationRequestScreenState extends State<NewCancelSala
     // التحقق من العامل
     if (_isForWorker && _selectedWorker == null) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(l10n.selectWorkerError ?? "Please select a worker"), backgroundColor: Colors.red),
+        SnackBar(
+          content: Text(l10n.selectWorkerError ?? "Please select a worker"),
+          backgroundColor: Colors.red,
+        ),
       );
       return;
     }
@@ -91,11 +95,13 @@ class _NewCancelSalaryConfirmationRequestScreenState extends State<NewCancelSala
 
     if (user == null) return;
 
-
-
     // ---== تحديد البيانات ==---
-    final int targetEmpCode = _isForWorker ? _selectedWorker!.empCode : user.empCode;
-    final int targetCompEmpCode = _isForWorker ? _selectedWorker!.compEmpCode : user.compEmpCode;
+    final int targetEmpCode = _isForWorker
+        ? _selectedWorker!.empCode
+        : user.empCode;
+    final int targetCompEmpCode = _isForWorker
+        ? _selectedWorker!.compEmpCode
+        : user.compEmpCode;
     final int insertingUserCode = user.usersCode;
 
     final bool success = await hrProvider.createCancelSalaryConfirmationRequest(
@@ -109,10 +115,20 @@ class _NewCancelSalaryConfirmationRequestScreenState extends State<NewCancelSala
 
     if (mounted) {
       if (success) {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(l10n.cancelSalaryConfirmationRequestSentSuccessfully), backgroundColor: Colors.green));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(l10n.cancelSalaryConfirmationRequestSentSuccessfully),
+            backgroundColor: Colors.green,
+          ),
+        );
         Navigator.of(context).pop(true);
       } else {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(hrProvider.error ?? l10n.actionFailed), backgroundColor: Colors.red));
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(hrProvider.error ?? l10n.actionFailed),
+            backgroundColor: Colors.red,
+          ),
+        );
       }
     }
   }
@@ -131,101 +147,152 @@ class _NewCancelSalaryConfirmationRequestScreenState extends State<NewCancelSala
       body: hrProvider.isLoading
           ? const Center(child: CircularProgressIndicator())
           : Form(
-        key: _formKey,
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              // ---== كارت العمال ==---
-              Card(
-                elevation: 2,
-                margin: const EdgeInsets.only(bottom: 16),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Column(
-                    children: [
-                      Row(
-                        children: [
-                          Expanded(
-                            child: RadioListTile<bool>(
-                              title: Text(l10n.requestForMyself ?? "For Me"),
-                              value: false,
-                              groupValue: _isForWorker,
-                              onChanged: (val) => setState(() { _isForWorker = val!; _selectedWorker = null; }),
+              key: _formKey,
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    // ---== كارت العمال ==---
+                    Card(
+                      elevation: 2,
+                      margin: const EdgeInsets.only(bottom: 16),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: RadioListTile<bool>(
+                                    title: Text(
+                                      l10n.requestForMyself ?? "For Me",
+                                    ),
+                                    value: false,
+                                    groupValue: _isForWorker,
+                                    onChanged: (val) => setState(() {
+                                      _isForWorker = val!;
+                                      _selectedWorker = null;
+                                    }),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: RadioListTile<bool>(
+                                    title: Text(
+                                      l10n.requestForWorker ?? "For Worker",
+                                    ),
+                                    value: true,
+                                    groupValue: _isForWorker,
+                                    onChanged: (val) =>
+                                        setState(() => _isForWorker = val!),
+                                  ),
+                                ),
+                              ],
                             ),
-                          ),
-                          Expanded(
-                            child: RadioListTile<bool>(
-                              title: Text(l10n.requestForWorker ?? "For Worker"),
-                              value: true,
-                              groupValue: _isForWorker,
-                              onChanged: (val) => setState(() => _isForWorker = val!),
-                            ),
-                          ),
-                        ],
+                            if (_isForWorker) ...[
+                              const Divider(),
+                              DropdownSearch<WorkerModel>(
+                                items: (filter, loadProps) =>
+                                    hrProvider.workersList,
+                                itemAsString: (u) => isArabic
+                                    ? u.empName
+                                    : (u.empNameE ?? u.empName),
+                                compareFn: (i1, i2) => i1.empCode == i2.empCode,
+                                selectedItem: _selectedWorker,
+                                decoratorProps: DropDownDecoratorProps(
+                                  decoration: InputDecoration(
+                                    labelText: l10n.workerName ?? "Worker Name",
+                                    border: const OutlineInputBorder(),
+                                    prefixIcon: const Icon(Icons.person_search),
+                                  ),
+                                ),
+                                popupProps: const PopupProps.menu(
+                                  showSearchBox: true,
+                                  searchFieldProps: TextFieldProps(
+                                    decoration: InputDecoration(
+                                      hintText: "بحث...",
+                                      prefixIcon: Icon(Icons.search),
+                                    ),
+                                  ),
+                                ),
+                                onChanged: (data) =>
+                                    setState(() => _selectedWorker = data),
+                              ),
+                              const SizedBox(height: 10),
+                              DropdownSearch<WorkerModel>(
+                                items: (filter, loadProps) =>
+                                    hrProvider.workersList,
+                                itemAsString: (u) => u.compEmpCode.toString(),
+                                compareFn: (i1, i2) => i1.empCode == i2.empCode,
+                                selectedItem: _selectedWorker,
+                                decoratorProps: DropDownDecoratorProps(
+                                  decoration: InputDecoration(
+                                    labelText:
+                                        l10n.workerNumber ?? "Worker Number",
+                                    border: const OutlineInputBorder(),
+                                    prefixIcon: const Icon(Icons.badge),
+                                  ),
+                                ),
+                                popupProps: const PopupProps.menu(
+                                  showSearchBox: true,
+                                  searchFieldProps: TextFieldProps(
+                                    decoration: InputDecoration(
+                                      hintText: "بحث بالرقم...",
+                                      prefixIcon: Icon(Icons.search),
+                                    ),
+                                  ),
+                                ),
+                                onChanged: (data) =>
+                                    setState(() => _selectedWorker = data),
+                              ),
+                              const SizedBox(height: 8),
+                            ],
+                          ],
+                        ),
                       ),
-                      if (_isForWorker) ...[
-                        const Divider(),
-                        DropdownSearch<WorkerModel>(
-                          items: (filter, loadProps) => hrProvider.workersList,
-                          itemAsString: (u) => isArabic ? u.empName : (u.empNameE ?? u.empName),
-                          compareFn: (i1, i2) => i1.empCode == i2.empCode,
-                          selectedItem: _selectedWorker,
-                          decoratorProps: DropDownDecoratorProps(
-                            decoration: InputDecoration(labelText: l10n.workerName ?? "Worker Name", border: const OutlineInputBorder(), prefixIcon: const Icon(Icons.person_search)),
-                          ),
-                          popupProps: const PopupProps.menu(showSearchBox: true, searchFieldProps: TextFieldProps(decoration: InputDecoration(hintText: "بحث...", prefixIcon: Icon(Icons.search)))),
-                          onChanged: (data) => setState(() => _selectedWorker = data),
-                        ),
-                        const SizedBox(height: 10),
-                        DropdownSearch<WorkerModel>(
-                          items: (filter, loadProps) => hrProvider.workersList,
-                          itemAsString: (u) => u.compEmpCode.toString(),
-                          compareFn: (i1, i2) => i1.empCode == i2.empCode,
-                          selectedItem: _selectedWorker,
-                          decoratorProps: DropDownDecoratorProps(
-                            decoration: InputDecoration(labelText: l10n.workerNumber ?? "Worker Number", border: const OutlineInputBorder(), prefixIcon: const Icon(Icons.badge)),
-                          ),
-                          popupProps: const PopupProps.menu(showSearchBox: true, searchFieldProps: TextFieldProps(decoration: InputDecoration(hintText: "بحث بالرقم...", prefixIcon: Icon(Icons.search)))),
-                          onChanged: (data) => setState(() => _selectedWorker = data),
-                        ),
-                        const SizedBox(height: 8),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
+                    ),
 
-              _buildDatePicker(
-                label: l10n.requestDateLabel,
-                date: _trnsDate,
-                onPressed: () => _selectDate(context),
-                validator: (value) => _trnsDate == null ? l10n.selectRequestDate : null,
-              ),
-              const SizedBox(height: 16),
-              _buildTextField(
-                _notesController,
-                l10n.notesLabel,
-                Icons.notes_outlined,
-                maxLines: 4,
-                validator: (value) => value == null || value.isEmpty ? l10n.fieldRequired : null,
-              ),
-              const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: hrProvider.isLoading ? null : _submitForm,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primaryColor,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                    _buildDatePicker(
+                      label: l10n.requestDateLabel,
+                      date: _trnsDate,
+                      onPressed: () => _selectDate(context),
+                      validator: (value) =>
+                          _trnsDate == null ? l10n.selectRequestDate : null,
+                    ),
+                    const SizedBox(height: 16),
+                    _buildTextField(
+                      _notesController,
+                      l10n.notesLabel,
+                      Icons.notes_outlined,
+                      maxLines: 4,
+                      validator: (value) => value == null || value.isEmpty
+                          ? l10n.fieldRequired
+                          : null,
+                    ),
+                    const SizedBox(height: 24),
+                    ElevatedButton(
+                      onPressed: hrProvider.isLoading ? null : _submitForm,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.primaryColor,
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                      ),
+                      child: hrProvider.isLoading
+                          ? const SizedBox(
+                              width: 24,
+                              height: 24,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                              ),
+                            )
+                          : Text(
+                              l10n.sendRequest,
+                              style: const TextStyle(fontSize: 16),
+                            ),
+                    ),
+                  ],
                 ),
-                child: hrProvider.isLoading
-                    ? const SizedBox(width: 24, height: 24, child: CircularProgressIndicator(color: Colors.white))
-                    : Text(l10n.sendRequest, style: const TextStyle(fontSize: 16)),
               ),
-            ],
-          ),
-        ),
-      ),
+            ),
     );
   }
 
@@ -235,9 +302,14 @@ class _NewCancelSalaryConfirmationRequestScreenState extends State<NewCancelSala
     required VoidCallback onPressed,
     required FormFieldValidator<String> validator,
   }) {
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     final l10n = AppLocalizations.of(context)!;
-    final text = date == null ? l10n.selectDate : DateFormat.yMd(locale).format(date);
+    final text = date == null
+        ? l10n.selectDate
+        : DateFormat.yMd(locale).format(date);
 
     return TextFormField(
       readOnly: true,
@@ -253,11 +325,13 @@ class _NewCancelSalaryConfirmationRequestScreenState extends State<NewCancelSala
   }
 
   Widget _buildTextField(
-      TextEditingController controller,
-      String label,
-      IconData icon,
-      {int maxLines = 1, bool isNumber = false, FormFieldValidator<String>? validator}
-      ) {
+    TextEditingController controller,
+    String label,
+    IconData icon, {
+    int maxLines = 1,
+    bool isNumber = false,
+    FormFieldValidator<String>? validator,
+  }) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(

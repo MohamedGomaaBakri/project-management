@@ -1,14 +1,17 @@
 // lib/features/employee_transfer/models/department_model.dart
 import 'dart:convert';
 
-DepartmentList departmentListFromJson(String str) => DepartmentList.fromJson(json.decode(str));
+DepartmentList departmentListFromJson(String str) =>
+    DepartmentList.fromJson(json.decode(str));
 
 class DepartmentList {
   final List<DepartmentItem> items;
   DepartmentList({required this.items});
 
   factory DepartmentList.fromJson(Map<String, dynamic> json) => DepartmentList(
-    items: List<DepartmentItem>.from(json["items"].map((x) => DepartmentItem.fromJson(x))),
+    items: List<DepartmentItem>.from(
+      json["items"].map((x) => DepartmentItem.fromJson(x)),
+    ),
   );
 }
 

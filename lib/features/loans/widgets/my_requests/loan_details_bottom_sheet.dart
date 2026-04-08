@@ -34,7 +34,10 @@ class _LoanDetailsBottomSheetState extends State<LoanDetailsBottomSheet> {
 
   String _formatCurrency(double? amount, String locale) {
     if (amount == null) return '0';
-    final format = NumberFormat.currency(locale: locale, symbol: locale == 'ar_SA' ? 'ر.س' : '\$');
+    final format = NumberFormat.currency(
+      locale: locale,
+      symbol: locale == 'ar_SA' ? 'ر.س' : '\$',
+    );
     return format.format(amount);
   }
 
@@ -42,19 +45,40 @@ class _LoanDetailsBottomSheetState extends State<LoanDetailsBottomSheet> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final hrProvider = Provider.of<HrProvider>(context);
-    final isArabic = Provider.of<LocaleProvider>(context, listen: false).locale.languageCode == 'ar';
-    final loanType = hrProvider.getLoanTypeName(widget.request.loanType!, isArabic);
+    final isArabic =
+        Provider.of<LocaleProvider>(
+          context,
+          listen: false,
+        ).locale.languageCode ==
+        'ar';
+    final loanType = hrProvider.getLoanTypeName(
+      widget.request.loanType!,
+      isArabic,
+    );
 
     return DraggableScrollableSheet(
-      initialChildSize: 0.6, minChildSize: 0.4, maxChildSize: 0.9, expand: false,
+      initialChildSize: 0.6,
+      minChildSize: 0.4,
+      maxChildSize: 0.9,
+      expand: false,
       builder: (_, controller) {
         return Container(
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              Container(width: 40, height: 5, decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10))),
+              Container(
+                width: 40,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
               const SizedBox(height: 10),
-              Text(l10n.requestDetails, style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                l10n.requestDetails,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               const SizedBox(height: 10),
               Expanded(
                 child: ListView(
@@ -66,7 +90,13 @@ class _LoanDetailsBottomSheetState extends State<LoanDetailsBottomSheet> {
                   ],
                 ),
               ),
-              SizedBox(width: double.infinity, child: ElevatedButton(onPressed: () => Navigator.of(context).pop(), child: Text(l10n.close)))
+              SizedBox(
+                width: double.infinity,
+                child: ElevatedButton(
+                  onPressed: () => Navigator.of(context).pop(),
+                  child: Text(l10n.close),
+                ),
+              ),
             ],
           ),
         );
@@ -78,27 +108,50 @@ class _LoanDetailsBottomSheetState extends State<LoanDetailsBottomSheet> {
     final l10n = AppLocalizations.of(context)!;
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final locale = localeProvider.locale.toLanguageTag();
-    final currencyLocale = localeProvider.locale.languageCode == 'ar' ? 'ar_SA' : 'en_US';
+    final currencyLocale = localeProvider.locale.languageCode == 'ar'
+        ? 'ar_SA'
+        : 'en_US';
     final isArabic = localeProvider.locale.languageCode == 'ar';
-    final description = isArabic ? widget.request.descA : (widget.request.descE ?? widget.request.descA);
+    final description = isArabic
+        ? widget.request.descA
+        : (widget.request.descE ?? widget.request.descA);
 
     return Card(
       elevation: 0,
       color: Colors.grey.shade50,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10), side: BorderSide(color: Colors.grey.shade200)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey.shade200),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.requestInfo, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              l10n.requestInfo,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             const Divider(),
             _buildDetailRow(l10n.loanTypeLabel, loanType),
-            _buildDetailRow(l10n.repaymentDateLabel, _formatDate(widget.request.loanStartDate, locale)),
-            _buildDetailRow(l10n.loanValueLabel, _formatCurrency(widget.request.loanValuePys, currencyLocale)),
-            _buildDetailRow(l10n.installmentValueLabel, _formatCurrency(widget.request.loanInstlPys, currencyLocale)),
-            _buildDetailRow(l10n.installmentsCountLabel, "${widget.request.loanNos ?? 0}"),
-            if (description != null && description.isNotEmpty) _buildDetailRow(l10n.notesLabel, description),
+            _buildDetailRow(
+              l10n.repaymentDateLabel,
+              _formatDate(widget.request.loanStartDate, locale),
+            ),
+            _buildDetailRow(
+              l10n.loanValueLabel,
+              _formatCurrency(widget.request.loanValuePys, currencyLocale),
+            ),
+            _buildDetailRow(
+              l10n.installmentValueLabel,
+              _formatCurrency(widget.request.loanInstlPys, currencyLocale),
+            ),
+            _buildDetailRow(
+              l10n.installmentsCountLabel,
+              "${widget.request.loanNos ?? 0}",
+            ),
+            if (description != null && description.isNotEmpty)
+              _buildDetailRow(l10n.notesLabel, description),
           ],
         ),
       ),
@@ -110,10 +163,18 @@ class _LoanDetailsBottomSheetState extends State<LoanDetailsBottomSheet> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.approvals, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(
+          l10n.approvals,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         hrProvider.isLoading
-            ? const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 30))
+            ? const Center(
+                child: SpinKitFadingCircle(
+                  color: AppColors.primaryColor,
+                  size: 30,
+                ),
+              )
             : hrProvider.myLoanAuthDetails?.items.isEmpty ?? true
             ? Center(child: Text(l10n.noRegisteredApprovals))
             : AuthTimeline(authItems: hrProvider.myLoanAuthDetails!.items),

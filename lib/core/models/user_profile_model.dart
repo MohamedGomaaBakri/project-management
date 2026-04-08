@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-UserProfile userProfileFromJson(String str) => UserProfile.fromJson(json.decode(str));
+UserProfile userProfileFromJson(String str) =>
+    UserProfile.fromJson(json.decode(str));
 String userProfileToJson(UserProfile data) => json.encode(data.toJson());
 
 class UserProfile {
@@ -15,7 +16,9 @@ class UserProfile {
   });
 
   factory UserProfile.fromJson(Map<String, dynamic> json) => UserProfile(
-    items: List<UserProfileData>.from(json["items"].map((x) => UserProfileData.fromJson(x))),
+    items: List<UserProfileData>.from(
+      json["items"].map((x) => UserProfileData.fromJson(x)),
+    ),
     count: json["count"],
     hasMore: json["hasMore"],
   );
@@ -122,7 +125,9 @@ class UserProfileData {
         houseMnths: _parseIntNullable(json["HouseMnths"]),
         normalDays: _parseIntNullable(json["NormalDays"]),
         suddenSlryDays: _parseIntNullable(json["SuddenSlryDays"]),
-        absenceNotAllowExtraDays: _parseIntNullable(json["AbsenceNotAllowExtraDays"]),
+        absenceNotAllowExtraDays: _parseIntNullable(
+          json["AbsenceNotAllowExtraDays"],
+        ),
         vacationEvery: _parseIntNullable(json["VacationEvery"]),
         ticketsEvery: _parseIntNullable(json["TicketsEvery"]),
 
@@ -152,7 +157,9 @@ class UserProfileData {
       final parsed = int.tryParse(value);
       if (parsed != null) return parsed;
     }
-    throw ArgumentError("لا يمكن تحويل القيمة $value (${value.runtimeType}) إلى int");
+    throw ArgumentError(
+      "لا يمكن تحويل القيمة $value (${value.runtimeType}) إلى int",
+    );
   }
 
   // دالة مساعدة لتحويل آمن إلى int nullable

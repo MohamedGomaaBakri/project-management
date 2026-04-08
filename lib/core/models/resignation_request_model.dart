@@ -3,17 +3,19 @@
 import 'dart:convert';
 import 'package:shehabapp/core/models/purchase_order_model.dart';
 
-
-
-ResignationRequestList resignationRequestListFromJson(String str) => ResignationRequestList.fromJson(json.decode(str));
+ResignationRequestList resignationRequestListFromJson(String str) =>
+    ResignationRequestList.fromJson(json.decode(str));
 
 class ResignationRequestList {
   final List<ResignationRequestItem> items;
   ResignationRequestList({required this.items});
 
-  factory ResignationRequestList.fromJson(Map<String, dynamic> json) => ResignationRequestList(
-    items: List<ResignationRequestItem>.from(json["items"].map((x) => ResignationRequestItem.fromJson(x))),
-  );
+  factory ResignationRequestList.fromJson(Map<String, dynamic> json) =>
+      ResignationRequestList(
+        items: List<ResignationRequestItem>.from(
+          json["items"].map((x) => ResignationRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class ResignationRequestItem {
@@ -41,18 +43,19 @@ class ResignationRequestItem {
     required this.links,
   });
 
-  factory ResignationRequestItem.fromJson(Map<String, dynamic> json) => ResignationRequestItem(
-    empCode: json["EmpCode"],
-    serial: json["Serial"],
-    trnsDate: json["TrnsDate"],
-    endDate: json["EndDate"],
-    lastWorkDt: json["LastWorkDt"],
-    endReasons: json["EndReasons"],
-    altKey: json["AltKey"],
-    empName: json["EmpName"],
-    empNameE: json["EmpNameE"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory ResignationRequestItem.fromJson(Map<String, dynamic> json) =>
+      ResignationRequestItem(
+        empCode: json["EmpCode"],
+        serial: json["Serial"],
+        trnsDate: json["TrnsDate"],
+        endDate: json["EndDate"],
+        lastWorkDt: json["LastWorkDt"],
+        endReasons: json["EndReasons"],
+        altKey: json["AltKey"],
+        empName: json["EmpName"],
+        empNameE: json["EmpNameE"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 
   String? getLink(String name) {
     try {

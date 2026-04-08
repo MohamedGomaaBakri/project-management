@@ -17,11 +17,12 @@ class MyPermissionRequestsListScreen extends StatefulWidget {
   const MyPermissionRequestsListScreen({super.key});
 
   @override
-  State<MyPermissionRequestsListScreen> createState() => _MyPermissionRequestsListScreenState();
+  State<MyPermissionRequestsListScreen> createState() =>
+      _MyPermissionRequestsListScreenState();
 }
 
-class _MyPermissionRequestsListScreenState extends State<MyPermissionRequestsListScreen> {
-
+class _MyPermissionRequestsListScreenState
+    extends State<MyPermissionRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -31,8 +32,10 @@ class _MyPermissionRequestsListScreenState extends State<MyPermissionRequestsLis
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchMyPermissionRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchMyPermissionRequests(authProvider.currentUser!.empCode);
     }
   }
 
@@ -47,10 +50,16 @@ class _MyPermissionRequestsListScreenState extends State<MyPermissionRequestsLis
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.myPermissionRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.myPermissionRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.myPermissionRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
@@ -62,7 +71,12 @@ class _MyPermissionRequestsListScreenState extends State<MyPermissionRequestsLis
           return RefreshIndicator(
             onRefresh: _loadRequests,
             child: ListView.builder(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 80), // Keep space for FAB
+              padding: const EdgeInsets.fromLTRB(
+                8,
+                8,
+                8,
+                80,
+              ), // Keep space for FAB
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
@@ -73,8 +87,13 @@ class _MyPermissionRequestsListScreenState extends State<MyPermissionRequestsLis
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                      builder: (_) => PermissionDetailsBottomSheet(request: request),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (_) =>
+                          PermissionDetailsBottomSheet(request: request),
                     );
                   },
                 );
@@ -85,7 +104,9 @@ class _MyPermissionRequestsListScreenState extends State<MyPermissionRequestsLis
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewPermissionRequestScreen.routeName);
+          final result = await Navigator.of(
+            context,
+          ).pushNamed(NewPermissionRequestScreen.routeName);
           if (result == true && mounted) {
             _loadRequests();
           }

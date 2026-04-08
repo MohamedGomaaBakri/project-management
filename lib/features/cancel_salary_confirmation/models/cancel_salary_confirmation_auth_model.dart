@@ -2,14 +2,20 @@
 import 'dart:convert';
 import '../../../core/models/purchase_order_model.dart'; // Using the same Link
 
-CancelSalaryConfirmationAuthResponse cancelSalaryConfirmationAuthResponseFromJson(String str) => CancelSalaryConfirmationAuthResponse.fromJson(json.decode(str));
+CancelSalaryConfirmationAuthResponse
+cancelSalaryConfirmationAuthResponseFromJson(String str) =>
+    CancelSalaryConfirmationAuthResponse.fromJson(json.decode(str));
 
 class CancelSalaryConfirmationAuthResponse {
   final List<CancelSalaryConfirmationAuthItem> items;
   CancelSalaryConfirmationAuthResponse({required this.items});
 
-  factory CancelSalaryConfirmationAuthResponse.fromJson(Map<String, dynamic> json) => CancelSalaryConfirmationAuthResponse(
-    items: List<CancelSalaryConfirmationAuthItem>.from(json["items"].map((x) => CancelSalaryConfirmationAuthItem.fromJson(x))),
+  factory CancelSalaryConfirmationAuthResponse.fromJson(
+    Map<String, dynamic> json,
+  ) => CancelSalaryConfirmationAuthResponse(
+    items: List<CancelSalaryConfirmationAuthItem>.from(
+      json["items"].map((x) => CancelSalaryConfirmationAuthItem.fromJson(x)),
+    ),
   );
 }
 
@@ -48,7 +54,9 @@ class CancelSalaryConfirmationAuthItem {
     required this.links,
   });
 
-  factory CancelSalaryConfirmationAuthItem.fromJson(Map<String, dynamic> json) => CancelSalaryConfirmationAuthItem(
+  factory CancelSalaryConfirmationAuthItem.fromJson(
+    Map<String, dynamic> json,
+  ) => CancelSalaryConfirmationAuthItem(
     altKey: json["AltKey"],
     authDate: json["AuthDate"],
     authFlag: json["AuthFlag"],

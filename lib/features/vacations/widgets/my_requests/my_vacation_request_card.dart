@@ -11,7 +11,11 @@ class MyVacationRequestCard extends StatelessWidget {
   final MyVacationRequestItem request;
   final VoidCallback onTap;
 
-  const MyVacationRequestCard({super.key, required this.request, required this.onTap});
+  const MyVacationRequestCard({
+    super.key,
+    required this.request,
+    required this.onTap,
+  });
 
   String _formatDate(String? dateString, String locale) {
     if (dateString == null) return '';
@@ -32,17 +36,22 @@ class MyVacationRequestCard extends StatelessWidget {
       case 2:
         return l10n.vacationTypeUnpaid;
 
-      default: return l10n.notSpecified;
+      default:
+        return l10n.notSpecified;
     }
   }
 
   String _getRequestStatusName(BuildContext context, int? flag) {
     final l10n = AppLocalizations.of(context)!;
     switch (flag) {
-      case 1: return l10n.approved;
-      case -1: return l10n.rejected;
-      case 0: return l10n.underAction;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.approved;
+      case -1:
+        return l10n.rejected;
+      case 0:
+        return l10n.underAction;
+      default:
+        return l10n.notSpecified;
     }
   }
 
@@ -70,19 +79,52 @@ class MyVacationRequestCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(vacationType, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: AppColors.primaryColor)),
+                  Text(
+                    vacationType,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.primaryColor,
+                    ),
+                  ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(color: AppColors.getStatusColor(request.agreeFlag).withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
-                    child: Text(status, style: TextStyle(color: AppColors.getStatusColor(request.agreeFlag), fontWeight: FontWeight.bold)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.getStatusColor(
+                        request.agreeFlag,
+                      ).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        color: AppColors.getStatusColor(request.agreeFlag),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
               const Divider(height: 20),
-              _buildInfoRow(Icons.date_range_outlined, l10n.requestDateLabel, _formatDate(request.trnsDate, locale)),
-              _buildInfoRow(Icons.timer_outlined, l10n.durationLabel, "${request.period ?? 0} ${l10n.daysUnit}"),
+              _buildInfoRow(
+                Icons.date_range_outlined,
+                l10n.requestDateLabel,
+                _formatDate(request.trnsDate, locale),
+              ),
+              _buildInfoRow(
+                Icons.timer_outlined,
+                l10n.durationLabel,
+                "${request.period ?? 0} ${l10n.daysUnit}",
+              ),
               if (request.notes != null && request.notes!.isNotEmpty)
-                _buildInfoRow(Icons.notes_outlined, l10n.notesLabel, request.notes!),
+                _buildInfoRow(
+                  Icons.notes_outlined,
+                  l10n.notesLabel,
+                  request.notes!,
+                ),
             ],
           ),
         ),
@@ -99,7 +141,9 @@ class MyVacationRequestCard extends StatelessWidget {
           const SizedBox(width: 8),
           Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(width: 5),
-          Expanded(child: Text(value, style: TextStyle(color: Colors.grey.shade800))),
+          Expanded(
+            child: Text(value, style: TextStyle(color: Colors.grey.shade800)),
+          ),
         ],
       ),
     );

@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 import 'dart:math' as math;
 
-class HeroIconWidget extends StatefulWidget { // تم تغيير الاسم لـ HeroIconWidget لتجنب التعارض
+class HeroIconWidget extends StatefulWidget {
+  // تم تغيير الاسم لـ HeroIconWidget لتجنب التعارض
   const HeroIconWidget({Key? key}) : super(key: key);
   @override
   _HeroIconWidgetState createState() => _HeroIconWidgetState();
 }
 
-class _HeroIconWidgetState extends State<HeroIconWidget> with SingleTickerProviderStateMixin {
+class _HeroIconWidgetState extends State<HeroIconWidget>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
 
   @override
@@ -40,7 +42,9 @@ class _HeroIconWidgetState extends State<HeroIconWidget> with SingleTickerProvid
               shape: BoxShape.circle,
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF6A1B9A).withOpacity(0.3 + (curveValue * 0.2)),
+                  color: const Color(
+                    0xFF6A1B9A,
+                  ).withOpacity(0.3 + (curveValue * 0.2)),
                   blurRadius: 5 + (curveValue * 5),
                   spreadRadius: curveValue * 1,
                 ),

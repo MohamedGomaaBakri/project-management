@@ -10,16 +10,17 @@ import '../../../core/utils/app_colors.dart';
 import '../widgets/cancel_salary_confirmation_request_card.dart';
 import 'cancel_salary_confirmation_request_details_screen.dart';
 
-
 class CancelSalaryConfirmationRequestsListScreen extends StatefulWidget {
   static const String routeName = '/cancel-salary-confirmation-requests-list';
   const CancelSalaryConfirmationRequestsListScreen({super.key});
 
   @override
-  State<CancelSalaryConfirmationRequestsListScreen> createState() => _CancelSalaryConfirmationRequestsListScreenState();
+  State<CancelSalaryConfirmationRequestsListScreen> createState() =>
+      _CancelSalaryConfirmationRequestsListScreenState();
 }
 
-class _CancelSalaryConfirmationRequestsListScreenState extends State<CancelSalaryConfirmationRequestsListScreen> {
+class _CancelSalaryConfirmationRequestsListScreenState
+    extends State<CancelSalaryConfirmationRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -29,8 +30,12 @@ class _CancelSalaryConfirmationRequestsListScreenState extends State<CancelSalar
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchCancelSalaryConfirmationRequests(authProvider.currentUser!.usersCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchCancelSalaryConfirmationRequests(
+        authProvider.currentUser!.usersCode,
+      );
     }
   }
 
@@ -39,21 +44,32 @@ class _CancelSalaryConfirmationRequestsListScreenState extends State<CancelSalar
     final l10n = AppLocalizations.of(context)!;
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.cancelSalaryConfirmationInfo), // "طلبات إلغاء تثبيت راتب"
+        title: Text(
+          l10n.cancelSalaryConfirmationInfo,
+        ), // "طلبات إلغاء تثبيت راتب"
         actions: const [LanguageSwitcherButton()],
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
-          if (hrProvider.isLoading && hrProvider.cancelSalaryConfirmationRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+          if (hrProvider.isLoading &&
+              hrProvider.cancelSalaryConfirmationRequests.isEmpty) {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.cancelSalaryConfirmationRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.cancelSalaryConfirmationRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
           if (hrProvider.cancelSalaryConfirmationRequests.isEmpty) {
-            return Center(child: Text(l10n.noCancelSalaryConfirmationRequests)); // "لا توجد طلبات"
+            return Center(
+              child: Text(l10n.noCancelSalaryConfirmationRequests),
+            ); // "لا توجد طلبات"
           }
 
           final requests = hrProvider.cancelSalaryConfirmationRequests;
@@ -64,12 +80,16 @@ class _CancelSalaryConfirmationRequestsListScreenState extends State<CancelSalar
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return CancelSalaryConfirmationRequestCard( // استخدام الكارد الجديد
+                return CancelSalaryConfirmationRequestCard(
+                  // استخدام الكارد الجديد
                   request: request,
                   onTap: () async {
-                    hrProvider.selectCancelSalaryConfirmationRequest(request); // استخدام الدالة الجديدة
+                    hrProvider.selectCancelSalaryConfirmationRequest(
+                      request,
+                    ); // استخدام الدالة الجديدة
                     final result = await Navigator.of(context).pushNamed(
-                      CancelSalaryConfirmationRequestDetailsScreen.routeName, // الشاشة الجديدة
+                      CancelSalaryConfirmationRequestDetailsScreen
+                          .routeName, // الشاشة الجديدة
                     );
                     if (result == true && mounted) {
                       _loadRequests();

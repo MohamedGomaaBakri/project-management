@@ -2,15 +2,20 @@
 import 'dart:convert';
 import '../../../core/models/purchase_order_model.dart'; // Using the same Link
 
-SalaryConfirmationRequestList salaryConfirmationRequestListFromJson(String str) => SalaryConfirmationRequestList.fromJson(json.decode(str));
+SalaryConfirmationRequestList salaryConfirmationRequestListFromJson(
+  String str,
+) => SalaryConfirmationRequestList.fromJson(json.decode(str));
 
 class SalaryConfirmationRequestList {
   final List<SalaryConfirmationRequestItem> items;
   SalaryConfirmationRequestList({required this.items});
 
-  factory SalaryConfirmationRequestList.fromJson(Map<String, dynamic> json) => SalaryConfirmationRequestList(
-    items: List<SalaryConfirmationRequestItem>.from(json["items"].map((x) => SalaryConfirmationRequestItem.fromJson(x))),
-  );
+  factory SalaryConfirmationRequestList.fromJson(Map<String, dynamic> json) =>
+      SalaryConfirmationRequestList(
+        items: List<SalaryConfirmationRequestItem>.from(
+          json["items"].map((x) => SalaryConfirmationRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class SalaryConfirmationRequestItem {
@@ -46,20 +51,21 @@ class SalaryConfirmationRequestItem {
     required this.links,
   });
 
-  factory SalaryConfirmationRequestItem.fromJson(Map<String, dynamic> json) => SalaryConfirmationRequestItem(
-    empCode: json["EmpCode"],
-    serial: json["Serial"],
-    compEmpCode: json["CompEmpCode"],
-    trnsDate: json["TrnsDate"],
-    typeFlag: json["TypeFlag"],
-    aproveFlag: json["AproveFlag"],
-    notes: json["Notes"],
-    insertUser: json["InsertUser"],
-    altKey: json["AltKey"],
-    prevSer: json["PrevSer"],
-    empName: json["EmpName"],
-    empNameE: json["EmpNameE"],
-    usersCode: json["UsersCode"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory SalaryConfirmationRequestItem.fromJson(Map<String, dynamic> json) =>
+      SalaryConfirmationRequestItem(
+        empCode: json["EmpCode"],
+        serial: json["Serial"],
+        compEmpCode: json["CompEmpCode"],
+        trnsDate: json["TrnsDate"],
+        typeFlag: json["TypeFlag"],
+        aproveFlag: json["AproveFlag"],
+        notes: json["Notes"],
+        insertUser: json["InsertUser"],
+        altKey: json["AltKey"],
+        prevSer: json["PrevSer"],
+        empName: json["EmpName"],
+        empNameE: json["EmpNameE"],
+        usersCode: json["UsersCode"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 }

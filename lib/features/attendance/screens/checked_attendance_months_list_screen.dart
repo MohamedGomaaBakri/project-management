@@ -11,23 +11,30 @@ import '../../../core/utils/app_colors.dart';
 import '../providers/attendance_provider.dart';
 import 'checked_attendance_details_screen.dart';
 
-
 class CheckedAttendanceMonthsListScreen extends StatefulWidget {
   static const String routeName = '/checked-attendance-months';
   const CheckedAttendanceMonthsListScreen({super.key});
 
   @override
-  State<CheckedAttendanceMonthsListScreen> createState() => _CheckedAttendanceMonthsListScreenState();
+  State<CheckedAttendanceMonthsListScreen> createState() =>
+      _CheckedAttendanceMonthsListScreenState();
 }
 
-class _CheckedAttendanceMonthsListScreenState extends State<CheckedAttendanceMonthsListScreen> {
+class _CheckedAttendanceMonthsListScreenState
+    extends State<CheckedAttendanceMonthsListScreen> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final user = Provider.of<AuthProvider>(context, listen: false).currentUser;
+      final user = Provider.of<AuthProvider>(
+        context,
+        listen: false,
+      ).currentUser;
       if (user != null) {
-        Provider.of<AttendanceProvider>(context, listen: false).fetchCheckedAttendanceMonths(789);
+        Provider.of<AttendanceProvider>(
+          context,
+          listen: false,
+        ).fetchCheckedAttendanceMonths(789);
       }
     });
   }
@@ -44,19 +51,21 @@ class _CheckedAttendanceMonthsListScreenState extends State<CheckedAttendanceMon
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.checkedAttendanceLogTitle),
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<AttendanceProvider>(
         builder: (context, provider, child) {
           if (provider.isLoadingCheckedMonths) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor));
+            return const Center(
+              child: SpinKitFadingCircle(color: AppColors.primaryColor),
+            );
           }
           if (provider.checkedMonthsError != null) {
             return Center(child: Text(provider.checkedMonthsError!));
@@ -74,12 +83,20 @@ class _CheckedAttendanceMonthsListScreenState extends State<CheckedAttendanceMon
               final monthTitle = _formatYearMonth(month.yearMonth, locale);
               return Card(
                 elevation: 2,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: ListTile(
-                  leading: const Icon(Icons.verified_user_outlined, color: AppColors.primaryColor),
+                  leading: const Icon(
+                    Icons.verified_user_outlined,
+                    color: AppColors.primaryColor,
+                  ),
                   title: Text(
                     monthTitle,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {

@@ -16,11 +16,12 @@ class MyResumeWorkRequestsListScreen extends StatefulWidget {
   const MyResumeWorkRequestsListScreen({super.key});
 
   @override
-  State<MyResumeWorkRequestsListScreen> createState() => _MyResumeWorkRequestsListScreenState();
+  State<MyResumeWorkRequestsListScreen> createState() =>
+      _MyResumeWorkRequestsListScreenState();
 }
 
-class _MyResumeWorkRequestsListScreenState extends State<MyResumeWorkRequestsListScreen> {
-
+class _MyResumeWorkRequestsListScreenState
+    extends State<MyResumeWorkRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,8 +31,10 @@ class _MyResumeWorkRequestsListScreenState extends State<MyResumeWorkRequestsLis
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchMyResumeWorkRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchMyResumeWorkRequests(authProvider.currentUser!.empCode);
     }
   }
 
@@ -46,10 +49,16 @@ class _MyResumeWorkRequestsListScreenState extends State<MyResumeWorkRequestsLis
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.myResumeWorkRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.myResumeWorkRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.myResumeWorkRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
@@ -65,15 +74,24 @@ class _MyResumeWorkRequestsListScreenState extends State<MyResumeWorkRequestsLis
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return MyResumeWorkRequestCard( // الكارد الجديد
+                return MyResumeWorkRequestCard(
+                  // الكارد الجديد
                   request: request,
                   onTap: () {
-                    hrProvider.selectMyResumeWorkRequest(request); // الدالة الجديدة
+                    hrProvider.selectMyResumeWorkRequest(
+                      request,
+                    ); // الدالة الجديدة
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                      builder: (_) => ResumeWorkDetailsBottomSheet(request: request), // البوتوم شيت الجديد
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (_) => ResumeWorkDetailsBottomSheet(
+                        request: request,
+                      ), // البوتوم شيت الجديد
                     );
                   },
                 );
@@ -84,7 +102,9 @@ class _MyResumeWorkRequestsListScreenState extends State<MyResumeWorkRequestsLis
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewResumeWorkRequestScreen.routeName); // شاشة الطلب الجديد
+          final result = await Navigator.of(context).pushNamed(
+            NewResumeWorkRequestScreen.routeName,
+          ); // شاشة الطلب الجديد
           if (result == true && mounted) {
             _loadRequests();
           }

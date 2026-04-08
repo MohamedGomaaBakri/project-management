@@ -30,11 +30,7 @@ class _AuthWrapperState extends State<AuthWrapper> {
 
     // إذا لم تكتمل عملية التحقق بعد، نعرض شاشة تحميل
     if (!authProvider.isAuthChecked) {
-      return const Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return const Scaffold(body: Center(child: CircularProgressIndicator()));
     }
 
     // بعد اكتمال التحقق، نقرر أي شاشة نعرضها

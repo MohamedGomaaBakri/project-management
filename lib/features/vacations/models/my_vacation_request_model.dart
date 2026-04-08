@@ -3,15 +3,19 @@ import 'dart:convert';
 
 import '../../../core/models/purchase_order_model.dart';
 
-MyVacationRequestList myVacationRequestListFromJson(String str) => MyVacationRequestList.fromJson(json.decode(str));
+MyVacationRequestList myVacationRequestListFromJson(String str) =>
+    MyVacationRequestList.fromJson(json.decode(str));
 
 class MyVacationRequestList {
   final List<MyVacationRequestItem> items;
   MyVacationRequestList({required this.items});
 
-  factory MyVacationRequestList.fromJson(Map<String, dynamic> json) => MyVacationRequestList(
-    items: List<MyVacationRequestItem>.from(json["items"].map((x) => MyVacationRequestItem.fromJson(x))),
-  );
+  factory MyVacationRequestList.fromJson(Map<String, dynamic> json) =>
+      MyVacationRequestList(
+        items: List<MyVacationRequestItem>.from(
+          json["items"].map((x) => MyVacationRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class MyVacationRequestItem {
@@ -41,19 +45,20 @@ class MyVacationRequestItem {
     required this.links,
   });
 
-  factory MyVacationRequestItem.fromJson(Map<String, dynamic> json) => MyVacationRequestItem(
-    empCode: json["EmpCode"],
-    serialPyv: json["SerialPyv"],
-    trnsDate: json["TrnsDate"],
-    trnsType: json["TrnsType"],
-    startDt: json["StartDt"],
-    endDt: json["EndDt"],
-    period: json["Period"],
-    agreeFlag: json["AgreeFlag"],
-    notes: json["Notes"],
-    altKey: json["AltKey"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory MyVacationRequestItem.fromJson(Map<String, dynamic> json) =>
+      MyVacationRequestItem(
+        empCode: json["EmpCode"],
+        serialPyv: json["SerialPyv"],
+        trnsDate: json["TrnsDate"],
+        trnsType: json["TrnsType"],
+        startDt: json["StartDt"],
+        endDt: json["EndDt"],
+        period: json["Period"],
+        agreeFlag: json["AgreeFlag"],
+        notes: json["Notes"],
+        altKey: json["AltKey"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 
   String? getLink(String name) {
     try {

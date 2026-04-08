@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -45,7 +43,8 @@ class PurchaseProvider with ChangeNotifier {
     _ordersError = null;
     notifyListeners();
     try {
-      final url = "${ApiConstants.baseUrl}${ApiConstants.purchaseOrdersEndpoint}?q=UsersCode=$usersCode";
+      final url =
+          "${ApiConstants.baseUrl}${ApiConstants.purchaseOrdersEndpoint}?q=UsersCode=$usersCode";
       final data = await _dataFetchService.fetchDataFromUrl(url);
       if (data != null) {
         _purchaseOrders = PurchaseOrderList.fromJson(data).items;
@@ -63,7 +62,9 @@ class PurchaseProvider with ChangeNotifier {
   void selectOrder(PurchaseOrderItem order) {
     if (_selectedOrder?.altKey != order.altKey) {
       _selectedOrder = order;
-      _authDetails = null; _srvcDetails = null; _itemDetails = null;
+      _authDetails = null;
+      _srvcDetails = null;
+      _itemDetails = null;
       _orderDetailsError = null;
       notifyListeners();
     }
@@ -76,8 +77,12 @@ class PurchaseProvider with ChangeNotifier {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       _authDetails = (data != null) ? PrOrderAuthResponse.fromJson(data) : null;
       if (data == null) _orderDetailsError = "فشل تحميل تفاصيل الاعتماد.";
-    } catch (e) { _orderDetailsError = "خطأ: ${e.toString()}";
-    } finally { _isLoadingOrderDetails = false; notifyListeners(); }
+    } catch (e) {
+      _orderDetailsError = "خطأ: ${e.toString()}";
+    } finally {
+      _isLoadingOrderDetails = false;
+      notifyListeners();
+    }
   }
 
   Future<void> loadOrderSrvcDetails(String url) async {
@@ -87,8 +92,12 @@ class PurchaseProvider with ChangeNotifier {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       _srvcDetails = (data != null) ? PrOrderSrvcResponse.fromJson(data) : null;
       if (data == null) _orderDetailsError = "فشل تحميل تفاصيل الخدمات.";
-    } catch (e) { _orderDetailsError = "خطأ: ${e.toString()}";
-    } finally { _isLoadingOrderDetails = false; notifyListeners(); }
+    } catch (e) {
+      _orderDetailsError = "خطأ: ${e.toString()}";
+    } finally {
+      _isLoadingOrderDetails = false;
+      notifyListeners();
+    }
   }
 
   Future<void> loadOrderItemDetails(String url) async {
@@ -98,8 +107,12 @@ class PurchaseProvider with ChangeNotifier {
       final data = await _dataFetchService.fetchDataFromUrl(url);
       _itemDetails = (data != null) ? PrOrderDetResponse.fromJson(data) : null;
       if (data == null) _orderDetailsError = "فشل تحميل تفاصيل الأصناف.";
-    } catch (e) { _orderDetailsError = "خطأ: ${e.toString()}";
-    } finally { _isLoadingOrderDetails = false; notifyListeners(); }
+    } catch (e) {
+      _orderDetailsError = "خطأ: ${e.toString()}";
+    } finally {
+      _isLoadingOrderDetails = false;
+      notifyListeners();
+    }
   }
 
   Future<bool> submitPurchaseOrderAction({
@@ -134,26 +147,40 @@ class PurchaseProvider with ChangeNotifier {
       }
 
       const String authTableName = "PR_ORDER";
-      final String altKey = "$authTableName-$authPk1-$authPk2-$calculatedPrevSer";
+      final String altKey =
+          "$authTableName-$authPk1-$authPk2-$calculatedPrevSer";
       final String authDate = DateTime.now().toIso8601String();
 
       final Map<String, dynamic> requestBody = {
-        "AltKey": altKey, "AuthDate": authDate, "AuthFlag": authFlag,
-        "AuthPk1": authPk1.toString(), "AuthPk2": authPk2.toString(), "AuthPk3": null,
-        "AuthPk4": null, "AuthPk5": null, "AuthTableName": authTableName,
-        "FileSerial": 1, "PrevSer": calculatedPrevSer, "SystemNumber": 30,
+        "AltKey": altKey,
+        "AuthDate": authDate,
+        "AuthFlag": authFlag,
+        "AuthPk1": authPk1.toString(),
+        "AuthPk2": authPk2.toString(),
+        "AuthPk3": null,
+        "AuthPk4": null,
+        "AuthPk5": null,
+        "AuthTableName": authTableName,
+        "FileSerial": 1,
+        "PrevSer": calculatedPrevSer,
+        "SystemNumber": 30,
         "UsersCode": currentUserCode,
-        "UsersDesc": usersDesc.isEmpty ? (authFlag == 1 ? "تم الاعتماد" : "تم الرفض") : usersDesc,
+        "UsersDesc": usersDesc.isEmpty
+            ? (authFlag == 1 ? "تم الاعتماد" : "تم الرفض")
+            : usersDesc,
         "MobileAuth": 1,
       };
 
       // --== تمت إضافة الطباعة هنا للمساعدة في تتبع الأخطاء ==--
       debugPrint("--- Sending Purchase Order Action ---");
-      debugPrint("URL: http://37.27.112.187:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SeUsersAuthVO1");
+      debugPrint(
+        "URL: http://37.27.112.187:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SeUsersAuthVO1",
+      );
       debugPrint("Request Body: ${json.encode(requestBody)}");
       // --==============================================--
 
-      const String submitUrl = "http://37.27.112.187:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SeUsersAuthVO1";
+      const String submitUrl =
+          "http://37.27.112.187:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SeUsersAuthVO1";
 
       final response = await http.post(
         Uri.parse(submitUrl),
@@ -173,8 +200,12 @@ class PurchaseProvider with ChangeNotifier {
         String serverErrorMsg = "فشل الإجراء.";
         try {
           final errorData = json.decode(utf8.decode(response.bodyBytes));
-          serverErrorMsg = errorData["title"] ?? errorData["detail"] ?? errorData["message"] ?? serverErrorMsg;
-        } catch(_){}
+          serverErrorMsg =
+              errorData["title"] ??
+              errorData["detail"] ??
+              errorData["message"] ??
+              serverErrorMsg;
+        } catch (_) {}
         throw Exception("خطأ ${response.statusCode}: $serverErrorMsg");
       }
     } catch (e) {

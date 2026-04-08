@@ -2,15 +2,19 @@
 import 'dart:convert';
 import '../../../core/models/purchase_order_model.dart'; // Using the same Link
 
-EmployeeTransferAuthResponse employeeTransferAuthResponseFromJson(String str) => EmployeeTransferAuthResponse.fromJson(json.decode(str));
+EmployeeTransferAuthResponse employeeTransferAuthResponseFromJson(String str) =>
+    EmployeeTransferAuthResponse.fromJson(json.decode(str));
 
 class EmployeeTransferAuthResponse {
   final List<EmployeeTransferAuthItem> items;
   EmployeeTransferAuthResponse({required this.items});
 
-  factory EmployeeTransferAuthResponse.fromJson(Map<String, dynamic> json) => EmployeeTransferAuthResponse(
-    items: List<EmployeeTransferAuthItem>.from(json["items"].map((x) => EmployeeTransferAuthItem.fromJson(x))),
-  );
+  factory EmployeeTransferAuthResponse.fromJson(Map<String, dynamic> json) =>
+      EmployeeTransferAuthResponse(
+        items: List<EmployeeTransferAuthItem>.from(
+          json["items"].map((x) => EmployeeTransferAuthItem.fromJson(x)),
+        ),
+      );
 }
 
 class EmployeeTransferAuthItem {
@@ -46,20 +50,21 @@ class EmployeeTransferAuthItem {
     required this.links,
   });
 
-  factory EmployeeTransferAuthItem.fromJson(Map<String, dynamic> json) => EmployeeTransferAuthItem(
-    altKey: json["AltKey"],
-    authDate: json["AuthDate"],
-    authFlag: json["AuthFlag"],
-    authPk1: json["AuthPk1"],
-    authPk2: json["AuthPk2"],
-    authTableName: json["AuthTableName"],
-    prevSer: json["PrevSer"],
-    usersCode: json["UsersCode"],
-    usersDesc: json["UsersDesc"],
-    usersName: json["UsersName"],
-    usersNameE: json["UsersNameE"],
-    jobDesc: json["JobDesc"],
-    jobDescE: json["JobDescE"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory EmployeeTransferAuthItem.fromJson(Map<String, dynamic> json) =>
+      EmployeeTransferAuthItem(
+        altKey: json["AltKey"],
+        authDate: json["AuthDate"],
+        authFlag: json["AuthFlag"],
+        authPk1: json["AuthPk1"],
+        authPk2: json["AuthPk2"],
+        authTableName: json["AuthTableName"],
+        prevSer: json["PrevSer"],
+        usersCode: json["UsersCode"],
+        usersDesc: json["UsersDesc"],
+        usersName: json["UsersName"],
+        usersNameE: json["UsersNameE"],
+        jobDesc: json["JobDesc"],
+        jobDescE: json["JobDescE"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 }

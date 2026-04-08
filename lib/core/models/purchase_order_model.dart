@@ -2,8 +2,10 @@
 
 import 'dart:convert';
 
-PurchaseOrderList purchaseOrderListFromJson(String str) => PurchaseOrderList.fromJson(json.decode(str));
-String purchaseOrderListToJson(PurchaseOrderList data) => json.encode(data.toJson());
+PurchaseOrderList purchaseOrderListFromJson(String str) =>
+    PurchaseOrderList.fromJson(json.decode(str));
+String purchaseOrderListToJson(PurchaseOrderList data) =>
+    json.encode(data.toJson());
 
 class PurchaseOrderList {
   final List<PurchaseOrderItem> items;
@@ -16,11 +18,14 @@ class PurchaseOrderList {
     required this.hasMore,
   });
 
-  factory PurchaseOrderList.fromJson(Map<String, dynamic> json) => PurchaseOrderList(
-    items: List<PurchaseOrderItem>.from(json["items"].map((x) => PurchaseOrderItem.fromJson(x))),
-    count: json["count"],
-    hasMore: json["hasMore"],
-  );
+  factory PurchaseOrderList.fromJson(Map<String, dynamic> json) =>
+      PurchaseOrderList(
+        items: List<PurchaseOrderItem>.from(
+          json["items"].map((x) => PurchaseOrderItem.fromJson(x)),
+        ),
+        count: json["count"],
+        hasMore: json["hasMore"],
+      );
 
   Map<String, dynamic> toJson() => {
     "items": List<dynamic>.from(items.map((x) => x.toJson())),
@@ -42,7 +47,7 @@ class PurchaseOrderItem {
   final String? poSubjectE;
   final String? poStatus;
   final int? trnsTypeCode; // تمت الإضافة لاستخدامه كـ AuthPk1
-  final int? trnsSerial;   // تمت الإضافة لاستخدامه كـ AuthPk2
+  final int? trnsSerial; // تمت الإضافة لاستخدامه كـ AuthPk2
   final List<Link> links;
 
   PurchaseOrderItem({
@@ -59,25 +64,26 @@ class PurchaseOrderItem {
     this.poSubjectE,
     this.poStatus,
     this.trnsTypeCode, // تمت الإضافة
-    this.trnsSerial,   // تمت الإضافة
+    this.trnsSerial, // تمت الإضافة
   });
 
-  factory PurchaseOrderItem.fromJson(Map<String, dynamic> json) => PurchaseOrderItem(
-    trnsDesc: json["TrnsDesc"],
-    trnsDescE: json["TrnsDescE"],
-    altKey: json["AltKey"],
-    supplierName: json["SupplierName"],
-    supplierNameE: json["SupplierNameE"],
-    prOrderDate: json["PrOrderDate"],
-    poSubject: json["PoSubject"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-    compName: json["CompName"],
-    poStatusDesc: json["PoStatusDesc"],
-    poSubjectE: json["PoSubjectE"],
-    poStatus: json["PoStatus"],
-    trnsTypeCode: json["TrnsTypeCode"], // تمت الإضافة
-    trnsSerial: json["TrnsSerial"],     // تمت الإضافة
-  );
+  factory PurchaseOrderItem.fromJson(Map<String, dynamic> json) =>
+      PurchaseOrderItem(
+        trnsDesc: json["TrnsDesc"],
+        trnsDescE: json["TrnsDescE"],
+        altKey: json["AltKey"],
+        supplierName: json["SupplierName"],
+        supplierNameE: json["SupplierNameE"],
+        prOrderDate: json["PrOrderDate"],
+        poSubject: json["PoSubject"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+        compName: json["CompName"],
+        poStatusDesc: json["PoStatusDesc"],
+        poSubjectE: json["PoSubjectE"],
+        poStatus: json["PoStatus"],
+        trnsTypeCode: json["TrnsTypeCode"], // تمت الإضافة
+        trnsSerial: json["TrnsSerial"], // تمت الإضافة
+      );
 
   Map<String, dynamic> toJson() => {
     "TrnsDesc": trnsDesc,

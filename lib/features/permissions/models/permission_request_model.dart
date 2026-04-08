@@ -3,15 +3,19 @@ import 'dart:convert';
 // ---== تم التصحيح: استخدام نفس مصدر الإجازات ==---
 import '../../../core/models/purchase_order_model.dart';
 
-PermissionRequestList permissionRequestListFromJson(String str) => PermissionRequestList.fromJson(json.decode(str));
+PermissionRequestList permissionRequestListFromJson(String str) =>
+    PermissionRequestList.fromJson(json.decode(str));
 
 class PermissionRequestList {
   final List<PermissionRequestItem> items;
   PermissionRequestList({required this.items});
 
-  factory PermissionRequestList.fromJson(Map<String, dynamic> json) => PermissionRequestList(
-    items: List<PermissionRequestItem>.from(json["items"].map((x) => PermissionRequestItem.fromJson(x))),
-  );
+  factory PermissionRequestList.fromJson(Map<String, dynamic> json) =>
+      PermissionRequestList(
+        items: List<PermissionRequestItem>.from(
+          json["items"].map((x) => PermissionRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class PermissionRequestItem {
@@ -53,23 +57,24 @@ class PermissionRequestItem {
     required this.links,
   });
 
-  factory PermissionRequestItem.fromJson(Map<String, dynamic> json) => PermissionRequestItem(
-    altKey: json["AltKey"],
-    aproveFlag: json["AprovalFlag"] ?? json["AproveFlag"],
-    compEmpCode: json["CompEmpCode"],
-    empCode: json["EmpCode"],
-    empName: json["EmpName"],
-    empNameE: json["EmpNameE"],
-    fromTime: json["FromTime"],
-    insertUser: json["InsertUser"],
-    permReasons: json["PermReasons"],
-    prevSer: json["PrevSer"],
-    prmDate: json["PrmDate"],
-    serial: json["Serial"],
-    toTime: json["ToTime"],
-    trnsDate: json["TrnsDate"],
-    trnsType: json["TrnsType"],
-    usersCode: json["UsersCode"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory PermissionRequestItem.fromJson(Map<String, dynamic> json) =>
+      PermissionRequestItem(
+        altKey: json["AltKey"],
+        aproveFlag: json["AprovalFlag"] ?? json["AproveFlag"],
+        compEmpCode: json["CompEmpCode"],
+        empCode: json["EmpCode"],
+        empName: json["EmpName"],
+        empNameE: json["EmpNameE"],
+        fromTime: json["FromTime"],
+        insertUser: json["InsertUser"],
+        permReasons: json["PermReasons"],
+        prevSer: json["PrevSer"],
+        prmDate: json["PrmDate"],
+        serial: json["Serial"],
+        toTime: json["ToTime"],
+        trnsDate: json["TrnsDate"],
+        trnsType: json["TrnsType"],
+        usersCode: json["UsersCode"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 }

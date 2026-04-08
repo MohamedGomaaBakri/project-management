@@ -2,14 +2,22 @@
 import 'dart:convert';
 import '../../../core/models/purchase_order_model.dart'; // Using the same Link
 
-MyCancelSalaryConfirmationRequestList myCancelSalaryConfirmationRequestListFromJson(String str) => MyCancelSalaryConfirmationRequestList.fromJson(json.decode(str));
+MyCancelSalaryConfirmationRequestList
+myCancelSalaryConfirmationRequestListFromJson(String str) =>
+    MyCancelSalaryConfirmationRequestList.fromJson(json.decode(str));
 
 class MyCancelSalaryConfirmationRequestList {
   final List<MyCancelSalaryConfirmationRequestItem> items;
   MyCancelSalaryConfirmationRequestList({required this.items});
 
-  factory MyCancelSalaryConfirmationRequestList.fromJson(Map<String, dynamic> json) => MyCancelSalaryConfirmationRequestList(
-    items: List<MyCancelSalaryConfirmationRequestItem>.from(json["items"].map((x) => MyCancelSalaryConfirmationRequestItem.fromJson(x))),
+  factory MyCancelSalaryConfirmationRequestList.fromJson(
+    Map<String, dynamic> json,
+  ) => MyCancelSalaryConfirmationRequestList(
+    items: List<MyCancelSalaryConfirmationRequestItem>.from(
+      json["items"].map(
+        (x) => MyCancelSalaryConfirmationRequestItem.fromJson(x),
+      ),
+    ),
   );
 }
 
@@ -40,7 +48,9 @@ class MyCancelSalaryConfirmationRequestItem {
     required this.links,
   });
 
-  factory MyCancelSalaryConfirmationRequestItem.fromJson(Map<String, dynamic> json) => MyCancelSalaryConfirmationRequestItem(
+  factory MyCancelSalaryConfirmationRequestItem.fromJson(
+    Map<String, dynamic> json,
+  ) => MyCancelSalaryConfirmationRequestItem(
     empCode: json["EmpCode"],
     serial: json["Serial"],
     typeFlag: json["TypeFlag"],

@@ -16,11 +16,12 @@ class MySalaryConfirmationRequestsListScreen extends StatefulWidget {
   const MySalaryConfirmationRequestsListScreen({super.key});
 
   @override
-  State<MySalaryConfirmationRequestsListScreen> createState() => _MySalaryConfirmationRequestsListScreenState();
+  State<MySalaryConfirmationRequestsListScreen> createState() =>
+      _MySalaryConfirmationRequestsListScreenState();
 }
 
-class _MySalaryConfirmationRequestsListScreenState extends State<MySalaryConfirmationRequestsListScreen> {
-
+class _MySalaryConfirmationRequestsListScreenState
+    extends State<MySalaryConfirmationRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -30,8 +31,10 @@ class _MySalaryConfirmationRequestsListScreenState extends State<MySalaryConfirm
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchMySalaryConfirmationRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchMySalaryConfirmationRequests(authProvider.currentUser!.empCode);
     }
   }
 
@@ -45,11 +48,18 @@ class _MySalaryConfirmationRequestsListScreenState extends State<MySalaryConfirm
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
-          if (hrProvider.isLoading && hrProvider.mySalaryConfirmationRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+          if (hrProvider.isLoading &&
+              hrProvider.mySalaryConfirmationRequests.isEmpty) {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.mySalaryConfirmationRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.mySalaryConfirmationRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
@@ -65,15 +75,24 @@ class _MySalaryConfirmationRequestsListScreenState extends State<MySalaryConfirm
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return MySalaryConfirmationRequestCard( // الكارد الجديد
+                return MySalaryConfirmationRequestCard(
+                  // الكارد الجديد
                   request: request,
                   onTap: () {
-                    hrProvider.selectMySalaryConfirmationRequest(request); // الدالة الجديدة
+                    hrProvider.selectMySalaryConfirmationRequest(
+                      request,
+                    ); // الدالة الجديدة
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                      builder: (_) => SalaryConfirmationDetailsBottomSheet(request: request), // البوتوم شيت الجديد
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (_) => SalaryConfirmationDetailsBottomSheet(
+                        request: request,
+                      ), // البوتوم شيت الجديد
                     );
                   },
                 );
@@ -84,7 +103,9 @@ class _MySalaryConfirmationRequestsListScreenState extends State<MySalaryConfirm
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewSalaryConfirmationRequestScreen.routeName); // شاشة الطلب الجديد
+          final result = await Navigator.of(context).pushNamed(
+            NewSalaryConfirmationRequestScreen.routeName,
+          ); // شاشة الطلب الجديد
           if (result == true && mounted) {
             _loadRequests();
           }

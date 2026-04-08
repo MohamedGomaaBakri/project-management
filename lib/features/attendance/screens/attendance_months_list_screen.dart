@@ -11,23 +11,30 @@ import '../../../core/utils/app_colors.dart';
 import '../providers/attendance_provider.dart';
 import 'attendance_daily_log_screen.dart';
 
-
 class AttendanceMonthsListScreen extends StatefulWidget {
   static const String routeName = '/attendance-months';
   const AttendanceMonthsListScreen({super.key});
 
   @override
-  State<AttendanceMonthsListScreen> createState() => _AttendanceMonthsListScreenState();
+  State<AttendanceMonthsListScreen> createState() =>
+      _AttendanceMonthsListScreenState();
 }
 
-class _AttendanceMonthsListScreenState extends State<AttendanceMonthsListScreen> {
+class _AttendanceMonthsListScreenState
+    extends State<AttendanceMonthsListScreen> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final user = Provider.of<AuthProvider>(context, listen: false).currentUser;
+      final user = Provider.of<AuthProvider>(
+        context,
+        listen: false,
+      ).currentUser;
       if (user != null) {
-        Provider.of<AttendanceProvider>(context, listen: false).fetchAttendanceMonths(789);
+        Provider.of<AttendanceProvider>(
+          context,
+          listen: false,
+        ).fetchAttendanceMonths(789);
       }
     });
   }
@@ -44,19 +51,21 @@ class _AttendanceMonthsListScreenState extends State<AttendanceMonthsListScreen>
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.attendanceLogTitle),
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<AttendanceProvider>(
         builder: (context, provider, child) {
           if (provider.isLoadingMonths) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor));
+            return const Center(
+              child: SpinKitFadingCircle(color: AppColors.primaryColor),
+            );
           }
           if (provider.monthsError != null) {
             return Center(child: Text(provider.monthsError!));
@@ -74,12 +83,20 @@ class _AttendanceMonthsListScreenState extends State<AttendanceMonthsListScreen>
               final monthTitle = _formatYearMonth(month.yearMonth, locale);
               return Card(
                 elevation: 2,
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
                 child: ListTile(
-                  leading: const Icon(Icons.calendar_month_outlined, color: AppColors.primaryColor),
+                  leading: const Icon(
+                    Icons.calendar_month_outlined,
+                    color: AppColors.primaryColor,
+                  ),
                   title: Text(
                     monthTitle,
-                    style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
                   ),
                   trailing: const Icon(Icons.arrow_forward_ios, size: 16),
                   onTap: () {

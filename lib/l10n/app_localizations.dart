@@ -3571,6 +3571,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'البنود والأصناف'**
   String get itemsAndCategoriesButton;
+
+  /// No description provided for @band.
+  ///
+  /// In ar, this message translates to:
+  /// **'البند'**
+  String get band;
+
+  /// No description provided for @remainingQty.
+  ///
+  /// In ar, this message translates to:
+  /// **'المتبقي'**
+  String get remainingQty;
+
+  /// No description provided for @transactionDate.
+  ///
+  /// In ar, this message translates to:
+  /// **'تاريخ الحركة'**
+  String get transactionDate;
+
+  /// No description provided for @addBandAndItem.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة'**
+  String get addBandAndItem;
 }
 
 class _AppLocalizationsDelegate

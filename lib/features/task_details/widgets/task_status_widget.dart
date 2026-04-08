@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../../l10n/app_localizations.dart';
+import '../../bands_And_items/views/band_and_items_view.dart';
 import 'error_dialog.dart';
 
 class TaskStatusWidget extends StatefulWidget {
@@ -176,20 +177,12 @@ class _TaskStatusWidgetState extends State<TaskStatusWidget>
   }
 
   void _handleItemsAndCategoriesTap() {
-    final isArabic = Localizations.localeOf(context).languageCode == 'ar';
-    final buttonText = isArabic ? 'البنود والأصناف' : 'Items & Categories';
     if (widget.onItemsAndCategoriesTap != null) {
       widget.onItemsAndCategoriesTap!();
       return;
     }
-    final l10n = AppLocalizations.of(context)!;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text('$buttonText - ${l10n.comingSoon}'),
-        backgroundColor: const Color(0xFFF97316),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
-      ),
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const BandAndItemsView()),
     );
   }
 

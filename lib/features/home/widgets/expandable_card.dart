@@ -26,13 +26,18 @@ class ExpandableMenuCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12.0),
-        side: BorderSide(color: AppColors.primaryColor.withOpacity(0.2), width: 1),
+        side: BorderSide(
+          color: AppColors.primaryColor.withOpacity(0.2),
+          width: 1,
+        ),
       ),
       child: Column(
         children: <Widget>[
           InkWell(
             onTap: onExpansionChanged,
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(12.0)),
+            borderRadius: const BorderRadius.vertical(
+              top: Radius.circular(12.0),
+            ),
             child: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Row(
@@ -56,14 +61,21 @@ class ExpandableMenuCard extends StatelessWidget {
                     children: [
                       if (notificationCount != null && notificationCount! > 0)
                         Container(
-                          padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.errorColor,
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Text(
                             notificationCount.toString(),
-                            style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.bold),
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       const SizedBox(width: 8),
@@ -79,18 +91,28 @@ class ExpandableMenuCard extends StatelessWidget {
           ),
           AnimatedCrossFade(
             firstChild: Container(), //  عندما يكون مطويًا
-            secondChild: Container( // عندما يكون موسعًا
-              padding: const EdgeInsets.only(left: 16.0, right: 16.0, bottom: 16.0, top:0),
+            secondChild: Container(
+              // عندما يكون موسعًا
+              padding: const EdgeInsets.only(
+                left: 16.0,
+                right: 16.0,
+                bottom: 16.0,
+                top: 0,
+              ),
               decoration: BoxDecoration(
                 color: AppColors.primaryColor.withOpacity(0.03),
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(12.0)),
+                borderRadius: const BorderRadius.vertical(
+                  bottom: Radius.circular(12.0),
+                ),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: children,
               ),
             ),
-            crossFadeState: isExpanded ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+            crossFadeState: isExpanded
+                ? CrossFadeState.showSecond
+                : CrossFadeState.showFirst,
             duration: const Duration(milliseconds: 300),
             firstCurve: Curves.easeOut,
             secondCurve: Curves.easeIn,
@@ -122,7 +144,10 @@ class MenuListItem extends StatelessWidget {
     return InkWell(
       onTap: onTap,
       child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0), // تم تعديل الحشوة الداخلية
+        padding: const EdgeInsets.symmetric(
+          vertical: 12.0,
+          horizontal: 16.0,
+        ), // تم تعديل الحشوة الداخلية
         child: Row(
           children: [
             Icon(icon, color: AppColors.accentColor, size: 22),
@@ -130,7 +155,10 @@ class MenuListItem extends StatelessWidget {
             Expanded(
               child: Text(
                 title,
-                style: TextStyle(fontSize: 16, color: AppColors.textColor.withOpacity(0.9)),
+                style: TextStyle(
+                  fontSize: 16,
+                  color: AppColors.textColor.withOpacity(0.9),
+                ),
               ),
             ),
             if (notificationCount != null && notificationCount! > 0)
@@ -142,11 +170,19 @@ class MenuListItem extends StatelessWidget {
                 ),
                 child: Text(
                   notificationCount.toString(),
-                  style: const TextStyle(color: Colors.white, fontSize: 11, fontWeight: FontWeight.bold),
+                  style: const TextStyle(
+                    color: Colors.white,
+                    fontSize: 11,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
               ),
             const SizedBox(width: 8),
-            const Icon(Icons.arrow_forward_ios, size: 16, color: AppColors.hintColor),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 16,
+              color: AppColors.hintColor,
+            ),
           ],
         ),
       ),

@@ -11,17 +11,17 @@ import '../../widgets/my_requests/my_resignation_request_card.dart';
 import 'new_resignation_request_screen.dart';
 import '../../widgets/my_requests/resignation_details_bottom_sheet.dart';
 
-
 class MyResignationRequestsListScreen extends StatefulWidget {
   static const String routeName = '/my-resignation-requests';
   const MyResignationRequestsListScreen({super.key});
 
   @override
-  State<MyResignationRequestsListScreen> createState() => _MyResignationRequestsListScreenState();
+  State<MyResignationRequestsListScreen> createState() =>
+      _MyResignationRequestsListScreenState();
 }
 
-class _MyResignationRequestsListScreenState extends State<MyResignationRequestsListScreen> {
-
+class _MyResignationRequestsListScreenState
+    extends State<MyResignationRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -31,8 +31,10 @@ class _MyResignationRequestsListScreenState extends State<MyResignationRequestsL
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .loadMyResignationRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadMyResignationRequests(authProvider.currentUser!.empCode);
     }
   }
 
@@ -43,17 +45,21 @@ class _MyResignationRequestsListScreenState extends State<MyResignationRequestsL
       appBar: AppBar(
         title: Text(l10n.myResignationRequestsTitle),
         backgroundColor: AppColors.primaryColor,
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
-          if (hrProvider.isLoading && hrProvider.myResignationRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+          if (hrProvider.isLoading &&
+              hrProvider.myResignationRequests.isEmpty) {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
-          if (hrProvider.error != null && hrProvider.myResignationRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.myResignationRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
           if (hrProvider.myResignationRequests.isEmpty) {
@@ -75,8 +81,13 @@ class _MyResignationRequestsListScreenState extends State<MyResignationRequestsL
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                      builder: (_) => ResignationDetailsBottomSheet(request: request),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (_) =>
+                          ResignationDetailsBottomSheet(request: request),
                     );
                   },
                 );
@@ -87,7 +98,9 @@ class _MyResignationRequestsListScreenState extends State<MyResignationRequestsL
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewResignationRequestScreen.routeName);
+          final result = await Navigator.of(
+            context,
+          ).pushNamed(NewResignationRequestScreen.routeName);
           if (result == true && mounted) {
             _loadRequests();
           }

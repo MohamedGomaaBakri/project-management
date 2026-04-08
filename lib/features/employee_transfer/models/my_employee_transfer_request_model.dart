@@ -2,15 +2,20 @@
 import 'dart:convert';
 import '../../../core/models/purchase_order_model.dart'; // Using the same Link
 
-MyEmployeeTransferRequestList myEmployeeTransferRequestListFromJson(String str) => MyEmployeeTransferRequestList.fromJson(json.decode(str));
+MyEmployeeTransferRequestList myEmployeeTransferRequestListFromJson(
+  String str,
+) => MyEmployeeTransferRequestList.fromJson(json.decode(str));
 
 class MyEmployeeTransferRequestList {
   final List<MyEmployeeTransferRequestItem> items;
   MyEmployeeTransferRequestList({required this.items});
 
-  factory MyEmployeeTransferRequestList.fromJson(Map<String, dynamic> json) => MyEmployeeTransferRequestList(
-    items: List<MyEmployeeTransferRequestItem>.from(json["items"].map((x) => MyEmployeeTransferRequestItem.fromJson(x))),
-  );
+  factory MyEmployeeTransferRequestList.fromJson(Map<String, dynamic> json) =>
+      MyEmployeeTransferRequestList(
+        items: List<MyEmployeeTransferRequestItem>.from(
+          json["items"].map((x) => MyEmployeeTransferRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class MyEmployeeTransferRequestItem {
@@ -46,20 +51,21 @@ class MyEmployeeTransferRequestItem {
     required this.links,
   });
 
-  factory MyEmployeeTransferRequestItem.fromJson(Map<String, dynamic> json) => MyEmployeeTransferRequestItem(
-    serialPym: json["SerialPym"],
-    empCode: json["EmpCode"],
-    companyCodeNew: json["CompanyCodeNew"],
-    dCodeNew: json["DCodeNew"],
-    compEmpCodeNew: json["CompEmpCodeNew"],
-    movingDate: json["MovingDate"],
-    month: json["Month"],
-    year: json["Year"],
-    movingNote: json["MovingNote"],
-    movingNoteE: json["MovingNoteE"],
-    agreeFlag: json["AgreeFlag"],
-    altKey: json["AltKey"],
-    insertUser: json["InsertUser"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory MyEmployeeTransferRequestItem.fromJson(Map<String, dynamic> json) =>
+      MyEmployeeTransferRequestItem(
+        serialPym: json["SerialPym"],
+        empCode: json["EmpCode"],
+        companyCodeNew: json["CompanyCodeNew"],
+        dCodeNew: json["DCodeNew"],
+        compEmpCodeNew: json["CompEmpCodeNew"],
+        movingDate: json["MovingDate"],
+        month: json["Month"],
+        year: json["Year"],
+        movingNote: json["MovingNote"],
+        movingNoteE: json["MovingNoteE"],
+        agreeFlag: json["AgreeFlag"],
+        altKey: json["AltKey"],
+        insertUser: json["InsertUser"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 }

@@ -15,15 +15,20 @@ class EmployeeTransferDetailsBottomSheet extends StatefulWidget {
   const EmployeeTransferDetailsBottomSheet({super.key, required this.request});
 
   @override
-  State<EmployeeTransferDetailsBottomSheet> createState() => _EmployeeTransferDetailsBottomSheetState();
+  State<EmployeeTransferDetailsBottomSheet> createState() =>
+      _EmployeeTransferDetailsBottomSheetState();
 }
 
-class _EmployeeTransferDetailsBottomSheetState extends State<EmployeeTransferDetailsBottomSheet> {
+class _EmployeeTransferDetailsBottomSheetState
+    extends State<EmployeeTransferDetailsBottomSheet> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<HrProvider>(context, listen: false).loadMyEmployeeTransferAuthDetails();
+      Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadMyEmployeeTransferAuthDetails();
     });
   }
 
@@ -39,10 +44,14 @@ class _EmployeeTransferDetailsBottomSheetState extends State<EmployeeTransferDet
   String _getStatusText(BuildContext context, int? flag) {
     final l10n = AppLocalizations.of(context)!;
     switch (flag) {
-      case 1: return l10n.approved;
-      case -1: return l10n.rejected;
-      case 0: return l10n.underAction;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.approved;
+      case -1:
+        return l10n.rejected;
+      case 0:
+        return l10n.underAction;
+      default:
+        return l10n.notSpecified;
     }
   }
 
@@ -50,7 +59,10 @@ class _EmployeeTransferDetailsBottomSheetState extends State<EmployeeTransferDet
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final locale = Provider.of<LocaleProvider>(context).locale.toLanguageTag();
-    final status = _getStatusText(context, widget.request.agreeFlag); // Key change
+    final status = _getStatusText(
+      context,
+      widget.request.agreeFlag,
+    ); // Key change
 
     return DraggableScrollableSheet(
       initialChildSize: 0.6,
@@ -65,17 +77,42 @@ class _EmployeeTransferDetailsBottomSheetState extends State<EmployeeTransferDet
               Container(
                 width: 40,
                 height: 5,
-                decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10)),
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
               ),
               const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(l10n.employeeTransferRequestDetails, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                  Text(
+                    l10n.employeeTransferRequestDetails,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(color: AppColors.getStatusColor(widget.request.agreeFlag).withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
-                    child: Text(status, style: TextStyle(color: AppColors.getStatusColor(widget.request.agreeFlag), fontWeight: FontWeight.bold)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.getStatusColor(
+                        widget.request.agreeFlag,
+                      ).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        color: AppColors.getStatusColor(
+                          widget.request.agreeFlag,
+                        ),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -106,14 +143,31 @@ class _EmployeeTransferDetailsBottomSheetState extends State<EmployeeTransferDet
         padding: const EdgeInsets.all(12.0),
         child: Column(
           children: [
-            _buildDetailRow(l10n.transferDate, _formatDate(widget.request.movingDate, locale)),
-            _buildDetailRow(l10n.newCompanyCode, widget.request.companyCodeNew?.toString() ?? '...'),
-            _buildDetailRow(l10n.newDCode, widget.request.dCodeNew?.toString() ?? '...'),
-            _buildDetailRow(l10n.newManagerCode, widget.request.compEmpCodeNew?.toString() ?? '...'),
-            if (widget.request.movingNote != null && widget.request.movingNote!.isNotEmpty)
+            _buildDetailRow(
+              l10n.transferDate,
+              _formatDate(widget.request.movingDate, locale),
+            ),
+            _buildDetailRow(
+              l10n.newCompanyCode,
+              widget.request.companyCodeNew?.toString() ?? '...',
+            ),
+            _buildDetailRow(
+              l10n.newDCode,
+              widget.request.dCodeNew?.toString() ?? '...',
+            ),
+            _buildDetailRow(
+              l10n.newManagerCode,
+              widget.request.compEmpCodeNew?.toString() ?? '...',
+            ),
+            if (widget.request.movingNote != null &&
+                widget.request.movingNote!.isNotEmpty)
               _buildDetailRow(l10n.transferNotesAr, widget.request.movingNote!),
-            if (widget.request.movingNoteE != null && widget.request.movingNoteE!.isNotEmpty)
-              _buildDetailRow(l10n.transferNotesEn, widget.request.movingNoteE!),
+            if (widget.request.movingNoteE != null &&
+                widget.request.movingNoteE!.isNotEmpty)
+              _buildDetailRow(
+                l10n.transferNotesEn,
+                widget.request.movingNoteE!,
+              ),
           ],
         ),
       ),
@@ -128,10 +182,18 @@ class _EmployeeTransferDetailsBottomSheetState extends State<EmployeeTransferDet
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.approvals, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(
+          l10n.approvals,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         hrProvider.isLoading && authDetails == null
-            ? const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 30))
+            ? const Center(
+                child: SpinKitFadingCircle(
+                  color: AppColors.primaryColor,
+                  size: 30,
+                ),
+              )
             : authItems.isEmpty
             ? Center(child: Text(l10n.noRegisteredApprovals))
             : AuthTimeline(authItems: authItems),
@@ -146,7 +208,13 @@ class _EmployeeTransferDetailsBottomSheetState extends State<EmployeeTransferDet
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(label, style: TextStyle(color: Colors.grey.shade700, fontWeight: FontWeight.w500)),
+          Text(
+            label,
+            style: TextStyle(
+              color: Colors.grey.shade700,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
           const SizedBox(width: 10),
           Expanded(
             child: Text(

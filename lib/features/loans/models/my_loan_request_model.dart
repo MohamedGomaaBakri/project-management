@@ -3,15 +3,19 @@ import 'dart:convert';
 
 import '../../../core/models/purchase_order_model.dart';
 
-MyLoanRequestList myLoanRequestListFromJson(String str) => MyLoanRequestList.fromJson(json.decode(str));
+MyLoanRequestList myLoanRequestListFromJson(String str) =>
+    MyLoanRequestList.fromJson(json.decode(str));
 
 class MyLoanRequestList {
   final List<MyLoanRequestItem> items;
   MyLoanRequestList({required this.items});
 
-  factory MyLoanRequestList.fromJson(Map<String, dynamic> json) => MyLoanRequestList(
-    items: List<MyLoanRequestItem>.from(json["items"].map((x) => MyLoanRequestItem.fromJson(x))),
-  );
+  factory MyLoanRequestList.fromJson(Map<String, dynamic> json) =>
+      MyLoanRequestList(
+        items: List<MyLoanRequestItem>.from(
+          json["items"].map((x) => MyLoanRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class MyLoanRequestItem {
@@ -45,21 +49,22 @@ class MyLoanRequestItem {
     required this.links,
   });
 
-  factory MyLoanRequestItem.fromJson(Map<String, dynamic> json) => MyLoanRequestItem(
-    empCode: json["EmpCode"],
-    reqSerial: json["ReqSerial"],
-    loanType: json["LoanType"],
-    reqLoanDate: json["ReqLoanDate"],
-    loanStartDate: json["LoanStartDate"],
-    loanValuePys: (json["LoanValuePys"] as num?)?.toDouble(),
-    loanInstlPys: (json["LoanInstlPys"] as num?)?.toDouble(),
-    authFlag: json["AuthFlag"],
-    descA: json["DescA"],
-    descE: json["DescE"],
-    loanNos: json["LoanNos"],
-    altKey: json["AltKey"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory MyLoanRequestItem.fromJson(Map<String, dynamic> json) =>
+      MyLoanRequestItem(
+        empCode: json["EmpCode"],
+        reqSerial: json["ReqSerial"],
+        loanType: json["LoanType"],
+        reqLoanDate: json["ReqLoanDate"],
+        loanStartDate: json["LoanStartDate"],
+        loanValuePys: (json["LoanValuePys"] as num?)?.toDouble(),
+        loanInstlPys: (json["LoanInstlPys"] as num?)?.toDouble(),
+        authFlag: json["AuthFlag"],
+        descA: json["DescA"],
+        descE: json["DescE"],
+        loanNos: json["LoanNos"],
+        altKey: json["AltKey"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 
   String? getLink(String name) {
     try {

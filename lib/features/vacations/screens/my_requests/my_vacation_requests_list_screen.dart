@@ -11,17 +11,17 @@ import '../../widgets/my_requests/my_vacation_request_card.dart';
 import 'new_vacation_request_screen.dart';
 import '../../widgets/my_requests/vacation_details_bottom_sheet.dart';
 
-
 class MyVacationRequestsListScreen extends StatefulWidget {
   static const String routeName = '/my-vacation-requests';
   const MyVacationRequestsListScreen({super.key});
 
   @override
-  State<MyVacationRequestsListScreen> createState() => _MyVacationRequestsListScreenState();
+  State<MyVacationRequestsListScreen> createState() =>
+      _MyVacationRequestsListScreenState();
 }
 
-class _MyVacationRequestsListScreenState extends State<MyVacationRequestsListScreen> {
-
+class _MyVacationRequestsListScreenState
+    extends State<MyVacationRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -31,8 +31,10 @@ class _MyVacationRequestsListScreenState extends State<MyVacationRequestsListScr
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .loadMyVacationRequests(authProvider.currentUser!.empCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadMyVacationRequests(authProvider.currentUser!.empCode);
     }
   }
 
@@ -43,17 +45,20 @@ class _MyVacationRequestsListScreenState extends State<MyVacationRequestsListScr
       appBar: AppBar(
         title: Text(l10n.myVacationRequestsTitle),
         backgroundColor: AppColors.primaryColor,
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.myVacationRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
-          if (hrProvider.error != null && hrProvider.myVacationRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.myVacationRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
@@ -65,7 +70,12 @@ class _MyVacationRequestsListScreenState extends State<MyVacationRequestsListScr
           return RefreshIndicator(
             onRefresh: _loadRequests,
             child: ListView.builder(
-              padding: const EdgeInsets.fromLTRB(8, 8, 8, 80), // Keep space for FAB
+              padding: const EdgeInsets.fromLTRB(
+                8,
+                8,
+                8,
+                80,
+              ), // Keep space for FAB
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
@@ -76,8 +86,13 @@ class _MyVacationRequestsListScreenState extends State<MyVacationRequestsListScr
                     showModalBottomSheet(
                       context: context,
                       isScrollControlled: true,
-                      shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(20))),
-                      builder: (_) => VacationDetailsBottomSheet(request: request),
+                      shape: const RoundedRectangleBorder(
+                        borderRadius: BorderRadius.vertical(
+                          top: Radius.circular(20),
+                        ),
+                      ),
+                      builder: (_) =>
+                          VacationDetailsBottomSheet(request: request),
                     );
                   },
                 );
@@ -88,7 +103,9 @@ class _MyVacationRequestsListScreenState extends State<MyVacationRequestsListScr
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () async {
-          final result = await Navigator.of(context).pushNamed(NewVacationRequestScreen.routeName);
+          final result = await Navigator.of(
+            context,
+          ).pushNamed(NewVacationRequestScreen.routeName);
           if (result == true && mounted) {
             _loadRequests();
           }

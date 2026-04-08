@@ -1,15 +1,18 @@
-
 import 'dart:convert';
 
-AttendanceDetailList attendanceDetailListFromJson(String str) => AttendanceDetailList.fromJson(json.decode(str));
+AttendanceDetailList attendanceDetailListFromJson(String str) =>
+    AttendanceDetailList.fromJson(json.decode(str));
 
 class AttendanceDetailList {
   final List<AttendanceDetailItem> items;
-  AttendanceDetailList({ required this.items });
+  AttendanceDetailList({required this.items});
 
-  factory AttendanceDetailList.fromJson(Map<String, dynamic> json) => AttendanceDetailList(
-    items: List<AttendanceDetailItem>.from(json["items"].map((x) => AttendanceDetailItem.fromJson(x))),
-  );
+  factory AttendanceDetailList.fromJson(Map<String, dynamic> json) =>
+      AttendanceDetailList(
+        items: List<AttendanceDetailItem>.from(
+          json["items"].map((x) => AttendanceDetailItem.fromJson(x)),
+        ),
+      );
 }
 
 class AttendanceDetailItem {
@@ -23,10 +26,14 @@ class AttendanceDetailItem {
     required this.attType,
   });
 
-  factory AttendanceDetailItem.fromJson(Map<String, dynamic> json) => AttendanceDetailItem(
+  factory AttendanceDetailItem.fromJson(
+    Map<String, dynamic> json,
+  ) => AttendanceDetailItem(
     empCode: json["EmpCode"],
     // الحل الصحيح: استخراج التاريخ والوقت مباشرة من النص بدون تحويل timezone
-    attDate: json["AttDate"] == null ? null : _parseWithoutTimezone(json["AttDate"]),
+    attDate: json["AttDate"] == null
+        ? null
+        : _parseWithoutTimezone(json["AttDate"]),
     attType: json["AttType"],
   );
 
@@ -37,7 +44,7 @@ class AttendanceDetailItem {
     // إزالة معرف المنطقة الزمنية من النص
     String cleanDateStr = dateStr.replaceAll(RegExp(r'[+-]\d{2}:\d{2}$'), '');
 
-  // تحويل النص إلى DateTime محلي مباشرة
-  return DateTime.parse(cleanDateStr);
-}
+    // تحويل النص إلى DateTime محلي مباشرة
+    return DateTime.parse(cleanDateStr);
+  }
 }

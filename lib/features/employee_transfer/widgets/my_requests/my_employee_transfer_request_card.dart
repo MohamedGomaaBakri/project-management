@@ -11,7 +11,11 @@ class MyEmployeeTransferRequestCard extends StatelessWidget {
   final MyEmployeeTransferRequestItem request;
   final VoidCallback onTap;
 
-  const MyEmployeeTransferRequestCard({super.key, required this.request, required this.onTap});
+  const MyEmployeeTransferRequestCard({
+    super.key,
+    required this.request,
+    required this.onTap,
+  });
 
   String _formatDate(String? dateString, String locale) {
     if (dateString == null) return '';
@@ -25,17 +29,24 @@ class MyEmployeeTransferRequestCard extends StatelessWidget {
   String _getStatusText(BuildContext context, int? flag) {
     final l10n = AppLocalizations.of(context)!;
     switch (flag) {
-      case 1: return l10n.approved;
-      case -1: return l10n.rejected;
-      case 0: return l10n.underAction;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.approved;
+      case -1:
+        return l10n.rejected;
+      case 0:
+        return l10n.underAction;
+      default:
+        return l10n.notSpecified;
     }
   }
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     final status = _getStatusText(context, request.agreeFlag); // Key change
 
     return Card(
@@ -56,21 +67,51 @@ class MyEmployeeTransferRequestCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       l10n.employeeTransferRequestDetails, // "تفاصيل طلب نقل"
-                      style: const TextStyle(fontSize: 17, fontWeight: FontWeight.bold, color: AppColors.primaryColor),
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.primaryColor,
+                      ),
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-                    decoration: BoxDecoration(color: AppColors.getStatusColor(request.agreeFlag).withOpacity(0.15), borderRadius: BorderRadius.circular(10)),
-                    child: Text(status, style: TextStyle(color: AppColors.getStatusColor(request.agreeFlag), fontWeight: FontWeight.bold)),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 4,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.getStatusColor(
+                        request.agreeFlag,
+                      ).withOpacity(0.15),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Text(
+                      status,
+                      style: TextStyle(
+                        color: AppColors.getStatusColor(request.agreeFlag),
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                   ),
                 ],
               ),
               const Divider(height: 20),
-              _buildInfoRow(Icons.calendar_today_outlined, l10n.transferDate, _formatDate(request.movingDate, locale)),
-              _buildInfoRow(Icons.account_tree_outlined, l10n.newDCode, request.dCodeNew?.toString() ?? '...'),
+              _buildInfoRow(
+                Icons.calendar_today_outlined,
+                l10n.transferDate,
+                _formatDate(request.movingDate, locale),
+              ),
+              _buildInfoRow(
+                Icons.account_tree_outlined,
+                l10n.newDCode,
+                request.dCodeNew?.toString() ?? '...',
+              ),
               if (request.movingNote != null && request.movingNote!.isNotEmpty)
-                _buildInfoRow(Icons.notes_outlined, l10n.notesLabel, request.movingNote!),
+                _buildInfoRow(
+                  Icons.notes_outlined,
+                  l10n.notesLabel,
+                  request.movingNote!,
+                ),
             ],
           ),
         ),
@@ -88,7 +129,9 @@ class MyEmployeeTransferRequestCard extends StatelessWidget {
           const SizedBox(width: 8),
           Text(label, style: const TextStyle(fontWeight: FontWeight.w600)),
           const SizedBox(width: 5),
-          Expanded(child: Text(value, style: TextStyle(color: Colors.grey.shade800))),
+          Expanded(
+            child: Text(value, style: TextStyle(color: Colors.grey.shade800)),
+          ),
         ],
       ),
     );

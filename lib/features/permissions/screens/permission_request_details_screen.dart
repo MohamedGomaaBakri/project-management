@@ -19,17 +19,22 @@ class PermissionRequestDetailsScreen extends StatefulWidget {
   const PermissionRequestDetailsScreen({super.key});
 
   @override
-  State<PermissionRequestDetailsScreen> createState() => _PermissionRequestDetailsScreenState();
+  State<PermissionRequestDetailsScreen> createState() =>
+      _PermissionRequestDetailsScreenState();
 }
 
-class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetailsScreen> {
+class _PermissionRequestDetailsScreenState
+    extends State<PermissionRequestDetailsScreen> {
   final TextEditingController _statementController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<HrProvider>(context, listen: false).loadPermissionAuthDetails();
+      Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadPermissionAuthDetails();
     });
   }
 
@@ -42,26 +47,38 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
   String _getPermissionTypeName(BuildContext context, int? type) {
     final l10n = AppLocalizations.of(context)!;
     switch (type) {
-      case 1: return l10n.permissionType1;
-      case 2: return l10n.permissionType2;
-      case 3: return l10n.permissionType3;
-      case 4: return l10n.permissionType4;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.permissionType1;
+      case 2:
+        return l10n.permissionType2;
+      case 3:
+        return l10n.permissionType3;
+      case 4:
+        return l10n.permissionType4;
+      default:
+        return l10n.notSpecified;
     }
   }
 
   String _getReasonTypeName(BuildContext context, int? type) {
     final l10n = AppLocalizations.of(context)!;
     switch (type) {
-      case 1: return l10n.reasonType1;
-      case 2: return l10n.reasonType2;
-      case 3: return l10n.reasonType3;
-      default: return l10n.notSpecified;
+      case 1:
+        return l10n.reasonType1;
+      case 2:
+        return l10n.reasonType2;
+      case 3:
+        return l10n.reasonType3;
+      default:
+        return l10n.notSpecified;
     }
   }
 
   String _formatDate(String? dateString) {
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     if (dateString == null) return AppLocalizations.of(context)!.notSpecified;
     try {
       return DateFormat.yMd(locale).format(DateTime.parse(dateString));
@@ -71,7 +88,10 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
   }
 
   String _formatTime(String? timeString) {
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     if (timeString == null) return AppLocalizations.of(context)!.notSpecified;
     try {
       return DateFormat.jm(locale).format(DateTime.parse(timeString));
@@ -140,7 +160,8 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.errorColor,
                         ),
-                        onPressed: () => _submitAction(-1, dialogContext, request),
+                        onPressed: () =>
+                            _submitAction(-1, dialogContext, request),
                         child: Text(
                           l10n.reject,
                           style: const TextStyle(color: Colors.white),
@@ -151,7 +172,8 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
                         style: ElevatedButton.styleFrom(
                           backgroundColor: AppColors.successColor,
                         ),
-                        onPressed: () => _submitAction(1, dialogContext, request),
+                        onPressed: () =>
+                            _submitAction(1, dialogContext, request),
                         child: Text(
                           l10n.approve,
                           style: const TextStyle(color: Colors.white),
@@ -168,10 +190,10 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
   }
 
   Future<void> _submitAction(
-      int authFlag,
-      BuildContext dialogContext,
-      PermissionRequestItem request,
-      ) async {
+    int authFlag,
+    BuildContext dialogContext,
+    PermissionRequestItem request,
+  ) async {
     final hrProvider = Provider.of<HrProvider>(context, listen: false);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final l10n = AppLocalizations.of(context)!;
@@ -215,10 +237,7 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
       appBar: AppBar(
         title: Text(l10n.permissionRequestDetails),
         backgroundColor: AppColors.primaryColor,
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
@@ -260,7 +279,9 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
     final localeProvider = Provider.of<LocaleProvider>(context, listen: false);
     final isArabic = localeProvider.locale.languageCode == 'ar';
 
-    final empName = isArabic ? request.empName : (request.empNameE ?? request.empName);
+    final empName = isArabic
+        ? request.empName
+        : (request.empNameE ?? request.empName);
 
     return Card(
       margin: const EdgeInsets.all(4.0),
@@ -307,14 +328,19 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
                   icon: const Icon(Icons.gavel_rounded),
                   label: Text(
                     l10n.takeAction,
-                    style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                   onPressed: () => _showActionDialog(context, request),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: AppColors.accentColor,
                     foregroundColor: Colors.white,
                     padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
                   ),
                 ),
               ),
@@ -365,10 +391,7 @@ class _PermissionRequestDetailsScreenState extends State<PermissionRequestDetail
     final authItems = provider.permissionAuthDetails?.items;
 
     if (authItems == null || authItems.isEmpty) {
-      return Center(
-        heightFactor: 5,
-        child: Text(l10n.noRegisteredApprovals),
-      );
+      return Center(heightFactor: 5, child: Text(l10n.noRegisteredApprovals));
     }
 
     return Column(

@@ -599,4 +599,9 @@
     "errorBandRequired": "Cannot execute without entering the process details",
     "enterQuantity": "Enter quantity",
     "itemsAndCategoriesButton": "Items & Categories"
+    ,
+    "band": "Band",
+    "remainingQty": "Remaining",
+    "transactionDate": "Transaction Date",
+    "addBandAndItem": "Add"
 }

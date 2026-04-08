@@ -12,7 +12,6 @@ import 'check_in_out_map_screen.dart';
 import 'attendance_months_list_screen.dart';
 import 'checked_attendance_months_list_screen.dart';
 
-
 class AttendanceMainScreen extends StatefulWidget {
   static const String routeName = '/attendance-main';
   const AttendanceMainScreen({super.key});
@@ -22,14 +21,17 @@ class AttendanceMainScreen extends StatefulWidget {
 }
 
 class _AttendanceMainScreenState extends State<AttendanceMainScreen> {
-
   void _loadData() {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    if(authProvider.currentUser != null){
-      Provider.of<AttendanceProvider>(context, listen: false)
-          .fetchCheckedAttendanceMonths(789);
-      Provider.of<AttendanceProvider>(context, listen: false)
-          .fetchAttendanceMonths(789);
+    if (authProvider.currentUser != null) {
+      Provider.of<AttendanceProvider>(
+        context,
+        listen: false,
+      ).fetchCheckedAttendanceMonths(789);
+      Provider.of<AttendanceProvider>(
+        context,
+        listen: false,
+      ).fetchAttendanceMonths(789);
     }
   }
 
@@ -39,8 +41,13 @@ class _AttendanceMainScreenState extends State<AttendanceMainScreen> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15.0)),
-          title: Text(l10n.newRecordDialogTitle, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15.0),
+          ),
+          title: Text(
+            l10n.newRecordDialogTitle,
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          ),
           contentPadding: const EdgeInsets.symmetric(vertical: 20.0),
           content: Column(
             mainAxisSize: MainAxisSize.min,
@@ -94,7 +101,10 @@ class _AttendanceMainScreenState extends State<AttendanceMainScreen> {
           children: [
             Icon(icon, color: color, size: 28),
             const SizedBox(width: 15),
-            Text(text, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+            Text(
+              text,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+            ),
           ],
         ),
       ),
@@ -108,10 +118,7 @@ class _AttendanceMainScreenState extends State<AttendanceMainScreen> {
       appBar: AppBar(
         title: Text(l10n.attendanceAndDeparture),
         backgroundColor: AppColors.primaryColor,
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _showCheckInOutDialog,
@@ -129,7 +136,9 @@ class _AttendanceMainScreenState extends State<AttendanceMainScreen> {
               title: l10n.attendanceLog,
               subtitle: l10n.viewMonthlyLog,
               onTap: () {
-                Navigator.of(context).pushNamed(AttendanceMonthsListScreen.routeName);
+                Navigator.of(
+                  context,
+                ).pushNamed(AttendanceMonthsListScreen.routeName);
               },
             ),
             const SizedBox(height: 16),
@@ -139,7 +148,9 @@ class _AttendanceMainScreenState extends State<AttendanceMainScreen> {
               title: l10n.checkedAttendance,
               subtitle: l10n.viewCheckedLog,
               onTap: () {
-                Navigator.of(context).pushNamed(CheckedAttendanceMonthsListScreen.routeName);
+                Navigator.of(
+                  context,
+                ).pushNamed(CheckedAttendanceMonthsListScreen.routeName);
               },
             ),
           ],
@@ -148,7 +159,8 @@ class _AttendanceMainScreenState extends State<AttendanceMainScreen> {
     );
   }
 
-  Widget _buildServiceCard(BuildContext context, {
+  Widget _buildServiceCard(
+    BuildContext context, {
     required IconData icon,
     required String title,
     required String subtitle,
@@ -170,9 +182,21 @@ class _AttendanceMainScreenState extends State<AttendanceMainScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold)),
+                    Text(
+                      title,
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
                     const SizedBox(height: 5),
-                    Text(subtitle, style: TextStyle(fontSize: 14, color: Colors.grey.shade600)),
+                    Text(
+                      subtitle,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey.shade600,
+                      ),
+                    ),
                   ],
                 ),
               ),

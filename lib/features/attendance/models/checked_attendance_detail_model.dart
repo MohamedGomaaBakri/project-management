@@ -1,16 +1,18 @@
-
-
 import 'dart:convert';
 
-CheckedAttendanceDetailList checkedAttendanceDetailListFromJson(String str) => CheckedAttendanceDetailList.fromJson(json.decode(str));
+CheckedAttendanceDetailList checkedAttendanceDetailListFromJson(String str) =>
+    CheckedAttendanceDetailList.fromJson(json.decode(str));
 
 class CheckedAttendanceDetailList {
   final List<CheckedAttendanceDetailItem> items;
-  CheckedAttendanceDetailList({ required this.items });
+  CheckedAttendanceDetailList({required this.items});
 
-  factory CheckedAttendanceDetailList.fromJson(Map<String, dynamic> json) => CheckedAttendanceDetailList(
-    items: List<CheckedAttendanceDetailItem>.from(json["items"].map((x) => CheckedAttendanceDetailItem.fromJson(x))),
-  );
+  factory CheckedAttendanceDetailList.fromJson(Map<String, dynamic> json) =>
+      CheckedAttendanceDetailList(
+        items: List<CheckedAttendanceDetailItem>.from(
+          json["items"].map((x) => CheckedAttendanceDetailItem.fromJson(x)),
+        ),
+      );
 }
 
 class CheckedAttendanceDetailItem {
@@ -36,18 +38,25 @@ class CheckedAttendanceDetailItem {
     required this.taOvtmMins,
   });
 
-  factory CheckedAttendanceDetailItem.fromJson(Map<String, dynamic> json) => CheckedAttendanceDetailItem(
-    // الحل الصحيح: استخراج جميع التواريخ والأوقات بدون تحويل timezone
-    taDate: json["TaDate"] == null ? null : _parseWithoutTimezone(json["TaDate"]),
-    taDay: json["TaDay"],
-    revIn: json["RevIn"] == null ? null : _parseWithoutTimezone(json["RevIn"]),
-    revOut: json["RevOut"] == null ? null : _parseWithoutTimezone(json["RevOut"]),
-    vcncFlag: json["VcncFlag"],
-    abscFlag: json["AbscFlag"],
-    weekendFlag: json["WeekendFlag"],
-    taLateMins: json["TaLateMins"] as num,
-    taOvtmMins: json["TaOvtmMins"] as num,
-  );
+  factory CheckedAttendanceDetailItem.fromJson(Map<String, dynamic> json) =>
+      CheckedAttendanceDetailItem(
+        // الحل الصحيح: استخراج جميع التواريخ والأوقات بدون تحويل timezone
+        taDate: json["TaDate"] == null
+            ? null
+            : _parseWithoutTimezone(json["TaDate"]),
+        taDay: json["TaDay"],
+        revIn: json["RevIn"] == null
+            ? null
+            : _parseWithoutTimezone(json["RevIn"]),
+        revOut: json["RevOut"] == null
+            ? null
+            : _parseWithoutTimezone(json["RevOut"]),
+        vcncFlag: json["VcncFlag"],
+        abscFlag: json["AbscFlag"],
+        weekendFlag: json["WeekendFlag"],
+        taLateMins: json["TaLateMins"] as num,
+        taOvtmMins: json["TaOvtmMins"] as num,
+      );
 
   // دالة مساعدة لاستخراج التاريخ والوقت بدون تحويل timezone
   static DateTime? _parseWithoutTimezone(String dateStr) {
@@ -56,8 +65,7 @@ class CheckedAttendanceDetailItem {
     // إزالة معرف المنطقة الزمنية من النص
     String cleanDateStr = dateStr.replaceAll(RegExp(r'[+-]\d{2}:\d{2}$'), '');
 
-
-  // تحويل النص إلى DateTime محلي مباشرة
-  return DateTime.parse(cleanDateStr);
-}
+    // تحويل النص إلى DateTime محلي مباشرة
+    return DateTime.parse(cleanDateStr);
+  }
 }

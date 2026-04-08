@@ -2,15 +2,19 @@
 import 'dart:convert';
 import '../../../core/models/purchase_order_model.dart'; // Using the same Link
 
-MyCarMovementRequestList myCarMovementRequestListFromJson(String str) => MyCarMovementRequestList.fromJson(json.decode(str));
+MyCarMovementRequestList myCarMovementRequestListFromJson(String str) =>
+    MyCarMovementRequestList.fromJson(json.decode(str));
 
 class MyCarMovementRequestList {
   final List<MyCarMovementRequestItem> items;
   MyCarMovementRequestList({required this.items});
 
-  factory MyCarMovementRequestList.fromJson(Map<String, dynamic> json) => MyCarMovementRequestList(
-    items: List<MyCarMovementRequestItem>.from(json["items"].map((x) => MyCarMovementRequestItem.fromJson(x))),
-  );
+  factory MyCarMovementRequestList.fromJson(Map<String, dynamic> json) =>
+      MyCarMovementRequestList(
+        items: List<MyCarMovementRequestItem>.from(
+          json["items"].map((x) => MyCarMovementRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class MyCarMovementRequestItem {
@@ -50,22 +54,23 @@ class MyCarMovementRequestItem {
     required this.links,
   });
 
-  factory MyCarMovementRequestItem.fromJson(Map<String, dynamic> json) => MyCarMovementRequestItem(
-    empCode: json["EmpCode"],
-    serial: json["Serial"],
-    carNo: json["CarNo"], // New field
-    compEmpCode: json["CompEmpCode"],
-    trnsDate: json["TrnsDate"],
-    trnsType: json["TrnsType"],
-    prmDate: json["PrmDate"],
-    fromTime: json["FromTime"],
-    toTime: json["ToTime"],
-    aproveFlag: json["AproveFlag"],
-    reasonType: json["ReasonType"],
-    permReasons: json["PermReasons"],
-    notes: json["Notes"],
-    insertUser: json["InsertUser"],
-    altKey: json["AltKey"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory MyCarMovementRequestItem.fromJson(Map<String, dynamic> json) =>
+      MyCarMovementRequestItem(
+        empCode: json["EmpCode"],
+        serial: json["Serial"],
+        carNo: json["CarNo"], // New field
+        compEmpCode: json["CompEmpCode"],
+        trnsDate: json["TrnsDate"],
+        trnsType: json["TrnsType"],
+        prmDate: json["PrmDate"],
+        fromTime: json["FromTime"],
+        toTime: json["ToTime"],
+        aproveFlag: json["AproveFlag"],
+        reasonType: json["ReasonType"],
+        permReasons: json["PermReasons"],
+        notes: json["Notes"],
+        insertUser: json["InsertUser"],
+        altKey: json["AltKey"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 }

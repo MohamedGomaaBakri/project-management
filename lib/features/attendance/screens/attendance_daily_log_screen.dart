@@ -9,7 +9,6 @@ import '../../../l10n/app_localizations.dart';
 import '../providers/attendance_provider.dart';
 import '../widgets/daily_log_card.dart';
 
-
 class AttendanceDailyLogScreen extends StatefulWidget {
   static const String routeName = '/attendance-daily-log';
   final String monthUrl;
@@ -22,7 +21,8 @@ class AttendanceDailyLogScreen extends StatefulWidget {
   });
 
   @override
-  State<AttendanceDailyLogScreen> createState() => _AttendanceDailyLogScreenState();
+  State<AttendanceDailyLogScreen> createState() =>
+      _AttendanceDailyLogScreenState();
 }
 
 class _AttendanceDailyLogScreenState extends State<AttendanceDailyLogScreen> {
@@ -30,7 +30,10 @@ class _AttendanceDailyLogScreenState extends State<AttendanceDailyLogScreen> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<AttendanceProvider>(context, listen: false).fetchMonthDetails(widget.monthUrl);
+      Provider.of<AttendanceProvider>(
+        context,
+        listen: false,
+      ).fetchMonthDetails(widget.monthUrl);
     });
   }
 
@@ -40,15 +43,14 @@ class _AttendanceDailyLogScreenState extends State<AttendanceDailyLogScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.monthTitle),
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<AttendanceProvider>(
         builder: (context, provider, child) {
           if (provider.isLoadingDetails) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor));
+            return const Center(
+              child: SpinKitFadingCircle(color: AppColors.primaryColor),
+            );
           }
           if (provider.detailsError != null) {
             return Center(child: Text(provider.detailsError!));

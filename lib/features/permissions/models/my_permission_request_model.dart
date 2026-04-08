@@ -3,15 +3,19 @@ import 'dart:convert';
 // ---== تم التصحيح: استخدام نفس مصدر الإجازات ==---
 import '../../../core/models/purchase_order_model.dart';
 
-MyPermissionRequestList myPermissionRequestListFromJson(String str) => MyPermissionRequestList.fromJson(json.decode(str));
+MyPermissionRequestList myPermissionRequestListFromJson(String str) =>
+    MyPermissionRequestList.fromJson(json.decode(str));
 
 class MyPermissionRequestList {
   final List<MyPermissionRequestItem> items;
   MyPermissionRequestList({required this.items});
 
-  factory MyPermissionRequestList.fromJson(Map<String, dynamic> json) => MyPermissionRequestList(
-    items: List<MyPermissionRequestItem>.from(json["items"].map((x) => MyPermissionRequestItem.fromJson(x))),
-  );
+  factory MyPermissionRequestList.fromJson(Map<String, dynamic> json) =>
+      MyPermissionRequestList(
+        items: List<MyPermissionRequestItem>.from(
+          json["items"].map((x) => MyPermissionRequestItem.fromJson(x)),
+        ),
+      );
 }
 
 class MyPermissionRequestItem {
@@ -51,22 +55,23 @@ class MyPermissionRequestItem {
     required this.links,
   });
 
-  factory MyPermissionRequestItem.fromJson(Map<String, dynamic> json) => MyPermissionRequestItem(
-    empCode: json["EmpCode"],
-    serial: json["Serial"],
-    trnsDate: json["TrnsDate"],
-    trnsType: json["TrnsType"],
-    prmDate: json["PrmDate"],
-    fromTime: json["FromTime"],
-    toTime: json["ToTime"],
-    aproveFlag: json["AproveFlag"],
-    reasonType: json["ReasonType"],
-    permReasons: json["PermReasons"],
-    notes: json["Notes"],
-    dCode: json["DCode"],
-    insertUser: json["InsertUser"],
-    dayType: json["DayType"],
-    altKey: json["AltKey"],
-    links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
-  );
+  factory MyPermissionRequestItem.fromJson(Map<String, dynamic> json) =>
+      MyPermissionRequestItem(
+        empCode: json["EmpCode"],
+        serial: json["Serial"],
+        trnsDate: json["TrnsDate"],
+        trnsType: json["TrnsType"],
+        prmDate: json["PrmDate"],
+        fromTime: json["FromTime"],
+        toTime: json["ToTime"],
+        aproveFlag: json["AproveFlag"],
+        reasonType: json["ReasonType"],
+        permReasons: json["PermReasons"],
+        notes: json["Notes"],
+        dCode: json["DCode"],
+        insertUser: json["InsertUser"],
+        dayType: json["DayType"],
+        altKey: json["AltKey"],
+        links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
+      );
 }

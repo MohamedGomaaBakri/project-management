@@ -599,4 +599,9 @@
     "errorBandRequired": "لا يمكن التنفيذ بدون ادخال بنود للعملية",
     "enterQuantity": "أدخل الكمية",
     "itemsAndCategoriesButton": "البنود والأصناف"
+    ,
+    "band": "البند",
+    "remainingQty": "المتبقي",
+    "transactionDate": "تاريخ الحركة",
+    "addBandAndItem": "إضافة"
 }

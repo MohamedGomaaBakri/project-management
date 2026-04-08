@@ -11,7 +11,6 @@ import '../../../core/utils/app_colors.dart';
 import '../widgets/loan_request_card.dart';
 import 'loan_request_details_screen.dart';
 
-
 class LoanRequestsListScreen extends StatefulWidget {
   static const String routeName = '/loan-requests-list';
   const LoanRequestsListScreen({super.key});
@@ -30,8 +29,10 @@ class _LoanRequestsListScreenState extends State<LoanRequestsListScreen> {
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .loadLoanRequests(authProvider.currentUser!.usersCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadLoanRequests(authProvider.currentUser!.usersCode);
     }
   }
 
@@ -42,15 +43,17 @@ class _LoanRequestsListScreenState extends State<LoanRequestsListScreen> {
       appBar: AppBar(
         title: Text(l10n.loanRequestsTitle),
         backgroundColor: AppColors.primaryColor,
-        actions: const [
-          LanguageSwitcherButton(),
-          SizedBox(width: 8),
-        ],
+        actions: const [LanguageSwitcherButton(), SizedBox(width: 8)],
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
           if (hrProvider.isLoading && hrProvider.loanRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
           if (hrProvider.error != null && hrProvider.loanRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
@@ -71,9 +74,9 @@ class _LoanRequestsListScreenState extends State<LoanRequestsListScreen> {
                   request: request,
                   onTap: () async {
                     hrProvider.selectLoanRequest(request);
-                    final result = await Navigator.of(context).pushNamed(
-                      LoanRequestDetailsScreen.routeName,
-                    );
+                    final result = await Navigator.of(
+                      context,
+                    ).pushNamed(LoanRequestDetailsScreen.routeName);
                     if (result == true && mounted) {
                       _loadRequests();
                     }

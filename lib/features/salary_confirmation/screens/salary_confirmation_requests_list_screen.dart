@@ -10,16 +10,17 @@ import '../../../core/utils/app_colors.dart';
 import '../widgets/salary_confirmation_request_card.dart';
 import 'salary_confirmation_request_details_screen.dart';
 
-
 class SalaryConfirmationRequestsListScreen extends StatefulWidget {
   static const String routeName = '/salary-confirmation-requests-list';
   const SalaryConfirmationRequestsListScreen({super.key});
 
   @override
-  State<SalaryConfirmationRequestsListScreen> createState() => _SalaryConfirmationRequestsListScreenState();
+  State<SalaryConfirmationRequestsListScreen> createState() =>
+      _SalaryConfirmationRequestsListScreenState();
 }
 
-class _SalaryConfirmationRequestsListScreenState extends State<SalaryConfirmationRequestsListScreen> {
+class _SalaryConfirmationRequestsListScreenState
+    extends State<SalaryConfirmationRequestsListScreen> {
   @override
   void initState() {
     super.initState();
@@ -29,8 +30,10 @@ class _SalaryConfirmationRequestsListScreenState extends State<SalaryConfirmatio
   Future<void> _loadRequests() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     if (authProvider.currentUser != null) {
-      await Provider.of<HrProvider>(context, listen: false)
-          .fetchSalaryConfirmationRequests(authProvider.currentUser!.usersCode);
+      await Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).fetchSalaryConfirmationRequests(authProvider.currentUser!.usersCode);
     }
   }
 
@@ -44,16 +47,25 @@ class _SalaryConfirmationRequestsListScreenState extends State<SalaryConfirmatio
       ),
       body: Consumer<HrProvider>(
         builder: (context, hrProvider, child) {
-          if (hrProvider.isLoading && hrProvider.salaryConfirmationRequests.isEmpty) {
-            return const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 50.0));
+          if (hrProvider.isLoading &&
+              hrProvider.salaryConfirmationRequests.isEmpty) {
+            return const Center(
+              child: SpinKitFadingCircle(
+                color: AppColors.primaryColor,
+                size: 50.0,
+              ),
+            );
           }
 
-          if (hrProvider.error != null && hrProvider.salaryConfirmationRequests.isEmpty) {
+          if (hrProvider.error != null &&
+              hrProvider.salaryConfirmationRequests.isEmpty) {
             return Center(child: Text(hrProvider.error!));
           }
 
           if (hrProvider.salaryConfirmationRequests.isEmpty) {
-            return Center(child: Text(l10n.noSalaryConfirmationRequests)); // "لا توجد طلبات"
+            return Center(
+              child: Text(l10n.noSalaryConfirmationRequests),
+            ); // "لا توجد طلبات"
           }
 
           final requests = hrProvider.salaryConfirmationRequests;
@@ -64,12 +76,16 @@ class _SalaryConfirmationRequestsListScreenState extends State<SalaryConfirmatio
               itemCount: requests.length,
               itemBuilder: (context, index) {
                 final request = requests[index];
-                return SalaryConfirmationRequestCard( // استخدام الكارد الجديد
+                return SalaryConfirmationRequestCard(
+                  // استخدام الكارد الجديد
                   request: request,
                   onTap: () async {
-                    hrProvider.selectSalaryConfirmationRequest(request); // استخدام الدالة الجديدة
+                    hrProvider.selectSalaryConfirmationRequest(
+                      request,
+                    ); // استخدام الدالة الجديدة
                     final result = await Navigator.of(context).pushNamed(
-                      SalaryConfirmationRequestDetailsScreen.routeName, // الشاشة الجديدة
+                      SalaryConfirmationRequestDetailsScreen
+                          .routeName, // الشاشة الجديدة
                     );
                     if (result == true && mounted) {
                       _loadRequests();

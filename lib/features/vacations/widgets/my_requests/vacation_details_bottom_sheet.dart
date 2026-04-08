@@ -15,15 +15,20 @@ class VacationDetailsBottomSheet extends StatefulWidget {
   const VacationDetailsBottomSheet({super.key, required this.request});
 
   @override
-  State<VacationDetailsBottomSheet> createState() => _VacationDetailsBottomSheetState();
+  State<VacationDetailsBottomSheet> createState() =>
+      _VacationDetailsBottomSheetState();
 }
 
-class _VacationDetailsBottomSheetState extends State<VacationDetailsBottomSheet> {
+class _VacationDetailsBottomSheetState
+    extends State<VacationDetailsBottomSheet> {
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Provider.of<HrProvider>(context, listen: false).loadMyVacationAuthDetails();
+      Provider.of<HrProvider>(
+        context,
+        listen: false,
+      ).loadMyVacationAuthDetails();
     });
   }
 
@@ -41,9 +46,9 @@ class _VacationDetailsBottomSheetState extends State<VacationDetailsBottomSheet>
         return l10n.vacationTypeAnnual;
       case 2:
         return l10n.vacationTypeUnpaid;
-      default: return l10n.notSpecified;
+      default:
+        return l10n.notSpecified;
     }
-
   }
 
   @override
@@ -66,9 +71,19 @@ class _VacationDetailsBottomSheetState extends State<VacationDetailsBottomSheet>
           ),
           child: Column(
             children: [
-              Container(width: 40, height: 5, decoration: BoxDecoration(color: Colors.grey[300], borderRadius: BorderRadius.circular(10))),
+              Container(
+                width: 40,
+                height: 5,
+                decoration: BoxDecoration(
+                  color: Colors.grey[300],
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
               const SizedBox(height: 10),
-              Text(l10n.requestDetails, style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                l10n.requestDetails,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               const SizedBox(height: 10),
               Expanded(
                 child: ListView(
@@ -86,7 +101,7 @@ class _VacationDetailsBottomSheetState extends State<VacationDetailsBottomSheet>
                   onPressed: () => Navigator.of(context).pop(),
                   child: Text(l10n.close),
                 ),
-              )
+              ),
             ],
           ),
         );
@@ -96,23 +111,43 @@ class _VacationDetailsBottomSheetState extends State<VacationDetailsBottomSheet>
 
   Widget _buildDetailsCard(String vacationType) {
     final l10n = AppLocalizations.of(context)!;
-    final locale = Provider.of<LocaleProvider>(context, listen: false).locale.toLanguageTag();
+    final locale = Provider.of<LocaleProvider>(
+      context,
+      listen: false,
+    ).locale.toLanguageTag();
     return Card(
       elevation: 0,
       color: Colors.grey.shade50,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10), side: BorderSide(color: Colors.grey.shade200)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(10),
+        side: BorderSide(color: Colors.grey.shade200),
+      ),
       child: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(l10n.requestInfo, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Text(
+              l10n.requestInfo,
+              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
             const Divider(),
             _buildDetailRow(l10n.vacationTypeLabel, vacationType),
-            _buildDetailRow(l10n.fromDate, _formatDate(widget.request.startDt, locale)),
-            _buildDetailRow(l10n.toDate, _formatDate(widget.request.endDt, locale)),
-            _buildDetailRow(l10n.durationLabel, "${widget.request.period ?? 0} ${l10n.daysUnit}"),
-            if (widget.request.notes != null && widget.request.notes!.isNotEmpty) _buildDetailRow(l10n.notesLabel, widget.request.notes!),
+            _buildDetailRow(
+              l10n.fromDate,
+              _formatDate(widget.request.startDt, locale),
+            ),
+            _buildDetailRow(
+              l10n.toDate,
+              _formatDate(widget.request.endDt, locale),
+            ),
+            _buildDetailRow(
+              l10n.durationLabel,
+              "${widget.request.period ?? 0} ${l10n.daysUnit}",
+            ),
+            if (widget.request.notes != null &&
+                widget.request.notes!.isNotEmpty)
+              _buildDetailRow(l10n.notesLabel, widget.request.notes!),
           ],
         ),
       ),
@@ -124,10 +159,18 @@ class _VacationDetailsBottomSheetState extends State<VacationDetailsBottomSheet>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(l10n.approvals, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        Text(
+          l10n.approvals,
+          style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+        ),
         const SizedBox(height: 8),
         hrProvider.isLoading
-            ? const Center(child: SpinKitFadingCircle(color: AppColors.primaryColor, size: 30))
+            ? const Center(
+                child: SpinKitFadingCircle(
+                  color: AppColors.primaryColor,
+                  size: 30,
+                ),
+              )
             : hrProvider.myVacationAuthDetails?.items.isEmpty ?? true
             ? Center(child: Text(l10n.noRegisteredApprovals))
             : AuthTimeline(authItems: hrProvider.myVacationAuthDetails!.items),
