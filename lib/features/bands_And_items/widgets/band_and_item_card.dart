@@ -69,6 +69,31 @@ class BandAndItemCard extends StatelessWidget {
                   gradient: const [Color(0xFF10B981), Color(0xFF06B6D4)],
                 ),
                 const Spacer(),
+                if (data.serial != null) ...[
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFF4F46E5).withValues(alpha: 0.1),
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: const Color(0xFF4F46E5).withValues(alpha: 0.1),
+                      ),
+                    ),
+                    child: Text(
+                      '#${data.serial}',
+                      style: const TextStyle(
+                        color: Color(0xFF4F46E5),
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'monospace',
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                ],
                 Container(
                   width: 34,
                   height: 34,
