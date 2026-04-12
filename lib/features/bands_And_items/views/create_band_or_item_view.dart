@@ -88,6 +88,34 @@ class _CreateBandOrItemViewState extends State<CreateBandOrItemView>
     super.dispose();
   }
 
+  Future<void> _pickDate() async {
+    final l10n = AppLocalizations.of(context)!;
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+      firstDate: DateTime(2000),
+      lastDate: DateTime(2100),
+      helpText: l10n.selectTransactionDate,
+      builder: (context, child) {
+        return Theme(
+          data: Theme.of(context).copyWith(
+            colorScheme: const ColorScheme.light(
+              primary: Color(0xFF4F46E5),
+              onPrimary: Colors.white,
+              surface: Colors.white,
+              onSurface: Color(0xFF1E293B),
+            ),
+          ),
+          child: child!,
+        );
+      },
+    );
+    if (picked != null) setState(() => _selectedDate = picked);
+  }
+
+  String _formatDate(DateTime d) =>
+      '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
+
   // ── Build ─────────────────────────────────────────────────────────────────────
   @override
   Widget build(BuildContext context) {
@@ -144,6 +172,16 @@ class _CreateBandOrItemViewState extends State<CreateBandOrItemView>
                                   _buildPageTitle(l10n),
                                   const SizedBox(height: 20),
 
+                                  // ── Global Date Picker ───────────
+                                  _DateSelectionCard(
+                                    selectedDate: _selectedDate,
+                                    onTap: _pickDate,
+                                    formatDate: _formatDate,
+                                    l10n: l10n,
+                                  ),
+                                  const SizedBox(height: 24),
+
+
                                   // ── Band Section ──────────────────
                                   SectionToggleCard(
                                     title: l10n.bandSection,
@@ -165,8 +203,6 @@ class _CreateBandOrItemViewState extends State<CreateBandOrItemView>
                                       executedQtyController: _bandExecQtyCtrl,
                                       onBandChanged: (b) =>
                                           setState(() => _selectedBand = b),
-                                      onDateChanged: (d) =>
-                                          setState(() => _selectedDate = d),
                                       isEnabled: _bandEnabled,
                                     ),
                                   ),
@@ -439,6 +475,15 @@ class _CreateBandOrItemViewState extends State<CreateBandOrItemView>
     print('✅ Form isValid: $isValid');
 
     if (!isValid) return;
+    if (_selectedDate == null) {
+      print('❌ Validation Failed: No date selected.');
+      _showSnack(
+        context,
+        l10n.selectTransactionDateValidation,
+        isError: true,
+      );
+      return;
+    }
 
     // Validate band section
     if (_bandEnabled) {
@@ -448,15 +493,6 @@ class _CreateBandOrItemViewState extends State<CreateBandOrItemView>
       if (_selectedBand == null) {
         print('❌ Validation Failed: No band selected.');
         _showSnack(context, l10n.selectBandValidation, isError: true);
-        return;
-      }
-      if (_selectedDate == null) {
-        print('❌ Validation Failed: No date selected.');
-        _showSnack(
-          context,
-          l10n.selectTransactionDateValidation,
-          isError: true,
-        );
         return;
       }
     }
@@ -497,7 +533,7 @@ class _CreateBandOrItemViewState extends State<CreateBandOrItemView>
       'BandDetSerial': _bandEnabled ? _selectedBand?.serial : null,
       'BandCode': _bandEnabled ? _selectedBand?.bandCode : null,
       'BandCodeDet': _bandEnabled ? _selectedBand?.bandCodeDet : null,
-      'TrnsDate': _bandEnabled ? trnsDateStr : null,
+      'TrnsDate':  trnsDateStr,
       'BandQty': _bandEnabled
           ? (double.tryParse(_bandExecQtyCtrl.text.trim()) ?? 0)
           : null,
@@ -582,4 +618,136 @@ class _CreateBandOrItemViewState extends State<CreateBandOrItemView>
       ),
     );
   }
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────────
+
+class _DateSelectionCard extends StatelessWidget {
+  final DateTime? selectedDate;
+  final VoidCallback onTap;
+  final String Function(DateTime) formatDate;
+  final AppLocalizations l10n;
+
+  const _DateSelectionCard({
+    required this.selectedDate,
+    required this.onTap,
+    required this.formatDate,
+    required this.l10n,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(24),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.03),
+            blurRadius: 15,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _SectionLabel(
+            label: l10n.transactionDateLabel,
+            icon: Icons.calendar_today_rounded,
+            iconColor: const Color(0xFF4F46E5),
+          ),
+          const SizedBox(height: 14),
+          GestureDetector(
+            onTap: onTap,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
+              decoration: BoxDecoration(
+                color: const Color(0xFFF8FAFC),
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(
+                  color: selectedDate != null
+                      ? const Color(0xFF4F46E5).withValues(alpha: 0.3)
+                      : const Color(0xFFE2E8F0),
+                  width: 1.5,
+                ),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.event_available_rounded,
+                    size: 22,
+                    color: selectedDate != null
+                        ? const Color(0xFF4F46E5)
+                        : Colors.grey[400],
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      selectedDate != null
+                          ? formatDate(selectedDate!)
+                          : l10n.selectTransactionDate,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: selectedDate != null
+                            ? const Color(0xFF1E293B)
+                            : Colors.grey[400],
+                        fontWeight: selectedDate != null
+                            ? FontWeight.w600
+                            : FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                  Icon(
+                    Icons.keyboard_arrow_down_rounded,
+                    color: Colors.grey[400],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SectionLabel extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final Color iconColor;
+
+  const _SectionLabel({
+    required this.label,
+    required this.icon,
+    required this.iconColor,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(icon, size: 18, color: iconColor),
+        const SizedBox(width: 8),
+        Text(
+          label,
+          style: const TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.bold,
+            color: Color(0xFF475569),
+          ),
+        ),
+        const TextSpan(
+          text: ' *',
+          style: TextStyle(color: Color(0xFFEF4444)),
+        ).toTextWidget(),
+      ],
+    );
+  }
+}
+
+// Extension to convert TextSpan to Widget for Row
+extension TextSpanExtension on TextSpan {
+  Widget toTextWidget() => RichText(text: this);
 }

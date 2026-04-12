@@ -10,7 +10,6 @@ class CreateBandSectionWidget extends StatefulWidget {
   final DateTime? selectedDate;
   final TextEditingController executedQtyController;
   final ValueChanged<Band?> onBandChanged;
-  final ValueChanged<DateTime?> onDateChanged;
 
   final bool isEnabled;
 
@@ -22,7 +21,6 @@ class CreateBandSectionWidget extends StatefulWidget {
     required this.selectedDate,
     required this.executedQtyController,
     required this.onBandChanged,
-    required this.onDateChanged,
     required this.isEnabled,
   });
 
@@ -32,31 +30,6 @@ class CreateBandSectionWidget extends StatefulWidget {
 }
 
 class _CreateBandSectionWidgetState extends State<CreateBandSectionWidget> {
-  Future<void> _pickDate() async {
-    final l10n = AppLocalizations.of(context)!;
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: widget.selectedDate ?? DateTime.now(),
-      firstDate: DateTime(2000),
-      lastDate: DateTime(2100),
-      helpText: l10n.selectTransactionDate,
-      builder: (context, child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: const ColorScheme.light(
-              primary: Color(0xFF4F46E5),
-              onPrimary: Colors.white,
-              surface: Colors.white,
-              onSurface: Color(0xFF1E293B),
-            ),
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null) widget.onDateChanged(picked);
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
@@ -66,51 +39,6 @@ class _CreateBandSectionWidgetState extends State<CreateBandSectionWidget> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // ── Date Picker ──────────────────────────────────────
-        _FieldLabel(label: l10n.transactionDateLabel, required: true),
-        const SizedBox(height: 6),
-        GestureDetector(
-          onTap: _pickDate,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
-            decoration: _inputDecoration(
-              hasFocus: widget.selectedDate != null,
-              focusColor: const Color(0xFF4F46E5),
-            ),
-            child: Row(
-              children: [
-                const Icon(
-                  Icons.calendar_month_rounded,
-                  size: 20,
-                  color: Color(0xFF4F46E5),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    widget.selectedDate != null
-                        ? _formatDate(widget.selectedDate!)
-                        : l10n.selectTransactionDate,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: widget.selectedDate != null
-                          ? const Color(0xFF1E293B)
-                          : Colors.grey[400],
-                      fontWeight: widget.selectedDate != null
-                          ? FontWeight.w500
-                          : FontWeight.normal,
-                    ),
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_drop_down_rounded,
-                  color: Colors.grey[400],
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 16),
-
         // ── Band Dropdown ─────────────────────────────────────
         _FieldLabel(label: l10n.selectBand, required: true),
         const SizedBox(height: 6),
@@ -237,9 +165,6 @@ class _CreateBandSectionWidgetState extends State<CreateBandSectionWidget> {
       ],
     );
   }
-
-  String _formatDate(DateTime d) =>
-      '${d.day.toString().padLeft(2, '0')}/${d.month.toString().padLeft(2, '0')}/${d.year}';
 
   BoxDecoration _inputDecoration({
     required bool hasFocus,
