@@ -147,4 +147,8 @@ class ApiConstants {
   static const String getAllBandItemsEndpoint = 'ProjectsPartsProcBandVO1';
   static const String getBandsEndpoint = 'ExBandCodeVRO1?q=ProjectId=';
   static const String getItemsEndpoint = 'ExItemsVRO1?q=ProjectId=';
+
+  // ----------------------------------------task and approvals---------------------------------------------------
+  static const String getTasksAndApprovals =
+      'ExProjectsBandExecVO1?q=TeamCode=';
 }

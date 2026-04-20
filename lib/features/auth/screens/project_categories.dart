@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import 'package:shehabapp/features/daily_tasks/daily_tasks_screen.dart';
 import 'package:shehabapp/features/display_notifications/display_notifications_view.dart';
 import 'package:shehabapp/features/management/views/management_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/task_and_approval_selection_view.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/providers/locale_provider.dart';
 import '../../../core/providers/auth_provider.dart';
@@ -263,7 +264,11 @@ class _ProjectCategoriesState extends State<ProjectCategories>
                                           ],
                                           delay: 300,
                                           onTap: () {
-                                            // TODO: Navigate to Work Order Quotation
+                                            Navigator.pushNamed(
+                                              context,
+                                              TaskAndApprovalSelectionView
+                                                  .routeName,
+                                            );
                                           },
                                           showNotifications: false,
                                         ),

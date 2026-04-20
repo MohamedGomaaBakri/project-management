@@ -16,6 +16,11 @@ import 'package:shehabapp/features/display_notifications/display_notifications_v
 import 'package:shehabapp/features/loans/screens/loan_request_details_screen.dart';
 import 'package:shehabapp/features/loans/screens/loan_requests_list_screen.dart';
 import 'package:shehabapp/features/management/views/management_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/task_and_approval_selection_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/tasks_data_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/one_task_details_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/add_task_view.dart';
+import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
 import 'package:shehabapp/features/management/views/mng_daily_tasks_view.dart';
 import 'package:shehabapp/features/management/views/mng_notification_details_view.dart';
 import 'package:shehabapp/features/management/views/mng_notification_view.dart';
@@ -103,6 +108,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ManagementProvider()),
 
         ChangeNotifierProvider(create: (_) => BandItemsProvider()),
+        ChangeNotifierProvider(
+          create: (_) => RequestMaterialFromStoreProvider(),
+        ),
         ChangeNotifierProvider(create: (_) => LocaleProvider()),
       ],
       child: Consumer<LocaleProvider>(
@@ -209,6 +217,10 @@ class MyApp extends StatelessWidget {
                     userCode: ModalRoute.of(context)!.settings.arguments as int,
                   ),
               ManagementView.routeName: (context) => const ManagementView(),
+              TaskAndApprovalSelectionView.routeName: (context) =>
+                  const TaskAndApprovalSelectionView(),
+              TasksDataView.routeName: (context) => const TasksDataView(),
+              AddTaskView.routeName: (context) => const AddTaskView(),
               MngNotificationView.routeName: (context) =>
                   const MngNotificationView(),
               MngNotificationDetailsView.routeName: (context) {

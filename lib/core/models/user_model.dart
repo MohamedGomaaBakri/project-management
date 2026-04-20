@@ -21,6 +21,9 @@ class User {
   final dynamic eMail; // يمكن أن يكون null
   final dynamic telephone1; // يمكن أن يكون null
   final String gender;
+  final dynamic teamCode;
+  final dynamic contractSerial;
+  final dynamic teamType;
   final List<Link> links;
 
   User({
@@ -38,6 +41,9 @@ class User {
     this.eMail,
     this.telephone1,
     required this.gender,
+    required this.teamCode,
+    required this.contractSerial,
+    required this.teamType,
     required this.links,
   });
 
@@ -56,6 +62,9 @@ class User {
     eMail: json["EMail"],
     telephone1: json["Telephone1"],
     gender: json["Gender"],
+    teamCode: json["TeamCode"],
+    contractSerial: json["ContractSerial"],
+    teamType: json["TeamType"],
     links: List<Link>.from(json["links"].map((x) => Link.fromJson(x))),
   );
 
@@ -74,6 +83,9 @@ class User {
     "EMail": eMail,
     "Telephone1": telephone1,
     "Gender": gender,
+    "TeamCode": teamCode,
+    "ContractSerial": contractSerial,
+    "TeamType": teamType,
     "links": List<dynamic>.from(links.map((x) => x.toJson())),
   };
 }

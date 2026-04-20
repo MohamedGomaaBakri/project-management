@@ -1148,10 +1148,10 @@ class AppLocalizationsAr extends AppLocalizations {
   String get managementDesc => 'الإدارة والإشراف';
 
   @override
-  String get workOrderQuotation => 'امر عمل مقايسه';
+  String get workOrderQuotation => 'طلب مواد من المخزن';
 
   @override
-  String get workOrderQuotationDesc => 'إدارة أوامر العمل والمقايسات';
+  String get workOrderQuotationDesc => 'إدارة طلبات المواد من المخزن';
 
   @override
   String get workOrderProjects => 'امر عمل مشاريع';
@@ -1857,4 +1857,155 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get selectTransactionDateValidation => 'يرجى اختيار تاريخ المعاملة';
+
+  @override
+  String get tasksAndApprovalTitle => 'طلب مواد من المخزن';
+
+  @override
+  String get tasksSelection => 'المهام';
+
+  @override
+  String get tasksSelectionDesc => 'عرض وإدارة المهام المُسندة';
+
+  @override
+  String get approvalSelection => 'الاعتماد';
+
+  @override
+  String get approvalSelectionDesc => 'مراجعة واعتماد طلبات المواد';
+
+  @override
+  String get tasksDataTitle => 'المهام';
+
+  @override
+  String get filterDate => 'تاريخ الحركة';
+
+  @override
+  String get filterDateHint => 'اختر التاريخ';
+
+  @override
+  String get filterApprovalStatus => 'الاعتماد';
+
+  @override
+  String get filterAll => 'الكل';
+
+  @override
+  String get filterApproved => 'معتمد';
+
+  @override
+  String get filterNotApproved => 'غير معتمد';
+
+  @override
+  String get filterRejected => 'مرفوض';
+
+  @override
+  String get colSerial => 'م';
+
+  @override
+  String get colBand => 'البند';
+
+  @override
+  String get colQuantity => 'الكمية';
+
+  @override
+  String get colTeam => 'الفرقة';
+
+  @override
+  String get colStatus => 'الحالة';
+
+  @override
+  String get addNewRecord => 'إضافة';
+
+  @override
+  String get noRecordsFound => 'لا توجد بيانات';
+
+  @override
+  String get taskDetailsViewTitle => 'تفاصيل المهمة';
+
+  @override
+  String get detailTrnsDate => 'تاريخ الحركة';
+
+  @override
+  String get detailBand => 'البند';
+
+  @override
+  String get detailUnit => 'الوحدة';
+
+  @override
+  String get detailQuantity => 'الكمية';
+
+  @override
+  String get detailNotes => 'الملاحظات';
+
+  @override
+  String get detailAuthDesc => 'وصف الاعتماد';
+
+  @override
+  String get detailAuthUser => 'معتمد بواسطة';
+
+  @override
+  String get detailAuthDate => 'تاريخ الاعتماد';
+
+  @override
+  String get detailAuthStatus => 'حالة الاعتماد';
+
+  @override
+  String get sectionTaskInfo => 'بيانات الطلب';
+
+  @override
+  String get sectionAuthInfo => 'بيانات الاعتماد';
+
+  @override
+  String get btnSave => 'حفظ';
+
+  @override
+  String get btnDelete => 'حذف';
+
+  @override
+  String get readOnlyMessage => 'هذا الطلب معتمد ولا يمكن تعديله';
+
+  @override
+  String get quantityHint => 'أدخل الكمية';
+
+  @override
+  String get notesHintDetails => 'أدخل الملاحظات...';
+
+  @override
+  String get saveSuccess => 'تم الحفظ بنجاح';
+
+  @override
+  String get deleteSuccess => 'تم الحذف بنجاح';
+
+  @override
+  String get deleteConfirmTitle => 'تأكيد الحذف';
+
+  @override
+  String get deleteConfirmBody =>
+      'هل أنت متأكد من حذف هذا الطلب؟ لا يمكن التراجع عن هذا الإجراء.';
+
+  @override
+  String get addTaskTitle => 'إضافة طلب مواد';
+
+  @override
+  String get transDateLabel => 'تاريخ الحركة';
+
+  @override
+  String get bandSelectionLabel => 'اختيار البند';
+
+  @override
+  String get addSuccess => 'تم الإضافة بنجاح';
+
+  @override
+  String get selectBandFirst => 'الرجاء اختيار البند أولاً';
+
+  @override
+  String get requiredField => 'هذا الحقل مطلوب';
+
+  @override
+  String get invalidNumber => 'رقم غير صحيح';
+
+  @override
+  String get quantityTitle => 'الكمية';
+
+  @override
+  String get notesTitle => 'الملاحظات';
 }

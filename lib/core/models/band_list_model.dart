@@ -1,4 +1,4 @@
-class UsersPermissionsModel {
+class BandListModel {
   List<Items>? items;
   int? count;
   bool? hasMore;
@@ -6,7 +6,7 @@ class UsersPermissionsModel {
   int? offset;
   List<Links>? links;
 
-  UsersPermissionsModel({
+  BandListModel({
     this.items,
     this.count,
     this.hasMore,
@@ -15,7 +15,7 @@ class UsersPermissionsModel {
     this.links,
   });
 
-  UsersPermissionsModel.fromJson(Map<String, dynamic> json) {
+  BandListModel.fromJson(Map<String, dynamic> json) {
     if (json['items'] != null) {
       items = <Items>[];
       json['items'].forEach((v) {
@@ -51,34 +51,43 @@ class UsersPermissionsModel {
 }
 
 class Items {
-  int? usersCode;
-  int? mobileManagerFlag;
-  int? mobileMainFlag;
-  int? mobileTenderFlag;
-  int? mobileProjectFlag;
-  int? mobilePermitFlag;
-  int? mobileMnAuthFlag;
+  int? bandCodeDet;
+  String? bandName;
+  String? bandNameE;
+  int? bandCode;
+  String? altKey;
+  int? teamType;
+  int? teamCode;
+  int? unitCode;
+  String? unitNameA;
+  String? unitNameE;
   List<Links>? links;
 
   Items({
-    this.usersCode,
-    this.mobileManagerFlag,
-    this.mobileMainFlag,
-    this.mobileTenderFlag,
-    this.mobileProjectFlag,
-    this.mobilePermitFlag,
-    this.mobileMnAuthFlag,
+    this.bandCodeDet,
+    this.bandName,
+    this.bandNameE,
+    this.bandCode,
+    this.altKey,
+    this.teamType,
+    this.teamCode,
+    this.unitCode,
+    this.unitNameA,
+    this.unitNameE,
     this.links,
   });
 
   Items.fromJson(Map<String, dynamic> json) {
-    usersCode = json['UsersCode'];
-    mobileManagerFlag = json['MobileManagerFlag'];
-    mobileMainFlag = json['MobileMainFlag'];
-    mobileTenderFlag = json['MobileTenderFlag'];
-    mobileProjectFlag = json['MobileProjectFlag'];
-    mobilePermitFlag = json['MobilePermitFlag'];
-    mobileMnAuthFlag = json['MobileMnAuthFlag'];
+    bandCodeDet = json['BandCodeDet'];
+    bandName = json['BandName'];
+    bandNameE = json['BandNameE'];
+    bandCode = json['BandCode'];
+    altKey = json['AltKey'];
+    teamType = json['TeamType'];
+    teamCode = json['TeamCode'];
+    unitCode = json['UnitCode'];
+    unitNameA = json['UnitNameA'];
+    unitNameE = json['UnitNameE'];
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
@@ -89,13 +98,16 @@ class Items {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['UsersCode'] = this.usersCode;
-    data['MobileManagerFlag'] = this.mobileManagerFlag;
-    data['MobileMainFlag'] = this.mobileMainFlag;
-    data['MobileTenderFlag'] = this.mobileTenderFlag;
-    data['MobileProjectFlag'] = this.mobileProjectFlag;
-    data['MobilePermitFlag'] = this.mobilePermitFlag;
-    data['MobileMnAuthFlag'] = this.mobileMnAuthFlag;
+    data['BandCodeDet'] = this.bandCodeDet;
+    data['BandName'] = this.bandName;
+    data['BandNameE'] = this.bandNameE;
+    data['BandCode'] = this.bandCode;
+    data['AltKey'] = this.altKey;
+    data['TeamType'] = this.teamType;
+    data['TeamCode'] = this.teamCode;
+    data['UnitCode'] = this.unitCode;
+    data['UnitNameA'] = this.unitNameA;
+    data['UnitNameE'] = this.unitNameE;
     if (this.links != null) {
       data['links'] = this.links!.map((v) => v.toJson()).toList();
     }

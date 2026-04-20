@@ -1159,10 +1159,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get managementDesc => 'Management & Supervision';
 
   @override
-  String get workOrderQuotation => 'Work Order - Quotation';
+  String get workOrderQuotation => 'Request Materials From Store';
 
   @override
-  String get workOrderQuotationDesc => 'Manage Work Orders & Quotations';
+  String get workOrderQuotationDesc => 'Manage Request Materials From Store';
 
   @override
   String get workOrderProjects => 'Work Order - Projects';
@@ -1873,4 +1873,155 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get selectTransactionDateValidation =>
       'Please select a transaction date';
+
+  @override
+  String get tasksAndApprovalTitle => 'Request Materials From Store';
+
+  @override
+  String get tasksSelection => 'Tasks';
+
+  @override
+  String get tasksSelectionDesc => 'View and manage assigned tasks';
+
+  @override
+  String get approvalSelection => 'Approval';
+
+  @override
+  String get approvalSelectionDesc => 'Review and approve material requests';
+
+  @override
+  String get tasksDataTitle => 'Tasks';
+
+  @override
+  String get filterDate => 'Transaction Date';
+
+  @override
+  String get filterDateHint => 'Select date';
+
+  @override
+  String get filterApprovalStatus => 'Approval Status';
+
+  @override
+  String get filterAll => 'All';
+
+  @override
+  String get filterApproved => 'Approved';
+
+  @override
+  String get filterNotApproved => 'Not Approved';
+
+  @override
+  String get filterRejected => 'Rejected';
+
+  @override
+  String get colSerial => 'No.';
+
+  @override
+  String get colBand => 'Band';
+
+  @override
+  String get colQuantity => 'Quantity';
+
+  @override
+  String get colTeam => 'Team';
+
+  @override
+  String get colStatus => 'Status';
+
+  @override
+  String get addNewRecord => 'Add';
+
+  @override
+  String get noRecordsFound => 'No records found';
+
+  @override
+  String get taskDetailsViewTitle => 'Task Details';
+
+  @override
+  String get detailTrnsDate => 'Transaction Date';
+
+  @override
+  String get detailBand => 'Band';
+
+  @override
+  String get detailUnit => 'Unit';
+
+  @override
+  String get detailQuantity => 'Quantity';
+
+  @override
+  String get detailNotes => 'Notes';
+
+  @override
+  String get detailAuthDesc => 'Approval Description';
+
+  @override
+  String get detailAuthUser => 'Approved By';
+
+  @override
+  String get detailAuthDate => 'Approval Date';
+
+  @override
+  String get detailAuthStatus => 'Approval Status';
+
+  @override
+  String get sectionTaskInfo => 'Request Information';
+
+  @override
+  String get sectionAuthInfo => 'Approval Information';
+
+  @override
+  String get btnSave => 'Save';
+
+  @override
+  String get btnDelete => 'Delete';
+
+  @override
+  String get readOnlyMessage => 'This request is approved and cannot be edited';
+
+  @override
+  String get quantityHint => 'Enter quantity';
+
+  @override
+  String get notesHintDetails => 'Enter notes...';
+
+  @override
+  String get saveSuccess => 'Saved successfully';
+
+  @override
+  String get deleteSuccess => 'Deleted successfully';
+
+  @override
+  String get deleteConfirmTitle => 'Confirm Delete';
+
+  @override
+  String get deleteConfirmBody =>
+      'Are you sure you want to delete this request? This action cannot be undone.';
+
+  @override
+  String get addTaskTitle => 'Add Material Request';
+
+  @override
+  String get transDateLabel => 'Transaction Date';
+
+  @override
+  String get bandSelectionLabel => 'Select Band';
+
+  @override
+  String get addSuccess => 'Added successfully';
+
+  @override
+  String get selectBandFirst => 'Please select a band first';
+
+  @override
+  String get requiredField => 'This field is required';
+
+  @override
+  String get invalidNumber => 'Invalid number';
+
+  @override
+  String get quantityTitle => 'Quantity';
+
+  @override
+  String get notesTitle => 'Notes';
 }
