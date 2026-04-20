@@ -2008,4 +2008,40 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get notesTitle => 'الملاحظات';
+
+  @override
+  String get approvalsViewTitle => 'الاعتمادات';
+
+  @override
+  String get approvalsFilterTeamHint => 'اختر الفرقة';
+
+  @override
+  String get approvalDetailTitle => 'تفاصيل الاعتماد';
+
+  @override
+  String get approvalDetailSectionRequest => 'بيانات الطلب';
+
+  @override
+  String get approvalDetailSectionApproverNotes => 'ملاحظات المعتمد';
+
+  @override
+  String get approvalDetailApproverNotesHint => 'أدخل ملاحظات المعتمد...';
+
+  @override
+  String get approvalBtnApprove => 'اعتماد';
+
+  @override
+  String get approvalBtnCancelApproval => 'إلغاء اعتماد';
+
+  @override
+  String get approvalBtnReject => 'رفض';
+
+  @override
+  String get approvalActionSuccess => 'تم الاعتماد بنجاح';
+
+  @override
+  String get cancelApprovalActionSuccess => 'تم إلغاء الاعتماد بنجاح';
+
+  @override
+  String get rejectActionSuccess => 'تم الرفض بنجاح';
 }

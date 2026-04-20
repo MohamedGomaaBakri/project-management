@@ -6,6 +6,7 @@ import 'package:shehabapp/core/api/api_constants.dart';
 import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/band_list_model.dart';
 import 'package:shehabapp/core/models/task_and_approvals_model.dart';
+import 'package:shehabapp/core/models/teams_model.dart';
 
 class RequestMaterialFromStoreService {
   Future<TasksAndApprovalsModel> getTasksAndApprovals({
@@ -519,6 +520,41 @@ class RequestMaterialFromStoreService {
         name: 'RequestMaterialFromStoreService',
       );
       throw Exception('Failed to upload attachment: $e');
+    }
+  }
+
+  Future<TeamsModel> getTeams({
+    required int teamCode,
+    required int teamType,
+  }) async {
+    try {
+      final url =
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ExBandCodeExecVRO1?q=TeamCode=$teamCode;TeamType=$teamType';
+      log('🌐 API Request URL: $url', name: 'getTeams');
+
+      final response = await http.get(
+        Uri.parse(url),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        String responseBody = utf8.decode(response.bodyBytes);
+        log('✅ API Response (getTeams): $responseBody', name: 'getTeams');
+
+        final TeamsModel teamsModel = TeamsModel.fromJson(
+          json.decode(responseBody),
+        );
+        return teamsModel;
+      } else {
+        log(
+          '❌ API Error (${response.statusCode}): ${response.body}',
+          name: 'getTeams',
+        );
+        throw Exception('Failed to load teams data.');
+      }
+    } catch (e) {
+      log('💥 Exception in getTeams: $e', name: 'getTeams');
+      throw Exception('An error occurred while fetching teams: $e');
     }
   }
 }

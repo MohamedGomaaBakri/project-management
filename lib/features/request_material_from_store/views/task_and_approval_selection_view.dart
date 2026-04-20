@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shehabapp/core/providers/auth_provider.dart';
 import 'package:shehabapp/core/providers/locale_provider.dart';
+import 'package:shehabapp/features/request_material_from_store/views/approvals_view.dart';
 import 'package:shehabapp/features/request_material_from_store/views/tasks_data_view.dart';
 import 'package:shehabapp/features/request_material_from_store/widgets/selection_card_widget.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
@@ -266,7 +267,10 @@ class _TaskAndApprovalBody extends StatelessWidget {
                         icon: Icons.verified_rounded,
                         gradient: const [Color(0xFF10B981), Color(0xFF059669)],
                         onTap: () {
-                          // TODO: Navigate to Approval screen
+                          Navigator.pushNamed(
+                            context,
+                            ApprovalsView.routeName,
+                          );
                         },
                       ),
                     ),

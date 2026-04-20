@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/core/models/band_list_model.dart';
 import 'package:shehabapp/core/models/task_and_approvals_model.dart';
+import 'package:shehabapp/core/models/teams_model.dart';
 import 'package:shehabapp/core/services/request_material_from_store_service.dart';
 
 class RequestMaterialFromStoreProvider extends ChangeNotifier {
@@ -13,11 +14,13 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
   AttatchmentModel? _attatchments;
   int? _maxDocSerial;
   BandListModel? _bandList;
+  TeamsModel? _teams;
   TasksAndApprovalsModel? get tasksAndApprovals => _tasksAndApprovals;
   TasksAndApprovalsModel? get oneTaskAndApprovals => _oneTaskAndApprovals;
   int? get maxDocSerial => _maxDocSerial;
   AttatchmentModel? get attatchments => _attatchments;
   BandListModel? get bandList => _bandList;
+  TeamsModel? get teams => _teams;
 
   bool _isLoading = false;
   bool get isLoading => _isLoading;
@@ -231,6 +234,21 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
         fileDesc: fileDesc,
         fileContent: fileContent,
       );
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> getTeams({required int teamCode, required int teamType}) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      _teams = await _service.getTeams(teamCode: teamCode, teamType: teamType);
     } catch (e) {
       _errorMessage = e.toString();
     } finally {

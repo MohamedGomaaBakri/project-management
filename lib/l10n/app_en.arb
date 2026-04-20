@@ -676,5 +676,17 @@
     "requiredField": "This field is required",
     "invalidNumber": "Invalid number",
     "quantityTitle": "Quantity",
-    "notesTitle": "Notes"
+    "notesTitle": "Notes",
+    "approvalsViewTitle": "Approvals",
+    "approvalsFilterTeamHint": "Select Team",
+    "approvalDetailTitle": "Approval Details",
+    "approvalDetailSectionRequest": "Request Information",
+    "approvalDetailSectionApproverNotes": "Approver Notes",
+    "approvalDetailApproverNotesHint": "Enter approver notes...",
+    "approvalBtnApprove": "Approve",
+    "approvalBtnCancelApproval": "Cancel Approval",
+    "approvalBtnReject": "Reject",
+    "approvalActionSuccess": "Approved successfully",
+    "cancelApprovalActionSuccess": "Approval cancelled successfully",
+    "rejectActionSuccess": "Rejected successfully"
 }

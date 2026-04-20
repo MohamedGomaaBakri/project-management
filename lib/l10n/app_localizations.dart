@@ -4039,6 +4039,78 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'الملاحظات'**
   String get notesTitle;
+
+  /// No description provided for @approvalsViewTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'الاعتمادات'**
+  String get approvalsViewTitle;
+
+  /// No description provided for @approvalsFilterTeamHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'اختر الفرقة'**
+  String get approvalsFilterTeamHint;
+
+  /// No description provided for @approvalDetailTitle.
+  ///
+  /// In ar, this message translates to:
+  /// **'تفاصيل الاعتماد'**
+  String get approvalDetailTitle;
+
+  /// No description provided for @approvalDetailSectionRequest.
+  ///
+  /// In ar, this message translates to:
+  /// **'بيانات الطلب'**
+  String get approvalDetailSectionRequest;
+
+  /// No description provided for @approvalDetailSectionApproverNotes.
+  ///
+  /// In ar, this message translates to:
+  /// **'ملاحظات المعتمد'**
+  String get approvalDetailSectionApproverNotes;
+
+  /// No description provided for @approvalDetailApproverNotesHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل ملاحظات المعتمد...'**
+  String get approvalDetailApproverNotesHint;
+
+  /// No description provided for @approvalBtnApprove.
+  ///
+  /// In ar, this message translates to:
+  /// **'اعتماد'**
+  String get approvalBtnApprove;
+
+  /// No description provided for @approvalBtnCancelApproval.
+  ///
+  /// In ar, this message translates to:
+  /// **'إلغاء اعتماد'**
+  String get approvalBtnCancelApproval;
+
+  /// No description provided for @approvalBtnReject.
+  ///
+  /// In ar, this message translates to:
+  /// **'رفض'**
+  String get approvalBtnReject;
+
+  /// No description provided for @approvalActionSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الاعتماد بنجاح'**
+  String get approvalActionSuccess;
+
+  /// No description provided for @cancelApprovalActionSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم إلغاء الاعتماد بنجاح'**
+  String get cancelApprovalActionSuccess;
+
+  /// No description provided for @rejectActionSuccess.
+  ///
+  /// In ar, this message translates to:
+  /// **'تم الرفض بنجاح'**
+  String get rejectActionSuccess;
 }
 
 class _AppLocalizationsDelegate

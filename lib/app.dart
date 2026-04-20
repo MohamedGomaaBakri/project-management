@@ -18,6 +18,8 @@ import 'package:shehabapp/features/loans/screens/loan_requests_list_screen.dart'
 import 'package:shehabapp/features/management/views/management_view.dart';
 import 'package:shehabapp/features/request_material_from_store/views/task_and_approval_selection_view.dart';
 import 'package:shehabapp/features/request_material_from_store/views/tasks_data_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/approvals_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/approval_detail_view.dart';
 import 'package:shehabapp/features/request_material_from_store/views/one_task_details_view.dart';
 import 'package:shehabapp/features/request_material_from_store/views/add_task_view.dart';
 import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
@@ -221,6 +223,12 @@ class MyApp extends StatelessWidget {
                   const TaskAndApprovalSelectionView(),
               TasksDataView.routeName: (context) => const TasksDataView(),
               AddTaskView.routeName: (context) => const AddTaskView(),
+              ApprovalsView.routeName: (context) => const ApprovalsView(),
+              ApprovalDetailView.routeName: (context) =>
+                  ApprovalDetailView(
+                    initialItem: ModalRoute.of(context)!.settings.arguments
+                        as dynamic,
+                  ),
               MngNotificationView.routeName: (context) =>
                   const MngNotificationView(),
               MngNotificationDetailsView.routeName: (context) {

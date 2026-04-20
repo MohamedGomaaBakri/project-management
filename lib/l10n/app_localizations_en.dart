@@ -2024,4 +2024,40 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get notesTitle => 'Notes';
+
+  @override
+  String get approvalsViewTitle => 'Approvals';
+
+  @override
+  String get approvalsFilterTeamHint => 'Select Team';
+
+  @override
+  String get approvalDetailTitle => 'Approval Details';
+
+  @override
+  String get approvalDetailSectionRequest => 'Request Information';
+
+  @override
+  String get approvalDetailSectionApproverNotes => 'Approver Notes';
+
+  @override
+  String get approvalDetailApproverNotesHint => 'Enter approver notes...';
+
+  @override
+  String get approvalBtnApprove => 'Approve';
+
+  @override
+  String get approvalBtnCancelApproval => 'Cancel Approval';
+
+  @override
+  String get approvalBtnReject => 'Reject';
+
+  @override
+  String get approvalActionSuccess => 'Approved successfully';
+
+  @override
+  String get cancelApprovalActionSuccess => 'Approval cancelled successfully';
+
+  @override
+  String get rejectActionSuccess => 'Rejected successfully';
 }

@@ -676,5 +676,17 @@
     "requiredField": "هذا الحقل مطلوب",
     "invalidNumber": "رقم غير صحيح",
     "quantityTitle": "الكمية",
-    "notesTitle": "الملاحظات"
+    "notesTitle": "الملاحظات",
+    "approvalsViewTitle": "الاعتمادات",
+    "approvalsFilterTeamHint": "اختر الفرقة",
+    "approvalDetailTitle": "تفاصيل الاعتماد",
+    "approvalDetailSectionRequest": "بيانات الطلب",
+    "approvalDetailSectionApproverNotes": "ملاحظات المعتمد",
+    "approvalDetailApproverNotesHint": "أدخل ملاحظات المعتمد...",
+    "approvalBtnApprove": "اعتماد",
+    "approvalBtnCancelApproval": "إلغاء اعتماد",
+    "approvalBtnReject": "رفض",
+    "approvalActionSuccess": "تم الاعتماد بنجاح",
+    "cancelApprovalActionSuccess": "تم إلغاء الاعتماد بنجاح",
+    "rejectActionSuccess": "تم الرفض بنجاح"
 }
