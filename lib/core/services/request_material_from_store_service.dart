@@ -111,8 +111,7 @@ class RequestMaterialFromStoreService {
   }
 
   Future<void> updateOneTasksAndApprovals({
-    required int teamCode,
-    required int serial,
+    required String altKey,
     required String trnsDate,
     required int bandCode,
     required int bandCodeDet,
@@ -120,12 +119,12 @@ class RequestMaterialFromStoreService {
     required double quantity,
     required String notes,
     required String authDesc,
-    required String authUserName,
+    // required String authUserName,
     required String authDate,
   }) async {
     try {
       final url =
-          '${ApiConstants.baseUrl}${ApiConstants.getTasksAndApprovals}$teamCode;Serial=$serial';
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ExProjectsBandExecVO1/$altKey';
       log('🔵 Request URL: $url', name: 'RequestMaterialFromStoreService');
 
       // Log request body before sending
@@ -137,7 +136,7 @@ class RequestMaterialFromStoreService {
         "Quantity": quantity,
         "Notes": notes,
         "AuthDesc": authDesc,
-        "AuthUserName": authUserName,
+        // "AuthUserName": authUserName,
         "AuthDate": authDate,
       });
       log(
@@ -185,13 +184,10 @@ class RequestMaterialFromStoreService {
     }
   }
 
-  Future<void> deleteOneTasksAndApprovals({
-    required int teamCode,
-    required int serial,
-  }) async {
+  Future<void> deleteOneTasksAndApprovals({required String altKey}) async {
     try {
       final url =
-          '${ApiConstants.baseUrl}${ApiConstants.getTasksAndApprovals}$teamCode;Serial=$serial';
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ExProjectsBandExecVO1/$altKey';
       log('🔵 Request URL: $url', name: 'RequestMaterialFromStoreService');
 
       final response = await http.delete(
@@ -351,7 +347,7 @@ class RequestMaterialFromStoreService {
   }) async {
     try {
       final url =
-          '${ApiConstants.baseUrl}SysDocsVO1?q=TblNm=EX_PROJECTS_BAND_EXEC;Pk1=$pk1;Pk2=$pk2';
+          '${ApiConstants.baseUrl}SysDocsVO1?q=TblNm=PROJECTS_BAND_EXEC;Pk1=$pk1;Pk2=$pk2';
       log('🌐 API Request URL: $url', name: 'getTaskAttachment');
 
       final response = await http.get(
@@ -386,7 +382,7 @@ class RequestMaterialFromStoreService {
   Future<int> getMaxDocSerial() async {
     try {
       final url =
-          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SysDocsVO1?q=TblNm=EX_PROJECTS_BAND_EXEC';
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SysDocsVO1?q=TblNm=PROJECTS_BAND_EXEC';
       log('🌐 API Request URL: $url', name: 'getMaxDocSerial');
 
       final response = await http.get(
@@ -465,7 +461,7 @@ class RequestMaterialFromStoreService {
         'EntryNo': null,
         'FileDesc': fileDesc,
         'DocSerial': newDocSerial,
-        'DocPath': fileContent,
+        'Photo': fileContent,
         'DocFlag': null,
         'ValideFDate': null,
         'ValideTDate': null,

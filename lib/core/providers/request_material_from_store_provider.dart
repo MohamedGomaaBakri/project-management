@@ -67,8 +67,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
   }
 
   Future<void> updateOneTasksAndApprovals({
-    required int teamCode,
-    required int serial,
+    required String altKey,
     required String trnsDate,
     required int bandCode,
     required int bandCodeDet,
@@ -76,7 +75,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     required double quantity,
     required String notes,
     required String authDesc,
-    required String authUserName,
+    // required String authUserName,
     required String authDate,
   }) async {
     _isLoading = true;
@@ -85,8 +84,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
 
     try {
       await _service.updateOneTasksAndApprovals(
-        teamCode: teamCode,
-        serial: serial,
+        altKey: altKey,
         trnsDate: trnsDate,
         bandCode: bandCode,
         bandCodeDet: bandCodeDet,
@@ -94,7 +92,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
         quantity: quantity,
         notes: notes,
         authDesc: authDesc,
-        authUserName: authUserName,
+        // authUserName: authUserName,
         authDate: authDate,
       );
     } catch (e) {
@@ -142,19 +140,13 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> deleteOneTasksAndApprovals({
-    required int teamCode,
-    required int serial,
-  }) async {
+  Future<void> deleteOneTasksAndApprovals({required String altKey}) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      await _service.deleteOneTasksAndApprovals(
-        teamCode: teamCode,
-        serial: serial,
-      );
+      await _service.deleteOneTasksAndApprovals(altKey: altKey);
     } catch (e) {
       _errorMessage = e.toString();
     } finally {

@@ -47,15 +47,14 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
       duration: const Duration(milliseconds: 700),
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.25),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _controller.forward();
 
@@ -77,23 +76,17 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
       context,
       listen: false,
     );
-    final teamCode = int.tryParse(
-          authProvider.currentUser?.teamCode?.toString() ?? '0',
-        ) ??
+    final teamCode =
+        int.tryParse(authProvider.currentUser?.teamCode?.toString() ?? '0') ??
         0;
     final serial = widget.initialItem.serial ?? 0;
 
-    await provider.getOneTasksAndApprovals(
-      teamCode: teamCode,
-      serial: serial,
-    );
+    await provider.getOneTasksAndApprovals(teamCode: teamCode, serial: serial);
 
     // Refresh approver notes from fresh data if available
-    final freshItem =
-        provider.oneTaskAndApprovals?.items?.firstOrNull;
+    final freshItem = provider.oneTaskAndApprovals?.items?.firstOrNull;
     if (freshItem != null && mounted) {
-      _authDescController.text =
-          freshItem.authDesc?.toString() ?? '';
+      _authDescController.text = freshItem.authDesc?.toString() ?? '';
     }
   }
 
@@ -137,15 +130,12 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
     );
 
     final item =
-        provider.oneTaskAndApprovals?.items?.firstOrNull ??
-        widget.initialItem;
+        provider.oneTaskAndApprovals?.items?.firstOrNull ?? widget.initialItem;
 
-    final teamCode = int.tryParse(
-          authProvider.currentUser?.teamCode?.toString() ?? '0',
-        ) ??
+    final teamCode =
+        int.tryParse(authProvider.currentUser?.teamCode?.toString() ?? '0') ??
         0;
-    final userName =
-        authProvider.currentUser?.usersName ?? '';
+    final userName = authProvider.currentUser?.usersName ?? '';
     final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     // Build new AuthFlag-aware authStatus fields through backend — we only
@@ -161,8 +151,7 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
     // If the API supports a dedicated AuthFlag field, that can be added to
     // the service; for now we follow the existing contract.
     await provider.updateOneTasksAndApprovals(
-      teamCode: teamCode,
-      serial: item.serial ?? 0,
+      altKey: item.altKey ?? '',
       trnsDate: item.trnsDate ?? today,
       bandCode: item.bandCode ?? 0,
       bandCodeDet: item.bandCodeDet ?? 0,
@@ -170,7 +159,7 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
       quantity: (item.quantity ?? 0).toDouble(),
       notes: item.notes ?? '',
       authDesc: _authDescController.text.trim(),
-      authUserName: authFlag == 0 ? '' : userName,
+      // authUserName: authFlag == 0 ? '' : userName,
       authDate: authFlag == 0 ? '' : today,
     );
 
@@ -224,12 +213,9 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
             ),
           ],
         ),
-        backgroundColor:
-            isSuccess ? Colors.green[700] : Colors.red[700],
+        backgroundColor: isSuccess ? Colors.green[700] : Colors.red[700],
         behavior: SnackBarBehavior.floating,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         duration: Duration(seconds: isSuccess ? 2 : 3),
       ),
     );
@@ -249,11 +235,7 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
           gradient: LinearGradient(
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
-            colors: [
-              Color(0xFF10B981),
-              Color(0xFF059669),
-              Color(0xFF047857),
-            ],
+            colors: [Color(0xFF10B981), Color(0xFF059669), Color(0xFF047857)],
           ),
         ),
         child: SafeArea(
@@ -280,12 +262,13 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
                       child: Consumer<RequestMaterialFromStoreProvider>(
                         builder: (context, provider, _) {
                           final item =
-                              provider.oneTaskAndApprovals?.items
+                              provider
+                                  .oneTaskAndApprovals
+                                  ?.items
                                   ?.firstOrNull ??
                               widget.initialItem;
                           final isArabic =
-                              Localizations.localeOf(context)
-                                  .languageCode ==
+                              Localizations.localeOf(context).languageCode ==
                               'ar';
 
                           return Stack(
@@ -302,7 +285,10 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
                                       CrossAxisAlignment.stretch,
                                   children: [
                                     // Status banner (serial + badge)
-                                    _StatusBanner(item: item, isArabic: isArabic),
+                                    _StatusBanner(
+                                      item: item,
+                                      isArabic: isArabic,
+                                    ),
                                     const SizedBox(height: 20),
 
                                     // Loading indicator
@@ -402,8 +388,7 @@ class _ApprovalDetailHeader extends StatelessWidget {
             builder: (context, provider, _) {
               final isArabic = provider.locale?.languageCode == 'ar';
               return GestureDetector(
-                onTap: () =>
-                    provider.setLocale(Locale(isArabic ? 'en' : 'ar')),
+                onTap: () => provider.setLocale(Locale(isArabic ? 'en' : 'ar')),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,
@@ -447,8 +432,9 @@ class _StatusBanner extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final statusText =
-        isArabic ? (item.authStatusA ?? '') : (item.authStatusE ?? '');
+    final statusText = isArabic
+        ? (item.authStatusA ?? '')
+        : (item.authStatusE ?? '');
     final badgeColor = _badgeColor(item.authFlag);
 
     return Row(
@@ -649,10 +635,8 @@ class _RequestInfoSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bandName =
-        isArabic ? (item.bandNameA ?? '') : (item.bandNameE ?? '');
-    final unitName =
-        isArabic ? (item.unitNameA ?? '') : (item.unitNameE ?? '');
+    final bandName = isArabic ? (item.bandNameA ?? '') : (item.bandNameE ?? '');
+    final unitName = isArabic ? (item.unitNameA ?? '') : (item.unitNameE ?? '');
 
     return _SectionCard(
       title: l10n.approvalDetailSectionRequest,
@@ -694,10 +678,7 @@ class _ApproverNotesSection extends StatelessWidget {
   final AppLocalizations l10n;
   final TextEditingController controller;
 
-  const _ApproverNotesSection({
-    required this.l10n,
-    required this.controller,
-  });
+  const _ApproverNotesSection({required this.l10n, required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -711,10 +692,7 @@ class _ApproverNotesSection extends StatelessWidget {
           maxLines: 4,
           decoration: InputDecoration(
             hintText: l10n.approvalDetailApproverNotesHint,
-            hintStyle: TextStyle(
-              color: Colors.grey.shade400,
-              fontSize: 14,
-            ),
+            hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
             filled: true,
             fillColor: Colors.grey.shade50,
             border: OutlineInputBorder(
@@ -734,10 +712,7 @@ class _ApproverNotesSection extends StatelessWidget {
             ),
             contentPadding: const EdgeInsets.all(14),
           ),
-          style: TextStyle(
-            fontSize: 14,
-            color: Colors.grey.shade800,
-          ),
+          style: TextStyle(fontSize: 14, color: Colors.grey.shade800),
         ),
       ],
     );
@@ -843,10 +818,7 @@ class _ActionBtnState extends State<_ActionBtn> {
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) {
         setState(() => _isPressed = false);
-        Future.delayed(
-          const Duration(milliseconds: 100),
-          widget.onPressed,
-        );
+        Future.delayed(const Duration(milliseconds: 100), widget.onPressed);
       },
       onTapCancel: () => setState(() => _isPressed = false),
       child: AnimatedContainer(

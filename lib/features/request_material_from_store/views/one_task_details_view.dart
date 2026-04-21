@@ -144,7 +144,7 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
 
   Future<void> _performSave() async {
     final l10n = AppLocalizations.of(context)!;
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    // final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final provider = Provider.of<RequestMaterialFromStoreProvider>(
       context,
       listen: false,
@@ -152,12 +152,11 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
 
     final item =
         provider.oneTaskAndApprovals?.items?.firstOrNull ?? widget.initialItem;
-    final teamCode = authProvider.currentUser?.teamCode ?? 0;
+    // final teamCode = authProvider.currentUser?.teamCode ?? 0;
     final qty = double.tryParse(_quantityController.text.trim()) ?? 0;
 
     await provider.updateOneTasksAndApprovals(
-      teamCode: teamCode,
-      serial: item.serial ?? 0,
+      altKey: item.altKey ?? '',
       trnsDate: item.trnsDate ?? '',
       bandCode: item.bandCode ?? 0,
       bandCodeDet: item.bandCodeDet ?? 0,
@@ -165,7 +164,7 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
       quantity: qty,
       notes: _notesController.text.trim(),
       authDesc: item.authDesc?.toString() ?? '',
-      authUserName: item.authUserNameA?.toString() ?? '',
+      // authUserName: item.authUserNameA?.toString() ?? '',
       authDate: item.authDate?.toString() ?? '',
     );
 
@@ -294,10 +293,7 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
         provider.oneTaskAndApprovals?.items?.firstOrNull ?? widget.initialItem;
     final teamCode = authProvider.currentUser?.teamCode ?? 0;
 
-    await provider.deleteOneTasksAndApprovals(
-      teamCode: teamCode,
-      serial: item.serial ?? 0,
-    );
+    await provider.deleteOneTasksAndApprovals(altKey: item.altKey ?? '');
 
     if (!mounted) return;
 
