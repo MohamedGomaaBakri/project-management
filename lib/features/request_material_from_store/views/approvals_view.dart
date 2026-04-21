@@ -52,15 +52,14 @@ class _ApprovalsViewState extends State<ApprovalsView>
       duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    _fadeAnimation = Tween<double>(begin: 0.0, end: 1.0).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
-    );
+    _fadeAnimation = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
     _slideAnimation = Tween<Offset>(
       begin: const Offset(0, 0.3),
       end: Offset.zero,
-    ).animate(
-      CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic),
-    );
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOutCubic));
 
     _controller.forward();
 
@@ -90,7 +89,7 @@ class _ApprovalsViewState extends State<ApprovalsView>
         0;
 
     // Load teams list for the dropdown
-    await provider.getTeams(teamCode: teamCode, teamType: teamType);
+    await provider.getTeams();
 
     // Load all tasks/approvals
     await provider.getTasksAndApprovals(teamCode: teamCode);
@@ -245,7 +244,9 @@ class _ApprovalsViewState extends State<ApprovalsView>
                                     gradient: LinearGradient(
                                       colors: [
                                         Colors.transparent,
-                                        const Color(0xFF10B981).withOpacity(0.3),
+                                        const Color(
+                                          0xFF10B981,
+                                        ).withOpacity(0.3),
                                         Colors.transparent,
                                       ],
                                     ),
@@ -270,10 +271,9 @@ class _ApprovalsViewState extends State<ApprovalsView>
                                       Navigator.push(
                                         context,
                                         MaterialPageRoute(
-                                          builder: (_) =>
-                                              ApprovalDetailView(
-                                                initialItem: item,
-                                              ),
+                                          builder: (_) => ApprovalDetailView(
+                                            initialItem: item,
+                                          ),
                                         ),
                                       );
                                     },
@@ -340,8 +340,7 @@ class _ApprovalsHeader extends StatelessWidget {
             builder: (context, provider, _) {
               final isArabic = provider.locale?.languageCode == 'ar';
               return GestureDetector(
-                onTap: () =>
-                    provider.setLocale(Locale(isArabic ? 'en' : 'ar')),
+                onTap: () => provider.setLocale(Locale(isArabic ? 'en' : 'ar')),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 12,

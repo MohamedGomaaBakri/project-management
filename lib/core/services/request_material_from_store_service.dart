@@ -521,13 +521,10 @@ class RequestMaterialFromStoreService {
     }
   }
 
-  Future<TeamsModel> getTeams({
-    required int teamCode,
-    required int teamType,
-  }) async {
+  Future<TeamsModel> getTeams() async {
     try {
       final url =
-          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ExBandCodeExecVRO1?q=TeamCode=$teamCode;TeamType=$teamType';
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/ExTeamCodeVRO1';
       log('🌐 API Request URL: $url', name: 'getTeams');
 
       final response = await http.get(

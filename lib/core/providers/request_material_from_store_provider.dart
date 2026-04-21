@@ -236,13 +236,13 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getTeams({required int teamCode, required int teamType}) async {
+  Future<void> getTeams() async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      _teams = await _service.getTeams(teamCode: teamCode, teamType: teamType);
+      _teams = await _service.getTeams();
     } catch (e) {
       _errorMessage = e.toString();
     } finally {

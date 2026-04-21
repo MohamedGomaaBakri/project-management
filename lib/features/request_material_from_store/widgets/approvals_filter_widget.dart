@@ -288,8 +288,12 @@ class _TeamDropdownField extends StatelessWidget {
           onChanged: onTeamChanged,
           items: teams.map((team) {
             final name = isArabic
-                ? (team.bandName ?? '')
-                : (team.bandNameE ?? team.bandName ?? '');
+                ? (team.teamNameA ?? team.bandName ?? '')
+                : (team.teamNameE ??
+                      team.teamNameA ??
+                      team.bandNameE ??
+                      team.bandName ??
+                      '');
             return DropdownMenuItem<teams_model.Items>(
               value: team,
               child: Row(
@@ -313,8 +317,12 @@ class _TeamDropdownField extends StatelessWidget {
           }).toList(),
           selectedItemBuilder: (context) => teams.map((team) {
             final name = isArabic
-                ? (team.bandName ?? '')
-                : (team.bandNameE ?? team.bandName ?? '');
+                ? (team.teamNameA ?? team.bandName ?? '')
+                : (team.teamNameE ??
+                      team.teamNameA ??
+                      team.bandNameE ??
+                      team.bandName ??
+                      '');
             return Row(
               children: [
                 const Icon(
