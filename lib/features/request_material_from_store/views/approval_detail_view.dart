@@ -161,6 +161,7 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
       authDesc: _authDescController.text.trim(),
       // authUserName: authFlag == 0 ? '' : userName,
       authDate: authFlag == 0 ? '' : today,
+      authFlag: authFlag,
     );
 
     if (!mounted) return;

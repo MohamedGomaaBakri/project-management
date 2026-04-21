@@ -77,6 +77,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     required String authDesc,
     // required String authUserName,
     required String authDate,
+    int? authFlag,
   }) async {
     _isLoading = true;
     _errorMessage = null;
@@ -94,6 +95,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
         authDesc: authDesc,
         // authUserName: authUserName,
         authDate: authDate,
+        authFlag: authFlag,
       );
     } catch (e) {
       _errorMessage = e.toString();

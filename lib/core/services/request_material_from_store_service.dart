@@ -121,6 +121,7 @@ class RequestMaterialFromStoreService {
     required String authDesc,
     // required String authUserName,
     required String authDate,
+    int? authFlag,
   }) async {
     try {
       final url =
@@ -138,6 +139,7 @@ class RequestMaterialFromStoreService {
         "AuthDesc": authDesc,
         // "AuthUserName": authUserName,
         "AuthDate": authDate,
+        if (authFlag != null) "AuthFlag": authFlag,
       });
       log(
         '📦 Request Body: $requestBody',

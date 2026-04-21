@@ -166,6 +166,7 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
       authDesc: item.authDesc?.toString() ?? '',
       // authUserName: item.authUserNameA?.toString() ?? '',
       authDate: item.authDate?.toString() ?? '',
+      authFlag: item.authFlag ?? 0,
     );
 
     if (!mounted) return;
