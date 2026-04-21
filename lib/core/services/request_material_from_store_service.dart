@@ -242,7 +242,7 @@ class RequestMaterialFromStoreService {
     required int unitCode,
     required double quantity,
     required String notes,
-    required String insertUser,
+    required int insertUser,
     required String insertDate,
   }) async {
     try {

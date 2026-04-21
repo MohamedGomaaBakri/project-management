@@ -157,7 +157,7 @@ class _AddTaskViewState extends State<AddTaskView>
     }
 
     final teamCode = authProvider.currentUser?.teamCode ?? 0;
-    final insertUser = authProvider.currentUser?.usersName ?? '';
+    final insertUser = authProvider.currentUser?.usersCode ?? 0;
     final insertDate = DateFormat('yyyy-MM-dd').format(DateTime.now());
     final trnsDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
 
