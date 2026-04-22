@@ -92,12 +92,10 @@ class _ApprovalsViewState extends State<ApprovalsView>
     await provider.getTeams();
 
     // Load all tasks/approvals
-    await provider.getTasksAndApprovals(teamCode: teamCode);
+    await provider.getTasksAndApprovals(teamCode: teamCode, teamType: teamType);
 
     if (mounted) {
-      setState(() {
-        _displayedItems = provider.tasksAndApprovals?.items ?? [];
-      });
+      _applyFilters();
     }
   }
 
@@ -267,8 +265,8 @@ class _ApprovalsViewState extends State<ApprovalsView>
                                 else
                                   ApprovalsDataTableWidget(
                                     items: _displayedItems,
-                                    onRowTapped: (item) {
-                                      Navigator.push(
+                                    onRowTapped: (item) async {
+                                      final result = await Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (_) => ApprovalDetailView(
@@ -276,6 +274,9 @@ class _ApprovalsViewState extends State<ApprovalsView>
                                           ),
                                         ),
                                       );
+                                      if (result == true) {
+                                        _loadData();
+                                      }
                                     },
                                   ),
                               ],

@@ -76,7 +76,10 @@ class _TasksDataViewState extends State<TasksDataView>
     );
 
     final teamCode = authProvider.currentUser?.teamCode ?? 0;
-    await provider.getTasksAndApprovals(teamCode: teamCode);
+    await provider.getTasksAndApprovals(
+      teamCode: teamCode,
+      teamType: authProvider.currentUser?.teamType,
+    );
 
     if (mounted) {
       setState(() {

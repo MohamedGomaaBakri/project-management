@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
@@ -68,7 +69,10 @@ class _AddTaskViewState extends State<AddTaskView>
 
     int newSerial = 1;
     if (provider.tasksAndApprovals == null) {
-      await provider.getTasksAndApprovals(teamCode: teamCode);
+      await provider.getTasksAndApprovals(
+        teamCode: teamCode,
+        teamType: teamType,
+      );
     }
     final allTasks = provider.tasksAndApprovals?.items ?? [];
     if (allTasks.isNotEmpty) {
@@ -165,6 +169,7 @@ class _AddTaskViewState extends State<AddTaskView>
 
     await provider.addOneTasksAndApprovals(
       teamCode: teamCode,
+      teamType: authProvider.currentUser?.teamType ?? 'P',
       serial: newSerial,
       trnsDate: trnsDate,
       bandCode: _selectedBand!.bandCode ?? 0,
@@ -193,7 +198,10 @@ class _AddTaskViewState extends State<AddTaskView>
           behavior: SnackBarBehavior.floating,
         ),
       );
-      await provider.getTasksAndApprovals(teamCode: teamCode); // refresh list
+      await provider.getTasksAndApprovals(
+        teamCode: teamCode,
+        teamType: authProvider.currentUser?.teamType,
+      ); // refresh list
       await Future.delayed(const Duration(milliseconds: 1000));
       if (mounted) Navigator.of(context).pop();
     } else {
@@ -332,39 +340,90 @@ class _AddTaskViewState extends State<AddTaskView>
                                         ),
                                       ],
                                     ),
-                                    child: DropdownButtonHideUnderline(
-                                      child: DropdownButton<Items>(
-                                        value: _selectedBand,
-                                        isExpanded: true,
-                                        hint: Text(
-                                          l10n.bandSelectionLabel,
-                                          style: TextStyle(
-                                            color: Colors.grey[400],
+                                    child: DropdownSearch<Items>(
+                                      popupProps: PopupProps.menu(
+                                        showSearchBox: true,
+                                        searchFieldProps: TextFieldProps(
+                                          decoration: InputDecoration(
+                                            hintText: l10n.search,
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              borderSide: BorderSide(
+                                                color: Colors.grey[300]!,
+                                              ),
+                                            ),
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              borderSide: BorderSide(
+                                                color: Colors.grey[300]!,
+                                              ),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(12),
+                                              borderSide: BorderSide(
+                                                color: Colors.indigo[400]!,
+                                              ),
+                                            ),
+                                            contentPadding:
+                                                const EdgeInsets.symmetric(
+                                                  horizontal: 16,
+                                                  vertical: 12,
+                                                ),
                                           ),
                                         ),
-                                        icon: Icon(
-                                          Icons.keyboard_arrow_down_rounded,
-                                          color: Colors.grey[500],
+                                        menuProps: MenuProps(
+                                          borderRadius: BorderRadius.circular(
+                                            14,
+                                          ),
                                         ),
-                                        items: (provider.bandList?.items ?? [])
-                                            .map((band) {
-                                              final text = isAr
-                                                  ? (band.bandName ?? '')
-                                                  : (band.bandNameE ??
-                                                        band.bandName ??
-                                                        '');
-                                              return DropdownMenuItem<Items>(
-                                                value: band,
-                                                child: Text(text),
-                                              );
-                                            })
-                                            .toList(),
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _selectedBand = value;
-                                          });
-                                        },
                                       ),
+                                      items: (filter, loadProps) {
+                                        final allItems =
+                                            provider.bandList?.items ?? [];
+                                        if (filter.isEmpty)
+                                          return Future.value(allItems);
+                                        return Future.value(
+                                          allItems.where((band) {
+                                            final keyword = filter
+                                                .toLowerCase();
+                                            final nameA = (band.bandName ?? '')
+                                                .toLowerCase();
+                                            final nameE = (band.bandNameE ?? '')
+                                                .toLowerCase();
+                                            return nameA.contains(keyword) ||
+                                                nameE.contains(keyword);
+                                          }).toList(),
+                                        );
+                                      },
+                                      itemAsString: (Items u) => isAr
+                                          ? (u.bandName ?? '')
+                                          : (u.bandNameE ?? u.bandName ?? ''),
+                                      compareFn: (item1, item2) =>
+                                          item1.bandCodeDet ==
+                                          item2.bandCodeDet,
+                                      selectedItem: _selectedBand,
+                                      decoratorProps: DropDownDecoratorProps(
+                                        decoration: InputDecoration(
+                                          hintText: l10n.bandSelectionLabel,
+                                          hintStyle: TextStyle(
+                                            color: Colors.grey[400],
+                                          ),
+                                          border: InputBorder.none,
+                                          contentPadding:
+                                              const EdgeInsets.symmetric(
+                                                vertical: 8,
+                                              ),
+                                          isDense: true,
+                                        ),
+                                      ),
+                                      onChanged: (Items? value) {
+                                        setState(() {
+                                          _selectedBand = value;
+                                        });
+                                      },
                                     ),
                                   ),
                                   const SizedBox(height: 24),

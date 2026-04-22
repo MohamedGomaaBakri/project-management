@@ -28,7 +28,10 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
   String? _errorMessage;
   String? get errorMessage => _errorMessage;
 
-  Future<void> getTasksAndApprovals({required int teamCode}) async {
+  Future<void> getTasksAndApprovals({
+    required int teamCode,
+    required dynamic teamType,
+  }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
@@ -36,6 +39,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     try {
       _tasksAndApprovals = await _service.getTasksAndApprovals(
         teamCode: teamCode,
+        teamType: teamType,
       );
     } catch (e) {
       _errorMessage = e.toString();
@@ -107,6 +111,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
 
   Future<void> addOneTasksAndApprovals({
     required int teamCode,
+    required dynamic teamType,
     required int serial,
     required String trnsDate,
     required int bandCode,
@@ -124,6 +129,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     try {
       await _service.addOneTasksAndApprovals(
         teamCode: teamCode,
+        teamType: teamType,
         serial: serial,
         trnsDate: trnsDate,
         bandCode: bandCode,

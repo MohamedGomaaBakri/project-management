@@ -63,6 +63,7 @@ class Items {
   String? unitNameE;
   String? teamNameA;
   String? teamNameE;
+  String? teamNo;
   List<Links>? links;
 
   Items({
@@ -78,6 +79,7 @@ class Items {
     this.unitNameE,
     this.teamNameA,
     this.teamNameE,
+    this.teamNo,
     this.links,
   });
 
@@ -94,6 +96,7 @@ class Items {
     unitNameE = json['UnitNameE'];
     teamNameA = json['TeamNameA'];
     teamNameE = json['TeamNameE'];
+    teamNo = json['TeamNo'];
     if (json['links'] != null) {
       links = <Links>[];
       json['links'].forEach((v) {
@@ -116,6 +119,7 @@ class Items {
     data['UnitNameE'] = this.unitNameE;
     data['TeamNameA'] = this.teamNameA;
     data['TeamNameE'] = this.teamNameE;
+    data['TeamNo'] = this.teamNo;
     if (this.links != null) {
       data['links'] = this.links!.map((v) => v.toJson()).toList();
     }

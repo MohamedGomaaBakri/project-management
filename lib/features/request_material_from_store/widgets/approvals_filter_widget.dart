@@ -306,7 +306,7 @@ class _TeamDropdownField extends StatelessWidget {
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
-                      name,
+                      '$name - ${team.teamNo}',
                       style: const TextStyle(fontSize: 14),
                       overflow: TextOverflow.ellipsis,
                     ),

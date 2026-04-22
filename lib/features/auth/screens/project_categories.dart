@@ -250,13 +250,14 @@ class _ProjectCategoriesState extends State<ProjectCategories>
                                           },
                                           showNotifications: false,
                                         ),
-                                      // امر عمل مقايسة - MobileTenderFlag
+                                      // امر عمل صيانه - MobileTenderFlag
                                       if (perms == null ||
                                           perms.mobileTenderFlag == 1)
                                         _buildCategoryCard(
                                           context,
-                                          title: l10n.workOrderQuotation,
-                                          subtitle: l10n.workOrderQuotationDesc,
+                                          title: l10n.workOrderMaintenance,
+                                          subtitle:
+                                              l10n.workOrderMaintenanceDesc,
                                           icon: Icons.description,
                                           gradientColors: [
                                             const Color(0xFF3B82F6),
@@ -290,14 +291,13 @@ class _ProjectCategoriesState extends State<ProjectCategories>
                                           },
                                           showNotifications: false,
                                         ),
-                                      // امر عمل صيانة - MobileMainFlag
+                                      // امر عمل مقايسه - MobileMainFlag
                                       if (perms == null ||
                                           perms.mobileMainFlag == 1)
                                         _buildCategoryCard(
                                           context,
-                                          title: l10n.workOrderMaintenance,
-                                          subtitle:
-                                              l10n.workOrderMaintenanceDesc,
+                                          title: l10n.workOrderQuotation,
+                                          subtitle: l10n.workOrderQuotationDesc,
                                           icon: Icons.build,
                                           gradientColors: [
                                             const Color(0xFFF59E0B),

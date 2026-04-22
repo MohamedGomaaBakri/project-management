@@ -11,10 +11,11 @@ import 'package:shehabapp/core/models/teams_model.dart';
 class RequestMaterialFromStoreService {
   Future<TasksAndApprovalsModel> getTasksAndApprovals({
     required int teamCode,
+    required dynamic teamType,
   }) async {
     try {
       final url =
-          '${ApiConstants.baseUrl}${ApiConstants.getTasksAndApprovals}$teamCode';
+          '${ApiConstants.baseUrl}${ApiConstants.getTasksAndApprovals}$teamCode;TeamType=$teamType';
       log('🔵 Request URL: $url', name: 'RequestMaterialFromStoreService');
 
       final response = await http.get(
@@ -235,6 +236,7 @@ class RequestMaterialFromStoreService {
 
   Future<void> addOneTasksAndApprovals({
     required int teamCode,
+    required dynamic teamType,
     required int serial,
     required String trnsDate,
     required int bandCode,
@@ -253,6 +255,7 @@ class RequestMaterialFromStoreService {
       // Log request body before sending
       final requestBody = jsonEncode({
         "TeamCode": teamCode,
+        "TeamType": teamType,
         "Serial": serial,
         "TrnsDate": trnsDate,
         "BandCode": bandCode,
