@@ -535,9 +535,9 @@ class _RequestInfoSection extends StatelessWidget {
         : (item.projectNameE ?? '');
     final contractNo = item.contractNo ?? '';
     final description = isArabic ? (item.descA ?? '') : (item.descE ?? '');
-    final insertUserName = isArabic
-        ? (item.insertUserNameA ?? '')
-        : (item.insertUserNameE ?? '');
+    // final insertUserName = isArabic
+    //     ? (item.insertUserNameA ?? '')
+    //     : (item.insertUserNameE ?? '');
     final statusName = isArabic
         ? (item.statusNameA ?? '')
         : (item.statusNameE ?? '');
