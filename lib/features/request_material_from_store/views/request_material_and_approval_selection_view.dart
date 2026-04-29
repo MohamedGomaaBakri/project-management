@@ -4,6 +4,7 @@ import 'package:shehabapp/core/providers/auth_provider.dart';
 import 'package:shehabapp/core/providers/locale_provider.dart';
 import 'package:shehabapp/features/Maintenance%20work%20order/widgets/selection_card_widget.dart';
 import 'package:shehabapp/features/request_material_from_store/views/Disbursement_requests.dart';
+import 'package:shehabapp/features/request_material_from_store/views/materials_approvals_view.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
 class RequestMaterialAndApprovalSelectionView extends StatefulWidget {
@@ -262,7 +263,10 @@ class _RequestMaterialAndApprovalBody extends StatelessWidget {
                         icon: Icons.verified_rounded,
                         gradient: const [Color(0xFF10B981), Color(0xFF059669)],
                         onTap: () {
-                          // TODO: Navigate to Approval View
+                          Navigator.pushNamed(
+                            context,
+                            MaterialsApprovalsView.routeName,
+                          );
                         },
                       ),
                     ),

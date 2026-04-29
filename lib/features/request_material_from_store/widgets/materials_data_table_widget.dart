@@ -17,8 +17,13 @@ import 'package:shehabapp/features/request_material_from_store/views/one_diburse
 ///   2 → light red    (مرفوض)
 class MaterialsDataTableWidget extends StatelessWidget {
   final List<Items> items;
+  final void Function(Items)? onRowTapped;
 
-  const MaterialsDataTableWidget({super.key, required this.items});
+  const MaterialsDataTableWidget({
+    super.key,
+    required this.items,
+    this.onRowTapped,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +131,15 @@ class MaterialsDataTableWidget extends StatelessWidget {
     return DataRow(
       color: WidgetStateProperty.all(rowColor),
       onSelectChanged: (_) {
-        Navigator.pushNamed(
-          context,
-          OneDibursementRequestDetailsView.routeName,
-          arguments: item,
-        );
+        if (onRowTapped != null) {
+          onRowTapped!(item);
+        } else {
+          Navigator.pushNamed(
+            context,
+            OneDibursementRequestDetailsView.routeName,
+            arguments: item,
+          );
+        }
       },
       cells: [
         // م — serial

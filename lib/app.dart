@@ -35,6 +35,8 @@ import 'package:shehabapp/features/request_material_from_store/views/request_mat
 import 'package:shehabapp/features/request_material_from_store/views/Disbursement_requests.dart';
 import 'package:shehabapp/features/request_material_from_store/views/one_dibursement_request_details_view.dart';
 import 'package:shehabapp/features/request_material_from_store/views/add_material_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/materials_approvals_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/request_material_approval_details.dart';
 import 'package:shehabapp/features/resignations/screens/resignation_request_details_screen.dart';
 import 'package:shehabapp/features/resignations/screens/resignation_requests_list_screen.dart';
 import 'package:shehabapp/features/task_details/project_details_view.dart';
@@ -223,6 +225,10 @@ class MyApp extends StatelessWidget {
                     initialItem: ModalRoute.of(context)!.settings.arguments as dynamic,
                   ),
               AddMaterialView.routeName: (context) => const AddMaterialView(),
+              MaterialsApprovalsView.routeName: (context) => const MaterialsApprovalsView(),
+              RequestMaterialApprovalDetails.routeName: (context) => RequestMaterialApprovalDetails(
+                    initialItem: ModalRoute.of(context)!.settings.arguments as dynamic,
+                  ),
               NotificationsView.routeName: (context) => NotificationsView(
                 projectId: ModalRoute.of(context)!.settings.arguments as int,
                 partId: ModalRoute.of(context)!.settings.arguments as int,
