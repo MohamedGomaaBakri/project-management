@@ -2060,4 +2060,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get rejectActionSuccess => 'Rejected successfully';
+
+  @override
+  String get disbursementRequestsSelection => 'Disbursement Requests';
+
+  @override
+  String get disbursementRequestsSelectionDesc =>
+      'View and manage disbursement requests';
 }

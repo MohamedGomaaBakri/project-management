@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:shehabapp/core/models/attachment_model.dart';
-import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
+import 'package:shehabapp/core/providers/maintenance_work_order_provider.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 import 'rm_add_attachment_bottom_sheet.dart';
 
@@ -22,7 +22,8 @@ class RMAttachmentBottomSheet extends StatefulWidget {
   });
 
   @override
-  State<RMAttachmentBottomSheet> createState() => _RMAttachmentBottomSheetState();
+  State<RMAttachmentBottomSheet> createState() =>
+      _RMAttachmentBottomSheetState();
 }
 
 class _RMAttachmentBottomSheetState extends State<RMAttachmentBottomSheet>
@@ -61,7 +62,7 @@ class _RMAttachmentBottomSheetState extends State<RMAttachmentBottomSheet>
   }
 
   Future<void> _refreshAttachments() async {
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
+    final provider = Provider.of<MaintenanceWorkOrderProvider>(
       context,
       listen: false,
     );
@@ -189,13 +190,11 @@ class _RMAttachmentBottomSheetState extends State<RMAttachmentBottomSheet>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
 
-    return Consumer<RequestMaterialFromStoreProvider>(
+    return Consumer<MaintenanceWorkOrderProvider>(
       builder: (context, provider, child) {
         // Use provider data if available, otherwise fallback to widget data
         final items =
-            provider.attatchments?.items ??
-            widget.attachmentData?.items ??
-            [];
+            provider.attatchments?.items ?? widget.attachmentData?.items ?? [];
 
         return FadeTransition(
           opacity: _fadeAnimation,

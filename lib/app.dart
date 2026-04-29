@@ -16,12 +16,12 @@ import 'package:shehabapp/features/display_notifications/display_notifications_v
 import 'package:shehabapp/features/loans/screens/loan_request_details_screen.dart';
 import 'package:shehabapp/features/loans/screens/loan_requests_list_screen.dart';
 import 'package:shehabapp/features/management/views/management_view.dart';
-import 'package:shehabapp/features/request_material_from_store/views/task_and_approval_selection_view.dart';
-import 'package:shehabapp/features/request_material_from_store/views/tasks_data_view.dart';
-import 'package:shehabapp/features/request_material_from_store/views/approvals_view.dart';
-import 'package:shehabapp/features/request_material_from_store/views/approval_detail_view.dart';
-import 'package:shehabapp/features/request_material_from_store/views/one_task_details_view.dart';
-import 'package:shehabapp/features/request_material_from_store/views/add_task_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/task_and_approval_selection_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/tasks_data_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/approvals_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/approval_detail_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/add_task_view.dart';
+import 'package:shehabapp/core/providers/maintenance_work_order_provider.dart';
 import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
 import 'package:shehabapp/features/management/views/mng_daily_tasks_view.dart';
 import 'package:shehabapp/features/management/views/mng_notification_details_view.dart';
@@ -31,6 +31,10 @@ import 'package:shehabapp/features/permissions/screens/my_requests/my_permission
 import 'package:shehabapp/features/permissions/screens/my_requests/new_permission_request_screen.dart';
 import 'package:shehabapp/features/permissions/screens/permission_request_details_screen.dart';
 import 'package:shehabapp/features/permissions/screens/permission_requests_list_screen.dart';
+import 'package:shehabapp/features/request_material_from_store/views/request_material_and_approval_selection_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/Disbursement_requests.dart';
+import 'package:shehabapp/features/request_material_from_store/views/one_dibursement_request_details_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/add_material_view.dart';
 import 'package:shehabapp/features/resignations/screens/resignation_request_details_screen.dart';
 import 'package:shehabapp/features/resignations/screens/resignation_requests_list_screen.dart';
 import 'package:shehabapp/features/task_details/project_details_view.dart';
@@ -110,6 +114,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ManagementProvider()),
 
         ChangeNotifierProvider(create: (_) => BandItemsProvider()),
+        ChangeNotifierProvider(create: (_) => MaintenanceWorkOrderProvider()),
         ChangeNotifierProvider(
           create: (_) => RequestMaterialFromStoreProvider(),
         ),
@@ -208,6 +213,16 @@ class MyApp extends StatelessWidget {
               // Project Details Screen
               ProjectDetailsView.routeName: (context) =>
                   const ProjectDetailsView(),
+
+              RequestMaterialAndApprovalSelectionView.routeName: (context) =>
+                  const RequestMaterialAndApprovalSelectionView(),
+              DisbursementRequests.routeName: (context) =>
+                  const DisbursementRequests(),
+              OneDibursementRequestDetailsView.routeName: (context) =>
+                  OneDibursementRequestDetailsView(
+                    initialItem: ModalRoute.of(context)!.settings.arguments as dynamic,
+                  ),
+              AddMaterialView.routeName: (context) => const AddMaterialView(),
               NotificationsView.routeName: (context) => NotificationsView(
                 projectId: ModalRoute.of(context)!.settings.arguments as int,
                 partId: ModalRoute.of(context)!.settings.arguments as int,
@@ -224,11 +239,10 @@ class MyApp extends StatelessWidget {
               TasksDataView.routeName: (context) => const TasksDataView(),
               AddTaskView.routeName: (context) => const AddTaskView(),
               ApprovalsView.routeName: (context) => const ApprovalsView(),
-              ApprovalDetailView.routeName: (context) =>
-                  ApprovalDetailView(
-                    initialItem: ModalRoute.of(context)!.settings.arguments
-                        as dynamic,
-                  ),
+              ApprovalDetailView.routeName: (context) => ApprovalDetailView(
+                initialItem:
+                    ModalRoute.of(context)!.settings.arguments as dynamic,
+              ),
               MngNotificationView.routeName: (context) =>
                   const MngNotificationView(),
               MngNotificationDetailsView.routeName: (context) {

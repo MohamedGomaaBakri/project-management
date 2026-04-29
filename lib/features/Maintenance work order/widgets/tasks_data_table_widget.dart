@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shehabapp/core/models/task_and_approvals_model.dart';
-import 'package:shehabapp/features/request_material_from_store/views/one_task_details_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/one_task_details_view.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
 /// Data table that displays the material-request items.
@@ -110,9 +110,7 @@ class TasksDataTableWidget extends StatelessWidget {
     required bool isArabic,
     required AppLocalizations l10n,
   }) {
-    final bandName = isArabic
-        ? (item.bandNameA ?? '')
-        : (item.bandNameE ?? '');
+    final bandName = isArabic ? (item.bandNameA ?? '') : (item.bandNameE ?? '');
     final teamName = isArabic
         ? (item.teamsNameA ?? '')
         : (item.teamsNameE ?? '');

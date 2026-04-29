@@ -4111,6 +4111,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'تم الرفض بنجاح'**
   String get rejectActionSuccess;
+
+  /// No description provided for @disbursementRequestsSelection.
+  ///
+  /// In ar, this message translates to:
+  /// **'طلبات الصرف'**
+  String get disbursementRequestsSelection;
+
+  /// No description provided for @disbursementRequestsSelectionDesc.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض وإدارة طلبات الصرف'**
+  String get disbursementRequestsSelectionDesc;
 }
 
 class _AppLocalizationsDelegate

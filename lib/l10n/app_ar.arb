@@ -688,5 +688,7 @@
     "approvalBtnReject": "رفض",
     "approvalActionSuccess": "تم الاعتماد بنجاح",
     "cancelApprovalActionSuccess": "تم إلغاء الاعتماد بنجاح",
-    "rejectActionSuccess": "تم الرفض بنجاح"
+    "rejectActionSuccess": "تم الرفض بنجاح",
+    "disbursementRequestsSelection": "طلبات الصرف",
+    "disbursementRequestsSelectionDesc": "عرض وإدارة طلبات الصرف"
 }

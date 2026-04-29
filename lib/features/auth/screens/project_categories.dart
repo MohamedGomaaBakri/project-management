@@ -5,7 +5,8 @@ import 'package:provider/provider.dart';
 import 'package:shehabapp/features/daily_tasks/daily_tasks_screen.dart';
 import 'package:shehabapp/features/display_notifications/display_notifications_view.dart';
 import 'package:shehabapp/features/management/views/management_view.dart';
-import 'package:shehabapp/features/request_material_from_store/views/task_and_approval_selection_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/task_and_approval_selection_view.dart';
+import 'package:shehabapp/features/request_material_from_store/views/request_material_and_approval_selection_view.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/providers/locale_provider.dart';
 import '../../../core/providers/auth_provider.dart';
@@ -251,28 +252,27 @@ class _ProjectCategoriesState extends State<ProjectCategories>
                                           showNotifications: false,
                                         ),
                                       // امر عمل صيانه - MobileTenderFlag
-                                      if (perms == null ||
-                                          perms.mobileTenderFlag == 1)
-                                        _buildCategoryCard(
-                                          context,
-                                          title: l10n.workOrderMaintenance,
-                                          subtitle:
-                                              l10n.workOrderMaintenanceDesc,
-                                          icon: Icons.description,
-                                          gradientColors: [
-                                            const Color(0xFF3B82F6),
-                                            const Color(0xFF2563EB),
-                                          ],
-                                          delay: 300,
-                                          onTap: () {
-                                            Navigator.pushNamed(
-                                              context,
-                                              TaskAndApprovalSelectionView
-                                                  .routeName,
-                                            );
-                                          },
-                                          showNotifications: false,
-                                        ),
+                                      // if (perms == null ||
+                                      //     perms.mobileTenderFlag == 1)
+                                      _buildCategoryCard(
+                                        context,
+                                        title: l10n.workOrderMaintenance,
+                                        subtitle: l10n.workOrderMaintenanceDesc,
+                                        icon: Icons.description,
+                                        gradientColors: [
+                                          const Color(0xFF3B82F6),
+                                          const Color(0xFF2563EB),
+                                        ],
+                                        delay: 300,
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            TaskAndApprovalSelectionView
+                                                .routeName,
+                                          );
+                                        },
+                                        showNotifications: false,
+                                      ),
                                       // امر عمل مشروع - MobileProjectFlag
                                       if (perms == null ||
                                           perms.mobileProjectFlag == 1)
@@ -292,23 +292,27 @@ class _ProjectCategoriesState extends State<ProjectCategories>
                                           showNotifications: false,
                                         ),
                                       // امر عمل مقايسه - MobileMainFlag
-                                      if (perms == null ||
-                                          perms.mobileMainFlag == 1)
-                                        _buildCategoryCard(
-                                          context,
-                                          title: l10n.workOrderQuotation,
-                                          subtitle: l10n.workOrderQuotationDesc,
-                                          icon: Icons.build,
-                                          gradientColors: [
-                                            const Color(0xFFF59E0B),
-                                            const Color(0xFFD97706),
-                                          ],
-                                          delay: 500,
-                                          onTap: () {
-                                            // TODO: Navigate to Work Order Maintenance
-                                          },
-                                          showNotifications: false,
-                                        ),
+                                      // if (perms == null ||
+                                      //     perms.mobileMainFlag == 1)
+                                      _buildCategoryCard(
+                                        context,
+                                        title: l10n.workOrderQuotation,
+                                        subtitle: l10n.workOrderQuotationDesc,
+                                        icon: Icons.build,
+                                        gradientColors: [
+                                          const Color(0xFFF59E0B),
+                                          const Color(0xFFD97706),
+                                        ],
+                                        delay: 500,
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            RequestMaterialAndApprovalSelectionView
+                                                .routeName,
+                                          );
+                                        },
+                                        showNotifications: false,
+                                      ),
                                     ],
                                   );
                                 },

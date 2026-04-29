@@ -5,7 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
-import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
+import 'package:shehabapp/core/providers/maintenance_work_order_provider.dart';
 import 'package:shehabapp/core/models/attachment_model.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
@@ -522,7 +522,7 @@ class _RMAddAttachmentBottomSheetState extends State<RMAddAttachmentBottomSheet>
                                 }
 
                                 final provider =
-                                    Provider.of<RequestMaterialFromStoreProvider>(
+                                    Provider.of<MaintenanceWorkOrderProvider>(
                                       context,
                                       listen: false,
                                     );
@@ -586,11 +586,15 @@ class _RMAddAttachmentBottomSheetState extends State<RMAddAttachmentBottomSheet>
 
                                   String errorMessage = e.toString();
                                   if (errorMessage.contains('Body:')) {
-                                    final bodyIndex = errorMessage.indexOf('Body:');
+                                    final bodyIndex = errorMessage.indexOf(
+                                      'Body:',
+                                    );
                                     errorMessage = errorMessage
                                         .substring(bodyIndex + 6)
                                         .trim();
-                                  } else if (errorMessage.contains('Exception:')) {
+                                  } else if (errorMessage.contains(
+                                    'Exception:',
+                                  )) {
                                     errorMessage = errorMessage
                                         .replaceAll('Exception:', '')
                                         .trim();
@@ -604,7 +608,9 @@ class _RMAddAttachmentBottomSheetState extends State<RMAddAttachmentBottomSheet>
                                               ? 'خطأ: $errorMessage'
                                               : 'Error: $errorMessage',
                                         ),
-                                        backgroundColor: const Color(0xFFEF4444),
+                                        backgroundColor: const Color(
+                                          0xFFEF4444,
+                                        ),
                                         behavior: SnackBarBehavior.floating,
                                         duration: const Duration(seconds: 5),
                                       ),

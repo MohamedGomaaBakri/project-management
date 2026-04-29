@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shehabapp/core/models/task_and_approvals_model.dart';
 import 'package:shehabapp/core/providers/auth_provider.dart';
 import 'package:shehabapp/core/providers/locale_provider.dart';
-import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
+import 'package:shehabapp/core/providers/maintenance_work_order_provider.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
 /// Detail screen for an approval item.
@@ -72,7 +72,7 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
 
   Future<void> _loadDetail() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
+    final provider = Provider.of<MaintenanceWorkOrderProvider>(
       context,
       listen: false,
     );
@@ -124,7 +124,7 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
   Future<void> _performAuth({required int authFlag}) async {
     final l10n = AppLocalizations.of(context)!;
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
+    final provider = Provider.of<MaintenanceWorkOrderProvider>(
       context,
       listen: false,
     );
@@ -260,7 +260,7 @@ class _ApprovalDetailViewState extends State<ApprovalDetailView>
                           topRight: Radius.circular(40),
                         ),
                       ),
-                      child: Consumer<RequestMaterialFromStoreProvider>(
+                      child: Consumer<MaintenanceWorkOrderProvider>(
                         builder: (context, provider, _) {
                           final item =
                               provider

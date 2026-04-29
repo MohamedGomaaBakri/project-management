@@ -2044,4 +2044,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get rejectActionSuccess => 'تم الرفض بنجاح';
+
+  @override
+  String get disbursementRequestsSelection => 'طلبات الصرف';
+
+  @override
+  String get disbursementRequestsSelectionDesc => 'عرض وإدارة طلبات الصرف';
 }

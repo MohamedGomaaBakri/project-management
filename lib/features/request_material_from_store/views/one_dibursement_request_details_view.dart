@@ -1,33 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shehabapp/core/models/task_and_approvals_model.dart';
+import 'package:shehabapp/core/models/materials_model.dart';
 import 'package:shehabapp/core/providers/auth_provider.dart';
 import 'package:shehabapp/core/providers/locale_provider.dart';
 import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
-import 'package:shehabapp/features/request_material_from_store/widgets/task_detail_widgets.dart';
+import 'package:shehabapp/features/request_material_from_store/widgets/material_detail_widgets.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
-/// Detail screen for a single material-request task item.
+/// Detail screen for a single material disbursement request item.
 ///
 /// Behaviour based on [Items.authFlag]:
-///   0 → editable (quantity + notes) + Delete button shown
+///   0 → editable (quantity) + Delete button (if applicable)
 ///   1 → fully read-only, no Save / Delete
-///   2 → editable (quantity + notes) but NO Delete button
-class OneTaskDetailsView extends StatefulWidget {
-  /// The task item tapped from the list. Used for initial display while the
-  /// detail API call completes.
+///   2 → editable (quantity) but NO Delete button
+class OneDibursementRequestDetailsView extends StatefulWidget {
   final Items initialItem;
 
-  const OneTaskDetailsView({super.key, required this.initialItem});
+  const OneDibursementRequestDetailsView({
+    super.key,
+    required this.initialItem,
+  });
 
-  static const String routeName = 'one_task_details_view';
+  static const String routeName = 'one_disbursement_request_details_view';
 
   @override
-  State<OneTaskDetailsView> createState() => _OneTaskDetailsViewState();
+  State<OneDibursementRequestDetailsView> createState() =>
+      _OneDibursementRequestDetailsViewState();
 }
 
-class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
+class _OneDibursementRequestDetailsViewState
+    extends State<OneDibursementRequestDetailsView>
     with TickerProviderStateMixin {
   // ── Animations ────────────────────────────────────────────────────────────
   late AnimationController _controller;
@@ -36,27 +39,19 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
 
   // ── Editable field controllers ────────────────────────────────────────────
   late TextEditingController _quantityController;
-  late TextEditingController _notesController;
 
   // ── Change tracking — Save button is only active when user edits ──────────
   bool _hasChanges = false;
   String _originalQuantity = '';
-  String _originalNotes = '';
 
   @override
   void initState() {
     super.initState();
 
-    // Init with initial item data immediately so screen isn't blank while loading
     _originalQuantity = widget.initialItem.quantity?.toString() ?? '';
-    _originalNotes = widget.initialItem.notes ?? '';
 
     _quantityController = TextEditingController(text: _originalQuantity);
-    _notesController = TextEditingController(text: _originalNotes);
-
-    // Listen for changes to enable/disable Save button
     _quantityController.addListener(_onFieldChanged);
-    _notesController.addListener(_onFieldChanged);
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 700),
@@ -80,32 +75,25 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
   void dispose() {
     _controller.dispose();
     _quantityController.removeListener(_onFieldChanged);
-    _notesController.removeListener(_onFieldChanged);
     _quantityController.dispose();
-    _notesController.dispose();
     super.dispose();
   }
 
   // ── Load single item detail ───────────────────────────────────────────────
 
   Future<void> _loadDetail() async {
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final provider = Provider.of<RequestMaterialFromStoreProvider>(
       context,
       listen: false,
     );
-    final teamCode = authProvider.currentUser?.teamCode ?? 0;
-    final serial = widget.initialItem.serial ?? 0;
+    final altKey = widget.initialItem.altKey ?? '';
 
-    await provider.getOneTasksAndApprovals(teamCode: teamCode, serial: serial);
+    await provider.fetchOneMaterial(altKey: altKey);
 
-    // Update controllers once fresh data arrives and reset change tracking
-    final item = provider.oneTaskAndApprovals?.items?.firstOrNull;
+    final item = provider.oneMaterialModel?.items?.firstOrNull;
     if (item != null && mounted) {
       _originalQuantity = item.quantity?.toString() ?? '';
-      _originalNotes = item.notes ?? '';
       _quantityController.text = _originalQuantity;
-      _notesController.text = _originalNotes;
       setState(() => _hasChanges = false);
     }
   }
@@ -113,9 +101,7 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
   // ── Change detection ──────────────────────────────────────────────────────
 
   void _onFieldChanged() {
-    final changed =
-        _quantityController.text.trim() != _originalQuantity.trim() ||
-        _notesController.text.trim() != _originalNotes.trim();
+    final changed = _quantityController.text.trim() != _originalQuantity.trim();
     if (changed != _hasChanges) {
       setState(() => _hasChanges = changed);
     }
@@ -133,39 +119,34 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
     }
   }
 
-  bool get _canEdit =>
-      widget.initialItem.authFlag == 0 || widget.initialItem.authFlag == 2;
+  bool get _canEdit => widget.initialItem.authFlag == 2;
 
-  bool get _canDelete => widget.initialItem.authFlag == 0;
-
-  bool get _isReadOnly => widget.initialItem.authFlag == 1;
+  bool get _isReadOnly => widget.initialItem.authFlag != 2;
 
   // ── Save ──────────────────────────────────────────────────────────────────
 
   Future<void> _performSave() async {
     final l10n = AppLocalizations.of(context)!;
-    // final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final provider = Provider.of<RequestMaterialFromStoreProvider>(
       context,
       listen: false,
     );
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     final item =
-        provider.oneTaskAndApprovals?.items?.firstOrNull ?? widget.initialItem;
-    // final teamCode = authProvider.currentUser?.teamCode ?? 0;
-    final qty = double.tryParse(_quantityController.text.trim()) ?? 0;
+        provider.oneMaterialModel?.items?.firstOrNull ?? widget.initialItem;
 
-    await provider.updateOneTasksAndApprovals(
+    final qty = _quantityController.text.trim();
+
+    await provider.updateOneMaterialAndApproval(
       altKey: item.altKey ?? '',
       trnsDate: item.trnsDate ?? '',
-      bandCode: item.bandCode ?? 0,
-      bandCodeDet: item.bandCodeDet ?? 0,
-      unitCode: item.unitCode ?? 0,
       quantity: qty,
-      notes: _notesController.text.trim(),
       authDesc: item.authDesc?.toString() ?? '',
-      // authUserName: item.authUserNameA?.toString() ?? '',
       authDate: item.authDate?.toString() ?? '',
+      authUser:
+          authProvider.currentUser?.usersName ??
+          '', // Or keep existing authUser if needed
       authFlag: item.authFlag ?? 0,
     );
 
@@ -201,131 +182,6 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
       if (mounted) Navigator.of(context).pop();
     } else {
       // Error
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              const Icon(
-                Icons.error_outline_rounded,
-                color: Colors.white,
-                size: 20,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  provider.errorMessage!,
-                  style: const TextStyle(fontWeight: FontWeight.w500),
-                ),
-              ),
-            ],
-          ),
-          backgroundColor: Colors.red[700],
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          duration: const Duration(seconds: 3),
-        ),
-      );
-    }
-  }
-
-  // ── Delete ────────────────────────────────────────────────────────────────
-
-  Future<void> _performDelete() async {
-    final l10n = AppLocalizations.of(context)!;
-    // Confirm dialog first
-    final confirmed = await showDialog<bool>(
-      context: context,
-      barrierDismissible: false,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Row(
-          children: [
-            Icon(Icons.warning_amber_rounded, color: Colors.red[600], size: 26),
-            const SizedBox(width: 10),
-            Text(
-              l10n.deleteConfirmTitle,
-              style: TextStyle(
-                color: Colors.red[700],
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-        content: Text(
-          l10n.deleteConfirmBody,
-          style: const TextStyle(fontSize: 14, height: 1.5),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(ctx).pop(false),
-            child: Text(
-              l10n.cancel,
-              style: const TextStyle(color: Colors.grey),
-            ),
-          ),
-          ElevatedButton(
-            onPressed: () => Navigator.of(ctx).pop(true),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red[600],
-              foregroundColor: Colors.white,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: Text(
-              l10n.btnDelete,
-              style: const TextStyle(fontWeight: FontWeight.bold),
-            ),
-          ),
-        ],
-      ),
-    );
-
-    if (confirmed != true || !mounted) return;
-
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
-      context,
-      listen: false,
-    );
-    final item =
-        provider.oneTaskAndApprovals?.items?.firstOrNull ?? widget.initialItem;
-    final teamCode = authProvider.currentUser?.teamCode ?? 0;
-
-    await provider.deleteOneTasksAndApprovals(altKey: item.altKey ?? '');
-
-    if (!mounted) return;
-
-    if (provider.errorMessage == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              const Icon(
-                Icons.check_circle_rounded,
-                color: Colors.white,
-                size: 20,
-              ),
-              const SizedBox(width: 10),
-              Text(
-                l10n.deleteSuccess,
-                style: const TextStyle(fontWeight: FontWeight.bold),
-              ),
-            ],
-          ),
-          backgroundColor: Colors.green[700],
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-          duration: const Duration(seconds: 2),
-        ),
-      );
-      await Future.delayed(const Duration(milliseconds: 1600));
-      if (mounted) Navigator.of(context).pop();
-    } else {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Row(
@@ -396,10 +252,7 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
                       child: Consumer<RequestMaterialFromStoreProvider>(
                         builder: (context, provider, _) {
                           final item =
-                              provider
-                                  .oneTaskAndApprovals
-                                  ?.items
-                                  ?.firstOrNull ??
+                              provider.oneMaterialModel?.items?.firstOrNull ??
                               widget.initialItem;
 
                           return Stack(
@@ -410,7 +263,6 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
                                   20,
                                   24,
                                   20,
-                                  // Space for bottom buttons
                                   _canEdit ? 120 : 40,
                                 ),
                                 child: Column(
@@ -428,13 +280,13 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
 
                                     const SizedBox(height: 8),
 
-                                    // ── Read-only notice banner ────────
+                                    // Read-only notice banner
                                     if (_isReadOnly)
                                       _ReadOnlyBanner(l10n: l10n),
 
                                     if (_isReadOnly) const SizedBox(height: 16),
 
-                                    // ── Section 1: Request Info ────────
+                                    // Section 1: Request Info
                                     _RequestInfoSection(
                                       item: item,
                                       l10n: l10n,
@@ -445,12 +297,11 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
                                           'ar',
                                       formatDate: _formatDate,
                                       quantityController: _quantityController,
-                                      notesController: _notesController,
                                       isReadOnly: _isReadOnly,
                                     ),
                                     const SizedBox(height: 20),
 
-                                    // ── Section 2: Approval Info ───────
+                                    // Section 2: Approval Info
                                     _ApprovalInfoSection(
                                       item: item,
                                       l10n: l10n,
@@ -465,7 +316,7 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
                                 ),
                               ),
 
-                              // ── Pinned action buttons ──────────────
+                              // Pinned action buttons
                               if (_canEdit)
                                 Positioned(
                                   bottom: 0,
@@ -473,11 +324,9 @@ class _OneTaskDetailsViewState extends State<OneTaskDetailsView>
                                   right: 0,
                                   child: _ActionButtons(
                                     l10n: l10n,
-                                    canDelete: _canDelete,
                                     hasChanges: _hasChanges,
                                     isSaving: provider.isLoading,
                                     onSave: _performSave,
-                                    onDelete: _performDelete,
                                   ),
                                 ),
                             ],
@@ -527,7 +376,7 @@ class _DetailHeader extends StatelessWidget {
           ),
 
           Text(
-            l10n.taskDetailsViewTitle,
+            l10n.taskDetailsViewTitle, // Re-use or define new string if needed
             style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -538,7 +387,7 @@ class _DetailHeader extends StatelessWidget {
           // Language toggle
           Consumer<LocaleProvider>(
             builder: (context, provider, _) {
-              final isArabic = provider.locale?.languageCode == 'ar';
+              final isArabic = provider.locale.languageCode == 'ar';
               return GestureDetector(
                 onTap: () => provider.setLocale(Locale(isArabic ? 'en' : 'ar')),
                 child: Container(
@@ -587,8 +436,8 @@ class _StatusBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final isArabic = Localizations.localeOf(context).languageCode == 'ar';
     final statusText = isArabic
-        ? (item.authStatusA ?? '')
-        : (item.authStatusE ?? '');
+        ? (item.authNameA ?? '')
+        : (item.authNameE ?? '');
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -613,7 +462,10 @@ class _StatusBanner extends StatelessWidget {
         ),
 
         // Auth status badge
-        AuthStatusBadge(authFlag: item.authFlag, statusText: statusText),
+        MaterialAuthStatusBadge(
+          authFlag: item.authFlag,
+          statusText: statusText,
+        ),
       ],
     );
   }
@@ -663,7 +515,6 @@ class _RequestInfoSection extends StatelessWidget {
   final bool isArabic;
   final String Function(dynamic) formatDate;
   final TextEditingController quantityController;
-  final TextEditingController notesController;
   final bool isReadOnly;
 
   const _RequestInfoSection({
@@ -672,45 +523,68 @@ class _RequestInfoSection extends StatelessWidget {
     required this.isArabic,
     required this.formatDate,
     required this.quantityController,
-    required this.notesController,
     required this.isReadOnly,
   });
 
   @override
   Widget build(BuildContext context) {
-    final bandName = isArabic ? (item.bandNameA ?? '') : (item.bandNameE ?? '');
+    final itemName = isArabic ? (item.itemNameA ?? '') : (item.itemNameE ?? '');
     final unitName = isArabic ? (item.unitNameA ?? '') : (item.unitNameE ?? '');
+    final projectName = isArabic
+        ? (item.projectNameA ?? '')
+        : (item.projectNameE ?? '');
+    final contractNo = item.contractNo ?? '';
+    final description = isArabic ? (item.descA ?? '') : (item.descE ?? '');
+    final insertUserName = isArabic
+        ? (item.insertUserNameA ?? '')
+        : (item.insertUserNameE ?? '');
+    final statusName = isArabic
+        ? (item.statusNameA ?? '')
+        : (item.statusNameE ?? '');
 
-    return DetailSectionCard(
-      title: l10n.sectionTaskInfo,
+    return MaterialDetailSectionCard(
+      title:
+          l10n.sectionTaskInfo, // Re-use or add sectionRequestInfo if available
       icon: Icons.assignment_rounded,
       accentColor: const Color(0xFF4F46E5),
       children: [
-        // Transaction Date
-        DetailInfoRow(
+        MaterialDetailInfoRow(
           label: l10n.detailTrnsDate,
           value: formatDate(item.trnsDate),
           icon: Icons.calendar_today_rounded,
         ),
-
-        // Band
-        DetailInfoRow(
-          label: l10n.detailBand,
-          value: bandName,
+        MaterialDetailInfoRow(
+          label: l10n.item,
+          value: itemName,
           icon: Icons.layers_rounded,
         ),
-
-        // Unit
-        DetailInfoRow(
+        MaterialDetailInfoRow(
           label: l10n.detailUnit,
           value: unitName,
           icon: Icons.straighten_rounded,
         ),
-
-        // Quantity & Notes — editable when allowed
-        EditableFieldsWidget(
+        MaterialDetailInfoRow(
+          label: isArabic ? 'رقم العقد' : 'Contract No',
+          value: contractNo,
+          icon: Icons.numbers_rounded,
+        ),
+        MaterialDetailInfoRow(
+          label: l10n.project, // Assuming l10n.project exists
+          value: projectName,
+          icon: Icons.business_rounded,
+        ),
+        MaterialDetailInfoRow(
+          label: isArabic ? 'البيان' : 'Description',
+          value: description,
+          icon: Icons.notes_rounded,
+        ),
+        MaterialDetailInfoRow(
+          label: l10n.status,
+          value: statusName,
+          icon: Icons.info_outline_rounded,
+        ),
+        MaterialEditableFieldsWidget(
           quantityController: quantityController,
-          notesController: notesController,
           isReadOnly: isReadOnly,
           l10n: l10n,
         ),
@@ -752,27 +626,34 @@ class _ApprovalInfoSection extends StatelessWidget {
         accentColor = Colors.orange;
     }
 
-    return DetailSectionCard(
+    return MaterialDetailSectionCard(
       title: l10n.sectionAuthInfo,
       icon: Icons.verified_rounded,
       accentColor: accentColor,
       children: [
-        // Auth description
-        DetailInfoRow(
+        MaterialDetailInfoRow(
+          label: isArabic ? 'مدخل الطلب' : 'Inserted By',
+          value: isArabic
+              ? (item.insertUserNameA ?? '')
+              : (item.insertUserNameE ?? ''),
+          icon: Icons.person_add_rounded,
+        ),
+        MaterialDetailInfoRow(
+          label: isArabic ? 'تاريخ الادخال' : 'Insert Date',
+          value: formatDate(item.insertDate),
+          icon: Icons.event_available_rounded,
+        ),
+        MaterialDetailInfoRow(
           label: l10n.detailAuthDesc,
           value: item.authDesc?.toString() ?? '',
           icon: Icons.description_rounded,
         ),
-
-        // Auth user
-        DetailInfoRow(
+        MaterialDetailInfoRow(
           label: l10n.detailAuthUser,
           value: authUserName,
           icon: Icons.person_rounded,
         ),
-
-        // Auth date
-        DetailInfoRow(
+        MaterialDetailInfoRow(
           label: l10n.detailAuthDate,
           value: formatDate(item.authDate),
           icon: Icons.event_rounded,
@@ -786,19 +667,15 @@ class _ApprovalInfoSection extends StatelessWidget {
 
 class _ActionButtons extends StatelessWidget {
   final AppLocalizations l10n;
-  final bool canDelete;
   final bool hasChanges;
   final bool isSaving;
   final VoidCallback onSave;
-  final VoidCallback onDelete;
 
   const _ActionButtons({
     required this.l10n,
-    required this.canDelete,
     required this.hasChanges,
     required this.isSaving,
     required this.onSave,
-    required this.onDelete,
   });
 
   @override
@@ -826,12 +703,6 @@ class _ActionButtons extends StatelessWidget {
               isSaving: isSaving,
             ),
           ),
-
-          if (canDelete) ...[
-            const SizedBox(width: 12),
-            // Delete button — only for authFlag == 0
-            _DeleteButton(l10n: l10n, onPressed: isSaving ? () {} : onDelete),
-          ],
         ],
       ),
     );
@@ -927,52 +798,6 @@ class _SaveButtonState extends State<_SaveButton> {
                   ),
                 ],
               ),
-      ),
-    );
-  }
-}
-
-class _DeleteButton extends StatefulWidget {
-  final AppLocalizations l10n;
-  final VoidCallback onPressed;
-  const _DeleteButton({required this.l10n, required this.onPressed});
-
-  @override
-  State<_DeleteButton> createState() => _DeleteButtonState();
-}
-
-class _DeleteButtonState extends State<_DeleteButton> {
-  bool _isPressed = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapUp: (_) {
-        setState(() => _isPressed = false);
-        Future.delayed(const Duration(milliseconds: 100), widget.onPressed);
-      },
-      onTapCancel: () => setState(() => _isPressed = false),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 180),
-        transform: Matrix4.identity()..scale(_isPressed ? 0.97 : 1.0),
-        height: 52,
-        width: 52,
-        decoration: BoxDecoration(
-          color: Colors.red.shade50,
-          borderRadius: BorderRadius.circular(14),
-          border: Border.all(color: Colors.red.shade300),
-          boxShadow: _isPressed
-              ? []
-              : [
-                  BoxShadow(
-                    color: Colors.red.withOpacity(0.15),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-        ),
-        child: Icon(Icons.delete_rounded, color: Colors.red[600], size: 24),
       ),
     );
   }

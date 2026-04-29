@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shehabapp/core/providers/auth_provider.dart';
 import 'package:shehabapp/core/providers/locale_provider.dart';
-import 'package:shehabapp/features/request_material_from_store/views/approvals_view.dart';
-import 'package:shehabapp/features/request_material_from_store/views/tasks_data_view.dart';
-import 'package:shehabapp/features/request_material_from_store/widgets/selection_card_widget.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/approvals_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/tasks_data_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/widgets/selection_card_widget.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
 /// Screen that lets the user choose between Tasks (المهام) and
@@ -248,10 +248,7 @@ class _TaskAndApprovalBody extends StatelessWidget {
                       icon: Icons.assignment_turned_in_rounded,
                       gradient: const [Color(0xFF4F46E5), Color(0xFF6366F1)],
                       onTap: () {
-                        Navigator.pushNamed(
-                          context,
-                          TasksDataView.routeName,
-                        );
+                        Navigator.pushNamed(context, TasksDataView.routeName);
                       },
                     ),
                   ),
@@ -267,10 +264,7 @@ class _TaskAndApprovalBody extends StatelessWidget {
                         icon: Icons.verified_rounded,
                         gradient: const [Color(0xFF10B981), Color(0xFF059669)],
                         onTap: () {
-                          Navigator.pushNamed(
-                            context,
-                            ApprovalsView.routeName,
-                          );
+                          Navigator.pushNamed(context, ApprovalsView.routeName);
                         },
                       ),
                     ),

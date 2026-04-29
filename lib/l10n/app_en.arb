@@ -688,5 +688,7 @@
     "approvalBtnReject": "Reject",
     "approvalActionSuccess": "Approved successfully",
     "cancelApprovalActionSuccess": "Approval cancelled successfully",
-    "rejectActionSuccess": "Rejected successfully"
+    "rejectActionSuccess": "Rejected successfully",
+    "disbursementRequestsSelection": "Disbursement Requests",
+    "disbursementRequestsSelectionDesc": "View and manage disbursement requests"
 }

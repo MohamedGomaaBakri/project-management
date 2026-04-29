@@ -1,30 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
-import 'package:shehabapp/core/models/task_and_approvals_model.dart';
+import 'package:shehabapp/core/models/materials_model.dart';
 import 'package:shehabapp/core/providers/auth_provider.dart';
 import 'package:shehabapp/core/providers/locale_provider.dart';
 import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
-import 'package:shehabapp/features/request_material_from_store/views/add_task_view.dart';
-import 'package:shehabapp/features/request_material_from_store/widgets/tasks_data_table_widget.dart';
-import 'package:shehabapp/features/request_material_from_store/widgets/tasks_filter_widget.dart';
+import 'package:shehabapp/features/request_material_from_store/widgets/materials_data_table_widget.dart';
+import 'package:shehabapp/features/request_material_from_store/widgets/materials_filter_widget.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
+import 'package:shehabapp/features/request_material_from_store/views/add_material_view.dart';
 
-/// Main screen that shows the material-request tasks list.
-///
-/// 1. Loads all data on init using the current user's teamCode.
-/// 2. Applies client-side filters (date + auth status) on search press.
-/// 3. Shows a colour-coded data table and a pinned Add button at the bottom.
-class TasksDataView extends StatefulWidget {
-  const TasksDataView({super.key});
+class DisbursementRequests extends StatefulWidget {
+  const DisbursementRequests({super.key});
 
-  static const String routeName = 'tasks_data_view';
+  static const String routeName = 'disbursement_requests_view';
 
   @override
-  State<TasksDataView> createState() => _TasksDataViewState();
+  State<DisbursementRequests> createState() => _DisbursementRequestsState();
 }
 
-class _TasksDataViewState extends State<TasksDataView>
+class _DisbursementRequestsState extends State<DisbursementRequests>
     with TickerProviderStateMixin {
   // ── Animations ────────────────────────────────────────────────────────────
   late AnimationController _controller;
@@ -34,6 +29,7 @@ class _TasksDataViewState extends State<TasksDataView>
   // ── Filter state ──────────────────────────────────────────────────────────
   DateTime? _selectedDate;
   AuthFilterStatus _selectedAuth = AuthFilterStatus.all;
+  StatusFilterFlag _selectedStatus = StatusFilterFlag.all;
 
   // ── Displayed rows (after local filter applied) ───────────────────────────
   List<Items> _displayedItems = [];
@@ -76,14 +72,14 @@ class _TasksDataViewState extends State<TasksDataView>
     );
 
     final teamCode = authProvider.currentUser?.teamCode ?? 0;
-    await provider.getTasksAndApprovals(
+    await provider.fetchMaterials(
       teamCode: teamCode,
       teamType: authProvider.currentUser?.teamType,
     );
 
     if (mounted) {
       setState(() {
-        _displayedItems = provider.tasksAndApprovals?.items ?? [];
+        _displayedItems = provider.materialsModel?.items ?? [];
       });
     }
   }
@@ -95,7 +91,7 @@ class _TasksDataViewState extends State<TasksDataView>
       context,
       listen: false,
     );
-    final allItems = provider.tasksAndApprovals?.items ?? [];
+    final allItems = provider.materialsModel?.items ?? [];
 
     final filtered = allItems.where((item) {
       // Date filter: match trnsDate prefix yyyy-MM-dd
@@ -109,6 +105,11 @@ class _TasksDataViewState extends State<TasksDataView>
         if (item.authFlag != _authFlagFor(_selectedAuth)) return false;
       }
 
+      // Status flag filter
+      if (_selectedStatus != StatusFilterFlag.all) {
+        if (item.statusFlag != _statusFlagFor(_selectedStatus)) return false;
+      }
+
       return true;
     }).toList();
 
@@ -119,6 +120,7 @@ class _TasksDataViewState extends State<TasksDataView>
     setState(() {
       _selectedDate = null;
       _selectedAuth = AuthFilterStatus.all;
+      _selectedStatus = StatusFilterFlag.all;
     });
     // Show all items after reset
     final provider = Provider.of<RequestMaterialFromStoreProvider>(
@@ -126,7 +128,7 @@ class _TasksDataViewState extends State<TasksDataView>
       listen: false,
     );
     setState(() {
-      _displayedItems = provider.tasksAndApprovals?.items ?? [];
+      _displayedItems = provider.materialsModel?.items ?? [];
     });
   }
 
@@ -138,6 +140,17 @@ class _TasksDataViewState extends State<TasksDataView>
         return 0;
       case AuthFilterStatus.rejected:
         return 2;
+      default:
+        return -1;
+    }
+  }
+
+  int _statusFlagFor(StatusFilterFlag status) {
+    switch (status) {
+      case StatusFilterFlag.done:
+        return 1;
+      case StatusFilterFlag.notDone:
+        return 0;
       default:
         return -1;
     }
@@ -196,7 +209,7 @@ class _TasksDataViewState extends State<TasksDataView>
                                   children: [
                                     // Screen title
                                     Text(
-                                      l10n.tasksDataTitle,
+                                      l10n.disbursementRequestsSelection,
                                       style: TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.bold,
@@ -206,13 +219,16 @@ class _TasksDataViewState extends State<TasksDataView>
                                     const SizedBox(height: 24),
 
                                     // Filter card
-                                    TasksFilterWidget(
+                                    MaterialsFilterWidget(
                                       selectedDate: _selectedDate,
                                       selectedAuth: _selectedAuth,
+                                      selectedStatus: _selectedStatus,
                                       onDateChanged: (d) =>
                                           setState(() => _selectedDate = d),
                                       onAuthChanged: (a) =>
                                           setState(() => _selectedAuth = a),
+                                      onStatusChanged: (s) =>
+                                          setState(() => _selectedStatus = s),
                                       onSearchPressed: _applyFilters,
                                       onResetPressed: _resetFilters,
                                     ),
@@ -247,7 +263,7 @@ class _TasksDataViewState extends State<TasksDataView>
                                         l10n: l10n,
                                       )
                                     else
-                                      TasksDataTableWidget(
+                                      MaterialsDataTableWidget(
                                         items: _displayedItems,
                                       ),
                                   ],
@@ -309,7 +325,7 @@ class _TasksHeader extends StatelessWidget {
 
           // Title
           Text(
-            l10n.tasksDataTitle,
+            l10n.disbursementRequestsSelection,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 20,
@@ -320,7 +336,7 @@ class _TasksHeader extends StatelessWidget {
           // Language toggle
           Consumer<LocaleProvider>(
             builder: (context, provider, _) {
-              final isArabic = provider.locale?.languageCode == 'ar';
+              final isArabic = provider.locale.languageCode == 'ar';
               return GestureDetector(
                 onTap: () => provider.setLocale(Locale(isArabic ? 'en' : 'ar')),
                 child: Container(
@@ -377,7 +393,7 @@ class _AddButtonState extends State<_AddButton> {
       onTapUp: (_) {
         setState(() => _isPressed = false);
         Future.delayed(const Duration(milliseconds: 100), () {
-          Navigator.pushNamed(context, AddTaskView.routeName);
+          Navigator.pushNamed(context, AddMaterialView.routeName);
         });
       },
       onTapCancel: () => setState(() => _isPressed = false),

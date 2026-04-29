@@ -5,11 +5,11 @@ import 'package:shehabapp/core/models/task_and_approvals_model.dart';
 import 'package:shehabapp/core/models/teams_model.dart' as teams_model;
 import 'package:shehabapp/core/providers/auth_provider.dart';
 import 'package:shehabapp/core/providers/locale_provider.dart';
-import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
-import 'package:shehabapp/features/request_material_from_store/views/approval_detail_view.dart';
-import 'package:shehabapp/features/request_material_from_store/widgets/approvals_data_table_widget.dart';
-import 'package:shehabapp/features/request_material_from_store/widgets/approvals_filter_widget.dart';
-import 'package:shehabapp/features/request_material_from_store/widgets/tasks_filter_widget.dart';
+import 'package:shehabapp/core/providers/maintenance_work_order_provider.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/views/approval_detail_view.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/widgets/approvals_data_table_widget.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/widgets/approvals_filter_widget.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/widgets/tasks_filter_widget.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
 /// Approvals management screen.
@@ -76,7 +76,7 @@ class _ApprovalsViewState extends State<ApprovalsView>
 
   Future<void> _loadData() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
+    final provider = Provider.of<MaintenanceWorkOrderProvider>(
       context,
       listen: false,
     );
@@ -102,7 +102,7 @@ class _ApprovalsViewState extends State<ApprovalsView>
   // ── Filter logic (client-side) ──────────────────────────────────────────────
 
   void _applyFilters() {
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
+    final provider = Provider.of<MaintenanceWorkOrderProvider>(
       context,
       listen: false,
     );
@@ -137,7 +137,7 @@ class _ApprovalsViewState extends State<ApprovalsView>
       _selectedAuth = AuthFilterStatus.all;
       _selectedTeam = null;
     });
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
+    final provider = Provider.of<MaintenanceWorkOrderProvider>(
       context,
       listen: false,
     );
@@ -197,7 +197,7 @@ class _ApprovalsViewState extends State<ApprovalsView>
                           topRight: Radius.circular(40),
                         ),
                       ),
-                      child: Consumer<RequestMaterialFromStoreProvider>(
+                      child: Consumer<MaintenanceWorkOrderProvider>(
                         builder: (context, provider, _) {
                           final teams =
                               provider.teams?.items ?? <teams_model.Items>[];

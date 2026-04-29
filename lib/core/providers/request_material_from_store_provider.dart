@@ -1,34 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:shehabapp/core/models/attachment_model.dart';
-import 'package:shehabapp/core/models/band_list_model.dart';
-import 'package:shehabapp/core/models/task_and_approvals_model.dart';
-import 'package:shehabapp/core/models/teams_model.dart';
+import 'package:shehabapp/core/models/material_projects_model.dart';
+import 'package:shehabapp/core/models/materials_model.dart';
+import 'package:shehabapp/core/models/project_items_model.dart';
 import 'package:shehabapp/core/services/request_material_from_store_service.dart';
 
 class RequestMaterialFromStoreProvider extends ChangeNotifier {
   final RequestMaterialFromStoreService _service =
       RequestMaterialFromStoreService();
 
-  TasksAndApprovalsModel? _tasksAndApprovals;
-  TasksAndApprovalsModel? _oneTaskAndApprovals;
-  AttatchmentModel? _attatchments;
-  int? _maxDocSerial;
-  BandListModel? _bandList;
-  TeamsModel? _teams;
-  TasksAndApprovalsModel? get tasksAndApprovals => _tasksAndApprovals;
-  TasksAndApprovalsModel? get oneTaskAndApprovals => _oneTaskAndApprovals;
-  int? get maxDocSerial => _maxDocSerial;
-  AttatchmentModel? get attatchments => _attatchments;
-  BandListModel? get bandList => _bandList;
-  TeamsModel? get teams => _teams;
+  MaterialsModel? _materialsModel;
+  MaterialsModel? _oneMaterialModel;
+  MaterialProjectsModel? _materialProjectsModel;
+  ProjectItemsModel? _projectItemsModel;
 
   bool _isLoading = false;
-  bool get isLoading => _isLoading;
-
   String? _errorMessage;
+
+  MaterialsModel? get materialsModel => _materialsModel;
+  MaterialsModel? get oneMaterialModel => _oneMaterialModel;
+  MaterialProjectsModel? get materialProjectsModel => _materialProjectsModel;
+  ProjectItemsModel? get projectItemsModel => _projectItemsModel;
+  bool get isLoading => _isLoading;
   String? get errorMessage => _errorMessage;
 
-  Future<void> getTasksAndApprovals({
+  Future<void> fetchMaterials({
     required int teamCode,
     required dynamic teamType,
   }) async {
@@ -37,10 +32,7 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      _tasksAndApprovals = await _service.getTasksAndApprovals(
-        teamCode: teamCode,
-        teamType: teamType,
-      );
+      _materialsModel = await _service.getMaterials();
     } catch (e) {
       _errorMessage = e.toString();
     } finally {
@@ -49,19 +41,13 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> getOneTasksAndApprovals({
-    required int teamCode,
-    required int serial,
-  }) async {
+  Future<void> fetchOneMaterial({required String altKey}) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      _oneTaskAndApprovals = await _service.getOneTasksAndApprovals(
-        teamCode: teamCode,
-        serial: serial,
-      );
+      _oneMaterialModel = await _service.getOneMaterial(altKey: altKey);
     } catch (e) {
       _errorMessage = e.toString();
     } finally {
@@ -70,17 +56,13 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> updateOneTasksAndApprovals({
+  Future<void> updateOneMaterialAndApproval({
     required String altKey,
     required String trnsDate,
-    required int bandCode,
-    required int bandCodeDet,
-    required int unitCode,
-    required double quantity,
-    required String notes,
     required String authDesc,
-    // required String authUserName,
     required String authDate,
+    required String authUser,
+    required String quantity,
     int? authFlag,
   }) async {
     _isLoading = true;
@@ -88,17 +70,13 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await _service.updateOneTasksAndApprovals(
+      await _service.updateOneMaterialAndApproval(
         altKey: altKey,
         trnsDate: trnsDate,
-        bandCode: bandCode,
-        bandCodeDet: bandCodeDet,
-        unitCode: unitCode,
-        quantity: quantity,
-        notes: notes,
         authDesc: authDesc,
-        // authUserName: authUserName,
         authDate: authDate,
+        authUser: authUser,
+        quantity: quantity,
         authFlag: authFlag,
       );
     } catch (e) {
@@ -109,146 +87,69 @@ class RequestMaterialFromStoreProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> addOneTasksAndApprovals({
-    required int teamCode,
-    required dynamic teamType,
+  Future<void> fetchMaterialProjects() async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      _materialProjectsModel = await _service.getProjects();
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> fetchProjectItems({required String projectId}) async {
+    _isLoading = true;
+    _errorMessage = null;
+    notifyListeners();
+
+    try {
+      _projectItemsModel = await _service.getProjectItems(projectId: projectId);
+    } catch (e) {
+      _errorMessage = e.toString();
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<void> addOneMaterialRequestAndApprovals({
+    required int projectId,
     required int serial,
     required String trnsDate,
-    required int bandCode,
-    required int bandCodeDet,
+    // required String bandBal,
+    required int itemCode,
     required int unitCode,
     required double quantity,
-    required String notes,
+    required String descA,
+    required String descE,
     required int insertUser,
     required String insertDate,
+    required int authFlag,
   }) async {
     _isLoading = true;
     _errorMessage = null;
     notifyListeners();
 
     try {
-      await _service.addOneTasksAndApprovals(
-        teamCode: teamCode,
-        teamType: teamType,
+      await _service.addOneMaterialRequestAndApprovals(
+        projectId: projectId,
         serial: serial,
         trnsDate: trnsDate,
-        bandCode: bandCode,
-        bandCodeDet: bandCodeDet,
+        // bandBal: bandBal,
+        itemCode: itemCode,
         unitCode: unitCode,
         quantity: quantity,
-        notes: notes,
+        descA: descA,
+        descE: descE,
         insertUser: insertUser,
         insertDate: insertDate,
+        authFlag: authFlag,
       );
-    } catch (e) {
-      _errorMessage = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> deleteOneTasksAndApprovals({required String altKey}) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      await _service.deleteOneTasksAndApprovals(altKey: altKey);
-    } catch (e) {
-      _errorMessage = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> getBandList({
-    required int teamCode,
-    required int teamType,
-  }) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      _bandList = await _service.getBandList(
-        teamCode: teamCode,
-        teamType: teamType,
-      );
-    } catch (e) {
-      _errorMessage = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> getAttatchments({
-    required String pk1,
-    required String pk2,
-  }) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      _attatchments = await _service.getTaskAttachment(pk1: pk1, pk2: pk2);
-    } catch (e) {
-      _errorMessage = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> getMaxDocSerial() async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      _maxDocSerial = await _service.getMaxDocSerial();
-    } catch (e) {
-      _errorMessage = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> uploadAttachment({
-    required String pk1,
-    required String pk2,
-    required String fileDesc,
-    required String fileContent,
-  }) async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      await _service.uploadAttachment(
-        pk1: pk1,
-        pk2: pk2,
-        fileDesc: fileDesc,
-        fileContent: fileContent,
-      );
-    } catch (e) {
-      _errorMessage = e.toString();
-    } finally {
-      _isLoading = false;
-      notifyListeners();
-    }
-  }
-
-  Future<void> getTeams() async {
-    _isLoading = true;
-    _errorMessage = null;
-    notifyListeners();
-
-    try {
-      _teams = await _service.getTeams();
     } catch (e) {
       _errorMessage = e.toString();
     } finally {

@@ -4,9 +4,9 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:shehabapp/core/providers/auth_provider.dart';
 import 'package:shehabapp/core/providers/locale_provider.dart';
-import 'package:shehabapp/core/providers/request_material_from_store_provider.dart';
+import 'package:shehabapp/core/providers/maintenance_work_order_provider.dart';
 import 'package:shehabapp/core/models/band_list_model.dart';
-import 'package:shehabapp/features/request_material_from_store/widgets/rm_attachment_bottom_sheet.dart';
+import 'package:shehabapp/features/Maintenance%20work%20order/widgets/rm_attachment_bottom_sheet.dart';
 import 'package:shehabapp/l10n/app_localizations.dart';
 
 class AddTaskView extends StatefulWidget {
@@ -57,7 +57,7 @@ class _AddTaskViewState extends State<AddTaskView>
 
   Future<void> _loadBands() async {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
+    final provider = Provider.of<MaintenanceWorkOrderProvider>(
       context,
       listen: false,
     );
@@ -137,7 +137,7 @@ class _AddTaskViewState extends State<AddTaskView>
     }
 
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final provider = Provider.of<RequestMaterialFromStoreProvider>(
+    final provider = Provider.of<MaintenanceWorkOrderProvider>(
       context,
       listen: false,
     );
@@ -226,7 +226,7 @@ class _AddTaskViewState extends State<AddTaskView>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
     final isAr = Localizations.localeOf(context).languageCode == 'ar';
-    final provider = context.watch<RequestMaterialFromStoreProvider>();
+    final provider = context.watch<MaintenanceWorkOrderProvider>();
 
     String unitName = '';
     if (_selectedBand != null) {
