@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shehabapp/core/models/items_model/item.dart';
@@ -29,8 +30,8 @@ class CreateItemSectionWidget extends StatelessWidget {
     final restQty = item?.restQty;
     final unitName = item != null
         ? (isArabic
-            ? (item.unitNameA ?? '')
-            : (item.unitNameE ?? item.unitNameA ?? ''))
+              ? (item.unitNameA ?? '')
+              : (item.unitNameE ?? item.unitNameA ?? ''))
         : '—';
 
     return Column(
@@ -39,49 +40,120 @@ class CreateItemSectionWidget extends StatelessWidget {
         // ── Item Dropdown ─────────────────────────────────────
         _FieldLabel(label: l10n.selectItem, required: true),
         const SizedBox(height: 6),
-        Container(
-          decoration: _inputDecoration(
-            hasFocus: item != null,
-            focusColor: const Color(0xFFF97316),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<Item>(
-              value: item,
-              isExpanded: true,
-              hint: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Text(
-                  l10n.selectItem,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 14),
+        DropdownSearch<Item>(
+          items: (filter, _) => items.where((it) {
+            final name = isArabic
+                ? (it.itemNameA ?? '')
+                : (it.itemNameE?.toString() ?? it.itemNameA ?? '');
+            return name.toLowerCase().contains(filter.toLowerCase());
+          }).toList(),
+          selectedItem: item,
+          itemAsString: (it) => isArabic
+              ? (it.itemNameA ?? '')
+              : (it.itemNameE?.toString() ?? it.itemNameA ?? ''),
+          onChanged: onItemChanged,
+          compareFn: (a, b) => a.itemCode == b.itemCode,
+          decoratorProps: DropDownDecoratorProps(
+            decoration: InputDecoration(
+              hintText: l10n.selectItem,
+              hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
+              filled: true,
+              fillColor: Colors.grey[50],
+              suffixIcon: Icon(
+                Icons.arrow_drop_down_rounded,
+                color: Colors.grey[400],
+              ),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 14,
+                vertical: 13,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: Colors.grey.shade200),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(
+                  color: item != null
+                      ? const Color(0xFFF97316).withValues(alpha: 0.6)
+                      : Colors.grey.shade200,
+                  width: item != null ? 1.5 : 1.0,
                 ),
               ),
-              icon: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(Icons.arrow_drop_down_rounded,
-                    color: Colors.grey[400]),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: const BorderSide(
+                  color: Color(0xFFF97316),
+                  width: 1.5,
+                ),
               ),
-              borderRadius: BorderRadius.circular(14),
-              items: items.map((it) {
-                final name = isArabic
-                    ? (it.itemNameA ?? '')
-                    : (it.itemNameE?.toString() ?? it.itemNameA ?? '');
-                return DropdownMenuItem<Item>(
-                  value: it,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF1E293B),
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                );
-              }).toList(),
-              onChanged: onItemChanged,
             ),
+          ),
+          popupProps: PopupProps.menu(
+            showSearchBox: true,
+            searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(
+                hintText: l10n.searchHint,
+                hintStyle: TextStyle(color: Colors.grey[400], fontSize: 13),
+                prefixIcon: const Icon(
+                  Icons.search_rounded,
+                  color: Color(0xFFF97316),
+                  size: 20,
+                ),
+                filled: true,
+                fillColor: Colors.grey[50],
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 10,
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey.shade200),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey.shade200),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                    color: Color(0xFFF97316),
+                    width: 1.5,
+                  ),
+                ),
+              ),
+            ),
+            menuProps: MenuProps(
+              borderRadius: BorderRadius.circular(14),
+              elevation: 8,
+            ),
+            itemBuilder: (context, it, isDisabled, isSelected) {
+              final name = isArabic
+                  ? (it.itemNameA ?? '')
+                  : (it.itemNameE?.toString() ?? it.itemNameA ?? '');
+              return ListTile(
+                title: Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isSelected
+                        ? const Color(0xFFF97316)
+                        : const Color(0xFF1E293B),
+                    fontWeight: isSelected
+                        ? FontWeight.w600
+                        : FontWeight.normal,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: isSelected
+                    ? const Icon(
+                        Icons.check_circle_rounded,
+                        color: Color(0xFFF97316),
+                        size: 18,
+                      )
+                    : null,
+              );
+            },
           ),
         ),
         const SizedBox(height: 16),
@@ -132,8 +204,10 @@ class CreateItemSectionWidget extends StatelessWidget {
               color: Color(0xFFF97316),
               size: 20,
             ),
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 14,
+              vertical: 13,
+            ),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
               borderSide: BorderSide(color: Colors.grey.shade200),
@@ -144,18 +218,24 @@ class CreateItemSectionWidget extends StatelessWidget {
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide:
-                  const BorderSide(color: Color(0xFFF97316), width: 1.5),
+              borderSide: const BorderSide(
+                color: Color(0xFFF97316),
+                width: 1.5,
+              ),
             ),
             errorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide:
-                  const BorderSide(color: Color(0xFFEF4444), width: 1.5),
+              borderSide: const BorderSide(
+                color: Color(0xFFEF4444),
+                width: 1.5,
+              ),
             ),
             focusedErrorBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
-              borderSide:
-                  const BorderSide(color: Color(0xFFEF4444), width: 1.5),
+              borderSide: const BorderSide(
+                color: Color(0xFFEF4444),
+                width: 1.5,
+              ),
             ),
           ),
           validator: (value) {

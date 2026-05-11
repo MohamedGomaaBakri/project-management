@@ -4123,6 +4123,12 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'عرض وإدارة طلبات الصرف'**
   String get disbursementRequestsSelectionDesc;
+
+  /// No description provided for @searchHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'بحث...'**
+  String get searchHint;
 }
 
 class _AppLocalizationsDelegate

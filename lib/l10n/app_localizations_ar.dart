@@ -2050,4 +2050,7 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get disbursementRequestsSelectionDesc => 'عرض وإدارة طلبات الصرف';
+
+  @override
+  String get searchHint => 'بحث...';
 }

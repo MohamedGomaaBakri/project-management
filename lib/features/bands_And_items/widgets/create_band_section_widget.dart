@@ -1,3 +1,4 @@
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shehabapp/core/models/bands_model/item.dart';
@@ -42,49 +43,106 @@ class _CreateBandSectionWidgetState extends State<CreateBandSectionWidget> {
         // ── Band Dropdown ─────────────────────────────────────
         _FieldLabel(label: l10n.selectBand, required: true),
         const SizedBox(height: 6),
-        Container(
-          decoration: _inputDecoration(
-            hasFocus: band != null,
-            focusColor: const Color(0xFF4F46E5),
-          ),
-          child: DropdownButtonHideUnderline(
-            child: DropdownButton<Band>(
-              value: band,
-              isExpanded: true,
-              hint: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 14),
-                child: Text(
-                  l10n.selectBand,
-                  style: TextStyle(color: Colors.grey[400], fontSize: 14),
-                ),
-              ),
-              icon: Padding(
-                padding: const EdgeInsets.only(right: 8),
-                child: Icon(Icons.arrow_drop_down_rounded,
-                    color: Colors.grey[400]),
-              ),
-              borderRadius: BorderRadius.circular(14),
-              items: widget.bands.map((b) {
+        DropdownSearch<Band>(
+          items: (filter, _) => widget.bands
+              .where((b) {
                 final name = widget.isArabic
                     ? (b.bandName ?? '')
                     : (b.bandNameE ?? b.bandName ?? '');
-                return DropdownMenuItem<Band>(
-                  value: b,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 14),
-                    child: Text(
-                      name,
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Color(0xFF1E293B),
-                      ),
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                );
-              }).toList(),
-              onChanged: widget.onBandChanged,
+                return name.toLowerCase().contains(filter.toLowerCase());
+              })
+              .toList(),
+          selectedItem: band,
+          itemAsString: (b) => widget.isArabic
+              ? (b.bandName ?? '')
+              : (b.bandNameE ?? b.bandName ?? ''),
+          onChanged: widget.onBandChanged,
+          compareFn: (a, b) => a.bandCode == b.bandCode,
+          decoratorProps: DropDownDecoratorProps(
+            decoration: InputDecoration(
+              hintText: l10n.selectBand,
+              hintStyle: TextStyle(color: Colors.grey[400], fontSize: 14),
+              filled: true,
+              fillColor: Colors.grey[50],
+              suffixIcon: Icon(Icons.arrow_drop_down_rounded,
+                  color: Colors.grey[400]),
+              contentPadding:
+                  const EdgeInsets.symmetric(horizontal: 14, vertical: 13),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(color: Colors.grey.shade200),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: BorderSide(
+                  color: band != null
+                      ? const Color(0xFF4F46E5).withValues(alpha: 0.6)
+                      : Colors.grey.shade200,
+                  width: band != null ? 1.5 : 1.0,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(14),
+                borderSide: const BorderSide(
+                    color: Color(0xFF4F46E5), width: 1.5),
+              ),
             ),
+          ),
+          popupProps: PopupProps.menu(
+            showSearchBox: true,
+            searchFieldProps: TextFieldProps(
+              decoration: InputDecoration(
+                hintText: l10n.searchHint,
+                hintStyle: TextStyle(color: Colors.grey[400], fontSize: 13),
+                prefixIcon: const Icon(Icons.search_rounded,
+                    color: Color(0xFF4F46E5), size: 20),
+                filled: true,
+                fillColor: Colors.grey[50],
+                contentPadding:
+                    const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey.shade200),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: BorderSide(color: Colors.grey.shade200),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                  borderSide: const BorderSide(
+                      color: Color(0xFF4F46E5), width: 1.5),
+                ),
+              ),
+            ),
+            menuProps: MenuProps(
+              borderRadius: BorderRadius.circular(14),
+              elevation: 8,
+            ),
+            itemBuilder: (context, item, isDisabled, isSelected) {
+              final name = widget.isArabic
+                  ? (item.bandName ?? '')
+                  : (item.bandNameE ?? item.bandName ?? '');
+              return ListTile(
+                title: Text(
+                  name,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: isSelected
+                        ? const Color(0xFF4F46E5)
+                        : const Color(0xFF1E293B),
+                    fontWeight: isSelected
+                        ? FontWeight.w600
+                        : FontWeight.normal,
+                  ),
+                  overflow: TextOverflow.ellipsis,
+                ),
+                trailing: isSelected
+                    ? const Icon(Icons.check_circle_rounded,
+                        color: Color(0xFF4F46E5), size: 18)
+                    : null,
+              );
+            },
           ),
         ),
         const SizedBox(height: 16),

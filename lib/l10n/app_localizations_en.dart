@@ -2067,4 +2067,7 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get disbursementRequestsSelectionDesc =>
       'View and manage disbursement requests';
+
+  @override
+  String get searchHint => 'Search...';
 }

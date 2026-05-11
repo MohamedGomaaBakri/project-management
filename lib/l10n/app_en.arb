@@ -690,5 +690,6 @@
     "cancelApprovalActionSuccess": "Approval cancelled successfully",
     "rejectActionSuccess": "Rejected successfully",
     "disbursementRequestsSelection": "Disbursement Requests",
-    "disbursementRequestsSelectionDesc": "View and manage disbursement requests"
+    "disbursementRequestsSelectionDesc": "View and manage disbursement requests",
+    "searchHint": "Search..."
 }
