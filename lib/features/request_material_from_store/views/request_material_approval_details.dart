@@ -109,7 +109,7 @@ class _RequestMaterialApprovalDetailsState
     final item =
         provider.oneMaterialModel?.items?.firstOrNull ?? widget.initialItem;
 
-    final userName = authProvider.currentUser?.usersName ?? '';
+    // final userName = authProvider.currentUser?.usersName ?? '';
     final today = DateFormat('yyyy-MM-dd').format(DateTime.now());
 
     await provider.updateOneMaterialAndApproval(
@@ -117,7 +117,9 @@ class _RequestMaterialApprovalDetailsState
       trnsDate: item.trnsDate ?? today,
       quantity: item.quantity?.toString() ?? '0',
       authDesc: _authDescController.text.trim(),
-      authUser: authFlag == 0 ? '' : userName,
+      authUser:
+          authProvider.currentUser?.usersCode.toString() ??
+          '', // Or keep existing authUser if needed
       authDate: authFlag == 0 ? '' : today,
       authFlag: authFlag,
     );

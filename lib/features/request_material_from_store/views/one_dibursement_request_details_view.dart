@@ -145,7 +145,7 @@ class _OneDibursementRequestDetailsViewState
       authDesc: item.authDesc?.toString() ?? '',
       authDate: item.authDate?.toString() ?? '',
       authUser:
-          authProvider.currentUser?.usersName ??
+          authProvider.currentUser?.usersCode.toString() ??
           '', // Or keep existing authUser if needed
       authFlag: item.authFlag ?? 0,
     );

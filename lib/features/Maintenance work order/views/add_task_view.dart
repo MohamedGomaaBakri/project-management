@@ -341,6 +341,7 @@ class _AddTaskViewState extends State<AddTaskView>
                                       ],
                                     ),
                                     child: DropdownSearch<Items>(
+                                      key: ValueKey(isAr),
                                       popupProps: PopupProps.menu(
                                         showSearchBox: true,
                                         searchFieldProps: TextFieldProps(

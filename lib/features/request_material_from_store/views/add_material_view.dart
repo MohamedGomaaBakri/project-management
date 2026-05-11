@@ -151,7 +151,7 @@ class _AddMaterialViewState extends State<AddMaterialView>
       projectId: _selectedProject!.projectId ?? 0,
       serial: newSerial,
       trnsDate: trnsDate,
-      // bandBal: _selectedItem!.bandBal?.toString() ?? '0',
+      groupCode: _selectedItem!.itemGroupCode ?? 0,
       itemCode: int.tryParse(_selectedItem!.itemCode ?? '0') ?? 0,
       unitCode: _selectedItem!.unitCode ?? 0,
       quantity: qty,

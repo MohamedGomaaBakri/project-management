@@ -64,7 +64,7 @@ class Items {
   int? unitCode;
   String? unitNameA;
   String? unitNameE;
-  double? quantity;
+  num? quantity;
   String? descA;
   dynamic descE;
   int? insertUser;
