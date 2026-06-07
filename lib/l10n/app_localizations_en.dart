@@ -2070,4 +2070,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get searchHint => 'Search...';
+
+  @override
+  String get safeAndSecurity => 'Safe & Security';
+
+  @override
+  String get safeAndSecurityDesc =>
+      'View and manage safe and security requests';
 }

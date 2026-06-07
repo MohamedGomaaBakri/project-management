@@ -4129,6 +4129,18 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'بحث...'**
   String get searchHint;
+
+  /// No description provided for @safeAndSecurity.
+  ///
+  /// In ar, this message translates to:
+  /// **'الأمن والسلامة'**
+  String get safeAndSecurity;
+
+  /// No description provided for @safeAndSecurityDesc.
+  ///
+  /// In ar, this message translates to:
+  /// **'عرض وإدارة طلبات الأمن والسلامة'**
+  String get safeAndSecurityDesc;
 }
 
 class _AppLocalizationsDelegate

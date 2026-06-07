@@ -151,4 +151,7 @@ class ApiConstants {
   // ----------------------------------------task and approvals---------------------------------------------------
   static const String getTasksAndApprovals =
       'ExProjectsBandExecVO1?q=TeamCode=';
+
+  // safe and security
+  static const String safeAndSecurityEndpoint = 'EXProjectsPartsSafetyVO1';
 }

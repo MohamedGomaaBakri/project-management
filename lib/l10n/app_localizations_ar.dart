@@ -2053,4 +2053,10 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get searchHint => 'بحث...';
+
+  @override
+  String get safeAndSecurity => 'الأمن والسلامة';
+
+  @override
+  String get safeAndSecurityDesc => 'عرض وإدارة طلبات الأمن والسلامة';
 }

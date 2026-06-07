@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shehabapp/core/providers/daily_tasks_provider.dart';
 import 'package:shehabapp/core/providers/hr_provider.dart';
 import 'package:shehabapp/core/providers/notification_provider.dart';
+import 'package:shehabapp/core/providers/safe_and_security_provider.dart';
 import 'package:shehabapp/core/providers/task_permission_provider.dart';
 import 'package:shehabapp/features/attendance/providers/attendance_provider.dart';
 import 'package:shehabapp/core/providers/management_provider.dart';
@@ -39,6 +40,7 @@ import 'package:shehabapp/features/request_material_from_store/views/materials_a
 import 'package:shehabapp/features/request_material_from_store/views/request_material_approval_details.dart';
 import 'package:shehabapp/features/resignations/screens/resignation_request_details_screen.dart';
 import 'package:shehabapp/features/resignations/screens/resignation_requests_list_screen.dart';
+import 'package:shehabapp/features/safe_and_security/safe_and_security_view.dart';
 import 'package:shehabapp/features/task_details/project_details_view.dart';
 import 'package:shehabapp/features/task_details/task_details_view.dart';
 
@@ -105,6 +107,7 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthProvider()),
         ChangeNotifierProvider(create: (_) => HomeProvider()),
         ChangeNotifierProvider(create: (_) => DailyTasksProvider()),
+        ChangeNotifierProvider(create: (_) => SafeAndSecurityProvider()),
         ChangeNotifierProvider(create: (_) => TaskPermissionProvider()),
         ChangeNotifierProvider(create: (_) => UserProvider()),
         ChangeNotifierProvider(create: (_) => PurchaseProvider()),
@@ -222,12 +225,16 @@ class MyApp extends StatelessWidget {
                   const DisbursementRequests(),
               OneDibursementRequestDetailsView.routeName: (context) =>
                   OneDibursementRequestDetailsView(
-                    initialItem: ModalRoute.of(context)!.settings.arguments as dynamic,
+                    initialItem:
+                        ModalRoute.of(context)!.settings.arguments as dynamic,
                   ),
               AddMaterialView.routeName: (context) => const AddMaterialView(),
-              MaterialsApprovalsView.routeName: (context) => const MaterialsApprovalsView(),
-              RequestMaterialApprovalDetails.routeName: (context) => RequestMaterialApprovalDetails(
-                    initialItem: ModalRoute.of(context)!.settings.arguments as dynamic,
+              MaterialsApprovalsView.routeName: (context) =>
+                  const MaterialsApprovalsView(),
+              RequestMaterialApprovalDetails.routeName: (context) =>
+                  RequestMaterialApprovalDetails(
+                    initialItem:
+                        ModalRoute.of(context)!.settings.arguments as dynamic,
                   ),
               NotificationsView.routeName: (context) => NotificationsView(
                 projectId: ModalRoute.of(context)!.settings.arguments as int,
@@ -245,6 +252,8 @@ class MyApp extends StatelessWidget {
               TasksDataView.routeName: (context) => const TasksDataView(),
               AddTaskView.routeName: (context) => const AddTaskView(),
               ApprovalsView.routeName: (context) => const ApprovalsView(),
+              SafeAndSecurityView.routeName: (context) =>
+                  const SafeAndSecurityView(),
               ApprovalDetailView.routeName: (context) => ApprovalDetailView(
                 initialItem:
                     ModalRoute.of(context)!.settings.arguments as dynamic,

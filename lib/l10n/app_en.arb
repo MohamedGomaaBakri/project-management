@@ -691,5 +691,7 @@
     "rejectActionSuccess": "Rejected successfully",
     "disbursementRequestsSelection": "Disbursement Requests",
     "disbursementRequestsSelectionDesc": "View and manage disbursement requests",
-    "searchHint": "Search..."
+    "searchHint": "Search...",
+    "safeAndSecurity": "Safe & Security",
+    "safeAndSecurityDesc": "View and manage safe and security requests"
 }

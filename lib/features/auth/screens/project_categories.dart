@@ -7,6 +7,7 @@ import 'package:shehabapp/features/display_notifications/display_notifications_v
 import 'package:shehabapp/features/management/views/management_view.dart';
 import 'package:shehabapp/features/Maintenance%20work%20order/views/task_and_approval_selection_view.dart';
 import 'package:shehabapp/features/request_material_from_store/views/request_material_and_approval_selection_view.dart';
+import 'package:shehabapp/features/safe_and_security/safe_and_security_view.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/providers/locale_provider.dart';
 import '../../../core/providers/auth_provider.dart';
@@ -309,6 +310,25 @@ class _ProjectCategoriesState extends State<ProjectCategories>
                                             context,
                                             RequestMaterialAndApprovalSelectionView
                                                 .routeName,
+                                          );
+                                        },
+                                        showNotifications: false,
+                                      ),
+                                      //الأمن والسلامة
+                                      _buildCategoryCard(
+                                        context,
+                                        title: l10n.safeAndSecurity,
+                                        subtitle: l10n.safeAndSecurityDesc,
+                                        icon: Icons.health_and_safety,
+                                        gradientColors: [
+                                          const Color(0xFF16A34A),
+                                          const Color(0xFF059669),
+                                        ],
+                                        delay: 300,
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            SafeAndSecurityView.routeName,
                                           );
                                         },
                                         showNotifications: false,

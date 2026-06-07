@@ -691,5 +691,7 @@
     "rejectActionSuccess": "تم الرفض بنجاح",
     "disbursementRequestsSelection": "طلبات الصرف",
     "disbursementRequestsSelectionDesc": "عرض وإدارة طلبات الصرف",
-    "searchHint": "بحث..."
+    "searchHint": "بحث...",
+    "safeAndSecurity": "الأمن والسلامة",
+    "safeAndSecurityDesc": "عرض وإدارة طلبات الأمن والسلامة"
 }
