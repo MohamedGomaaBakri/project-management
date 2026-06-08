@@ -94,6 +94,7 @@ class _SafeAndSecurityDetailsViewState extends State<SafeAndSecurityDetailsView>
         usersCode: usersCode,
         doneFlag: 1,
         doneDate: formattedDate,
+        altKey: widget.item.altKey!,
       );
 
       if (mounted) {

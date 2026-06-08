@@ -118,10 +118,11 @@ class SafeAndSecurityService {
     String usersCode,
     int doneFlag,
     String doneDate,
+    String altKey,
   ) async {
     try {
       final url =
-          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/EXProjectsPartsSafetyVO1';
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/EXProjectsPartsSafetyVO1/$altKey';
       log('🔵 Request URL: $url', name: 'SafeAndSecurityService');
       final response = await http.patch(
         Uri.parse(url),
@@ -134,6 +135,10 @@ class SafeAndSecurityService {
           'DoneDate': doneDate,
           'UsersCode': usersCode,
         }),
+      );
+      log(
+        "body : ${jsonEncode({'DoneFlag': doneFlag, 'DoneDate': doneDate, 'UsersCode': usersCode})}",
+        name: "SafeAndSecurityService",
       );
       if (response.statusCode == 200) {
         log('✅ Successfully updated done flag', name: 'SafeAndSecurityService');
@@ -266,7 +271,7 @@ class SafeAndSecurityService {
       );
 
       final url =
-          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SysDocsVO1?q=TblNm=PROJECTS_PARTS_SAFETY;Pk1=$projectId;Pk2=$PartId;Pk3=$SafeId';
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SysDocsVO1';
       log('🔵 Request URL: $url', name: 'SafeAndSecurityService');
 
       final requestBody = {

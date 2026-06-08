@@ -82,9 +82,10 @@ class SafeAndSecurityProvider with ChangeNotifier {
     required String usersCode,
     required int doneFlag,
     required String doneDate,
+    required String altKey,
   }) async {
     try {
-      await _service.updateDoneFlag(usersCode, doneFlag, doneDate);
+      await _service.updateDoneFlag(usersCode, doneFlag, doneDate, altKey);
       notifyListeners();
     } catch (e) {
       _errorMessage = e.toString();
