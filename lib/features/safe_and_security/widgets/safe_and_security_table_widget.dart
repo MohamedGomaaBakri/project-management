@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:shehabapp/core/models/safe_and_security_data_model.dart';
 import '../../../l10n/app_localizations.dart';
+import '../safe_and_security_details_view.dart';
 
 const Color _kGreen1 = Color(0xFF16A34A);
 const Color _kGreen2 = Color(0xFF059669);
@@ -102,7 +103,13 @@ class SafeAndSecurityTableWidget extends StatelessWidget {
     }
 
     return DataRow(
-      // ✅ Navigate disabled — detail screen not yet built
+      onSelectChanged: (_) {
+        Navigator.of(context).push(
+          MaterialPageRoute(
+            builder: (_) => SafeAndSecurityDetailsView(item: item),
+          ),
+        );
+      },
       color: WidgetStateProperty.resolveWith<Color?>((states) {
         return item.doneFlag == 1 ? Colors.green[50] : Colors.red[50];
       }),
@@ -167,8 +174,7 @@ class SafeAndSecurityTableWidget extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,
-                    color:
-                        item.doneFlag == 1 ? Colors.green : Colors.orange,
+                    color: item.doneFlag == 1 ? Colors.green : Colors.orange,
                   ),
                 ),
               ],

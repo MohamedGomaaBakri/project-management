@@ -250,11 +250,43 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
                                           builder: (_) => BandAndItemsView(
-                                            projectId: widget.taskItem?.projectId != null ? int.tryParse(widget.taskItem!.projectId.toString()) : null,
-                                            partId: widget.taskItem?.partId != null ? int.tryParse(widget.taskItem!.partId.toString()) : null,
-                                            flowId: widget.taskItem?.flowId != null ? int.tryParse(widget.taskItem!.flowId.toString()) : null,
-                                            procId: widget.taskItem?.procId != null ? int.tryParse(widget.taskItem!.procId.toString()) : null,
-                                            insertUser: widget.taskItem?.usersCode != null ? int.tryParse(widget.taskItem!.usersCode.toString()) : null,
+                                            projectId:
+                                                widget.taskItem?.projectId !=
+                                                    null
+                                                ? int.tryParse(
+                                                    widget.taskItem!.projectId
+                                                        .toString(),
+                                                  )
+                                                : null,
+                                            partId:
+                                                widget.taskItem?.partId != null
+                                                ? int.tryParse(
+                                                    widget.taskItem!.partId
+                                                        .toString(),
+                                                  )
+                                                : null,
+                                            flowId:
+                                                widget.taskItem?.flowId != null
+                                                ? int.tryParse(
+                                                    widget.taskItem!.flowId
+                                                        .toString(),
+                                                  )
+                                                : null,
+                                            procId:
+                                                widget.taskItem?.procId != null
+                                                ? int.tryParse(
+                                                    widget.taskItem!.procId
+                                                        .toString(),
+                                                  )
+                                                : null,
+                                            insertUser:
+                                                widget.taskItem?.usersCode !=
+                                                    null
+                                                ? int.tryParse(
+                                                    widget.taskItem!.usersCode
+                                                        .toString(),
+                                                  )
+                                                : null,
                                           ),
                                         ),
                                       );

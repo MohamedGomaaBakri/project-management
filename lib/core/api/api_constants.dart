@@ -154,4 +154,6 @@ class ApiConstants {
 
   // safe and security
   static const String safeAndSecurityEndpoint = 'EXProjectsPartsSafetyVO1';
+  static const String safeAndSecurityDetailsEndpoint =
+      'EXProjectsPartsSafetyVO1?q=AltKey=';
 }
