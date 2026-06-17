@@ -25,6 +25,7 @@ class _AddTaskViewState extends State<AddTaskView>
   DateTime _selectedDate = DateTime.now();
   final TextEditingController _quantityController = TextEditingController();
   final TextEditingController _notesController = TextEditingController();
+  final TextEditingController _requestNoController = TextEditingController();
 
   Items? _selectedBand;
   int? _expectedSerial;
@@ -52,6 +53,7 @@ class _AddTaskViewState extends State<AddTaskView>
     _controller.dispose();
     _quantityController.dispose();
     _notesController.dispose();
+    _requestNoController.dispose();
     super.dispose();
   }
 
@@ -166,6 +168,24 @@ class _AddTaskViewState extends State<AddTaskView>
     final trnsDate = DateFormat('yyyy-MM-dd').format(_selectedDate);
 
     int newSerial = _expectedSerial ?? 1;
+    final docNo = num.tryParse(_requestNoController.text.trim());
+
+    if (docNo == null || docNo <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Row(
+            children: [
+              const Icon(Icons.error_outline_rounded, color: Colors.white),
+              const SizedBox(width: 10),
+              Text(l10n.invalidNumber),
+            ],
+          ),
+          backgroundColor: Colors.red[700],
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      return;
+    }
 
     await provider.addOneTasksAndApprovals(
       teamCode: teamCode,
@@ -176,6 +196,7 @@ class _AddTaskViewState extends State<AddTaskView>
       bandCodeDet: _selectedBand!.bandCodeDet ?? 0,
       unitCode: _selectedBand!.unitCode ?? 0,
       quantity: qty,
+      docNo: docNo,
       notes: _notesController.text.trim(),
       insertUser: insertUser,
       insertDate: insertDate,
@@ -465,6 +486,19 @@ class _AddTaskViewState extends State<AddTaskView>
                                   ),
                                   const SizedBox(height: 24),
 
+                                  // ── Request No ────────────────────────────────────────
+                                  _buildSectionLabel(l10n.requestNoLabel),
+                                  const SizedBox(height: 8),
+                                  TextField(
+                                    controller: _requestNoController,
+                                    keyboardType: TextInputType.number,
+                                    decoration: _buildInputDecoration(
+                                      hint: l10n.requestNoHint,
+                                      icon: Icons.list_alt_rounded,
+                                    ),
+                                  ),
+                                  const SizedBox(height: 24),
+
                                   // ── Quantity ──────────────────────────────────────────
                                   _buildSectionLabel(l10n.quantityTitle),
                                   const SizedBox(height: 8),
@@ -658,7 +692,7 @@ class _DetailHeader extends StatelessWidget {
           ),
 
           Text(
-            l10n.addTaskTitle,
+            l10n.addMaintenanceWorkOrder,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 20,

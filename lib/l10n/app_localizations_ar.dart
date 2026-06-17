@@ -2059,4 +2059,16 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get safeAndSecurityDesc => 'عرض وإدارة طلبات الأمن والسلامة';
+
+  @override
+  String get maintenanceWorkOrder => 'امر عمل صيانة';
+
+  @override
+  String get addMaintenanceWorkOrder => 'إضافة امر عمل صيانة';
+
+  @override
+  String get requestNoLabel => 'رقم المهمة';
+
+  @override
+  String get requestNoHint => 'أدخل رقم المهمة';
 }

@@ -146,7 +146,7 @@ class _TaskAndApprovalHeader extends StatelessWidget {
 
           // Screen title
           Text(
-            l10n.tasksAndApprovalTitle,
+            l10n.maintenanceWorkOrder,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 20,

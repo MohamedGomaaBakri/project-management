@@ -693,5 +693,9 @@
     "disbursementRequestsSelectionDesc": "عرض وإدارة طلبات الصرف",
     "searchHint": "بحث...",
     "safeAndSecurity": "الأمن والسلامة",
-    "safeAndSecurityDesc": "عرض وإدارة طلبات الأمن والسلامة"
+    "safeAndSecurityDesc": "عرض وإدارة طلبات الأمن والسلامة",
+    "maintenanceWorkOrder": "امر عمل صيانة",
+    "addMaintenanceWorkOrder": "إضافة امر عمل صيانة",
+    "requestNoLabel": "رقم المهمة",
+    "requestNoHint": "أدخل رقم المهمة"
 }

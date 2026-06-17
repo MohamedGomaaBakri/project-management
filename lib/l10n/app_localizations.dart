@@ -4141,6 +4141,30 @@ abstract class AppLocalizations {
   /// In ar, this message translates to:
   /// **'عرض وإدارة طلبات الأمن والسلامة'**
   String get safeAndSecurityDesc;
+
+  /// No description provided for @maintenanceWorkOrder.
+  ///
+  /// In ar, this message translates to:
+  /// **'امر عمل صيانة'**
+  String get maintenanceWorkOrder;
+
+  /// No description provided for @addMaintenanceWorkOrder.
+  ///
+  /// In ar, this message translates to:
+  /// **'إضافة امر عمل صيانة'**
+  String get addMaintenanceWorkOrder;
+
+  /// No description provided for @requestNoLabel.
+  ///
+  /// In ar, this message translates to:
+  /// **'رقم المهمة'**
+  String get requestNoLabel;
+
+  /// No description provided for @requestNoHint.
+  ///
+  /// In ar, this message translates to:
+  /// **'أدخل رقم المهمة'**
+  String get requestNoHint;
 }
 
 class _AppLocalizationsDelegate

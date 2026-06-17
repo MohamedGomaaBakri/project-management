@@ -2077,4 +2077,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get safeAndSecurityDesc =>
       'View and manage safe and security requests';
+
+  @override
+  String get maintenanceWorkOrder => 'Maintenance Work Order';
+
+  @override
+  String get addMaintenanceWorkOrder => 'Add Maintenance Work Order';
+
+  @override
+  String get requestNoLabel => 'Request No';
+
+  @override
+  String get requestNoHint => 'Enter request number';
 }
