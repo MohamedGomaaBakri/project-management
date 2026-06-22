@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
 import 'package:shehabapp/core/models/attachment_model.dart';
+import 'package:shehabapp/core/models/max_serial_model.dart';
 import 'package:shehabapp/core/models/check_see_project_model.dart';
 import 'package:shehabapp/core/models/proccess_model.dart';
 import 'package:shehabapp/core/models/project_details_model.dart';
@@ -351,7 +352,7 @@ class DailyTasksService {
   Future<int> getMaxDocSerial() async {
     try {
       final url =
-          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SysDocsVO1?q=TblNm=PROJECTS_PARTS_PROC';
+          'http://168.119.35.125:7013/TdpSelfServiceWebSrvc-RESTWebService-context-root/rest/V1/SysDocsMaxVRO1?q=TblNm=PROJECTS_PARTS_PROC';
       log('🌐 API Request URL: $url', name: 'getMaxDocSerial');
 
       final response = await http.get(
@@ -366,23 +367,14 @@ class DailyTasksService {
           name: 'getMaxDocSerial',
         );
 
-        final AttatchmentModel attachmentModel = AttatchmentModel.fromJson(
+        final MaxSerialModel maxSerialModel = MaxSerialModel.fromJson(
           json.decode(responseBody),
         );
 
-        // Find the maximum DocSerial value
-        int maxDocSerial = 0;
-        if (attachmentModel.items != null &&
-            attachmentModel.items!.isNotEmpty) {
-          for (var item in attachmentModel.items!) {
-            if (item.docSerial != null && item.docSerial! > maxDocSerial) {
-              maxDocSerial = item.docSerial!;
-            }
-          }
-        }
+        final int lastSer = maxSerialModel.items?.firstOrNull?.lastSer ?? 0;
 
-        log('✅ Max DocSerial found: $maxDocSerial', name: 'getMaxDocSerial');
-        return maxDocSerial;
+        log('✅ LastSer found: $lastSer', name: 'getMaxDocSerial');
+        return lastSer;
       } else {
         log(
           '❌ API Error (${response.statusCode}): ${response.body}',
@@ -405,9 +397,8 @@ class DailyTasksService {
     required String fileContent,
   }) async {
     try {
-      // Fetch the maximum DocSerial and add 1
-      final maxDocSerial = await getMaxDocSerial();
-      final newDocSerial = maxDocSerial + 1;
+      // Fetch the next DocSerial (lastSer already contains the ready-to-use serial)
+      final newDocSerial = await getMaxDocSerial();
       log(
         '🔵 New DocSerial to be used: $newDocSerial',
         name: 'DailyTasksService',
