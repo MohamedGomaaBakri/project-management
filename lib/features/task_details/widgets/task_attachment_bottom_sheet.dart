@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../core/models/attachment_model.dart';
+import '../../../core/models/project_tasks_model.dart' as task_model;
 import '../../../core/providers/daily_tasks_provider.dart';
 import '../../../l10n/app_localizations.dart';
 import 'add_task_attachment_bottom_sheet.dart';
@@ -14,6 +15,7 @@ class TaskAttachmentBottomSheet extends StatefulWidget {
   final String partId;
   final String flowId;
   final String procId;
+  final task_model.Items? taskItem;
 
   const TaskAttachmentBottomSheet({
     super.key,
@@ -23,6 +25,7 @@ class TaskAttachmentBottomSheet extends StatefulWidget {
     required this.partId,
     required this.flowId,
     required this.procId,
+    this.taskItem,
   });
 
   @override
@@ -91,6 +94,7 @@ class _TaskAttachmentBottomSheetState extends State<TaskAttachmentBottomSheet>
           flowId: widget.flowId,
           procId: widget.procId,
           attachmentData: widget.attachmentData,
+          taskItem: widget.taskItem,
         ),
       ),
     );

@@ -5,9 +5,11 @@ import 'package:image_picker/image_picker.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:open_file/open_file.dart';
 import 'package:provider/provider.dart';
+import 'package:shehabapp/core/providers/auth_provider.dart';
 import '../../../core/providers/daily_tasks_provider.dart';
 import '../../../l10n/app_localizations.dart';
 import '../../../core/models/attachment_model.dart';
+import '../../../core/models/project_tasks_model.dart' as task_model;
 
 class AddTaskAttachmentBottomSheet extends StatefulWidget {
   final bool isArabic;
@@ -16,6 +18,7 @@ class AddTaskAttachmentBottomSheet extends StatefulWidget {
   final String flowId;
   final String procId;
   final AttatchmentModel? attachmentData;
+  final task_model.Items? taskItem;
 
   const AddTaskAttachmentBottomSheet({
     super.key,
@@ -25,6 +28,7 @@ class AddTaskAttachmentBottomSheet extends StatefulWidget {
     required this.flowId,
     required this.procId,
     required this.attachmentData,
+    this.taskItem,
   });
 
   @override
@@ -605,6 +609,28 @@ class _AddTaskAttachmentBottomSheetState
                                       ),
                                     );
                                   }
+
+                                  WidgetsBinding.instance.addPostFrameCallback((
+                                    _,
+                                  ) {
+                                    final authProvider =
+                                        Provider.of<AuthProvider>(
+                                          context,
+                                          listen: false,
+                                        );
+                                    final dailyTasksProvider =
+                                        Provider.of<DailyTasksProvider>(
+                                          context,
+                                          listen: false,
+                                        );
+                                    authProvider.getAllUsers();
+                                    dailyTasksProvider.checkExecuteStatus(
+                                      altKey: widget.taskItem?.altKey ?? '',
+                                    );
+                                    dailyTasksProvider.getTaskProccess(
+                                      altKey: widget.taskItem?.altKey ?? '',
+                                    );
+                                  });
 
                                   // Close add attachment bottom sheet
                                   if (mounted) {

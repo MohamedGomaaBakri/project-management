@@ -696,6 +696,7 @@ class _TaskDetailsViewState extends State<TaskDetailsView>
             partId: partId,
             flowId: flowId,
             procId: procId,
+            taskItem: widget.taskItem,
           ),
         ),
       );
